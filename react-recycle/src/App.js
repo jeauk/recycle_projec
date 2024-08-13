@@ -1,15 +1,13 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
-import Nav from './components/Nav';
-import Kategorie from './components/Kategorie';
+import Header from './components/Header';
 
 function App() {
   return (
     <div className="App">
       <>
         <BrowserRouter>
-          <Nav />
-          <Kategorie />
+          <Header />
 
         </BrowserRouter>
       </>
