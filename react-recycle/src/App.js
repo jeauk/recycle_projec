@@ -1,15 +1,15 @@
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
-import Header from './components/Header';
 import Nav from './components/Nav';
+import Kategorie from './components/Kategorie';
 
 function App() {
   return (
     <div className="App">
       <>
         <BrowserRouter>
-          <Header />
           <Nav />
+          <Kategorie />
 
         </BrowserRouter>
       </>
