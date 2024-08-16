@@ -23,6 +23,18 @@ const Header = () => {
                         <img src="img/srcimg.jpg" alt="검색" />
                     </Link>
                 </div>
+                <div class="login ut">
+                    <Link to="mypage">
+                        <img src="img/user.svg" class="profileimg" />
+                        <span class="username">
+                            <strong>이름</strong>
+                        </span>
+                    </Link>
+                    <span class="user2"> 님, 환영합니다.</span>
+                </div>
+                <div>
+                    <Link to="/login" class="logout">로그인</Link>
+                </div>
             </div>
         </header>
     );
