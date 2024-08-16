@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Read Data</title>
+</head>
+<body>
+    <h1>Database Contents</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Idx</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Region 1</th>
+                <th>Region 2</th>
+                <th>Region 3</th>
+                <th>Latitude</th>
+                <th>Longitude</th>
+                <th>Input Wastes</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="entity : ${recycleEntities}">
+                <td th:text="${entity.idx}"></td>
+                <td th:text="${entity.name}"></td>
+                <td th:text="${entity.address}"></td>
+                <td th:text="${entity.region1}"></td>
+                <td th:text="${entity.region2}"></td>
+                <td th:text="${entity.region3}"></td>
+                <td th:text="${entity.latitude}"></td>
+                <td th:text="${entity.longitude}"></td>
+                <td>
+                    <ul>
+                        <li th:each="waste : ${entity.inputWastes}" th:text="${waste.inputWaste}"></li>
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
