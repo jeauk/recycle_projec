@@ -19,7 +19,7 @@ const Header = () => {
                         <option>잡담</option>
                         <option>헬프</option>
                     </select>
-                    <Link to="#" className="srcimg">
+                    <Link to="/search" className="srcimg">
                         <img src="img/srcimg.jpg" alt="검색" />
                     </Link>
                 </div>

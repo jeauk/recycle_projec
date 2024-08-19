@@ -10,6 +10,7 @@ import Help from './components/Help';
 import Login from './components/Login';
 import Signup from './components/Signup';
 import KakaoMap from './components/KakaoMap';
+import Search from './components/Search';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
             <Route path='/help' element={<Help />} />
             <Route path='/login' element={<Login />} />
             <Route path='/signup' element={<Signup />} />
+            <Route path='/search' element={<Search />} />
           </Routes>
         </BrowserRouter>
     </div>
