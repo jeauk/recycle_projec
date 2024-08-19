@@ -14,10 +14,9 @@ const Header = () => {
                     <label>검색하기</label>
                     <select className="h_category">
                         <option>전체</option>
-                        <option>멍톡</option>
-                        <option>냥톡</option>
-                        <option>잡담</option>
-                        <option>헬프</option>
+                        <option>제목</option>
+                        <option>내용</option>
+                        <option>아이디</option>
                     </select>
                     <Link to="/search" className="srcimg">
                         <img src="img/srcimg.jpg" alt="검색" />
