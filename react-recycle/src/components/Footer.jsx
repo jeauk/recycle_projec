@@ -1,8 +1,10 @@
+import styles from '../styles/Footer.module.css';
+
 const Footer = () => {
     return (
-        <footer className="py-5 bg-dark">
-            <div className="container">
-                <p className="m-0 text-center text-white">
+        <footer className={`${styles.py5} ${styles.bgDark}`}>
+            <div className={styles.container}>
+                <p className={`${styles.m0} ${styles.textCenter} ${styles.textWhite}`}>
                     Copyright &copy; Your Website 2023
                 </p>
             </div>
