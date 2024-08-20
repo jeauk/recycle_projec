@@ -2,37 +2,14 @@ import { Link } from "react-router-dom";
 
 const Header = () => {
     return (
-        <header id="header">
-            <div id="headerIn">
-                <h1 className="logo">
-                    <Link to="/">
-                        <img src="img/logo.jpg" alt="멍냥토크" />
-                    </Link>
-                </h1>
-                <div className="search">
-                    <input type="text" className="src" />
-                    <label>검색하기</label>
-                    <select className="h_category">
-                        <option>전체</option>
-                        <option>제목</option>
-                        <option>내용</option>
-                        <option>아이디</option>
-                    </select>
-                    <Link to="/search" className="srcimg">
-                        <img src="img/srcimg.jpg" alt="검색" />
-                    </Link>
-                </div>
-                <div class="login ut">
-                    <Link to="mypage">
-                        <img src="img/user.svg" class="profileimg" />
-                        <span class="username">
-                            <strong>이름</strong>
-                        </span>
-                    </Link>
-                    <span class="user2"> 님, 환영합니다.</span>
-                </div>
-                <div>
-                    <Link to="/login" class="logout">로그인</Link>
+        <header className="py-5">
+            <div className="container px-lg-5">
+                <div className="p-4 p-lg-5 bg-light rounded-3 text-center">
+                    <div className="m-4 m-lg-5">
+                        <h1 className="display-5 fw-bold">A warm welcome!</h1>
+                        <p className="fs-4">Bootstrap utility classes are used to create this jumbotron since the old component has been removed from the framework. Why create custom CSS when you can use utilities?</p>
+                        <Link className="btn btn-primary btn-lg" to="#!">Call to action</Link>
+                    </div>
                 </div>
             </div>
         </header>

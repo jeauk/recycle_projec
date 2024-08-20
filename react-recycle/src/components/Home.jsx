@@ -1,6 +1,12 @@
+import Header from "./Header";
+import PageContent from "./PageContent";
+
 const Home = () => {
     return (
-        "home"
+        <home>
+            <Header />
+            <PageContent />
+        </home>
     );
 };
 
