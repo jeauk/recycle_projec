@@ -84,4 +84,17 @@
     transform: translateY(-50%); /* 중앙 정렬 */
     margin: 0;
   }
+  .clear-button {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    margin-left: 10px;
+    cursor: pointer;
+    border-radius: 3px;
+  }
+  
+  .clear-button:hover {
+    background-color: #c0392b;
+  }
   

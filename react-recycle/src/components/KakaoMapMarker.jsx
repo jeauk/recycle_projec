@@ -20,7 +20,7 @@ const KakaoMapMarker = () => {
 
 	return (
 		<div>
-			<KaKaoMapMenu setSearchQuery={setSearchQuery} locations={locations}/> {/* setSearchQuery를 props로 전달합니다 */}
+			<KaKaoMapMenu setSearchQuery={setSearchQuery} searchQuery={searchQuery} locations={locations}/> {/* setSearchQuery를 props로 전달합니다 */}
 			<Map center={{ lat: 33.450701, lng: 126.570667 }} style={{ width: '800px', height: '600px' }} level={3}>
 				{locations.map((loc, idx) => (
 					<MapMarker
@@ -31,6 +31,7 @@ const KakaoMapMarker = () => {
 							size: { width: 24, height: 35 },
 						}}
 						title={loc.name}
+						onClick={() => setSearchQuery(loc.name)} 
 					/>
 				))}
 			</Map>
