@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,13 +22,14 @@ import com.trashformer.springboot_recycle.repository.ReformBoardRepository;
 @CrossOrigin
 public class ReformBoardController {
 
-    @Autowired ReformBoardRepository reformBoardRepository;
-    @Autowired KakaoUserRepository kakaoUserRepository;
+    @Autowired
+    private ReformBoardRepository reformBoardRepository;
+
+    @Autowired
+    private KakaoUserRepository kakaoUserRepository;
 
     @PostMapping("/post")
-    public ReformBoardEntity saveReformBoard(
-            @RequestBody Map<String, Object> request) {
-
+    public ResponseEntity<ReformBoardEntity> saveReformBoard(@RequestBody Map<String, Object> request) {
         // 클라이언트로부터 넘어온 데이터를 파싱
         Map<String, Object> kakaoUserMap = (Map<String, Object>) request.get("kakaoUserEntity");
         String email = (String) kakaoUserMap.get("email");
@@ -36,7 +39,7 @@ public class ReformBoardController {
         // 이메일로 KakaoUserEntity 조회
         KakaoUserEntity kakaoUser = kakaoUserRepository.findByEmail(email);
         if (kakaoUser == null) {
-            throw new RuntimeException("해당 이메일로 사용자를 찾을 수 없습니다: " + email);
+            return ResponseEntity.badRequest().body(null);
         }
 
         // ReformBoardEntity 생성 및 설정
@@ -49,20 +52,31 @@ public class ReformBoardController {
         ReformBoardEntity savedEntity = reformBoardRepository.save(reformBoard);
 
         // 저장된 엔티티 반환
-        return savedEntity;
+        return ResponseEntity.ok(savedEntity);
     }
 
-    
-
-           // 모든 게시물을 반환하는 메서드
+    // 모든 게시물을 반환하는 메서드
     @GetMapping("/list")
-    public List<ReformBoardEntity> findAllReformBoard(){
-        return reformBoardRepository.findAll();
+    public ResponseEntity<List<ReformBoardEntity>> findAllReformBoard() {
+        List<ReformBoardEntity> reformBoards = reformBoardRepository.findAll();
+        return ResponseEntity.ok(reformBoards);
     }
 
     // 특정 게시물을 ID로 찾는 메서드
     @GetMapping("/list/{id}")
-    public ReformBoardEntity findReformBoardById(@PathVariable Long id) {
-        return reformBoardRepository.findById(id).orElse(null);
+    public ResponseEntity<ReformBoardEntity> findReformBoardById(@PathVariable Long id) {
+        return reformBoardRepository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @DeleteMapping("/post/{id}")
+    public ResponseEntity<Void> deletePost(@PathVariable Long id) {
+        if (!reformBoardRepository.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+
+        reformBoardRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }
