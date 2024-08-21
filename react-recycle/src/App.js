@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import React, { useState } from 'react';
 import PostForm from './components/PostForm';
 import PostList from './components/PostList';
+import PostDetail from './components/PostDetail';
 import LoginHandeler from './components/LoginHandeler';
 import Kakaobtn from './components/KakaoBtn';
 
@@ -11,13 +12,13 @@ function App() {
     <Router>
       <div className="App">
         <Kakaobtn />
-        <h1>게시글</h1>
-      <PostForm  />
-      <PostList />
         <Routes>
+          <Route path="/post" element={<PostForm />} />
+          <Route path="/" element={<PostList />} />
+          <Route path="/post/:id" element={<PostDetail />} />
           <Route
-            path="/login/oauth2/callback/kakao" // redirect_url
-            element={<LoginHandeler />} // 당신이 redirect_url에 맞춰 꾸밀 컴포넌트
+            path="/login/oauth2/callback/kakao"
+            element={<LoginHandeler />}
           />
         </Routes>
       </div>
