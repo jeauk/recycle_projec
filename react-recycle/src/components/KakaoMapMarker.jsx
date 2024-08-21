@@ -5,7 +5,7 @@ const KakaoMapMarker = () => {
 	const [locations, setLocations] = useState([]);
 	const [searchQuery, setSearchQuery] = useState("");
 	useEffect(() => {
-		const fetchlocations = async () => {
+		const fetchLocations = async () => {
 
 			try {
 				const res = await fetch(`http://127.0.0.1:8080/dataload?query=${searchQuery}`);
@@ -15,12 +15,12 @@ const KakaoMapMarker = () => {
 				console.error("Failed to fetch locations", error);
 			}
 		};
-		fetchlocations();
+		fetchLocations();
 	}, [searchQuery]);
 
 	return (
 		<div>
-			<KaKaoMapMenu setSearchQuery={setSearchQuery} /> {/* setSearchQuery를 props로 전달합니다 */}
+			<KaKaoMapMenu setSearchQuery={setSearchQuery} locations={locations}/> {/* setSearchQuery를 props로 전달합니다 */}
 			<Map center={{ lat: 33.450701, lng: 126.570667 }} style={{ width: '800px', height: '600px' }} level={3}>
 				{locations.map((loc, idx) => (
 					<MapMarker

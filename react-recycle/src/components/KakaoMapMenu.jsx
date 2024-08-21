@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import '../styles/KakaoMapMenu.css';
 
-const KaKaoMapMenu = ({ setSearchQuery }) => {  // setSearchQuery를 props로 받아옵니다
+const KaKaoMapMenu = ({ setSearchQuery, locations }) => {  // setSearchQuery를 props로 받아옵니다
   const [isOpen, setIsOpen] = useState(true);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
-  
+
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);  // 입력된 값을 setSearchQuery로 전달
   };
@@ -17,6 +17,15 @@ const KaKaoMapMenu = ({ setSearchQuery }) => {  // setSearchQuery를 props로 �
       <div className={`side-menu ${isOpen ? 'open' : ''}`}>
         <div className="search">
           <input type="text" placeholder="자판기 위치 검색" onChange={handleSearchChange} />
+        </div>
+        <div className={`KakaoMapList ${isOpen ? 'open' : ''}`}>
+          {locations.map((loc, idx) => (  // locations를 순회하며 리스트를 생성합니다.
+            <div key={idx} className="location-item">
+              <h4>{loc.name}</h4>
+              <p>{loc.address}</p>
+              <br/>
+            </div>
+          ))}
         </div>
       </div>
       <button className={`toggle-button ${isOpen ? 'open' : ''}`} onClick={toggleMenu}>

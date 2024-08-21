@@ -5,7 +5,6 @@ import KaKaoMapMenu from "./KakaoMapMenu";
 const KakaoMap = () => {
     return (
         <div>
-            <KaKaoMapMenu />
             <KakaoMapMarker />
         </div>
     );
