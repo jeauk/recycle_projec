@@ -25,7 +25,13 @@
     color: rgba(var(--bs-white-rgb), 1) !important;
 }
 
-.container {
+.container,
+.container-fluid,
+.container-xxl,
+.container-xl,
+.container-lg,
+.container-md,
+.container-sm {
     --bs-gutter-x: 1.5rem;
     --bs-gutter-y: 0;
     width: 100%;
