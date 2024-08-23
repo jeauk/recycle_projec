@@ -1,21 +1,27 @@
 package com.trashformer.springboot_recycle.controller;
 
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-
+import com.trashformer.springboot_recycle.entity.FileStorageEntity;
+import com.trashformer.springboot_recycle.entity.KakaoUserEntity;
 import com.trashformer.springboot_recycle.entity.ReformBoardEntity;
+import com.trashformer.springboot_recycle.repository.FileStorageRepository;
 import com.trashformer.springboot_recycle.repository.KakaoUserRepository;
 import com.trashformer.springboot_recycle.repository.ReformBoardRepository;
+import com.trashformer.springboot_recycle.util.JwtUtil;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.xml.bind.DatatypeConverter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @CrossOrigin
@@ -27,52 +33,98 @@ public class ReformBoardController {
     @Autowired
     private KakaoUserRepository kakaoUserRepository;
 
+    @Autowired
+    private FileStorageRepository fileStorageRepository;
 
-    
-    // 게시물 수정 (POST 방식)
-    @PostMapping("/post/edit/{id}")
-    public ResponseEntity<ReformBoardEntity> updateReformBoard(
-            @PathVariable Long id,
-            @RequestBody Map<String, Object> request) {
+    @Autowired
+    private JwtUtil jwtUtil;
 
-        return reformBoardRepository.findById(id)
-                .map(existingBoard -> {
-                    String title = (String) request.get("title");
-                    String content = (String) request.get("content");
+    @PostMapping("/api/posts")
+    public ResponseEntity<Map<String, Object>> post(
+            @RequestParam("title") String title,
+            @RequestParam("content") String content,
+            @RequestPart(value = "image", required = false) MultipartFile image,
+            @RequestHeader("Authorization") String jwtToken) {
 
-                    existingBoard.setTitle(title);
-                    existingBoard.setContent(content);
+        System.out.println("JWT Token Received: " + jwtToken);
 
-                    ReformBoardEntity updatedEntity = reformBoardRepository.save(existingBoard);
-                    return ResponseEntity.ok(updatedEntity);
-                })
-                .orElse(ResponseEntity.notFound().build());
-    }
+        // JWT에서 사용자 정보 추출
+        String token = jwtToken.replace("Bearer ", "");
+        System.out.println("Parsed Token: " + token);
 
-    // 모든 게시물을 반환하는 메서드
-    @GetMapping("/list")
-    public ResponseEntity<List<ReformBoardEntity>> findAllReformBoard() {
-        List<ReformBoardEntity> reformBoards = reformBoardRepository.findAll();
-        return ResponseEntity.ok(reformBoards);
-    }
-    // 특정 게시물을 ID로 찾는 메서드
-    @GetMapping("/list/{id}")
-    public ResponseEntity<ReformBoardEntity> findReformBoardById(@PathVariable Long id) {
-        return reformBoardRepository.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-    }
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(DatatypeConverter.parseBase64Binary("abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqr"))
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
 
-    @DeleteMapping("/post/{id}")
-    public ResponseEntity<Void> deletePost(@PathVariable Long id) {
-        if (!reformBoardRepository.existsById(id)) {
-            return ResponseEntity.notFound().build();
+        String email = (String) claims.get("email");
+        System.out.println("Email extracted from JWT: " + email);
+
+        // 사용자 정보로 KakaoUserEntity 찾기
+        KakaoUserEntity kakaoUserEntity = kakaoUserRepository.findByEmail(email);
+
+        if (kakaoUserEntity == null) {
+            System.out.println("User not found for email: " + email);
+            Map<String, Object> response = new HashMap<>();
+            response.put("error", "사용자를 찾을 수 없습니다.");
+            return ResponseEntity.badRequest().body(response);
         }
 
-        reformBoardRepository.deleteById(id);
-        return ResponseEntity.noContent().build();
+        System.out.println("User found: " + kakaoUserEntity.getId());
+
+        // 이미지 저장 로직 및 FileStorageEntity 생성
+        FileStorageEntity fileStorageEntity = null;
+        if (image != null && !image.isEmpty()) {
+            try {
+                String uploadDir = "C:/uploads/";
+                Files.createDirectories(Paths.get(uploadDir));
+
+                String uuidFileName = UUID.randomUUID().toString() + "_" + image.getOriginalFilename();
+                String imagePath = uploadDir + uuidFileName;
+
+                Files.copy(image.getInputStream(), Paths.get(imagePath), StandardCopyOption.REPLACE_EXISTING);
+                System.out.println("Image saved at: " + imagePath);
+
+                fileStorageEntity = new FileStorageEntity();
+                fileStorageEntity.setOriginalFileName(image.getOriginalFilename());
+                fileStorageEntity.setUuidFileName(uuidFileName);
+                fileStorageEntity.setFilePath(imagePath);
+                fileStorageEntity.setFileType(image.getContentType());
+                fileStorageEntity.setFileSize(image.getSize());
+
+                fileStorageEntity = fileStorageRepository.save(fileStorageEntity);
+                System.out.println("FileStorageEntity saved with ID: " + fileStorageEntity.getId());
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                Map<String, Object> response = new HashMap<>();
+                response.put("error", "이미지 저장 중 오류가 발생했습니다.");
+                return ResponseEntity.status(500).body(response);
+            }
+        }
+
+        ReformBoardEntity post = new ReformBoardEntity();
+        post.setTitle(title);
+        post.setContent(content);
+        post.setKakaoUserEntity(kakaoUserEntity);
+
+        if (fileStorageEntity != null) {
+            post.setImagePath(fileStorageEntity.getFilePath());
+        }
+
+        System.out.println("ReformBoardEntity to save: " + post);
+
+        ReformBoardEntity savedPost = reformBoardRepository.save(post);
+        System.out.println("Post saved with ID: " + savedPost.getId());
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "게시물이 성공적으로 저장되었습니다.");
+        response.put("postId", savedPost.getId());
+        if (fileStorageEntity != null) {
+            response.put("fileId", fileStorageEntity.getId());
+        }
+
+        return ResponseEntity.ok(response);
     }
-
-
-    
 }
