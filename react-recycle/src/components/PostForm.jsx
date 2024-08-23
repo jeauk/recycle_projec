@@ -63,6 +63,9 @@ function PostForm() {
         ></textarea>
       </div>
       <button type="submit">올리기</button>
+      <button onClick={() => {
+            navigate('/');
+          }}>취소</button>
     </form>
   );
 }
