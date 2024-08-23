@@ -1,48 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { Await, useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+
 
 function PostForm() {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [image, setImage] = useState(null); // bbbbbbbbbbbbbbbbbb
-  const [nickname, setNickname] = useState(''); // 사용자 닉네임 상태
-  const [email, setEmail] = useState(''); // 사용자 이메일 상태
+
   const navigate = useNavigate();
 
-  // 사용자의 이메일과 닉네임을 가져오는 useEffect
-  useEffect(() => {
-    const fetchUserInfo = async () => {
-      try {
-        const accessToken = localStorage.getItem('accessToken'); // 로컬 스토리지에서 액세스 토큰 가져오기
 
-        if (!accessToken) {
-          console.error("액세스 토큰이 없습니다.");
-          return;
-        }
-
-        const userResponse = await fetch("https://kapi.kakao.com/v2/user/me", {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${accessToken}`, // 로컬 스토리지에서 가져온 토큰 사용
-            "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
-          },
-        });
-
-        const userData = await userResponse.json();
-
-        if (userResponse.ok) {
-          setNickname(userData.properties.nickname);
-          setEmail(userData.kakao_account.email);
-        } else {
-          console.error("사용자 정보를 가져오는데 실패했습니다:", userData);
-        }
-      } catch (error) {
-        console.error("에러:", error);
-      }
-    };
-
-    fetchUserInfo();
-  }, []);
+ 
 
   const handleImageChange = (e) => {
     setImage(e.target.files[0]); // 이미지 핸들러 함수
@@ -51,14 +18,6 @@ function PostForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const newPost = {
-      kakaoUserEntity: {
-        email,
-        nickname
-      },
-      title,
-      content
-    };
 
     try {
       // 텍스트를 JSON 형식으로 전송
