@@ -54,6 +54,26 @@ public class ReformBoardController {
         // 저장된 엔티티 반환
         return ResponseEntity.ok(savedEntity);
     }
+    
+    // 게시물 수정 (POST 방식)
+    @PostMapping("/post/edit/{id}")
+    public ResponseEntity<ReformBoardEntity> updateReformBoard(
+            @PathVariable Long id,
+            @RequestBody Map<String, Object> request) {
+
+        return reformBoardRepository.findById(id)
+                .map(existingBoard -> {
+                    String title = (String) request.get("title");
+                    String content = (String) request.get("content");
+
+                    existingBoard.setTitle(title);
+                    existingBoard.setContent(content);
+
+                    ReformBoardEntity updatedEntity = reformBoardRepository.save(existingBoard);
+                    return ResponseEntity.ok(updatedEntity);
+                })
+                .orElse(ResponseEntity.notFound().build());
+    }
 
     // 모든 게시물을 반환하는 메서드
     @GetMapping("/list")
@@ -61,7 +81,6 @@ public class ReformBoardController {
         List<ReformBoardEntity> reformBoards = reformBoardRepository.findAll();
         return ResponseEntity.ok(reformBoards);
     }
-
     // 특정 게시물을 ID로 찾는 메서드
     @GetMapping("/list/{id}")
     public ResponseEntity<ReformBoardEntity> findReformBoardById(@PathVariable Long id) {
@@ -79,4 +98,7 @@ public class ReformBoardController {
         reformBoardRepository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
+
+    
 }
