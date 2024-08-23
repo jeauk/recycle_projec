@@ -18,6 +18,6 @@ public class SidoController {
   @GetMapping("/sido")
   public List<SidoEntity> getsido() {
     List<SidoEntity> list = sidoRepository.findAll();
-      return list;
+      return list; 
   }
 }

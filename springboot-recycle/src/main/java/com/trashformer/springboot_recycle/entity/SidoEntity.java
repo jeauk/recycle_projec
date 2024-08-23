@@ -20,5 +20,5 @@ public class SidoEntity {
   @Column(length = 1000)
   String tel;
   String site;
-  String etc;
+  String etc; 
 }
