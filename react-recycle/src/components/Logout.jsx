@@ -7,7 +7,8 @@ const Logout = ({onLogout}) => {
   const handleLogout = () => {
     // JWT 삭제
     sessionStorage.removeItem("jwt");
-    onLogout();
+
+    onLogout(); //상태 업데이트
 
     // 로그아웃 후 사용자 리다이렉트
     alert("로그아웃 되었습니다.");

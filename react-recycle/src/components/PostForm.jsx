@@ -1,46 +1,43 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
 
-function PostForm() {
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
-  const [nickname, setNickname] = useState(''); // 사용자 닉네임 상태
-  const [email, setEmail] = useState(''); // 사용자 이메일 상태
-  const navigate = useNavigate();
+const PostForm = () => {
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
 
+  // 사용자의 JWT 토큰을 가져옵니다. (사용자가 로그인한 상태여야 합니다)
+  const jwt = sessionStorage.getItem("jwt");
 
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const newPost = {
-      kakaoUserEntity: {
-        email,
-        nickname
-      },
-      title,
-      content
+    // 작성된 게시물 정보를 담는 객체
+    const postData = {
+      title: title,
+      content: content,
     };
 
-    // 데이터를 JSON 형식으로 백엔드에 POST 요청으로 전송
-    fetch('http://localhost:8080/post', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(newPost)
-    })
-    .then(response => response.json())
-    .then(data => {
-      console.log('성공:', data);
-      navigate('/');
-    })
-    .catch((error) => {
-      console.error('에러:', error);
-    });
+    try {
+      // 서버로 POST 요청을 보냅니다.
+      const response = await fetch("http://localhost:8080/posts", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${jwt}`, // JWT 토큰을 Authorization 헤더에 포함하여 전송
+        },
+        body: JSON.stringify(postData), // title과 content를 JSON으로 전송
+      });
 
-    setTitle('');
-    setContent('');
+      if (!response.ok) {
+        throw new Error("게시물을 업로드하는 데 실패했습니다.");
+      }
+
+      const result = await response.json();
+      alert("게시물이 성공적으로 업로드되었습니다!");
+      console.log("서버 응답:", result);
+    } catch (error) {
+      console.error("에러 발생:", error);
+      alert("게시물 업로드 중 문제가 발생했습니다.");
+    }
   };
 
   return (
@@ -65,6 +62,6 @@ function PostForm() {
       <button type="submit">올리기</button>
     </form>
   );
-}
+};
 
 export default PostForm;

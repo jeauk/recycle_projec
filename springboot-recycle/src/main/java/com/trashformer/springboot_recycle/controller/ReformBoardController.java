@@ -27,7 +27,7 @@ public class ReformBoardController {
     @Autowired
     private KakaoUserRepository kakaoUserRepository;
 
-    
+
     
     // 게시물 수정 (POST 방식)
     @PostMapping("/post/edit/{id}")
