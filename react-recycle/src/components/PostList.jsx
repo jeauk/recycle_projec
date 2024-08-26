@@ -1,46 +1,46 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-function PostList() {
-  const [posts, setPosts] = useState([]);  // 게시글 데이터를 저장할 상태
-  const navigate = useNavigate(); // ++++ 훅
+const PostList = () => {
+  const [posts, setPosts] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // 백엔드에서 데이터 가져오기
-    fetch('http://localhost:8080/list')
-      .then(response => response.json())  // 응답을 JSON 형식으로 변환
-      .then(data => {
-        setPosts(data);  // 상태에 데이터 저장
-      })
-      .catch(error => {
-        console.error("데이터를 가져오는 데 실패했습니다.", error);
-      });
-  }, []);  // 빈 배열로 첫 렌더링 시에만 실행
+    // 게시글 목록을 가져오는 API 호출
+    const fetchPosts = async () => {
+      try {
+        const response = await fetch("http://localhost:8080/api/postlist");
+        if (!response.ok) {
+          throw new Error("게시글을 가져오는 데 실패했습니다.");
+        }
+        const data = await response.json();
+        setPosts(data);
+      } catch (error) {
+        console.error("에러 발생:", error);
+      }
+    };
+
+    fetchPosts();
+  }, []);
 
   const handleCreatePost = () => {
-    navigate('/post'); // ++훅 넣은거
+    navigate("/post");
   };
 
   return (
     <div>
       <h1>게시글 목록</h1>
-      <button onClick={handleCreatePost}>작성하기</button> 
+      <button onClick={handleCreatePost}>작성하기</button>
       <ul>
-        {posts.length > 0 ? (
-          posts.map(post => (
-            <li key={post.id}>
-              <Link to={`/post/${post.id}`}>
-              <h2>{post.title}</h2>
-              </Link>
-              <p>{post.content}</p>
-            </li>
-          ))
-        ) : (
-          <p>게시글이 없습니다.</p>
-        )}
+        {posts.map((post, index) => (
+          <li key={index}>
+            <strong>제목:</strong> {post.title} <br />
+            <strong>작성자:</strong> {post.author}
+          </li>
+        ))}
       </ul>
     </div>
   );
-}
+};
 
 export default PostList;

@@ -19,7 +19,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -127,4 +129,32 @@ public class ReformBoardController {
 
         return ResponseEntity.ok(response);
     }
+
+
+    @GetMapping("/api/postlist")
+    public List<Map<String, Object>> getPosts() {
+        // ReformBoardEntity 리스트를 가져옵니다.
+        List<ReformBoardEntity> posts = reformBoardRepository.findAll();
+
+        // 응답을 위한 리스트 생성
+        List<Map<String, Object>> response = new ArrayList<>();
+
+        for (ReformBoardEntity post : posts) {
+            // 각 게시물에 대해 제목과 작성자의 닉네임을 추출
+            Map<String, Object> postMap = new HashMap<>();
+            postMap.put("title", post.getTitle());
+            postMap.put("author", post.getKakaoUserEntity().getNickname()); // 작성자의 닉네임을 포함
+            
+            // 각 게시물 정보 출력
+            System.out.println("Post Title: " + post.getTitle() + ", Author: " + post.getKakaoUserEntity().getNickname());
+
+            // 응답 리스트에 추가
+            response.add(postMap);
+        }
+
+        // 응답 반환
+        return response;
+    }
+
 }
+
