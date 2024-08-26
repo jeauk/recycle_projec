@@ -5,12 +5,28 @@ const PostForm = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [image, setImage] = useState(null);
+  const [videoLink, setVideoLink] = useState("");
+  const [steps, setSteps] = useState([
+    {content: "", image: null},
+  ]);
 
   const jwt = sessionStorage.getItem("jwt");
   const navigate = useNavigate();
 
   const handleImageChange = (e) => {
     setImage(e.target.files[0]);
+  };
+
+  // Step별 데이터 변경 핸들러
+  const handleStepChange = (index, field, value) => {
+    const newSteps = [...steps];
+    newSteps[index][field] = value;
+    setSteps(newSteps);
+  };
+
+  // Step 추가 핸들러
+  const handleAddStep = () => {
+    setSteps([...steps, { content: "", image: null }]);
   };
 
   const handleSubmit = async (e) => {
@@ -22,6 +38,14 @@ const PostForm = () => {
     if (image) {
       formData.append("image", image);
     }
+      formData.append("videoLink", videoLink);
+
+      steps.forEach((step, index) => {
+        formData.append(`steps[${index}].content`, step.content);
+        if (step.image) {
+          formData.append(`steps[${index}].image`, step.image);
+        }
+      });
 
     try {
       const response = await fetch("http://localhost:8080/api/posts", {
@@ -48,6 +72,8 @@ const PostForm = () => {
     }
   };
 
+  
+
   return (
     <form onSubmit={handleSubmit}>
       <div>
@@ -60,7 +86,7 @@ const PostForm = () => {
         />
       </div>
       <div>
-        <label>내용</label>
+        <label>내용(여기에재료)</label>
         <textarea
           value={content}
           onChange={(e) => setContent(e.target.value)}
@@ -68,13 +94,52 @@ const PostForm = () => {
         ></textarea>
       </div>
       <div>
-        <label>이미지 첨부</label>
+        <label>이미지 첨부(여기에 완성 사진)</label>
         <input
           type="file"
           accept="image/*"
           onChange={handleImageChange}
         />
       </div>
+      <div>
+        <label>동영상 링크 (유튜브 등)</label>
+        <input
+          type="text"
+          value={videoLink}
+          onChange={(e) => setVideoLink(e.target.value)}
+        />
+      </div>
+
+      {steps.map((step, index) => (
+        <div key={index}>
+          <h3>STEP {index + 1}</h3>
+          <div>
+            <label>내용</label>
+            <textarea
+              value={step.content}
+              onChange={(e) =>
+                handleStepChange(index, "content", e.target.value)
+              }
+              required
+            ></textarea>
+          </div>
+          <div>
+            <label>이미지 첨부</label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) =>
+                handleStepChange(index, "image", e.target.files[0])
+              }
+            />
+          </div>
+        </div>
+      ))}
+      
+      <button type="button" onClick={handleAddStep}>
+        + STEP 추가
+      </button>
+
       <button type="submit">올리기</button>
     </form>
   );
