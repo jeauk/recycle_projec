@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import '../styles/KakaoMapMenu.css';
 
 const KaKaoMapMenu = React.memo(({ setSearchQuery, locations, searchQuery, onLocationClick }) => {  // setSearchQuery를 props로 받아옵니다
@@ -12,6 +12,9 @@ const KaKaoMapMenu = React.memo(({ setSearchQuery, locations, searchQuery, onLoc
     setSearchQuery(event.target.value);  // 입력된 값을 setSearchQuery로 전달
   },[setSearchQuery]);
 
+  const totalVendingMachinces =  useMemo(()=>{
+    return locations.reduce((total, loc) => total + loc.vendingDevices.length, 0);
+  },[locations]);
   const clearSearch = useCallback(() => {
     setSearchQuery('');  // 검색어를 초기화
   }, [setSearchQuery]);
@@ -20,6 +23,7 @@ const KaKaoMapMenu = React.memo(({ setSearchQuery, locations, searchQuery, onLoc
       <div className={`side-menu ${isOpen ? 'open' : ''}`}>
         <div className="search">
           <input type="text" placeholder="자판기 위치 검색" onChange={handleSearchChange} value={searchQuery} />
+          <p>검색된 자판기: {totalVendingMachinces}대</p>
           <button className="clear-button" onClick={clearSearch}>
             X
           </button>
