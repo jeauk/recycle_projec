@@ -7,15 +7,24 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.trashformer.springboot_recycle.entity.KakaoUserEntity;
+import com.trashformer.springboot_recycle.repository.KakaoUserRepository;
 import com.trashformer.springboot_recycle.service.KakaoUserService;
 import com.trashformer.springboot_recycle.util.JwtUtil;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtParser;
+import io.jsonwebtoken.Jwts;
+
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.xml.bind.DatatypeConverter;
 
 @RestController
 @CrossOrigin
@@ -26,6 +35,12 @@ public class ProfileController {
 
     @Autowired
     private KakaoUserService kakaoUserService;
+
+    @Autowired
+    private KakaoUserRepository kakaoUserRepository;
+
+    @Autowired
+    JwtUtil jUtil;
 
     @PostMapping("/oauth/kakao/callback")
     public Map<String, String> handleKakaoCallback(@RequestBody Map<String, String> requestData) {
@@ -90,5 +105,47 @@ public class ProfileController {
         // 필요 시 result에 추가 데이터를 넣을 수 있습니다.
 
         return result;
+    }
+
+       @PostMapping("/api/users/nickname")
+    public ResponseEntity<Map<String, Object>> updateNickname(
+            @RequestHeader("Authorization") String jwtToken,
+            @RequestParam("newNickname") String newNickname) {
+
+        // JWT에서 사용자 정보 추출
+        String token = jwtToken.replace("Bearer ", "");
+        Claims claims = extractClaims(token);  // JWT에서 클레임 추출
+        String email = claims.get("email", String.class);  // 이메일 추출
+
+        // 사용자 정보로 KakaoUserEntity 찾기
+        KakaoUserEntity user = kakaoUserRepository.findByEmail(email);
+
+        if (user == null) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("error", "사용자를 찾을 수 없습니다.");
+            return ResponseEntity.badRequest().body(response);
+        }
+
+        // 닉네임 업데이트
+        user.setNickname(newNickname);
+        kakaoUserRepository.save(user);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "닉네임이 성공적으로 업데이트되었습니다.");
+        response.put("newNickname", newNickname);
+
+        return ResponseEntity.ok(response);
+    }
+
+    // Claims 추출을 위한 메서드
+    private Claims extractClaims(String jwtToken) {
+        try {
+            byte[] secretKeyBytes = DatatypeConverter.parseBase64Binary("abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqr");
+            JwtParser jwtParser = Jwts.parserBuilder().setSigningKey(secretKeyBytes).build();
+            return jwtParser.parseClaimsJws(jwtToken).getBody();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
