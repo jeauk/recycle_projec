@@ -7,6 +7,7 @@ import PostEdit from './components/PostEdit';
 import LoginHandeler from './components/LoginHandeler';
 import Kakaobtn from './components/KakaoBtn';
 import Logout from './components/Logout';
+import MyPage from './components/MyPage'; //추가
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -43,6 +44,7 @@ function App() {
           <Route path="/post" element={<PostForm />} />
           <Route path="/post/:id" element={<PostDetail />} />
           <Route path="/post/edit/:id" element={<PostEdit />} />
+          <Route path="/mypage" element={<MyPage />} /> //추가
           <Route
             path="/login/oauth2/callback/kakao"
             element={<LoginHandeler onLogin={handleLogin} />}
