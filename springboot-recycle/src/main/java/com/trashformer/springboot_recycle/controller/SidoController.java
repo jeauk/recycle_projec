@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.trashformer.springboot_recycle.entity.SidoEntity;
 import com.trashformer.springboot_recycle.repository.SidoRepository;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 
+@CrossOrigin
 @RestController
 public class SidoController {
   @Autowired SidoRepository sidoRepository;
