@@ -22,5 +22,7 @@ public class RecycleEntity {
 
     @OneToMany(mappedBy = "recycleEntity")
     List<InputWasteEntity> inputWastes;
+    @OneToMany(mappedBy = "recycleEntity")
+    List<VendingDevice> vendingDevices;
     
 }
