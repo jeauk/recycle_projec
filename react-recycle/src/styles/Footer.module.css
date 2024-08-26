@@ -1,8 +1,3 @@
-:root {
-    --bs-dark-rgb: 33, 37, 41;
-    --bs-white-rgb: 255, 255, 255;
-}
-
 .py5 {
     padding-top: 3rem !important;
     padding-bottom: 3rem !important;
