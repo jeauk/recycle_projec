@@ -24,7 +24,10 @@ function PostList() {
   return (
     <div>
       <h1>게시글 목록</h1>
-      <button onClick={handleCreatePost}>작성하기</button> 
+      <button onClick={handleCreatePost}>작성하기</button>
+      <button onClick={() => {
+            navigate('/sido');
+          }}>시도테스트</button>
       <ul>
         {posts.length > 0 ? (
           posts.map(post => (

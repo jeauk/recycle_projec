@@ -7,6 +7,7 @@ import PostEdit from './components/PostEdit';
 import LoginHandeler from './components/LoginHandeler';
 import Kakaobtn from './components/KakaoBtn';
 import Logout from './components/Logout';
+import Sido from './components/Sido';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -47,6 +48,7 @@ function App() {
             path="/login/oauth2/callback/kakao"
             element={<LoginHandeler onLogin={handleLogin} />}
           />
+          <Route path="/sido" element={<Sido/>} />
         </Routes>
       </div>
     </Router>
