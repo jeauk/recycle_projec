@@ -11,6 +11,8 @@
     width: 100%;
     height: 10vh;
     align-items: center;
+    position: relative;
+    transform: translateY(0%);
 }
 
 .footerContainer {

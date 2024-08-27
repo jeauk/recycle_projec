@@ -13,7 +13,7 @@ function App() {
       <BrowserRouter>
         <TopHeader />
         <Nav />
-          <Routes style="flex: 1;">
+          <Routes>
             <Route index element={<Home />} />
             <Route path='/map' element={<KakaoMap />} />
             <Route path='/login' element={<Login />} />
