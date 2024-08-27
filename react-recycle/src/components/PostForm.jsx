@@ -97,7 +97,7 @@ const PostForm = () => {
         ></textarea>
       </div>
       <div>
-        <label>이미지 첨부(여기에 완성 사진)</label>
+        <label>이미지 첨부(대표 완성 사진)</label>
         <input
           type="file"
           accept="image/*"

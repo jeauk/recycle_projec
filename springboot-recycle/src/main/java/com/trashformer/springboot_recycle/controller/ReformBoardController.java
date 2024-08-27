@@ -11,6 +11,8 @@ import com.trashformer.springboot_recycle.repository.ReformBoardRepository;
 import com.trashformer.springboot_recycle.repository.StepFormRepository;
 import com.trashformer.springboot_recycle.service.JwtService;
 import com.trashformer.springboot_recycle.util.JwtUtil;
+
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -155,7 +157,6 @@ public class ReformBoardController {
         }
     }
 
-
     @GetMapping("/api/postlist")
     public List<Map<String, Object>> getPosts() {
         // ReformBoardEntity 리스트를 가져옵니다.
@@ -167,6 +168,7 @@ public class ReformBoardController {
         for (ReformBoardEntity post : posts) {
             // 각 게시물에 대해 제목과 작성자의 닉네임을 추출
             Map<String, Object> postMap = new HashMap<>();
+            postMap.put("id", post.getId());
             postMap.put("title", post.getTitle());
             postMap.put("author", post.getKakaoUserEntity().getNickname()); // 작성자의 닉네임을 포함
             
@@ -183,4 +185,17 @@ public class ReformBoardController {
 
 
 
+    @GetMapping("/api/posts/${id}")
+    public ResponseEntity<ReformBoardEntity> postDetail(@PathVariable Long id) {
+        // 데이터베이스에서 ID로 게시물 조회
+        Optional<ReformBoardEntity> post = reformBoardRepository.findById(id);
+
+        // 게시물이 존재하는지 확인
+        if (post.isPresent()) {
+            return ResponseEntity.ok(post.get());
+        } else {
+            // 게시물이 존재하지 않으면 404 상태 반환
+            return ResponseEntity.status(404).body(null);
+        }
+    }
 }
