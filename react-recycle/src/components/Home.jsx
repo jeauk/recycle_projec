@@ -1,10 +1,10 @@
-import Header from "./Header";
+import TopContents from "./TopContents";
 import PageContent from "./PageContent";
 
 const Home = () => {
     return (
         <home>
-            <Header />
+            <TopContents />
             <PageContent />
         </home>
     );

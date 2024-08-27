@@ -1,4 +1,5 @@
 .py5 {
+    display: block;
     padding-top: 3rem !important;
     padding-bottom: 3rem !important;
     background-color: rgba(25, 25, 25, 0.75) !important;
@@ -72,6 +73,6 @@
 
 .textCenter {
     text-align: center !important;
-    color: white !important;
+    color: rgb(255, 0, 0) !important;
     margin: 0 !important;
 }
