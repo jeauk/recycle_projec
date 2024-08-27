@@ -28,9 +28,6 @@ public class SidoController {
   @GetMapping("/sido")
   public List<SidoEntity> getsido() {
     List<SidoEntity> list = sidoRepository.findAll();
-<<<<<<< HEAD
-      return list; 
-=======
     return list;
   }
 
@@ -59,6 +56,5 @@ public class SidoController {
     System.out.println(result);
 
     return ResponseEntity.ok(result);
->>>>>>> kimhuigon
   }
 }
