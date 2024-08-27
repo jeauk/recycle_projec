@@ -6,9 +6,9 @@ const PostForm = () => {
   const [content, setContent] = useState("");
   const [image, setImage] = useState(null);
   const [videoLink, setVideoLink] = useState("");
-  const [steps, setSteps] = useState([
-    {content: "", image: null},
-  ]);
+  const [steps, setSteps] = useState([{ id: 1, content: "", image: null }]); // id 추가
+
+  const [nextId, setNextId] = useState(2); 
 
   const jwt = sessionStorage.getItem("jwt");
   const navigate = useNavigate();
@@ -26,7 +26,12 @@ const PostForm = () => {
 
   // Step 추가 핸들러
   const handleAddStep = () => {
-    setSteps([...steps, { content: "", image: null }]);
+    setSteps([...steps, { id: nextId, content: "", image: null }]); // 새로운 step에 id 추가
+    setNextId(nextId + 1);
+  };
+
+  const handleRemoveStep = (id) => {
+    setSteps(steps.filter(step => step.id !== id));
   };
 
   const handleSubmit = async (e) => {
@@ -38,14 +43,14 @@ const PostForm = () => {
     if (image) {
       formData.append("image", image);
     }
-      formData.append("videoLink", videoLink);
+    formData.append("videoLink", videoLink);
 
-      steps.forEach((step, index) => {
-        formData.append(`steps[${index}].content`, step.content);
-        if (step.image) {
-          formData.append(`steps[${index}].image`, step.image);
-        }
-      });
+    steps.forEach((step, index) => {
+      formData.append(`steps[${index}].content`, step.content);
+      if (step.image) {
+        formData.append(`steps[${index}].image`, step.image);
+      }
+    });
 
     try {
       const response = await fetch("http://localhost:8080/api/posts", {
@@ -63,7 +68,7 @@ const PostForm = () => {
         throw new Error(`게시물을 업로드하는 데 실패했습니다. 상태 코드: ${response.status}`);
       }
 
-      const result = JSON.parse(textResponse); // response.json() 대신 사용
+      const result = JSON.parse(textResponse);
       alert("게시물이 성공적으로 업로드되었습니다!");
       navigate('/');
     } catch (error) {
@@ -71,8 +76,6 @@ const PostForm = () => {
       alert(`게시물 업로드 중 문제가 발생했습니다: ${error.message}`);
     }
   };
-
-  
 
   return (
     <form onSubmit={handleSubmit}>
@@ -111,7 +114,7 @@ const PostForm = () => {
       </div>
 
       {steps.map((step, index) => (
-        <div key={index}>
+        <div key={step.id}> {/* 고유한 id를 key로 사용 */}
           <h3>STEP {index + 1}</h3>
           <div>
             <label>내용</label>
@@ -133,6 +136,9 @@ const PostForm = () => {
               }
             />
           </div>
+          <button type="button" onClick={() => handleRemoveStep(step.id)}>
+            STEP 삭제
+          </button>
         </div>
       ))}
       
