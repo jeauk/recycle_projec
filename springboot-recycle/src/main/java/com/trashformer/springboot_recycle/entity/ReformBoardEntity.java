@@ -8,10 +8,12 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import lombok.Data;
 import java.util.Date;
+import java.util.List;
 
 @Entity(name = "ReformBoard")
 @Data
@@ -36,4 +38,7 @@ public class ReformBoardEntity {
 
     @ManyToOne
     private KakaoUserEntity kakaoUserEntity;
+
+    @OneToMany(mappedBy = "reformBoardEntity")
+    private List<StepFormEntity> steps;
 }
