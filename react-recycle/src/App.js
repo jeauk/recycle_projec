@@ -1,8 +1,8 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import './App.css';
 import Nav from './components/Nav';
 import Home from './components/Home';
 import Footer from './components/Footer';
-import './App.css';
 import KakaoMap from './components/KakaoMap';
 import TopHeader from './components/TopHeader';
 import Login from './components/Login';
@@ -13,7 +13,7 @@ function App() {
       <BrowserRouter>
         <TopHeader />
         <Nav />
-          <Routes>
+          <Routes style="flex: 1;">
             <Route index element={<Home />} />
             <Route path='/map' element={<KakaoMap />} />
             <Route path='/login' element={<Login />} />
