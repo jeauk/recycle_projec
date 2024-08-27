@@ -1,14 +1,12 @@
-import { Link } from "react-router-dom";
+
 
 const Nav = () => {
     return (
-        <nav id="lnb">
-            <ul class="cf">
-                <li><Link to="/pool">전체</Link></li>
-                <li><Link to="/map">지도</Link></li>
-                <li><Link to="/cat">냥톡</Link></li>
-                <li><Link to="/cool">잡담</Link></li>
-                <li><Link to="/help">헬프</Link></li>
+        <nav>
+            <ul>
+                <li>1</li>
+                <li>2</li>
+                <li>3</li>ㄴ
             </ul>
         </nav>
     );

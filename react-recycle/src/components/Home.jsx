@@ -1,6 +1,13 @@
+
+import TopContents from "./TopContents";
+import PageContent from "./PageContent";
+
 const Home = () => {
     return (
-        "home"
+        <home>
+            <TopContents />
+            <PageContent />
+        </home>
     );
 };
 
