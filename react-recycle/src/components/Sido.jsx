@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './sido.css';
 
 function Sido() {
 
@@ -8,31 +9,8 @@ function Sido() {
   const [gungooOptions, setGungooOptions] = useState([]);
   const [databaseData, setDatabaseData] = useState([]); // State to store database data
   const navigate = useNavigate();
-  const [change, setChange] = useState(false);
-  const [sido, setSido] = useState([]);
   const [posts, setPosts] = useState({});
   const [id, setId] = useState(null); // State to store the ID
-
-  // useEffect(() => {
-  //   async function get() {
-  //     // const url = 'http://127.0.0.1:8080/sido';
-  //     // const res = await fetch(url);
-  //     // const data = await res.json();
-  //     // setSido(data);
-
-  //     const data2 = await fetch(`http://localhost:8080/sido`, {
-  //       method: 'GET',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       }
-  //     });
-  //     const res2 = await data2.json();
-  //     console.log('서버 응답:', res2);
-  //     setDatabaseData(res2); // Store the database data in state
-  //   }
-  //    get();
-  // }, [])
-
   const gungoo = {
     강원도: ['강릉시', '고성군', '동해시', '삼척시', '속초시', '양구군', '양양군', '영월군', '원주시', '인제군', '정선군', '철원군', '춘천시', '태백시', '평창군', '홍천군', '화천군', '횡성군'],
     경기도: ['가평군', '고양시', '과천시', '광명시', '광주시', '구리시', '군포시', '김포시', '남양주시', '동두천시', '부천시', '수원시', '시흥시', '안산시', '안성시', '안양시', '양주시', '양평군', '여주시', '연천군', '오산시', '용인시', '의왕시', '의정부시', '이천시', '파주시', '평택시', '포천시', '하남시', '화성시'],
@@ -69,7 +47,7 @@ function Sido() {
     setSelectedGungoo(gungoo);
   }
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async () => {
     const data = {
       sido: selectedSido,
       gungoo: selectedGungoo
@@ -84,7 +62,6 @@ function Sido() {
     });
 
     const result = await response.json();
-    console.log('서버 응답:', result);
     setDatabaseData(result); // Store the database data in state
 
     if (result.length > 0) {
@@ -100,9 +77,7 @@ function Sido() {
           throw new Error("데이터를 받는데 실패했습니다.");
         }
         const data = await response.json();
-        console.log('test');        
         setPosts(data);
-        console.log(data);
         
       } catch (error) {
         console.error("에러 발생:", error);
@@ -144,23 +119,20 @@ function Sido() {
           </option>
         ))}
       </select>
-      <button onClick={handleSubmit}>제출</button>
+      <button onClick={handleSubmit}>선택</button>
       <button onClick={() => {navigate('/');}}>돌아가자~</button>
-      <h2>게시글 목록:</h2>
       {posts.id && (
         <div>
+          <h2>선택 항목:</h2>
           <ul>
             {
-            
               <li>
-                <strong>아이디:</strong> {posts.id} <br />
-                <strong>시도:</strong> {posts.sido} <br />
-                <strong>시·군·구:</strong> {posts.gungoo} <br />
-                <strong>전화:</strong> {posts.tel} <br />
-                <strong>사이트:</strong> {posts.site} <br />
-                <strong>기타사항:</strong> {posts.etc}
+                <strong>시도 : </strong> {posts.sido} <br />
+                <strong>시·군·구 : </strong> {posts.gungoo} <br />
+                <strong>전화 : </strong> {posts.tel} <br />
+                <strong>사이트 : </strong> {posts.site} <br />
+                <strong>기타사항 : </strong> {posts.etc}
               </li>
-            
             }
           </ul>
         </div>
