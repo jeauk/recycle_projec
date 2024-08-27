@@ -17,8 +17,9 @@ public class StepFormEntity {
     
     private int step;
     private String stepContent;
-    private String imgUrl;
+    private String imgUrl; 
 
     @ManyToOne
     private ReformBoardEntity reformBoardEntity;
+    
 }
