@@ -5,6 +5,7 @@ import Footer from './components/Footer';
 import './App.css';
 import KakaoMap from './components/KakaoMap';
 import TopHeader from './components/TopHeader';
+import Login from './components/Login';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Routes>
             <Route index element={<Home />} />
             <Route path='/map' element={<KakaoMap />} />
+            <Route path='/login' element={<Login />} />
           </Routes>
         <Footer />
       </BrowserRouter>
