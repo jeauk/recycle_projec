@@ -3,12 +3,15 @@ import { useNavigate } from 'react-router-dom';
 
 function Sido() {
 
-  const [selectedCity, setSelectedCity] = useState('');
-  const [selectedTown, setSelectedTown] = useState('');
-  const [townOptions, setTownOptions] = useState([]);
+  const [selectedSido, setSelectedSido] = useState('');
+  const [selectedGungoo, setSelectedGungoo] = useState('');
+  const [gungooOptions, setGungooOptions] = useState([]);
+  const [databaseData, setDatabaseData] = useState([]); // State to store database data
   const navigate = useNavigate();
   const [change, setChange] = useState(false);
   const [sido, setSido] = useState([]);
+  const [posts, setPosts] = useState([]);
+  const [id, setId] = useState(null); // State to store the ID
 
   useEffect(() => {
     async function get() {
@@ -17,7 +20,7 @@ function Sido() {
       // const data = await res.json();
       // setSido(data);
 
-      const data2 = await fetch('http://localhost:8080/sido', {
+      const data2 = await fetch(`http://localhost:8080/sido`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -25,11 +28,12 @@ function Sido() {
       });
       const res2 = await data2.json();
       console.log('서버 응답:', res2);
+      setDatabaseData(res2); // Store the database data in state
     }
-    get();
+     get();
   }, [])
 
-  const towns = {
+  const gungoo = {
     강원도: ['강릉시', '고성군', '동해시', '삼척시', '속초시', '양구군', '양양군', '영월군', '원주시', '인제군', '정선군', '철원군', '춘천시', '태백시', '평창군', '홍천군', '화천군', '횡성군'],
     경기도: ['가평군', '고양시', '과천시', '광명시', '광주시', '구리시', '군포시', '김포시', '남양주시', '동두천시', '부천시', '수원시', '시흥시', '안산시', '안성시', '안양시', '양주시', '양평군', '여주시', '연천군', '오산시', '용인시', '의왕시', '의정부시', '이천시', '파주시', '평택시', '포천시', '하남시', '화성시'],
     경상남도: ['거제시', '거창군', '고성군', '김해시', '남해군', '밀양시', '사천시', '산청군', '양산시', '의령군', '진주시', '창녕군', '창원시', '통영시', '하동군', '함안군', '함양군', '합천군'],
@@ -49,26 +53,69 @@ function Sido() {
     충청북도: ['괴산군', '단양군', '보은군', '영동군', '옥천군', '음성군', '제천시', '증평군', '진천군', '청주시', '충주시'],
   };
 
-  const handleCityChange = (e) => {
-    const city = e.target.value;
-    setSelectedCity(city);
+  const handleSidoChange = (e) => {
+    const sido = e.target.value;
+    setSelectedSido(sido);
 
-    if (city !== '0' && towns[city]) {
-      setTownOptions(towns[city]);
+    if (sido !== '0' && gungoo[sido]) {
+      setGungooOptions(gungoo[sido]);
     } else {
-      setTownOptions([]);
+      setGungooOptions([]);
     }
   };
 
-  const handleTownChange = (e) => {
-    const town = e.target.value;
-    setSelectedTown(town);
+  const handleGungooChange = (e) => {
+    const gungoo = e.target.value;
+    setSelectedGungoo(gungoo);
   }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Prevent default form submission behavior
+    const data = {
+      sido: selectedSido,
+      gungoo: selectedGungoo
+    };
+
+    const response = await fetch(`http://localhost:8080/sido/submit`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data)
+    });
+
+    const result = await response.json();
+    console.log('서버 응답:', result);
+    setDatabaseData(result); // Store the database data in state
+
+    if (result.length > 0) {
+      setId(result[0].id);
+      setPosts(result); // Directly update the posts state with the response data
+    }
+  };
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await fetch(`http://localhost:8080/sido/submit/${id}`);
+        if (!response.ok) {
+          throw new Error("데이터를 받는데 실패했습니다.");
+        }
+        const data = await response.json();
+        setPosts(data);
+      } catch (error) {
+        console.error("에러 발생:", error);
+      }
+    };
+    if (id !== null) {
+      fetchPosts();
+    }
+  }, [id]);
 
   return (
     <div id="sido">
       <h1>시도 테스트 편</h1>
-      <select name="city" id="city" value={selectedCity} onChange={handleCityChange}>
+      <select name="sido" id="sido" value={selectedSido} onChange={handleSidoChange}>
         <option value="0">도·특별·광역시</option>
         <option value="강원도">강원도</option>
         <option value="경기도">경기도</option>
@@ -88,16 +135,30 @@ function Sido() {
         <option value="충청남도">충청남도</option>
         <option value="충청북도">충청북도</option>
       </select>
-      <select name="town" id="town" className="type02" value={selectedTown} onChange={handleTownChange}>
+      <select name="gungoo" id="gungoo" className="type02" value={selectedGungoo} onChange={handleGungooChange}>
         <option value="">시·군·구</option>
-        {townOptions.map((town, index) => (
-          <option key={index} value={town}>
-            {town}
+        {gungooOptions.map((gungoo, index) => (
+          <option key={index} value={gungoo}>
+            {gungoo}
           </option>
         ))}
       </select>
-      <button onClick={get()}>제출</button>
+      <button onClick={handleSubmit}>제출</button>
       <button onClick={() => {navigate('/');}}>돌아가자~</button>
+      {Array.isArray(posts) && posts.length > 0 && (
+        <div>
+          <h2>게시글 목록:</h2>
+          <ul>
+            {posts.map((sido, index) => (
+              <li key={index}>
+                <strong>아이디:</strong> {sido.id} <br />
+                <strong>시도:</strong> {sido.sido} <br />
+                <strong>시도군:</strong> {sido.gungoo}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }
