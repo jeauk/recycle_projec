@@ -27,13 +27,17 @@ const PostList = () => {
     navigate("/post");
   };
 
+  const handlePostClick = (id) => {
+    navigate(`/post/${id}`);
+  };
+
   return (
     <div>
       <h1>게시글 목록</h1>
       <button onClick={handleCreatePost}>작성하기</button>
       <ul>
-        {posts.map((post, index) => (
-          <li key={index}>
+        {posts.map((post) => (
+          <li key={post.id} onClick={() => handlePostClick(post.id)}>
             <strong>제목:</strong> {post.title} <br />
             <strong>작성자:</strong> {post.author}
           </li>
