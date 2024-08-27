@@ -6,20 +6,25 @@ import Footer from './components/Footer';
 import KakaoMap from './components/KakaoMap';
 import TopHeader from './components/TopHeader';
 import Login from './components/Login';
+import styles from './App.module.css';
 
 function App() {
   return (
     <div className="App">
-      <BrowserRouter>
-        <TopHeader />
-        <Nav />
-          <Routes>
-            <Route index element={<Home />} />
-            <Route path='/map' element={<KakaoMap />} />
-            <Route path='/login' element={<Login />} />
-          </Routes>
-        <Footer />
-      </BrowserRouter>
+      <div className={styles.appContainer}>
+        <BrowserRouter>
+          <TopHeader />
+          <Nav />
+          <div className={styles.mainContent}>
+            <Routes>
+              <Route index element={<Home />} />
+              <Route path='/map' element={<KakaoMap />} />
+              <Route path='/login' element={<Login />} />
+            </Routes>
+          </div>
+          <Footer />
+        </BrowserRouter>
+      </div>
     </div>
   );
 }
