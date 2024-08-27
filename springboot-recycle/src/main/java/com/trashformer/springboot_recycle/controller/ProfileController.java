@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -107,45 +108,8 @@ public class ProfileController {
         return result;
     }
 
-       @PostMapping("/api/users/nickname")
-    public ResponseEntity<Map<String, Object>> updateNickname(
-            @RequestHeader("Authorization") String jwtToken,
-            @RequestParam("newNickname") String newNickname) {
-
-        // JWT에서 사용자 정보 추출
-        String token = jwtToken.replace("Bearer ", "");
-        Claims claims = extractClaims(token);  // JWT에서 클레임 추출
-        String email = claims.get("email", String.class);  // 이메일 추출
-
-        // 사용자 정보로 KakaoUserEntity 찾기
-        KakaoUserEntity user = kakaoUserRepository.findByEmail(email);
-
-        if (user == null) {
-            Map<String, Object> response = new HashMap<>();
-            response.put("error", "사용자를 찾을 수 없습니다.");
-            return ResponseEntity.badRequest().body(response);
-        }
-
-        // 닉네임 업데이트
-        user.setNickname(newNickname);
-        kakaoUserRepository.save(user);
-
-        Map<String, Object> response = new HashMap<>();
-        response.put("message", "닉네임이 성공적으로 업데이트되었습니다.");
-        response.put("newNickname", newNickname);
-
-        return ResponseEntity.ok(response);
-    }
-
-    // Claims 추출을 위한 메서드
-    private Claims extractClaims(String jwtToken) {
-        try {
-            byte[] secretKeyBytes = DatatypeConverter.parseBase64Binary("abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqr");
-            JwtParser jwtParser = Jwts.parserBuilder().setSigningKey(secretKeyBytes).build();
-            return jwtParser.parseClaimsJws(jwtToken).getBody();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+    @GetMapping("/user/profile")
+    public void  loadProfile(){
+        return;
     }
 }
