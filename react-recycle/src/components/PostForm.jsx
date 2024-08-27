@@ -46,9 +46,9 @@ const PostForm = () => {
     formData.append("videoLink", videoLink);
 
     steps.forEach((step, index) => {
-      formData.append(`steps[${index}].content`, step.content);
+      formData.append(`steps`, step.content);
       if (step.image) {
-        formData.append(`steps[${index}].image`, step.image);
+        formData.append(`stepImages`, step.image);
       }
     });
 

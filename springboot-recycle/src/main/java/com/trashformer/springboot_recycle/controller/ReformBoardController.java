@@ -1,5 +1,6 @@
 package com.trashformer.springboot_recycle.controller;
 
+import com.trashformer.springboot_recycle.dto.PostRequest;
 import com.trashformer.springboot_recycle.entity.ReformBoardEntity;
 import com.trashformer.springboot_recycle.repository.FileStorageRepository;
 import com.trashformer.springboot_recycle.repository.KakaoUserRepository;
@@ -31,25 +32,27 @@ public class ReformBoardController {
     @Autowired
     private JwtUtil jwtUtil;
 
+
     @PostMapping("/api/posts")
     public ResponseEntity<Map<String, Object>> post(
-        @RequestParam("title") String title,
-        @RequestParam("content") String content,
-        @RequestParam("videoLink") String videoLink,
-        @RequestParam(value = "steps[]", required = false) List<String> steps,
-        @RequestPart(value = "image", required = false) MultipartFile image,
-        @RequestPart(value = "steps[].image", required = false) List<MultipartFile> stepImages,
+        @ModelAttribute PostRequest request,
         @RequestHeader("Authorization") String jwtToken) {
 
         // JWT 토큰 출력
         System.out.println("JWT Token: " + jwtToken);
 
-        // title, content, videoLink 출력
-        System.out.println("Title: " + title);
-        System.out.println("Content: " + content);
-        System.out.println("Video Link: " + videoLink);
-
+        // 데이터 출력
+        System.out.println("Title: " + request.getTitle());
+        System.out.println("Content: " + request.getContent());
+        System.out.println("Video Link: " + request.getVideoLink());
+        // 메인 이미지 파일 이름 출력
+        MultipartFile image = request.getImage();
+        if (image != null) {
+            System.out.println("Main Image: " + image.getOriginalFilename());
+        }
         // steps 내용 및 step 이미지 출력
+        List<String> steps = request.getSteps();
+        List<MultipartFile> stepImages = request.getStepImages();
         if (steps != null) {
             for (int i = 0; i < steps.size(); i++) {
                 System.out.println("Step " + (i + 1) + " Content: " + steps.get(i));
@@ -59,17 +62,15 @@ public class ReformBoardController {
             }
         }
 
-        // 메인 이미지 파일 이름 출력
-        if (image != null) {
-            System.out.println("Main Image: " + image.getOriginalFilename());
-        }
 
-        // 여기서 넘어온 데이터를 활용해 필요한 로직을 추가로 구현할 수 있습니다.
 
         Map<String, Object> response = new HashMap<>();
         response.put("message", "게시물이 성공적으로 처리되었습니다.");
         return ResponseEntity.ok(response);
     }
+
+
+    
     
     
 
