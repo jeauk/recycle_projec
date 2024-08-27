@@ -1,10 +1,11 @@
-import styles from '../styles/Footer.module.css';
+import s from '../styles/Footer.module.css'
+
 
 const Footer = () => {
     return (
-        <footer className={styles.py5}>
-            <div className={styles.container}>
-                <p className={styles.textCenter}>
+        <footer className={s.footer}>
+            <div className={s.footerContainer}>
+                <p className={s.containerText}>
                     Copyright &copy; Your Website 2024
                 </p>
             </div>

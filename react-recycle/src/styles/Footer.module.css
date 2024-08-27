@@ -1,77 +1,25 @@
-.py5 {
-    padding-top: 3rem !important;
-    padding-bottom: 3rem !important;
-    background-color: rgba(25, 25, 25, 0.75) !important;
+/* Footer.module.css */
+
+.footer {
+    display: flex;
+    background-color: #2c3e50; /* 어두운 배경색 */
+    color: #ecf0f1; /* 밝은 텍스트 색상 */
+    padding: 20px 0;
+    text-align: center;
+    border-top: 5px solid #e74c3c; /* 상단에 포인트 색상 */
+    font-family: 'Arial', sans-serif; /* 깔끔한 폰트 */
+    height: 10vh;
+    align-items: center;
 }
 
-.container,
-.container-fluid,
-.container-xxl,
-.container-xl,
-.container-lg,
-.container-md,
-.container-sm {
-    --bs-gutter-x: 1.5rem;
-    --bs-gutter-y: 0;
-    width: 100%;
-    padding-right: calc(var(--bs-gutter-x) * 0.5);
-    padding-left: calc(var(--bs-gutter-x) * 0.5);
-    margin-right: auto;
-    margin-left: auto;
+.footerContainer {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
 }
 
-@media (min-width: 576px) {
-
-    .containerSm,
-    .container {
-        max-width: 540px;
-    }
-}
-
-@media (min-width: 768px) {
-
-    .containerMd,
-    .containerSm,
-    .container {
-        max-width: 720px;
-    }
-}
-
-@media (min-width: 992px) {
-
-    .containerLg,
-    .containerMd,
-    .containerSm,
-    .container {
-        max-width: 960px;
-    }
-}
-
-@media (min-width: 1200px) {
-
-    .containerXl,
-    .containerLg,
-    .containerMd,
-    .containerSm,
-    .container {
-        max-width: 1140px;
-    }
-}
-
-@media (min-width: 1400px) {
-
-    .containerXxl,
-    .containerXl,
-    .containerLg,
-    .containerMd,
-    .containerSm,
-    .container {
-        max-width: 1320px;
-    }
-}
-
-.textCenter {
-    text-align: center !important;
-    color: white !important;
-    margin: 0 !important;
+.containerText {
+    font-size: 14px;
+    margin: 0;
+    color: #bdc3c7; /* 텍스트 색상 약간 밝게 조정 */
 }
