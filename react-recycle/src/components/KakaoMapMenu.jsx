@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import '../styles/KakaoMapMenu.css';
+import m from '../styles/KaKaoMapMenu.module.css';
 
 const KaKaoMapMenu = React.memo(({ setSearchQuery, locations, searchQuery, onLocationClick }) => {  // setSearchQuery를 props로 받아옵니다
   const [isOpen, setIsOpen] = useState(true);
@@ -20,18 +20,18 @@ const KaKaoMapMenu = React.memo(({ setSearchQuery, locations, searchQuery, onLoc
   }, [setSearchQuery]);
   return (
     <div>
-      <div className={`side-menu ${isOpen ? 'open' : ''}`}>
-        <div className="search">
+      <div className={`${m.sideMenu} ${isOpen ? m.open : ''}`}>
+        <div className={m.search}>
           <input type="text" placeholder="자판기 위치 검색" onChange={handleSearchChange} value={searchQuery} />
           <p>검색된 자판기: {totalVendingMachinces}대</p>
-          <button className="clear-button" onClick={clearSearch}>
+          <button className={m.clearButton} onClick={clearSearch}>
             X
           </button>
         </div>
-        <div className={`KakaoMapList ${isOpen ? 'open' : ''}`}>
+        <div className={`${m.KakaoMapList} ${isOpen ? m.open : ''}`}>
           {locations.map((loc, locIdx) => (
             loc.vendingDevices.map((device, deviceIdx) => (
-              <div key={`${locIdx}-${deviceIdx}`} className="location-item" onClick={() => onLocationClick(loc)}>
+              <div key={`${locIdx}-${deviceIdx}`} className={m.locationItem} onClick={() => onLocationClick(loc)}>
                 <h4>{loc.vendingDevices.length === 1 ? loc.name : `${loc.name} ${deviceIdx + 1}`}</h4>
                 <p>{loc.address}</p>
                 <p>{device.recycleType}</p>
@@ -41,7 +41,7 @@ const KaKaoMapMenu = React.memo(({ setSearchQuery, locations, searchQuery, onLoc
           ))}
         </div>
       </div>
-      <button className={`toggle-button ${isOpen ? 'open' : ''}`} onClick={toggleMenu}>
+      <button className={`${m.toggleButton} ${isOpen ? m.open : ''}`} onClick={toggleMenu}>
         {isOpen ? '<' : '>'}
       </button>
     </div>
