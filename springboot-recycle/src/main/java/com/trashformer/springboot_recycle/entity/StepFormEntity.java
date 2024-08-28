@@ -1,5 +1,7 @@
 package com.trashformer.springboot_recycle.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,6 +21,7 @@ public class StepFormEntity {
     private String stepContent;
     private String imgUrl; 
 
+    @JsonIgnore
     @ManyToOne
     private ReformBoardEntity reformBoardEntity;
     
