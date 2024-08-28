@@ -52,7 +52,7 @@ function App() {
             <Routes>
               <Route index element={<Home />} />
               <Route path='/map' element={<KakaoMap />} />
-              <Route path="/" element={<PostList />} />
+              <Route path="/list" element={<PostList />} />
               <Route path="/post" element={<PostForm />} />
               <Route path="/post/:id" element={<PostDetail />} />
               <Route path="/post/edit/:id" element={<PostEdit />} />

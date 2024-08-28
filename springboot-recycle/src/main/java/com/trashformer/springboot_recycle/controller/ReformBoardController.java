@@ -186,17 +186,32 @@ public class ReformBoardController {
 
 
     @GetMapping("/api/posts/{id}")
-    public ResponseEntity<ReformBoardEntity> getPostById(@PathVariable Long id) {
-        // ID로 DB에서 게시물 조회
-        Optional<ReformBoardEntity> post = reformBoardRepository.findById(id);
+public ResponseEntity<Map<String, Object>> getPostById(
+    @RequestHeader("Authorization") String jwtToken,    
+    @PathVariable Long id) {
+    
+    // JWT에서 이메일 추출
+    String email = jwtService.extractEmailFromJwt(jwtToken);
 
-        // 게시물이 존재하는지 확인
-        if (post.isPresent()) {
-            // 게시물이 존재하면 OK 상태와 함께 반환
-            return ResponseEntity.ok(post.get());
-        } else {
-            // 게시물이 없으면 404 상태와 함께 메시지 반환
-            return ResponseEntity.status(404).body(null);
-        }
+
+    // 현재 게시물 ID로 게시물 조회
+    Optional<ReformBoardEntity> post = reformBoardRepository.findById(id);
+    if (post.isEmpty()) {
+        return ResponseEntity.status(404).body(Map.of("message", "게시물을 찾을 수 없습니다."));
     }
+
+    // 이메일로 사용자가 작성한 게시물들 조회
+    List<ReformBoardEntity> userPosts = reformBoardRepository.findAllByKakaoUserEntityEmail(email);
+
+    // 사용자가 작성한 게시물 중에 현재 게시물과 동일한 ID가 있는지 확인
+    boolean isAuthor = userPosts.stream().anyMatch(userPost -> userPost.getId().equals(id));
+
+    // 결과에 isAuthor 추가
+    Map<String, Object> response = new HashMap<>();
+    response.put("post", post.get());
+    response.put("isAuthor", isAuthor);
+
+    return ResponseEntity.ok(response);
+}
+
 }
