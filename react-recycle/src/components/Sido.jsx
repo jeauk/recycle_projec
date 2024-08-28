@@ -9,7 +9,7 @@ function Sido() {
   const [gungooOptions, setGungooOptions] = useState([]);
   const [databaseData, setDatabaseData] = useState([]); // State to store database data
   const navigate = useNavigate();
-  const [posts, setPosts] = useState({});
+  const [region, setRegion] = useState({});
   const [id, setId] = useState(null); // State to store the ID
   const gungoo = {
     강원도: ['강릉시', '고성군', '동해시', '삼척시', '속초시', '양구군', '양양군', '영월군', '원주시', '인제군', '정선군', '철원군', '춘천시', '태백시', '평창군', '홍천군', '화천군', '횡성군'],
@@ -70,21 +70,21 @@ function Sido() {
   };
 
   useEffect(() => {
-    const fetchPosts = async () => {
+    const fetchRegion = async () => {
       try {
         const response = await fetch(`http://localhost:8080/sido/submit/${id}`);
         if (!response.ok) {
           throw new Error("데이터를 받는데 실패했습니다.");
         }
         const data = await response.json();
-        setPosts(data);
+        setRegion(data);
         
       } catch (error) {
         console.error("에러 발생:", error);
       }
     };
     if (id !== null) {
-      fetchPosts();
+      fetchRegion();
     }
   }, [id]);
 
@@ -121,17 +121,17 @@ function Sido() {
       </select>
       <button onClick={handleSubmit}>선택</button>
       <button onClick={() => {navigate('/');}}>돌아가자~</button>
-      {posts.id && (
+      {region.id && (
         <div>
           <h2>선택 항목:</h2>
           <ul>
             {
               <li>
-                <strong>시도 : </strong> {posts.sido} <br />
-                <strong>시·군·구 : </strong> {posts.gungoo} <br />
-                <strong>전화 : </strong> {posts.tel} <br />
-                <strong>사이트 : </strong> {posts.site} <br />
-                <strong>기타사항 : </strong> {posts.etc}
+                <strong>시도 : </strong> {region.sido} <br />
+                <strong>시·군·구 : </strong> {region.gungoo} <br />
+                <strong>전화 : </strong> {region.tel} <br />
+                <strong>사이트 : </strong> {region.site} <br />
+                <strong>기타사항 : </strong> {region.etc}
               </li>
             }
           </ul>
