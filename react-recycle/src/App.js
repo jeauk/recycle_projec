@@ -2,18 +2,18 @@ import { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import TopHeader from "./components/TopHeader";
 import Nav from "./components/Nav";
-import Logout from "./components/Logout";
-import Kakaobtn from "./components/KakaoBtn";
-import Home from "./components/Home";
-import KakaoMap from "./components/KakaoMap";
-import PostList from "./components/PostList";
-import PostForm from "./components/PostForm";
-import PostDetail from "./components/PostDetail";
-import PostEdit from "./components/PostEdit";
+import Logout from "./myPage/Logout";
+import Kakaobtn from "./myPage/KakaoBtn";
+import Home from "./mainPage/Home";
+import KakaoMap from "./vendingDevice/KakaoMap";
+import PostList from "./reformBoard/PostList";
+import PostForm from "./reformBoard/PostForm";
+import PostDetail from "./reformBoard/PostDetail";
+import PostEdit from "./reformBoard/PostEdit";
 import Footer from "./components/Footer";
 import styles from './App.module.css';
-import LoginHandeler from './components/LoginHandeler';
-import Sido from './components/Sido';
+import LoginHandeler from './myPage/LoginHandeler';
+import Sido from './market/Sido';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -44,7 +44,7 @@ function App() {
           <TopHeader />
           <Nav />
           <div className={styles.mainContent}>
-            {isLoggedIn ? (
+          {isLoggedIn ? (
               <Logout onLogout={handleLogout} />
             ) : (
               <Kakaobtn onLogin={handleLogin} />

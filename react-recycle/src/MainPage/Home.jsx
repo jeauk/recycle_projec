@@ -1,6 +1,6 @@
-
-import TopContents from "./TopContents";
 import PageContent from "./PageContent";
+import TopContents from "./TopContents";
+
 
 const Home = () => {
     return (
