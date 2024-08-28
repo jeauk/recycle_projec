@@ -130,7 +130,13 @@ function Sido() {
                 <strong>시도 : </strong> {region.sido} <br />
                 <strong>시·군·구 : </strong> {region.gungoo} <br />
                 <strong>전화 : </strong> {region.tel} <br />
-                <strong>사이트 : </strong> {region.site} <br />
+                <strong>사이트 : </strong>
+                {region.site.split('|').map((site, index) => (
+                  <span key={index}>
+                    <a href={site.trim()}>{site.trim()}</a>
+                    {index < region.site.split('|').length - 1 && ' | '}
+                  </span>
+                ))} <br />
                 <strong>기타사항 : </strong> {region.etc}
               </li>
             }
