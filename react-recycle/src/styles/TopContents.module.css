@@ -7,7 +7,7 @@
 }
 
 .c2 {
-    width: 70%;
+    width: 80%;
     padding-left: 0.75rem;
     padding-right: 0;
     margin-left: auto;
@@ -37,4 +37,14 @@
     font-size: calc(1.275rem + 0.3vw);
     margin-top: 0;
     margin-bottom: 1rem;
+}
+.lk {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    font-size: 1.25rem;
+    color: #fff;
+    text-decoration: none;
+    border: 0.1rem solid #0d6efd;
+    border-radius: 0.5rem;
+    background-color: #0d6efd;
 }
