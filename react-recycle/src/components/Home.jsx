@@ -4,10 +4,10 @@ import PageContent from "./PageContent";
 
 const Home = () => {
     return (
-        <home>
+        <div className="home">
             <TopContents />
             <PageContent />
-        </home>
+        </div>
     );
 };
 
