@@ -1,5 +1,18 @@
-import { useEffect, useState } from 'react';
-import './App.css';
+import { useEffect, useState } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import TopHeader from "./components/TopHeader";
+import Nav from "./components/Nav";
+import Logout from "./components/Logout";
+import Kakaobtn from "./components/KakaoBtn";
+import Home from "./components/Home";
+import KakaoMap from "./components/KakaoMap";
+import PostList from "./components/PostList";
+import PostForm from "./components/PostForm";
+import PostDetail from "./components/PostDetail";
+import PostEdit from "./components/PostEdit";
+import Footer from "./components/Footer";
+import styles from './App.module.css';
+import LoginHandeler from './components/LoginHandeler';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -25,6 +38,32 @@ function App() {
 
   return (
     <div className="App">
+      <div className={styles.appContainer}>
+        <BrowserRouter>
+          <TopHeader />
+          <Nav />
+          <div className={styles.mainContent}>
+            {isLoggedIn ? (
+              <Logout onLogout={handleLogout} />
+            ) : (
+              <Kakaobtn onLogin={handleLogin} />
+            )}
+            <Routes>
+              <Route index element={<Home />} />
+              <Route path='/map' element={<KakaoMap />} />
+              <Route path="/" element={<PostList />} />
+              <Route path="/post" element={<PostForm />} />
+              <Route path="/post/:id" element={<PostDetail />} />
+              <Route path="/post/edit/:id" element={<PostEdit />} />
+              <Route
+                path="/login/oauth2/callback/kakao"
+                element={<LoginHandeler onLogin={handleLogin} />}
+              />
+            </Routes>
+          </div>
+          <Footer />
+        </BrowserRouter>
+      </div>
     </div>
   );
 }
