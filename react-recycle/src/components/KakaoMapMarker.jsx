@@ -23,7 +23,11 @@ const KakaoMapMarker = () => {
 
 	const filteredLocations = useMemo(() => {
 		return locations.filter(loc =>
-		loc.name.toLowerCase().includes(searchQuery.toLowerCase())
+		loc.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        loc.address.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        loc.region1.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        loc.region2.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        loc.region3.toLowerCase().includes(searchQuery.toLowerCase())
 		);
 		}, [locations, searchQuery]);
 
