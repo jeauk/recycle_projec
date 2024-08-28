@@ -2,10 +2,12 @@
     box-sizing: border-box;
     padding-top: 3rem;
     padding-bottom: 3rem;
+    justify-content: center;
+    display: flex;
 }
 
 .c2 {
-    width: 100%;
+    width: 70%;
     padding-left: 0.75rem;
     padding-right: 0;
     margin-left: auto;
@@ -29,4 +31,10 @@
     line-height: 1.2;
     margin-top: 0;
     margin-bottom: 0.5rem;
+}
+
+.p1 {
+    font-size: calc(1.275rem + 0.3vw);
+    margin-top: 0;
+    margin-bottom: 1rem;
 }

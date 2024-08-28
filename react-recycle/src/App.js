@@ -14,6 +14,7 @@ import Footer from "./components/Footer";
 import styles from './App.module.css';
 import LoginHandeler from './myPage/LoginHandeler';
 import Sido from './market/Sido';
+import "./App.css";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
