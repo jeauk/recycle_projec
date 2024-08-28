@@ -35,6 +35,9 @@ const PostList = () => {
     <div>
       <h1>게시글 목록</h1>
       <button onClick={handleCreatePost}>작성하기</button>
+      <button onClick={() => {
+            navigate('/sido');
+          }}>시도테스트</button>
       <ul>
         {posts.map((post) => (
           <li key={post.id} onClick={() => handlePostClick(post.id)}>
