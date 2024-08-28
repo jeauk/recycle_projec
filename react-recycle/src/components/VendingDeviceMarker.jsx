@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
-import KaKaoMapMenu from "./KakaoMapMenu";
-const KakaoMapMarker = () => {
+import VendingDeviceMenu from "./VendingDeviceMenu";
+const VendingDeviceMarker = () => {
 	const [locations, setLocations] = useState([]);
 	const [searchQuery, setSearchQuery] = useState("");
 	const [center, setCenter] = useState({lat: 33.450701, lng: 126.570667});
@@ -15,7 +15,7 @@ const KakaoMapMarker = () => {
 				console.log(data);  // 데이터 확인을 위한 로그
 				setLocations(data);
 			} catch (error) {
-				console.error("Failed to fetch locations", error);
+				console.error("위치 데이터를 가져오는데 실패했습니다", error);
 			}
 		};
 		fetchLocations();
@@ -53,7 +53,7 @@ const KakaoMapMarker = () => {
 	}, []);
 	return (
 		<div>
-			<KaKaoMapMenu setSearchQuery={setSearchQuery} searchQuery={searchQuery} locations={filteredLocations} onLocationClick={handleMarkerClick}/>
+			<VendingDeviceMenu setSearchQuery={setSearchQuery} searchQuery={searchQuery} locations={filteredLocations} onLocationClick={handleMarkerClick}/>
 			<Map center={center} style={{ width: '800px', height: '600px' }} level={3}>
 				{filteredLocations.map((loc, idx) => (
 					<MapMarker
@@ -73,4 +73,4 @@ const KakaoMapMarker = () => {
 };
 
 
-export default KakaoMapMarker;
+export default VendingDeviceMarker;

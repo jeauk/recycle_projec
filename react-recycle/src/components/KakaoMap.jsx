@@ -1,9 +1,9 @@
-import KakaoMapMarker from "./KakaoMapMarker";
+import VendingDeviceMarker from "./VendingDeviceMarker";
 
 const KakaoMap = () => {
     return (
         <div>
-            <KakaoMapMarker />
+            <VendingDeviceMarker />
         </div>
     );
 };
