@@ -5,7 +5,7 @@ const Kakaobtn = ()=>{
 
     return(
     <a href={KAKAO_AUTH_URL} className="kakaobtn">
-        <img src={'/kakao.png'} />
+        <img src={'/img/kakao.png'} />
     </a>
     );
 };
