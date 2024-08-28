@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import TopHeader from "./components/TopHeader";
 import Nav from "./components/Nav";
-import Logout from "./myPage/Logout";
-import Kakaobtn from "./myPage/KakaoBtn";
 import Home from "./mainPage/Home";
 import KakaoMap from "./vendingDevice/KakaoMap";
 import PostList from "./reformBoard/PostList";
@@ -13,6 +11,7 @@ import PostEdit from "./reformBoard/PostEdit";
 import Footer from "./components/Footer";
 import styles from './App.module.css';
 import LoginHandeler from './myPage/LoginHandeler';
+import Mypage from './myPage/MyPage';
 import Sido from './market/Sido';
 
 function App() {
@@ -32,11 +31,6 @@ function App() {
     setIsLoggedIn(true); // 로그인 상태를 true로 변경
   };
 
-  const handleLogout = () => {
-    setIsLoggedIn(false); // 로그아웃 상태를 false로 변경
-    sessionStorage.removeItem("jwt"); // JWT 삭제
-  };
-
   return (
     <div className="App">
       <div className={styles.appContainer}>
@@ -44,11 +38,6 @@ function App() {
           <TopHeader />
           <Nav />
           <div className={styles.mainContent}>
-          {isLoggedIn ? (
-              <Logout onLogout={handleLogout} />
-            ) : (
-              <Kakaobtn onLogin={handleLogin} />
-            )}
             <Routes>
               <Route index element={<Home />} />
               <Route path='/map' element={<KakaoMap />} />
@@ -56,6 +45,7 @@ function App() {
               <Route path="/post" element={<PostForm />} />
               <Route path="/post/:id" element={<PostDetail />} />
               <Route path="/post/edit/:id" element={<PostEdit />} />
+              <Route path="/mypage" element={<Mypage />} />
               <Route
                 path="/login/oauth2/callback/kakao"
                 element={<LoginHandeler onLogin={handleLogin} />}
