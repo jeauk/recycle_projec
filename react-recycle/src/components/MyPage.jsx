@@ -1,29 +1,44 @@
-import React, { useState, useEffect } from 'react'; // React와 관련된 훅을 가져옴
+import React, { useState, useEffect } from 'react';
 
-function MyPage() {
-  // 상태 변수 설정: 닉네임, 프로필 이미지 파일, 프로필 이미지 URL
+function ProfileUpdateForm() {
+  // 상태 변수 설정: 닉네임, 프로필 이미지 파일, 프로필 이미지 URL (미리보기용 및 기존 이미지)
   const [nickname, setNickname] = useState('');
   const [profileImage, setProfileImage] = useState(null);
   const [profileImageUrl, setProfileImageUrl] = useState('');
 
-  // 컴포넌트가 마운트될 때 프로필 정보를 가져옴
   useEffect(() => {
+    // 기존 프로필 정보를 가져오는 로직 (예: 서버에서 프로필 정보 가져오기)
     const fetchProfile = async () => {
       const jwt = sessionStorage.getItem('jwt'); // 세션에서 JWT 토큰을 가져옴
       const response = await fetch('http://localhost:8080/user/profile', {
-        headers: { Authorization: `Bearer ${jwt}` } // JWT 토큰을 Authorization 헤더에 추가
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
       });
-      const data = await response.json(); // 서버 응답을 JSON 형식으로 파싱
+      const data = await response.json();
       setNickname(data.nickname); // 닉네임 설정
-      setProfileImageUrl(data.profileImageUrl); // 프로필 이미지 URL 설정
+      setProfileImageUrl(data.profileImageUrl); // 기존 프로필 이미지 URL 설정
     };
 
-    fetchProfile(); // 프로필 정보를 가져오는 함수 호출
-  }, []); // 빈 배열을 의존성 배열로 전달하여 컴포넌트가 마운트될 때 한 번만 실행
+    fetchProfile(); // 컴포넌트 마운트 시 프로필 정보를 가져옴
+  }, []);
 
   // 이미지 파일 선택 시 호출되는 함수
   const handleImageChange = (e) => {
-    setProfileImage(e.target.files[0]); // 선택한 파일을 상태에 저장
+    const file = e.target.files[0]; // 선택된 파일을 가져옴
+    if (file) {
+      setProfileImage(file); // 상태에 파일 저장
+
+      // 파일을 읽어 미리보기 URL을 생성
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProfileImageUrl(reader.result); // 새로운 이미지 미리보기 URL을 상태에 저장
+      };
+      reader.readAsDataURL(file); // 파일을 Data URL로 읽기
+    } else {
+      setProfileImage(null);
+      setProfileImageUrl(''); // 파일이 없을 경우 미리보기 초기화
+    }
   };
 
   // 폼 제출 시 호출되는 함수
@@ -37,7 +52,7 @@ function MyPage() {
     }
 
     const jwt = sessionStorage.getItem('jwt'); // 세션에서 JWT 토큰을 가져옴
-    await fetch('http://localhost:8080/user/profile', {
+    await fetch('http://localhost:8080/user/updateProfile', {
       method: 'POST', // POST 메서드로 서버에 요청
       headers: {
         Authorization: `Bearer ${jwt}`, // JWT 토큰을 Authorization 헤더에 추가
@@ -51,8 +66,8 @@ function MyPage() {
 
   return (
     <div>
-      <h1>My Page</h1>
-      <form onSubmit={handleSubmit}> {/* 폼 제출 시 handleSubmit 함수 호출 */}
+      <h1>프로필 업데이트</h1>
+      <form onSubmit={handleSubmit}>
         <div>
           <label>닉네임:</label>
           <input
@@ -63,9 +78,8 @@ function MyPage() {
         </div>
         <div>
           <label>프로필 이미지:</label>
-          {/* 프로필 이미지 URL이 있으면 이미지 표시 */}
-          {profileImageUrl && <img src={profileImageUrl} alt="Profile" />}
           <input type="file" accept="image/*" onChange={handleImageChange} /> {/* 이미지 파일 선택 시 handleImageChange 함수 호출 */}
+          {profileImageUrl && <img src={profileImageUrl} alt="Profile Preview" style={{ width: '150px', height: '150px' }} />} {/* 미리보기 이미지 또는 기존 이미지 */}
         </div>
         <button type="submit">프로필 업데이트</button> {/* 제출 버튼 */}
       </form>
@@ -73,4 +87,4 @@ function MyPage() {
   );
 }
 
-export default MyPage;
+export default ProfileUpdateForm;

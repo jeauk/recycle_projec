@@ -65,7 +65,7 @@ function PostDetail() {
       <img src={post.imagePath} alt="완성 사진" style={{ width: '100%', height: 'auto' }} />
       <h1>{post.title}</h1>
       <p>
-        작성자: {post.author} &nbsp;&nbsp;&nbsp; 
+        작성자: {post.kakaoUserEntity.nickname} &nbsp;&nbsp;&nbsp; 
         작성날짜: {post.modifiedAt ? `${post.modifiedAt} (수정됨)` : post.createdAt} &nbsp;&nbsp;&nbsp; 
         조회수: {post.viewCount}
       </p>
