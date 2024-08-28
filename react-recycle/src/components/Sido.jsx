@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './sido.css';
+import s from '../styles/Sido.module.css';
 
 function Sido() {
 
@@ -124,7 +124,7 @@ function Sido() {
       {posts.id && (
         <div>
           <h2>선택 항목:</h2>
-          <ul>
+          <ul className={s.ulli}>
             {
               <li>
                 <strong>시도 : </strong> {posts.sido} <br />
