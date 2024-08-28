@@ -38,11 +38,11 @@ const LoginHandler = ({onLogin}) => {
 
           // 로그인 성공 시 알림 표시
           alert('로그인에 성공했습니다!');
-          navigate('/'); // 성공 시 메인 페이지로 이동
+          navigate('/mypage');
         } catch (error) {
           console.error('에러 발생:', error);
           alert('로그인에 실패했습니다. 다시 시도해 주세요.');
-          navigate('/'); // 실패 시 로그인 페이지로 이동
+          navigate('/mypage'); 
         }
       }
     };
