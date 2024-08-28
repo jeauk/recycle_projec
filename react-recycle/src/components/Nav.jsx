@@ -16,6 +16,9 @@ const Nav = () => {
                 <Link to="/category3" className={styles.navItem}>
                     <li className={styles.navLink}>Category 3</li>
                 </Link>
+                <Link to="/map" className={styles.navItem}>
+                    <li className={styles.navLink}>지도</li>
+                </Link>
             </ul>
         </nav>
     );
