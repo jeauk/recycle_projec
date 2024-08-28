@@ -78,7 +78,7 @@ function Sido() {
         }
         const data = await response.json();
         setRegion(data);
-        
+
       } catch (error) {
         console.error("에러 발생:", error);
       }
@@ -120,7 +120,7 @@ function Sido() {
         ))}
       </select>
       <button onClick={handleSubmit}>선택</button>
-      <button onClick={() => {navigate('/');}}>돌아가자~</button>
+      <button onClick={() => { navigate('/'); }}>돌아가자~</button>
       {region.id && (
         <div>
           <h2>선택 항목:</h2>
