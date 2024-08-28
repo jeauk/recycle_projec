@@ -1,4 +1,11 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import './App.css';
+import Nav from './components/Nav';
+import Home from './components/Home';
+import Footer from './components/Footer';
+import KakaoMap from './components/KakaoMap';
+import TopHeader from './components/TopHeader';
+import styles from './App.module.css';
 import React, { useState, useEffect } from 'react';
 import PostForm from './components/PostForm';
 import PostList from './components/PostList';
@@ -32,26 +39,35 @@ function App() {
   };
 
   return (
-    <Router>
-      <div className="App">
-        {isLoggedIn ? (
-          <Logout onLogout={handleLogout} />
-        ) : (
-          <Kakaobtn onLogin={handleLogin} />
-        )}
-        <Routes>
-          <Route path="/" element={<PostList />} />
-          <Route path="/post" element={<PostForm />} />
-          <Route path="/post/:id" element={<PostDetail />} />
-          <Route path="/post/edit/:id" element={<PostEdit />} />
-          <Route
-            path="/login/oauth2/callback/kakao"
-            element={<LoginHandeler onLogin={handleLogin} />}
-          />
-          <Route path="/sido" element={<Sido/>} />
-        </Routes>
+    <div className="App">
+      <div className={styles.appContainer}>
+        <BrowserRouter>
+          <TopHeader />
+          <Nav />
+          <div className={styles.mainContent}>
+            {isLoggedIn ? (
+              <Logout onLogout={handleLogout} />
+            ) : (
+              <Kakaobtn onLogin={handleLogin} />
+            )}
+            <Routes>
+              <Route index element={<Home />} />
+              <Route path='/map' element={<KakaoMap />} />
+              <Route path="/login" element={<PostList />} />
+              <Route path="/post" element={<PostForm />} />
+              <Route path="/post/:id" element={<PostDetail />} />
+              <Route path="/post/edit/:id" element={<PostEdit />} />
+              <Route
+                path="/login/oauth2/callback/kakao"
+                element={<LoginHandeler onLogin={handleLogin} />}
+              />
+              <Route path="/sido" element={<Sido />} />
+            </Routes>
+          </div>
+          <Footer />
+        </BrowserRouter>
       </div>
-    </Router>
+    </div>
   );
 }
 
