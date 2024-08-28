@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Map, MapMarker } from "react-kakao-maps-sdk";
+import { Map } from "react-kakao-maps-sdk";
 import KaKaoMapMenu from "./KakaoMapMenu";
 
 const KakaoMapMarker = () => {
@@ -10,7 +10,7 @@ const KakaoMapMarker = () => {
 	useEffect(() => {
 		const fetchLocations = async () => {
 			try {
-				const res = await fetch(`http://127.0.0.1:8080/dataload`);
+				const res = await fetch(`http://127.0.0.1:8080/gwill`);
 				const data = await res.json();
 				
 				console.log(data);  // 데이터 확인을 위한 로그
@@ -48,11 +48,11 @@ const KakaoMapMarker = () => {
 			return 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png';
 		}
 	}, []);
+
 	return (
 		<div>
-			<KaKaoMapMenu setSearchQuery={setSearchQuery} searchQuery={searchQuery} locations={filteredLocations} onLocationClick={handleMarkerClick}/>
 			<Map center={center} style={{ width: '800px', height: '600px' }} level={3}>
-				{filteredLocations.map((loc, idx) => (
+				{/* {filteredLocations.map((loc, idx) => (
 					<MapMarker
 						key={idx}
 						position={{ lat: loc.latitude, lng: loc.longitude }}
@@ -63,7 +63,7 @@ const KakaoMapMarker = () => {
 						title={loc.name}
 						onClick={() => handleMarkerClick(loc)} 
 					/>
-				))}
+				))} */}
 			</Map>
 		</div>
 	);

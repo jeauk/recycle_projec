@@ -15,6 +15,7 @@ import LoginHandeler from './components/LoginHandeler';
 import Kakaobtn from './components/KakaoBtn';
 import Logout from './components/Logout';
 import Sido from './components/Sido';
+import ReMap from './components/ReMap';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -62,6 +63,7 @@ function App() {
                 element={<LoginHandeler onLogin={handleLogin} />}
               />
               <Route path="/sido" element={<Sido />} />
+              <Route path="/remap" element={<ReMap />} />
             </Routes>
           </div>
           <Footer />
