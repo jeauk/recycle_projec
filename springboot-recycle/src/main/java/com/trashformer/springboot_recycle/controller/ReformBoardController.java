@@ -183,17 +183,17 @@ public class ReformBoardController {
         return response;
     }
 
-    @GetMapping("/api/posts/${id}")
-    public ResponseEntity<ReformBoardEntity> postDetail(@PathVariable Long id) {
-        // 데이터베이스에서 ID로 게시물 조회
-        Optional<ReformBoardEntity> post = reformBoardRepository.findById(id);
+    // @GetMapping("/api/posts/${id}")
+    // public ResponseEntity<ReformBoardEntity> postDetail(@PathVariable Long id) {
+    //     // 데이터베이스에서 ID로 게시물 조회
+    //     Optional<ReformBoardEntity> post = reformBoardRepository.findById(id);
 
-        // 게시물이 존재하는지 확인
-        if (post.isPresent()) {
-            return ResponseEntity.ok(post.get());
-        } else {
-            // 게시물이 존재하지 않으면 404 상태 반환
-            return ResponseEntity.status(404).body(null);
-        }
-    }
+    //     // 게시물이 존재하는지 확인
+    //     if (post.isPresent()) {
+    //         return ResponseEntity.ok(post.get());
+    //     } else {
+    //         // 게시물이 존재하지 않으면 404 상태 반환
+    //         return ResponseEntity.status(404).body(null);
+    //     }
+    // }
 }

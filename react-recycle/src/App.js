@@ -1,13 +1,5 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import React, { useState, useEffect } from 'react';
-import PostForm from './components/PostForm';
-import PostList from './components/PostList';
-import PostDetail from './components/PostDetail';
-import PostEdit from './components/PostEdit';
-import LoginHandeler from './components/LoginHandeler';
-import Kakaobtn from './components/KakaoBtn';
-import Logout from './components/Logout';
-import MyPage from './components/MyPage'; //추가
+import { useEffect, useState } from 'react';
+import './App.css';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -32,26 +24,8 @@ function App() {
   };
 
   return (
-    <Router>
-      <div className="App">
-        {isLoggedIn ? (
-          <Logout onLogout={handleLogout} />
-        ) : (
-          <Kakaobtn onLogin={handleLogin} />
-        )}
-        <Routes>
-          <Route path="/" element={<PostList />} />
-          <Route path="/post" element={<PostForm />} />
-          <Route path="/post/:id" element={<PostDetail />} />
-          <Route path="/post/edit/:id" element={<PostEdit />} />
-          <Route path="/mypage" element={<MyPage />} /> //추가
-          <Route
-            path="/login/oauth2/callback/kakao"
-            element={<LoginHandeler onLogin={handleLogin} />}
-          />
-        </Routes>
-      </div>
-    </Router>
+    <div className="App">
+    </div>
   );
 }
 
