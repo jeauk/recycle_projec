@@ -74,7 +74,7 @@ function PostDetail() {
       <p>{post.content}</p>
       <hr />
       <h2>동영상 링크</h2>
-      <p><a href={post.videoLink} target="_blank" rel="noopener noreferrer">여기</a></p>
+      <p><a href={post.videoLink} target="_blank" rel="noopener noreferrer"></a></p>
       <hr />
       <h2>스탭</h2>
       {post.steps.map((step, index) => (
