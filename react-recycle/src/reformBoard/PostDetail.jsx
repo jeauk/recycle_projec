@@ -49,6 +49,31 @@ function PostDetail() {
 
   if (!post) return <div>로딩 중...</div>;
 
+  const createEmbedUrl = (videoLink) => {
+    let embedUrl = null;
+  
+    // 유튜브 "youtu.be" 형식
+    if (videoLink.includes("youtu.be")) {
+      const links = videoLink.split("/");
+      const videoId = links[links.length - 1].split('?')[0];
+      embedUrl = `http://www.youtube.com/embed/${videoId}`;
+    }
+    // 유튜브 "youtube.com/watch" 형식
+    else if (videoLink.includes("youtube.com/watch")) {
+      const params = new URLSearchParams(new URL(videoLink).search);
+      const videoId = params.get("v");
+      embedUrl = `http://www.youtube.com/embed/${videoId}`;
+    }
+    // 네이버 TV 형식
+    else if (videoLink.includes("tv.naver.com/v/")) {
+      const videoId = videoLink.split("/v/")[1];
+      embedUrl = `https://tv.naver.com/embed/${videoId}`;
+    }
+  
+    return embedUrl; // 유효하지 않은 링크일 경우 null 반환
+  };
+
+
   return (
     <div>
       <img src={post.imagePath} alt="완성 사진" style={{ width: '100%', height: 'auto' }} />
@@ -63,7 +88,7 @@ function PostDetail() {
       <p>{post.content}</p>
       <hr />
       <h2>동영상 링크</h2>
-      <p><a href={post.videoLink} target="_blank" rel="noopener noreferrer"></a></p>
+      <p><iframe width="420" height="315" src={createEmbedUrl(post.videoLink)} /></p>
       <hr />
       <h2>스탭</h2>
       {post.steps.map((step, index) => (

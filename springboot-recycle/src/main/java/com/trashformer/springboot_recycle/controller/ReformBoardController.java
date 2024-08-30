@@ -76,6 +76,7 @@ public class ReformBoardController {
         // ReformBoardEntity 객체 생성 및 데이터 설정
         ReformBoardEntity reformBoard = new ReformBoardEntity();
         reformBoard.setTitle(request.getTitle());
+        reformBoard.setVideoLink(request.getVideoLink());
         reformBoard.setContent(request.getContent());
         reformBoard.setKakaoUserEntity(user);
 
