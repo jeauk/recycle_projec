@@ -1,43 +1,43 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import m from '../styles/KaKaoMapMenu.module.css';
 
-const ReMapMenu = React.memo(({ setSearchQuery, locations, searchQuery, onLocationClick }) => {  // setSearchQuery를 props로 받아옵니다
+const ReMapMenu = React.memo(({ setSearchQuery, locations, searchQuery, onLocationClick, activeTab }) => {
   const [isOpen, setIsOpen] = useState(true);
 
-  const toggleMenu = useCallback(()=>{
+  const toggleMenu = useCallback(() => {
     setIsOpen(!isOpen);
   }, [isOpen]);
 
   const handleSearchChange = useCallback((event) => {
-    setSearchQuery(event.target.value);  // 입력된 값을 setSearchQuery로 전달
-  },[setSearchQuery]);
-
-  const totalVendingMachinces =  useMemo(()=>{
-    return locations.reduce((total, loc) => total + loc.vendingDevices.length, 0);
-  },[locations]);
-  const clearSearch = useCallback(() => {
-    setSearchQuery('');  // 검색어를 초기화
+    setSearchQuery(event.target.value);
   }, [setSearchQuery]);
+
+  const clearSearch = useCallback(() => {
+    setSearchQuery('');
+  }, [setSearchQuery]);
+
+  const filteredLocations = useMemo(() => {
+    return locations?.filter(loc => loc.type === activeTab && loc.name.toLowerCase().includes(searchQuery.toLowerCase())) || [];
+  }, [locations, searchQuery, activeTab]);
+
   return (
     <div>
       <div className={`${m.sideMenu} ${isOpen ? m.open : ''}`}>
         <div className={m.search}>
-          <input type="text" placeholder="자판기 위치 검색" onChange={handleSearchChange} value={searchQuery} />
-          <p>검색된 자판기: {totalVendingMachinces}대</p>
+          <input type="text" placeholder="가게 위치 검색" onChange={handleSearchChange} value={searchQuery} />
+          <p>검색된 가게: {filteredLocations.length}개</p>
           <button className={m.clearButton} onClick={clearSearch}>
             X
           </button>
         </div>
         <div className={`${m.KakaoMapList} ${isOpen ? m.open : ''}`}>
-          {locations.map((loc, locIdx) => (
-            loc.vendingDevices.map((device, deviceIdx) => (
-              <div key={`${locIdx}-${deviceIdx}`} className={m.locationItem} onClick={() => onLocationClick(loc)}>
-                <h4>{loc.vendingDevices.length === 1 ? loc.name : `${loc.name} ${deviceIdx + 1}`}</h4>
-                <p>{loc.address}</p>
-                <p>{device.recycleType}</p>
-                <br />
-              </div>
-            ))
+          {filteredLocations.map((loc, locIdx) => (
+            <div key={locIdx} className={m.locationItem} onClick={() => onLocationClick(loc)}>
+              <h4>{loc.name}</h4>
+              <p>{loc.address}</p>
+              <p>{loc.tel}</p>
+              <br />
+            </div>
           ))}
         </div>
       </div>
