@@ -41,8 +41,13 @@ const PostList = () => {
       <ul>
         {posts.map((post) => (
           <li key={post.id} onClick={() => handlePostClick(post.id)}>
+             <img src={post.imagePath} style={{ width: '100px', height: '100px', objectFit: 'cover' }} /> {/* 대표 이미지 추가ccc */}
+             <div>
             <strong>제목:</strong> {post.title} <br />
             <strong>작성자:</strong> {post.author}
+            <strong>조회수:</strong> {post.viewCount} <br /> {/* 조회수 표시 */}
+            <strong>추천수:</strong> {post.likeCount} <br /> {/* 추천수 표시 */}
+            </div>
           </li>
         ))}
       </ul>

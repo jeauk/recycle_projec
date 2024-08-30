@@ -26,5 +26,9 @@ public class RecommendEntity {
         @JoinColumn(name = "reform_board_id", nullable = false)
         private ReformBoardEntity reformBoardEntity; // 게시글과의 관계
 
+        @JsonIgnore
+        @ManyToOne
+        @JoinColumn(name = "kakao_user_id", nullable = false)
+        private KakaoUserEntity kakaoUserEntity; // 사용자와의 관계
 }
     

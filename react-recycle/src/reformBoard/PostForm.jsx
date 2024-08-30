@@ -148,7 +148,7 @@ const PostForm = () => {
 
       <button type="submit">올리기</button>
       <button onClick={() => {
-            navigate('/');
+            navigate('/list');
           }}>취소</button>
     </form>
   );
