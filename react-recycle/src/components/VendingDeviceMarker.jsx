@@ -59,7 +59,7 @@ const VendingDeviceMarker = () => {
 			}
 			return newHistory.slice(-5);
 		});
-	}, [setSearchHistory]);
+	}, []);
 
 	const getMarkerImage = useCallback((inputWastes) => {
 		const wasteTypes = inputWastes.map(waste => waste.inputWaste);
@@ -78,11 +78,10 @@ const VendingDeviceMarker = () => {
 	}, []);
 
 	const EventMarkerContainer = ({ position, content }) => {
-		const map = useMap();
 		const [isVisible, setIsVisible] = useState(false);
 		return (
 			<MapMarker position={position}
-				onClick={() => map.panTo(position)}
+				onClick={() => handleMarkerClick(content)}
 				onMouseOver={() => setIsVisible(true)}
 				onMouseOut={() => setIsVisible(false)}
 				image={{
