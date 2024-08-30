@@ -9,7 +9,7 @@ const PageContents = () => {
                     <div className={s.d3}>
                         <div className={s.d4}>
                             <div className={s.d5}>
-                                <div className={s.d6}><i></i></div>
+                                <div className={s.d6}><i>img</i></div>
                                 <h2 className={s.h1}>Fresh new layout</h2>
                                 <p className={s.p1}>With Bootstrap 5, we've created a fresh new layout for this template!</p>
                             </div>
