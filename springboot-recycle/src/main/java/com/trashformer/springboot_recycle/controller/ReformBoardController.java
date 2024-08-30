@@ -23,7 +23,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,8 +53,11 @@ public class ReformBoardController {
     @Autowired
     private StepFormRepository stepFormRepository;
 
-    // 이미지 파일이 저장될 디렉토리 경로
-    private final String UPLOAD_DIR = "C:\\uploads\\";
+    // Base URL for accessing images
+    private final String BASE_URL = "https://localhost:8080/image/";
+
+    // 이미지 파일이 저장될 기본 디렉토리 경로
+    private final String UPLOAD_DIR = "src/main/resources/static/uploads/";
 
     @PostMapping("/api/posts")
     public ResponseEntity<Map<String, Object>> post(
@@ -97,7 +102,7 @@ public class ReformBoardController {
         // StepFormEntity 저장
         List<String> steps = request.getSteps();
         List<MultipartFile> stepImages = request.getStepImages();
-        if (steps != null && stepImages != null) {
+        if (steps != null) {
             for (int i = 0; i < steps.size(); i++) {
                 StepFormEntity stepForm = new StepFormEntity();
                 stepForm.setStep(i + 1);
@@ -105,7 +110,7 @@ public class ReformBoardController {
                 stepForm.setReformBoardEntity(reformBoard);
 
                 // 스텝 이미지 파일 저장
-                if (i < stepImages.size() && stepImages.get(i) != null && !stepImages.get(i).isEmpty()) {
+                if (stepImages != null && i < stepImages.size() && stepImages.get(i) != null && !stepImages.get(i).isEmpty()) {
                     String stepImagePath = saveFile(stepImages.get(i));
                     if (stepImagePath != null) {
                         stepForm.setImgUrl(stepImagePath);
@@ -114,7 +119,10 @@ public class ReformBoardController {
                     }
                 }
 
-                stepFormRepository.save(stepForm); // 각 StepFormEntity 저장
+                // 스텝 내용이 있으면 저장
+                if (stepForm.getStepContent() != null && !stepForm.getStepContent().isEmpty()) {
+                    stepFormRepository.save(stepForm); // 각 StepFormEntity 저장
+                }
             }
         }
 
@@ -126,16 +134,17 @@ public class ReformBoardController {
     // 파일 저장 메소드 및 데이터베이스에 저장
     private String saveFile(MultipartFile file) {
         try {
-            // 파일 이름 생성 (UUID 사용)
-            String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
-            // 파일 경로 설정
-            String filePath = UPLOAD_DIR + fileName;
-
-            // 파일 저장 디렉토리가 없으면 생성
-            File directory = new File(UPLOAD_DIR);
+            // 날짜별 폴더 생성
+            String dateFolder = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+            String directoryPath = UPLOAD_DIR + dateFolder;
+            File directory = new File(directoryPath);
             if (!directory.exists()) {
                 directory.mkdirs();
             }
+
+            // 파일 이름 생성 (UUID 사용)
+            String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+            String filePath = directoryPath + "/" + fileName;
 
             // 파일 저장
             Path path = Paths.get(filePath);
@@ -151,7 +160,8 @@ public class ReformBoardController {
 
             fileStorageRepository.save(fileStorageEntity);
 
-            return filePath; // 저장된 파일 경로 반환
+            // URL 경로 반환
+            return BASE_URL + dateFolder + "/" + fileName;
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -184,35 +194,31 @@ public class ReformBoardController {
         return response;
     }
 
-
-
     @GetMapping("/api/posts/{id}")
-public ResponseEntity<Map<String, Object>> getPostById(
-    @RequestHeader("Authorization") String jwtToken,    
-    @PathVariable Long id) {
-    
-    // JWT에서 이메일 추출
-    String email = jwtService.extractEmailFromJwt(jwtToken);
+    public ResponseEntity<Map<String, Object>> getPostById(
+        @RequestHeader("Authorization") String jwtToken,    
+        @PathVariable Long id) {
+        
+        // JWT에서 이메일 추출
+        String email = jwtService.extractEmailFromJwt(jwtToken);
 
+        // 현재 게시물 ID로 게시물 조회
+        Optional<ReformBoardEntity> post = reformBoardRepository.findById(id);
+        if (post.isEmpty()) {
+            return ResponseEntity.status(404).body(Map.of("message", "게시물을 찾을 수 없습니다."));
+        }
 
-    // 현재 게시물 ID로 게시물 조회
-    Optional<ReformBoardEntity> post = reformBoardRepository.findById(id);
-    if (post.isEmpty()) {
-        return ResponseEntity.status(404).body(Map.of("message", "게시물을 찾을 수 없습니다."));
+        // 이메일로 사용자가 작성한 게시물들 조회
+        List<ReformBoardEntity> userPosts = reformBoardRepository.findAllByKakaoUserEntityEmail(email);
+
+        // 사용자가 작성한 게시물 중에 현재 게시물과 동일한 ID가 있는지 확인
+        boolean isAuthor = userPosts.stream().anyMatch(userPost -> userPost.getId().equals(id));
+
+        // 결과에 isAuthor 추가
+        Map<String, Object> response = new HashMap<>();
+        response.put("post", post.get());
+        response.put("isAuthor", isAuthor);
+
+        return ResponseEntity.ok(response);
     }
-
-    // 이메일로 사용자가 작성한 게시물들 조회
-    List<ReformBoardEntity> userPosts = reformBoardRepository.findAllByKakaoUserEntityEmail(email);
-
-    // 사용자가 작성한 게시물 중에 현재 게시물과 동일한 ID가 있는지 확인
-    boolean isAuthor = userPosts.stream().anyMatch(userPost -> userPost.getId().equals(id));
-
-    // 결과에 isAuthor 추가
-    Map<String, Object> response = new HashMap<>();
-    response.put("post", post.get());
-    response.put("isAuthor", isAuthor);
-
-    return ResponseEntity.ok(response);
-}
-
 }
