@@ -1,9 +1,8 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import m from '../styles/VendingDeviceMenu.module.css';
 
-const VendingDeviceMenu = React.memo(({ setSearchQuery, locations, searchQuery, onLocationClick }) => {  // setSearchQuery를 props로 받아옵니다
+const VendingDeviceMenu = React.memo(({ setSearchQuery, locations, searchQuery, onLocationClick, setSearchHistory, searchHistory }) => {  // setSearchQuery를 props로 받아옵니다
   const [isOpen, setIsOpen] = useState(true);
-  const [searchHistory, setSearchHistory] = useState([]);
   const toggleMenu = useCallback(()=>{
     setIsOpen(!isOpen);
   }, [isOpen]);
@@ -11,26 +10,32 @@ const VendingDeviceMenu = React.memo(({ setSearchQuery, locations, searchQuery, 
 
 
   const handleSearchChange = useCallback((event) => {
-    setSearchQuery(event.target.value);  // 입력된 값을 setSearchQuery로 전달
-  },[setSearchQuery]); // 이걸로 검색을 하지 않지만 일단 남겨둠
-
-  const handleSearch = useCallback((query) => {setSearchQuery(query);},[setSearchQuery]);
+    setSearchQuery(event.target.value);
+  },[setSearchQuery]);
 
   const handleKeyPress = useCallback((event) => {
     if (event.key === 'Enter') {
-      if (searchQuery.trim() !=='' && !searchHistory.includes(searchQuery)) {
-        const newHistory = [...searchHistory, searchQuery].slice(-5);
+      const trimmedQuery = searchQuery.trim();
+      if (trimmedQuery !=='' && !searchHistory.includes(trimmedQuery)) {
+        const newHistory = [...searchHistory, trimmedQuery].slice(-5);
         setSearchHistory(newHistory);
+        setSearchQuery('');
       }
     }
-  }, [searchQuery, searchHistory]);
+  }, [searchQuery, searchHistory, setSearchQuery, setSearchHistory]);
+
+  const handleSearchClick = useCallback((index) => {
+    const newHistory = searchHistory.filter((_, idx) => idx !== index); setSearchHistory(newHistory);
+  }, [searchHistory, setSearchHistory]);
 
   const totalVendingMachinces =  useMemo(()=>{
     return locations.reduce((total, loc) => total + loc.vendingDevices.length, 0);
   },[locations]);
+  
   const clearSearch = useCallback(() => {
-    setSearchQuery('');  // 검색어를 초기화
-  }, [setSearchQuery]);
+    setSearchHistory([]);
+  }, []);
+
   return (
     <div>
       <div className={`${m.sideMenu} ${isOpen ? m.open : ''}`}>
@@ -42,7 +47,7 @@ const VendingDeviceMenu = React.memo(({ setSearchQuery, locations, searchQuery, 
           </button>
           <div>
             {searchHistory.map((query, index) => (
-              <p key={index}>검색어{index + 1}: {query}</p>
+              <p key={index} onClick={() => handleSearchClick(index)}>검색어{index + 1}: {query}</p>
             ))}
           </div>
         </div>

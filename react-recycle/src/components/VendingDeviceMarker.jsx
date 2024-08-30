@@ -4,6 +4,7 @@ import VendingDeviceMenu from "./VendingDeviceMenu";
 const VendingDeviceMarker = () => {
 	const [locations, setLocations] = useState([]);
 	const [searchQuery, setSearchQuery] = useState("");
+	const [searchHistory, setSearchHistory] = useState([]);
 	const [center, setCenter] = useState({lat: 33.450701, lng: 126.570667});
 	useEffect(() => {
 		const fetchLocations = async () => {
@@ -22,17 +23,22 @@ const VendingDeviceMarker = () => {
 	}, []);
 
 	const filteredLocations = useMemo(() => {
+		if (searchHistory.length === 0){
+			return locations;
+		}
 		return locations.filter(loc =>
-		loc.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        loc.address.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        loc.region1.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        loc.region2.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        loc.region3.toLowerCase().includes(searchQuery.toLowerCase())
+			searchHistory.every(query =>
+		loc.name.toLowerCase().includes(query.toLowerCase()) ||
+        loc.address.toLowerCase().includes(query.toLowerCase()) ||
+        loc.region1.toLowerCase().includes(query.toLowerCase()) ||
+        loc.region2.toLowerCase().includes(query.toLowerCase()) ||
+        loc.region3.toLowerCase().includes(query.toLowerCase()) ||
+		loc.inputWastes.some(waste => waste.inputWaste.toLowerCase().includes(query.toLowerCase()))
+			)
 		);
-		}, [locations, searchQuery]);
+		}, [locations, searchHistory]);
 
 	const handleMarkerClick = useCallback((loc) => {
-		setSearchQuery(loc.name);
 		setCenter({ lat: loc.latitude, lng: loc.longitude});
 	},[]);
 
@@ -53,7 +59,7 @@ const VendingDeviceMarker = () => {
 	}, []);
 	return (
 		<div>
-			<VendingDeviceMenu setSearchQuery={setSearchQuery} searchQuery={searchQuery} locations={filteredLocations} onLocationClick={handleMarkerClick}/>
+			<VendingDeviceMenu setSearchQuery={setSearchQuery} searchQuery={searchQuery} searchHistory={searchHistory} setSearchHistory={setSearchHistory} locations={filteredLocations} onLocationClick={handleMarkerClick}/>
 			<Map center={center} style={{ width: '800px', height: '600px' }} level={3}>
 				{filteredLocations.map((loc, idx) => (
 					<MapMarker
