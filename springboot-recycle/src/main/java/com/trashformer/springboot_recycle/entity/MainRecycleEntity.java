@@ -1,28 +1,23 @@
 package com.trashformer.springboot_recycle.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
 import lombok.Data;
 
 @Data
-@Entity
-public class StepFormEntity {
+@Entity(name = "MainRecycle")
+public class MainRecycleEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
-    private int step;
-    private String stepContent;
-    private String imgUrl;
 
-    @JsonIgnore
-    @ManyToOne
-    private ReformBoardEntity reformBoardEntity;
-    
+    private String mr_name;
+    private String mr_tag;
+    private String mr_um;
+    private String mr_category;
+    private String mr_content;
+
 }

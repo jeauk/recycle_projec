@@ -8,7 +8,7 @@ function PostDetail() {
   const [isAuthor, setIsAuthor] = useState(false);
 
   useEffect(() => {
-    // 서버에서 게시물 데이터를 가져옴 (가상의 API 호출)
+    // 서버에서 게시물 데이터를 가져옴
     const fetchPost = async () => {
       try {
         const jwt = sessionStorage.getItem('jwt'); // 세션에서 JWT 토큰을 가져옴
@@ -24,11 +24,8 @@ function PostDetail() {
           throw new Error('게시물을 가져오는 데 실패했습니다.');
         }
         const data = await response.json();
-        setPost(data);
-
-        // 현재 사용자가 작성자인지 확인
-        const userEmail = extractEmailFromJwt(jwt); // JWT에서 사용자 이메일을 추출
-        setIsAuthor(data.authorEmail === userEmail); // 작성자와 현재 사용자를 비교
+        setPost(data.post); // 게시물 데이터 설정
+        setIsAuthor(data.isAuthor); // 작성자인지 여부 설정
       } catch (error) {
         console.error('에러 발생:', error);
       }
@@ -37,28 +34,45 @@ function PostDetail() {
     fetchPost();
   }, [id]);
 
-  // JWT 토큰에서 이메일을 추출하는 가정된 함수
-  const extractEmailFromJwt = (jwt) => {
-    // JWT 토큰을 파싱하여 이메일을 추출하는 로직을 여기에 구현
-    return 'example@example.com'; // 가정된 이메일 반환
-  };
-
   const handleEdit = () => {
     navigate(`/edit/${id}`);
   };
 
   const handleDelete = () => {
-    // 삭제 로직 구현 (가상의 API 호출)
-    // 이후 삭제 후 목록으로 이동
+    // 삭제 로직 구현
     navigate('/');
   };
 
   const handleRecommend = () => {
-    // 추천하기 로직 구현 (가상의 API 호출)
     alert('추천이 반영되었습니다!');
   };
 
   if (!post) return <div>로딩 중...</div>;
+
+  const createEmbedUrl = (videoLink) => {
+    let embedUrl = null;
+  
+    // 유튜브 "youtu.be" 형식
+    if (videoLink.includes("youtu.be")) {
+      const links = videoLink.split("/");
+      const videoId = links[links.length - 1].split('?')[0];
+      embedUrl = `http://www.youtube.com/embed/${videoId}`;
+    }
+    // 유튜브 "youtube.com/watch" 형식
+    else if (videoLink.includes("youtube.com/watch")) {
+      const params = new URLSearchParams(new URL(videoLink).search);
+      const videoId = params.get("v");
+      embedUrl = `http://www.youtube.com/embed/${videoId}`;
+    }
+    // 네이버 TV 형식
+    else if (videoLink.includes("tv.naver.com/v/")) {
+      const videoId = videoLink.split("/v/")[1];
+      embedUrl = `https://tv.naver.com/embed/${videoId}`;
+    }
+  
+    return embedUrl; // 유효하지 않은 링크일 경우 null 반환
+  };
+
 
   return (
     <div>
@@ -74,21 +88,21 @@ function PostDetail() {
       <p>{post.content}</p>
       <hr />
       <h2>동영상 링크</h2>
-      <p><a href={post.videoLink} target="_blank" rel="noopener noreferrer">여기</a></p>
+      <p><iframe width="420" height="315" src={createEmbedUrl(post.videoLink)} /></p>
       <hr />
       <h2>스탭</h2>
       {post.steps.map((step, index) => (
         <div key={index}>
           <h3>스탭 {index + 1}</h3>
-          <p>{step.content}</p>
-          {step.imagePath && <img src={step.imagePath} alt={`스탭 ${index + 1} 이미지`} style={{ width: '100%', height: 'auto' }} />}
+          <p>{step.stepContent}</p>
+          {step.imgUrl && <img src={step.imgUrl.replace(/\\/g, "/")} alt={`스탭 ${step.step} 이미지`} style={{ width: '100%', height: 'auto' }} />}
         </div>
       ))}
       <hr />
       <button onClick={handleRecommend}>
-        추천하기 {post.recommendCount}
+        추천 {post.recommendCount}
       </button>
-      {isAuthor && (
+      {isAuthor && (  // 작성자인 경우에만 수정 및 삭제 버튼을 렌더링
         <div>
           <button onClick={handleEdit}>수정</button>
           <button onClick={handleDelete}>삭제</button>

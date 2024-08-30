@@ -1,27 +1,52 @@
 import React, { useState, useEffect } from 'react';
+import Logout from './Logout'; // 로그아웃 컴포넌트를 사용한다고 가정
+import Kakaobtn from './KakaoBtn'; // 로그인 버튼 컴포넌트를 사용한다고 가정
 
 function ProfileUpdateForm() {
+  // 로그인 상태를 관리하는 state
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    // 컴포넌트 마운트 시 로그인 상태를 확인
+    const jwt = sessionStorage.getItem('jwt');
+    if (jwt) {
+      setIsLoggedIn(true); // JWT 토큰이 있으면 로그인 상태로 설정
+    } else {
+      setIsLoggedIn(false); // JWT 토큰이 없으면 로그아웃 상태로 설정
+    }
+
+    // 기존 프로필 정보를 가져오는 로직
+    const fetchProfile = async () => {
+      if (jwt) { // JWT가 있는 경우에만 프로필 정보를 가져옴
+        const response = await fetch('http://localhost:8080/user/profile', {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        });
+        const data = await response.json();
+        setNickname(data.nickname); // 닉네임 설정
+        setProfileImageUrl(data.profileImageUrl); // 기존 프로필 이미지 URL 설정
+      }
+    };
+
+    fetchProfile(); // 프로필 정보를 가져옴
+  }, []);
+
   // 상태 변수 설정: 닉네임, 프로필 이미지 파일, 프로필 이미지 URL (미리보기용 및 기존 이미지)
   const [nickname, setNickname] = useState('');
   const [profileImage, setProfileImage] = useState(null);
   const [profileImageUrl, setProfileImageUrl] = useState('');
 
-  useEffect(() => {
-    // 기존 프로필 정보를 가져오는 로직 (예: 서버에서 프로필 정보 가져오기)
-    const fetchProfile = async () => {
-      const jwt = sessionStorage.getItem('jwt'); // 세션에서 JWT 토큰을 가져옴
-      const response = await fetch('http://localhost:8080/user/profile', {
-        headers: {
-          Authorization: `Bearer ${jwt}`,
-        },
-      });
-      const data = await response.json();
-      setNickname(data.nickname); // 닉네임 설정
-      setProfileImageUrl(data.profileImageUrl); // 기존 프로필 이미지 URL 설정
-    };
+  // 로그인 핸들러 함수
+  const handleLogin = () => {
+    setIsLoggedIn(true); // 로그인 상태를 true로 변경
+  };
 
-    fetchProfile(); // 컴포넌트 마운트 시 프로필 정보를 가져옴
-  }, []);
+  // 로그아웃 핸들러 함수
+  const handleLogout = () => {
+    setIsLoggedIn(false); // 로그인 상태를 false로 변경
+    sessionStorage.removeItem('jwt'); // JWT 토큰을 세션에서 제거
+  };
 
   // 이미지 파일 선택 시 호출되는 함수
   const handleImageChange = (e) => {
@@ -67,6 +92,12 @@ function ProfileUpdateForm() {
   return (
     <div>
       <h1>프로필 업데이트</h1>
+      {/* 로그인 상태에 따라 로그아웃 버튼 또는 로그인 버튼을 렌더링 */}
+      {isLoggedIn ? (
+        <Logout onLogout={handleLogout} />
+      ) : (
+        <Kakaobtn onLogin={handleLogin} />
+      )}
       <form onSubmit={handleSubmit}>
         <div>
           <label>닉네임:</label>

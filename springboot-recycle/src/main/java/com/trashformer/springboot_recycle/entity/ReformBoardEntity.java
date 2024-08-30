@@ -28,6 +28,7 @@ public class ReformBoardEntity {
     private String content;
     private String imagePath;
     private Long viewCount;
+    private String videoLink;
 
 
     @CreationTimestamp
