@@ -1,8 +1,9 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import m from '../styles/KaKaoMapMenu.module.css';
 
-const ReMapMenu = React.memo(({ setSearchQuery, locations, searchQuery, onLocationClick, activeTab, setSearchHistory, searchHistory }) => {
+const ReMapMenu = React.memo(({ locations, onLocationClick, searchHistory, setSearchHistory, activeTab, setActiveTab }) => {
   const [isOpen, setIsOpen] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const toggleMenu = useCallback(() => {
     setIsOpen(!isOpen);
@@ -10,7 +11,7 @@ const ReMapMenu = React.memo(({ setSearchQuery, locations, searchQuery, onLocati
 
   const handleSearchChange = useCallback((event) => {
     setSearchQuery(event.target.value);
-  }, [setSearchQuery]);
+  }, []);
 
   const handleKeyPress = useCallback((event) => {
     if (event.key === 'Enter') {
@@ -21,7 +22,7 @@ const ReMapMenu = React.memo(({ setSearchQuery, locations, searchQuery, onLocati
         setSearchQuery('');
       }
     }
-  }, [searchQuery, searchHistory, setSearchQuery, setSearchHistory]);
+  }, [searchQuery, searchHistory, setSearchHistory]);
 
   const handleSearchClick = useCallback((index) => {
     const newHistory = searchHistory.filter((_, idx) => idx !== index);
@@ -31,14 +32,18 @@ const ReMapMenu = React.memo(({ setSearchQuery, locations, searchQuery, onLocati
   const filteredLocations = useMemo(() => {
     return locations?.filter(loc => 
       loc.type === activeTab && 
-      loc.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      loc.address.toLowerCase().includes(searchQuery.toLowerCase())
+      (loc.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      loc.address.toLowerCase().includes(searchQuery.toLowerCase()))
     );
   }, [locations, searchQuery, activeTab]);
-  
+
   const clearSearch = useCallback(() => {
-    setSearchQuery('');  // 검색어를 초기화
-  }, [setSearchQuery]);
+    setSearchHistory([]);
+  }, [setSearchHistory]);
+
+  const handleLocationClick = useCallback((loc) => {
+    onLocationClick(loc);
+  }, [onLocationClick, setSearchHistory]);
 
   return (
     <div>
@@ -57,7 +62,7 @@ const ReMapMenu = React.memo(({ setSearchQuery, locations, searchQuery, onLocati
         </div>
         <div className={`${m.KakaoMapList} ${isOpen ? m.open : ''}`}>
           {filteredLocations.map((loc, locIdx) => (
-            <div key={locIdx} className={m.locationItem} onClick={() => onLocationClick(loc)}>
+            <div key={locIdx} className={m.locationItem} onClick={() => handleLocationClick(loc)}>
               <h4>{loc.name}</h4>
               <p>{loc.address}</p>
               <p>{loc.tel}</p>
@@ -65,7 +70,6 @@ const ReMapMenu = React.memo(({ setSearchQuery, locations, searchQuery, onLocati
             </div>
           ))}
         </div>
-        
       </div>
       <button className={`${m.toggleButton} ${isOpen ? m.open : ''}`} onClick={toggleMenu}>
         {isOpen ? '<' : '>'}

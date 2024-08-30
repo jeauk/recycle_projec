@@ -4,7 +4,6 @@ import ReMapMenu from "./ReMapMenu";
 
 const ReMapMarker = () => {
   const [locations, setLocations] = useState([]);
-  const [searchQuery, setSearchQuery] = useState("");
   const [searchHistory, setSearchHistory] = useState([]);
   const [center, setCenter] = useState({ lat: 33.450701, lng: 126.570667 });
   const [activeTab, setActiveTab] = useState("gwill");
@@ -33,24 +32,33 @@ const ReMapMarker = () => {
   }, []);
 
   const filteredLocations = useMemo(() => {
+    if (searchHistory.length === 0) {
+      return locations.filter(loc => loc.type === activeTab);
+    }
     return locations.filter(loc =>
       loc.type === activeTab &&
-      (loc.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      loc.address.toLowerCase().includes(searchQuery.toLowerCase()))
+      searchHistory.every(query =>
+        loc.name.toLowerCase().includes(query.toLowerCase()) ||
+        loc.address.toLowerCase().includes(query.toLowerCase())
+      )
     );
-  }, [locations, searchQuery, activeTab]);
+  }, [locations, activeTab, searchHistory]);
 
   const handleMarkerClick = useCallback((loc) => {
     setCenter({ lat: loc.latitude, lng: loc.longitude });
+    setSearchHistory(prev => {
+      const newHistory = [...prev, loc.name].slice(-5);
+      return newHistory;
+    });
   }, []);
 
-  const getMarkerImage = (type) => {
+  const getMarkerImage = useCallback((type) => {
     if (type === "gwill") {
       return "/img/gw-marker.png";
     } else if (type === "bmarket") {
       return "/img/bg-marker.png";
     }
-  };
+  }, []);
 
   return (
     <div>
@@ -58,14 +66,13 @@ const ReMapMarker = () => {
         <button onClick={() => setActiveTab("gwill")}>굿윌스토어</button>
         <button onClick={() => setActiveTab("bmarket")}>아름다운가게</button>
       </div>
-      <ReMapMenu
-        setSearchQuery={setSearchQuery}
-        searchQuery={searchQuery}
-        locations={filteredLocations}
+      <ReMapMenu 
+        searchHistory={searchHistory} 
+        setSearchHistory={setSearchHistory} 
+        locations={filteredLocations} 
         onLocationClick={handleMarkerClick}
-        activeTab={activeTab}
-        setSearchHistory={setSearchHistory}
-        searchHistory={searchHistory}
+        activeTab={activeTab} // Pass activeTab to ReMapMenu
+        setActiveTab={setActiveTab} // Pass setActiveTab to ReMapMenu
       />
       <Map center={center} style={{ width: '800px', height: '600px' }} level={3}>
         {filteredLocations.map((loc, idx) => (
