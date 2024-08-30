@@ -12,6 +12,8 @@
     padding: 0;
     display: flex; /* 수평 정렬 */
     justify-content: center; /* 중앙 정렬 */
+    align-items: center;
+    max-width: 100%;
 }
 
 /* 네비게이션 항목 */
