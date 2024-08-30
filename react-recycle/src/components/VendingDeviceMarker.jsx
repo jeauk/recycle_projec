@@ -3,7 +3,6 @@ import { Map, MapMarker } from "react-kakao-maps-sdk";
 import VendingDeviceMenu from "./VendingDeviceMenu";
 const VendingDeviceMarker = () => {
 	const [locations, setLocations] = useState([]);
-	const [searchQuery, setSearchQuery] = useState("");
 	const [searchHistory, setSearchHistory] = useState([]);
 	const [center, setCenter] = useState({lat: 33.450701, lng: 126.570667});
 	useEffect(() => {
@@ -40,6 +39,10 @@ const VendingDeviceMarker = () => {
 
 	const handleMarkerClick = useCallback((loc) => {
 		setCenter({ lat: loc.latitude, lng: loc.longitude});
+		setSearchHistory(prev => {
+			const newHistory = [...prev, loc.name].slice(-5);
+			return newHistory;
+		})
 	},[]);
 
 	const getMarkerImage = useCallback((inputWastes) => {
@@ -59,7 +62,7 @@ const VendingDeviceMarker = () => {
 	}, []);
 	return (
 		<div>
-			<VendingDeviceMenu setSearchQuery={setSearchQuery} searchQuery={searchQuery} searchHistory={searchHistory} setSearchHistory={setSearchHistory} locations={filteredLocations} onLocationClick={handleMarkerClick}/>
+			<VendingDeviceMenu searchHistory={searchHistory} setSearchHistory={setSearchHistory} locations={filteredLocations} onLocationClick={handleMarkerClick}/>
 			<Map center={center} style={{ width: '800px', height: '600px' }} level={3}>
 				{filteredLocations.map((loc, idx) => (
 					<MapMarker

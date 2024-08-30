@@ -1,17 +1,19 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import m from '../styles/VendingDeviceMenu.module.css';
 
-const VendingDeviceMenu = React.memo(({ setSearchQuery, locations, searchQuery, onLocationClick, setSearchHistory, searchHistory }) => {  // setSearchQuery를 props로 받아옵니다
+const VendingDeviceMenu = React.memo(({  locations, onLocationClick, searchHistory, setSearchHistory }) => {
   const [isOpen, setIsOpen] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
   const toggleMenu = useCallback(()=>{
     setIsOpen(!isOpen);
   }, [isOpen]);
+  
 
 
 
   const handleSearchChange = useCallback((event) => {
     setSearchQuery(event.target.value);
-  },[setSearchQuery]);
+  },[]);
 
   const handleKeyPress = useCallback((event) => {
     if (event.key === 'Enter') {
@@ -22,7 +24,7 @@ const VendingDeviceMenu = React.memo(({ setSearchQuery, locations, searchQuery, 
         setSearchQuery('');
       }
     }
-  }, [searchQuery, searchHistory, setSearchQuery, setSearchHistory]);
+  }, [searchQuery, searchHistory, setSearchHistory]);
 
   const handleSearchClick = useCallback((index) => {
     const newHistory = searchHistory.filter((_, idx) => idx !== index); setSearchHistory(newHistory);
@@ -34,7 +36,11 @@ const VendingDeviceMenu = React.memo(({ setSearchQuery, locations, searchQuery, 
   
   const clearSearch = useCallback(() => {
     setSearchHistory([]);
-  }, []);
+  }, [setSearchHistory]);
+  
+  const handleLocationClick = useCallback((loc) => {
+    onLocationClick(loc);
+  }, [onLocationClick, setSearchHistory])
 
   return (
     <div>
@@ -54,7 +60,7 @@ const VendingDeviceMenu = React.memo(({ setSearchQuery, locations, searchQuery, 
         <div className={`${m.KakaoMapList} ${isOpen ? m.open : ''}`}>
           {locations.map((loc, locIdx) => (
             loc.vendingDevices.map((device, deviceIdx) => (
-              <div key={`${locIdx}-${deviceIdx}`} className={m.locationItem} onClick={() => onLocationClick(loc)}>
+              <div key={`${locIdx}-${deviceIdx}`} className={m.locationItem} onClick={() => handleLocationClick(loc)}>
                 <h4>{loc.vendingDevices.length === 1 ? loc.name : `${loc.name} ${deviceIdx + 1}`}</h4>
                 <p>{loc.address}</p>
                 <p>{device.recycleType}</p>
