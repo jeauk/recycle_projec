@@ -4,7 +4,8 @@ import VendingDeviceMenu from "./VendingDeviceMenu";
 const VendingDeviceMarker = () => {
 	const [locations, setLocations] = useState([]);
 	const [searchHistory, setSearchHistory] = useState([]);
-	const [center, setCenter] = useState({ lat: 33.450701, lng: 126.570667 });
+	const [center, setCenter] = useState({ lat: 36.483509090944544, lng: 127.71692262315658});
+	const [level, setLevel] = useState(12);
 	useEffect(() => {
 		const fetchLocations = async () => {
 
@@ -19,6 +20,18 @@ const VendingDeviceMarker = () => {
 			}
 		};
 		fetchLocations();
+
+		navigator.geolocation.getCurrentPosition(
+			(position) => {
+				setCenter({
+					lat: position.coords.latitude,
+					lng: position.coords.longitude,
+				})
+				setLevel(5);
+			}, (error) => {
+				console.error("사용자의 위치를 가져오는데 실패했습니다.",error);
+			}
+		);
 	}, []);
 
 	const filteredLocations = useMemo(() => {
@@ -40,9 +53,12 @@ const VendingDeviceMarker = () => {
 	const handleMarkerClick = useCallback((loc) => {
 		setCenter({ lat: loc.latitude, lng: loc.longitude });
 		setSearchHistory(prev => {
-			const newHistory = [...prev, loc.name].slice(-5);
-			return newHistory;
-		})
+			const newHistory = [...prev];
+			if(!newHistory.includes(loc.name)){
+				newHistory.push(loc.name);
+			}
+			return newHistory.slice(-5);
+		});
 	}, [setSearchHistory]);
 
 	const getMarkerImage = useCallback((inputWastes) => {
@@ -88,7 +104,7 @@ const VendingDeviceMarker = () => {
 	return (
 		<div>
 			<VendingDeviceMenu searchHistory={searchHistory} setSearchHistory={setSearchHistory} locations={filteredLocations} onLocationClick={handleMarkerClick} />
-			<Map center={center} style={{ width: '800px', height: '600px' }} level={3}>
+			<Map center={center} style={{ width: '800px', height: '600px' }} level={level}>
 				{filteredLocations.map((loc, idx) => (
 					<EventMarkerContainer
 						key={idx}
