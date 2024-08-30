@@ -76,7 +76,7 @@ function PostDetail() {
 
   return (
     <div>
-      <img src={post.imagePath} alt="완성 사진" style={{ width: '100%', height: 'auto' }} />
+      <img src={post.imagePath.replace(/\\/g, "/")} alt="완성 사진" style={{ width: '100%', height: 'auto' }} />
       <h1>{post.title}</h1>
       <p>
         작성자: {post.kakaoUserEntity.nickname} &nbsp;&nbsp;&nbsp; 

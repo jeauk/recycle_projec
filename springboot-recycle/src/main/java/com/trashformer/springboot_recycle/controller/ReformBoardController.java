@@ -12,7 +12,6 @@ import com.trashformer.springboot_recycle.repository.StepFormRepository;
 import com.trashformer.springboot_recycle.service.JwtService;
 import com.trashformer.springboot_recycle.util.JwtUtil;
 
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,12 +23,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 @CrossOrigin
@@ -54,10 +48,10 @@ public class ReformBoardController {
     private StepFormRepository stepFormRepository;
 
     // Base URL for accessing images
-    private final String BASE_URL = "https://localhost:8080/image/";
+    private final String BASE_URL = "http://localhost:8080/image/";
 
     // 이미지 파일이 저장될 기본 디렉토리 경로
-    private final String UPLOAD_DIR = "src/main/resources/static/uploads/";
+    private final String UPLOAD_DIR = "src/main/resources/static/uploads/reformBoard/";
 
     @PostMapping("/api/posts")
     public ResponseEntity<Map<String, Object>> post(

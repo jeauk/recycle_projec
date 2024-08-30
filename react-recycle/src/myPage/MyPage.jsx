@@ -6,6 +6,11 @@ function ProfileUpdateForm() {
   // 로그인 상태를 관리하는 state
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  // 상태 변수 설정: 닉네임, 프로필 이미지 파일, 프로필 이미지 URL (미리보기용 및 기존 이미지)
+  const [nickname, setNickname] = useState('');
+  const [profileImage, setProfileImage] = useState(null);
+  const [profileImageUrl, setProfileImageUrl] = useState('');
+
   useEffect(() => {
     // 컴포넌트 마운트 시 로그인 상태를 확인
     const jwt = sessionStorage.getItem('jwt');
@@ -31,11 +36,6 @@ function ProfileUpdateForm() {
 
     fetchProfile(); // 프로필 정보를 가져옴
   }, []);
-
-  // 상태 변수 설정: 닉네임, 프로필 이미지 파일, 프로필 이미지 URL (미리보기용 및 기존 이미지)
-  const [nickname, setNickname] = useState('');
-  const [profileImage, setProfileImage] = useState(null);
-  const [profileImageUrl, setProfileImageUrl] = useState('');
 
   // 로그인 핸들러 함수
   const handleLogin = () => {
@@ -87,6 +87,7 @@ function ProfileUpdateForm() {
 
     // 업데이트 후 알림 표시 또는 리다이렉트 처리
     alert('프로필이 성공적으로 업데이트되었습니다!');
+    window.location.reload(); // 페이지 새로고침 또는 다른 페이지로 리다이렉트
   };
 
   return (
