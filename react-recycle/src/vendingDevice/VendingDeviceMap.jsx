@@ -86,7 +86,7 @@ const VendingDeviceMap = () => {
 			<VendingDeviceMenu searchHistory={searchHistory} setSearchHistory={setSearchHistory} locations={filteredLocations} onLocationClick={handleMarkerClick} />
 			<Map center={center} style={{ width: '800px', height: '600px' }} level={level}>
 				{filteredLocations.map((loc, idx) => (
-					<EventMarkerContainer
+					<VendingDeviceMarker
 						key={idx}
 						position={{ lat: loc.latitude, lng: loc.longitude }}
 						content={loc}

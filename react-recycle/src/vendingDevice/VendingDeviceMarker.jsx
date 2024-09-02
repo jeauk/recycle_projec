@@ -1,4 +1,7 @@
-const VendingDeviceMarker = ({ position, content }) => {
+import { useState } from "react";
+import { MapMarker } from "react-kakao-maps-sdk";
+
+const VendingDeviceMarker = ({ position, content, handleMarkerClick, getMarkerImage }) => {
     const [isVisible, setIsVisible] = useState(false);
     return (
         <MapMarker position={position}

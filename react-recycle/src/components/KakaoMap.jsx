@@ -1,4 +1,4 @@
-import VendingDeviceMap from "./VendingDevice/VendingDeviceMap";
+import VendingDeviceMap from "../vendingDevice/VendingDeviceMap";
 
 
 const KakaoMap = () => {
