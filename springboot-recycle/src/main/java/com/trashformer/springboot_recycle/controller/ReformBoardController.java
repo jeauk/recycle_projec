@@ -1,6 +1,8 @@
 package com.trashformer.springboot_recycle.controller;
 
+import com.trashformer.springboot_recycle.dto.EditDto;
 import com.trashformer.springboot_recycle.dto.PostRequest;
+import com.trashformer.springboot_recycle.dto.StepDto;
 import com.trashformer.springboot_recycle.entity.FileStorageEntity;
 import com.trashformer.springboot_recycle.entity.KakaoUserEntity;
 import com.trashformer.springboot_recycle.entity.ReformBoardEntity;
@@ -201,6 +203,10 @@ public class ReformBoardController {
         if (post.isEmpty()) {
             return ResponseEntity.status(404).body(Map.of("message", "게시물을 찾을 수 없습니다."));
         }
+        
+        ReformBoardEntity viewPost = post.get();
+        viewPost.setViewCount(viewPost.getViewCount() + 1);  // viewCount 증가
+        reformBoardRepository.save(viewPost);  // 변경된 내용 저장
 
         // 이메일로 사용자가 작성한 게시물들 조회
         List<ReformBoardEntity> userPosts = reformBoardRepository.findAllByKakaoUserEntityEmail(email);
@@ -215,4 +221,122 @@ public class ReformBoardController {
 
         return ResponseEntity.ok(response);
     }
+
+    @DeleteMapping("/delete/posts/{id}")
+    public ResponseEntity<Map<String, String>> deletePost(
+    @RequestHeader("Authorization") String jwtToken,
+    @PathVariable Long id) {
+
+    // JWT에서 이메일 추출
+    String email = jwtService.extractEmailFromJwt(jwtToken);
+    if (email == null) {
+        return ResponseEntity.status(400).body(Map.of("message", "유효하지 않은 JWT 토큰입니다."));
+    }
+
+    // 게시물 조회
+    Optional<ReformBoardEntity> postOpt = reformBoardRepository.findById(id);
+    if (postOpt.isEmpty()) {
+        return ResponseEntity.status(404).body(Map.of("message", "게시물을 찾을 수 없습니다."));
+    }
+
+    ReformBoardEntity post = postOpt.get();
+
+    // 작성자인지 확인
+    if (!post.getKakaoUserEntity().getEmail().equals(email)) {
+        return ResponseEntity.status(403).body(Map.of("message", "삭제 권한이 없습니다."));
+    }
+
+    // 연관된 StepFormEntity 삭제
+    stepFormRepository.deleteAll(post.getSteps());
+
+    // 게시물 삭제
+    reformBoardRepository.delete(post);
+
+    return ResponseEntity.ok(Map.of("message", "게시물이 성공적으로 삭제되었습니다."));
+}
+
+    @GetMapping("/edit/posts/{id}")
+    public ResponseEntity<Map<String, Object>> getPostForEditById(  // 메소드 이름 변경
+        @RequestHeader("Authorization") String jwtToken,
+        @PathVariable Long id) {
+
+        // JWT에서 이메일 추출
+        String email = jwtService.extractEmailFromJwt(jwtToken);
+
+        // 현재 게시물 ID로 게시물 조회
+        Optional<ReformBoardEntity> post = reformBoardRepository.findById(id);
+        if (post.isEmpty()) {
+            return ResponseEntity.status(404).body(Map.of("message", "게시물을 찾을 수 없습니다."));
+        }
+        // 게시물 반환
+        return ResponseEntity.ok(Map.of("post", post.get()));
+}
+
+@PostMapping("/edit/posts/{id}")
+public ResponseEntity<String> editPost(
+    @ModelAttribute EditDto editDto,
+    @RequestHeader("Authorization") String jwtToken,
+    @PathVariable Long id) {
+
+    // JWT에서 이메일 추출
+    String email = jwtService.extractEmailFromJwt(jwtToken);
+    if (email == null) {
+        return ResponseEntity.badRequest().body("유효하지 않은 JWT 토큰입니다.");
+    }
+
+    // 이메일과 게시물 ID로 게시물 조회
+    Optional<ReformBoardEntity> postOpt = reformBoardRepository.findByKakaoUserEntityEmailAndId(email, id);
+    if (postOpt.isEmpty()) {
+        return ResponseEntity.status(404).body("게시물을 찾을 수 없습니다.");
+    }
+    ReformBoardEntity post = postOpt.get();
+
+    // 제목과 내용 업데이트
+    post.setTitle(editDto.getTitle());
+    post.setContent(editDto.getContent());
+
+    // 메인 이미지 업데이트
+    MultipartFile imageFile = editDto.getImageFile();
+    if (imageFile != null && !imageFile.isEmpty()) {
+        String imagePath = saveFile(imageFile);  // 이미지 저장 메서드 호출
+        if (imagePath != null) {
+            post.setImagePath(imagePath);  // 경로를 DB에 저장
+        } else {
+            return ResponseEntity.status(500).body("이미지 저장 중 오류가 발생했습니다.");
+        }
+    }
+
+    // 스텝 내용과 이미지 업데이트
+    List<StepDto> steps = editDto.getSteps();
+    if (steps != null) {
+        for (int i = 0; i < steps.size(); i++) {
+            StepFormEntity stepForm = post.getSteps().get(i);
+            stepForm.setStepContent(steps.get(i).getStepContent());
+
+            MultipartFile stepImageFile = steps.get(i).getStepImage();
+            if (stepImageFile != null && !stepImageFile.isEmpty()) {
+                String stepImagePath = saveFile(stepImageFile);  // 스텝 이미지 저장 메서드 호출
+                if (stepImagePath != null) {
+                    stepForm.setImgUrl(stepImagePath);  // 경로를 DB에 저장
+                } else {
+                    return ResponseEntity.status(500).body("스텝 이미지 저장 중 오류가 발생했습니다.");
+                }
+            }
+
+            // 스텝 저장
+            stepFormRepository.save(stepForm);
+        }
+    }
+
+    // 게시물 저장
+    post.setUpdateChange(true);
+    reformBoardRepository.save(post);
+    
+
+    return ResponseEntity.ok("게시물이 성공적으로 수정되었습니다.");
+}
+
+
+
+
 }

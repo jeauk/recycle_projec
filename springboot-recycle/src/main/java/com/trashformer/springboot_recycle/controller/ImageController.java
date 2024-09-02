@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.File;
 import java.net.MalformedURLException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -43,19 +44,26 @@ public class ImageController {
                 .body(resource);
     }
 
-    @GetMapping("/image/profiles/{filename}")
-    public ResponseEntity<Resource> showProfileImage(@PathVariable String filename) throws MalformedURLException {
-        File file = new File(PROFILE_DIR + filename);
+    @GetMapping("/image/profiles/{email}/{filename}")
+public ResponseEntity<Resource> showProfileImage(
+        @PathVariable String email,
+        @PathVariable String filename) throws MalformedURLException {
 
-        if (!file.exists()) {
-            return ResponseEntity.notFound().build();
-        }
+    // 이메일 폴더 경로와 파일명을 결합하여 파일 경로 생성
+    File file = new File(PROFILE_DIR + email + "/" + filename);
 
-        Resource resource = new UrlResource("file:" + file.getAbsolutePath());
-
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + filename + "\"")
-                .header(HttpHeaders.CONTENT_TYPE, "image/jpeg")
-                .body(resource);
+    if (!file.exists()) {
+        return ResponseEntity.notFound().build();
     }
+
+    Resource resource = new UrlResource("file:" + file.getAbsolutePath());
+
+    // 파일 확장자에서 MIME 타입 간단하게 설정
+    String contentType = "image/" + filename.substring(filename.lastIndexOf(".") + 1);
+
+    return ResponseEntity.ok()
+            .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + filename + "\"")
+            .header(HttpHeaders.CONTENT_TYPE, contentType)
+            .body(resource);
+}
 }

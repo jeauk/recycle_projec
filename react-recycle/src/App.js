@@ -44,7 +44,7 @@ function App() {
               <Route path="/list" element={<PostList />} />
               <Route path="/post" element={<PostForm />} />
               <Route path="/post/:id" element={<PostDetail />} />
-              <Route path="/post/edit/:id" element={<PostEdit />} />
+              <Route path="/edit/:id" element={<PostEdit />} />
               <Route path="/mypage" element={<Mypage />} />
               <Route
                 path="/login/oauth2/callback/kakao"

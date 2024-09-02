@@ -36,16 +36,51 @@ function PostDetail() {
 
   const handleEdit = () => {
     navigate(`/edit/${id}`);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const handleDelete = () => {
-    // 삭제 로직 구현
-    navigate('/');
+  const handleDelete = async () => {
+    const jwt = sessionStorage.getItem('jwt');
+    const url = `http://localhost:8080/delete/posts/${id}`
+    const response = await fetch(url, {
+      method: 'DELETE',
+      headers: {'Authorization': `Bearer ${jwt}`}
+    });
+    console.log('삭제됨');
+    navigate(`/`);
   };
 
-  const handleRecommend = () => {
-    alert('추천이 반영되었습니다!');
+  const handleRecommend = async () => {
+    const jwt = sessionStorage.getItem('jwt');
+  
+    // 로그인 여부 확인
+    if (!jwt) {
+      alert("로그인해야 추천할 수 있습니다.");
+      return;
+    }
+  
+    const url = `http://localhost:8080/api/posts/recommend/${id}`;
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${jwt}`
+      },
+      body: JSON.stringify({})  // 빈 객체를 보냅니다.
+    });
+  
+    if (response.ok) {
+      const result = await response.json();
+      alert(result.message);
+      setPost(prevPost => ({
+        ...prevPost,
+        recommendCount: result.recommendCount,
+      }));
+    } else {
+      alert('추천 처리에 실패했습니다.');
+    }
   };
+  
 
   if (!post) return <div>로딩 중...</div>;
 
