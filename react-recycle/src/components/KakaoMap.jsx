@@ -1,10 +1,10 @@
-import VendingDeviceMarker from "./VendingDeviceMarker";
+import VendingDeviceMap from "./VendingDevice/VendingDeviceMap";
 
 
 const KakaoMap = () => {
     return (
         <div>
-            <VendingDeviceMarker />
+            <VendingDeviceMap />
         </div>
     );
 };

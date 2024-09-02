@@ -1,11 +1,13 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Map, MapMarker, useMap } from "react-kakao-maps-sdk";
+import { Map,  } from "react-kakao-maps-sdk";
 import VendingDeviceMenu from "./VendingDeviceMenu";
-const VendingDeviceMarker = () => {
+import VendingDeviceMarker from "./VendingDeviceMarker";
+const VendingDeviceMap = () => {
 	const [locations, setLocations] = useState([]);
 	const [searchHistory, setSearchHistory] = useState([]);
 	const [center, setCenter] = useState({ lat: 36.483509090944544, lng: 127.71692262315658});
 	const [level, setLevel] = useState(12);
+	
 	useEffect(() => {
 		const fetchLocations = async () => {
 
@@ -77,28 +79,7 @@ const VendingDeviceMarker = () => {
 		}
 	}, []);
 
-	const EventMarkerContainer = ({ position, content }) => {
-		const [isVisible, setIsVisible] = useState(false);
-		return (
-			<MapMarker position={position}
-				onClick={() => handleMarkerClick(content)}
-				onMouseOver={() => setIsVisible(true)}
-				onMouseOut={() => setIsVisible(false)}
-				image={{
-					src: getMarkerImage(content.inputWastes),
-					size: { width: 44, height: 55 },
-				}}
-				title={content.name}
-			>
-				{isVisible && (
-					<div style={{ padding: "2px", color: "#000" }}>
-						<h4>{content.name}</h4>
-						<p>{content.address}</p>
-					</div>
-				)}
-			</MapMarker>
-		)
-	}
+
 
 	return (
 		<div>
@@ -109,6 +90,8 @@ const VendingDeviceMarker = () => {
 						key={idx}
 						position={{ lat: loc.latitude, lng: loc.longitude }}
 						content={loc}
+						handleMarkerClick={handleMarkerClick}
+						getMarkerImage={getMarkerImage}
 						/>
 				))}
 			</Map>
@@ -117,4 +100,4 @@ const VendingDeviceMarker = () => {
 };
 
 
-export default VendingDeviceMarker;
+export default VendingDeviceMap;

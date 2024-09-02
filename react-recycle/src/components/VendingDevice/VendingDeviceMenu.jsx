@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import m from '../styles/VendingDeviceMenu.module.css';
+import m from '../../styles/VendingDeviceMenu.module.css';
 
 const VendingDeviceMenu = React.memo(({  locations, onLocationClick, searchHistory, setSearchHistory }) => {
   const [isOpen, setIsOpen] = useState(true);
