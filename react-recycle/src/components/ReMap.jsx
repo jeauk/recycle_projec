@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Map, MapMarker } from "react-kakao-maps-sdk";
+import { Map} from "react-kakao-maps-sdk";
 import ReMapMenu from "./ReMapMenu";
+import ReMapMarker from "./ReMapMarker";
 
-const ReMapMarker = () => {
+const ReMap = () => {
 	const [locations, setLocations] = useState([]);
 	const [searchHistory, setSearchHistory] = useState([]);
 	const [center, setCenter] = useState(null);
@@ -86,21 +87,18 @@ const ReMapMarker = () => {
 				setSearchHistory={setSearchHistory}
 				locations={filteredLocations}
 				onLocationClick={handleMarkerClick}
-				activeTab={activeTab} // Pass activeTab to ReMapMenu
-				setActiveTab={setActiveTab} // Pass setActiveTab to ReMapMenu
+				activeTab={activeTab}
+				setActiveTab={setActiveTab}
 			/>
 			{center && (
 				<Map center={center} style={{ width: '800px', height: '600px' }} level={3}>
 					{filteredLocations.map((loc, idx) => (
-						<MapMarker
-							key={idx}
-							position={{ lat: loc.latitude, lng: loc.longitude }}
-							image={{
-								src: getMarkerImage(loc.type),
-								size: { width: 44, height: 55 },
-							}}
-							title={loc.name}
-							onClick={() => handleMarkerClick(loc)}
+						<EventMarkerContainer
+						key={idx}
+						position={{ lat: loc.latitude, lng: loc.longitude }}
+						content={loc}
+						handleMarkerClick={handleMarkerClick}
+						getMarkerImage={getMarkerImage}
 						/>
 					))}
 				</Map>
@@ -109,4 +107,4 @@ const ReMapMarker = () => {
 	);
 };
 
-export default ReMapMarker;
+export default ReMap;
