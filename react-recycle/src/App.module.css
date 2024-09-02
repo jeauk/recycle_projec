@@ -10,6 +10,9 @@
 .mainContent {
     flex: 1;
     /* Footer를 페이지 하단에 위치시키기 위해 이 공간을 차지 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .footer {

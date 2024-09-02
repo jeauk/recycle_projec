@@ -5,7 +5,7 @@ import ReMapMenu from "./ReMapMenu";
 const ReMapMarker = () => {
 	const [locations, setLocations] = useState([]);
 	const [searchHistory, setSearchHistory] = useState([]);
-	const [center, setCenter] = useState({ lat: 33.450701, lng: 126.570667 });
+	const [center, setCenter] = useState(null);
 	const [activeTab, setActiveTab] = useState("gwill");
 
 	useEffect(() => {
@@ -28,7 +28,7 @@ const ReMapMarker = () => {
 				console.error("Failed to fetch locations", error);
 			}
 		};
-		
+
 		const getUserLocation = () => {
 			if (navigator.geolocation) {
 				navigator.geolocation.getCurrentPosition(
@@ -37,14 +37,14 @@ const ReMapMarker = () => {
 							lat: position.coords.latitude,
 							lng: position.coords.longitude,
 						});
-					}
+					},
 				);
-			}};
+			}
+		};
 
 		fetchLocations();
 		getUserLocation();
 	}, []);
-
 
 	const filteredLocations = useMemo(() => {
 		if (searchHistory.length === 0) {
@@ -81,21 +81,30 @@ const ReMapMarker = () => {
 				<button onClick={() => setActiveTab("gwill")}>굿윌스토어</button>
 				<button onClick={() => setActiveTab("bmarket")}>아름다운가게</button>
 			</div>
-			<ReMapMenu searchHistory={searchHistory} setSearchHistory={setSearchHistory} locations={filteredLocations} onLocationClick={handleMarkerClick} activeTab={activeTab} setActiveTab={setActiveTab} />
-			<Map center={center} style={{ width: '800px', height: '600px' }} level={3}>
-				{filteredLocations.map((loc, idx) => (
-					<MapMarker
-						key={idx}
-						position={{ lat: loc.latitude, lng: loc.longitude }}
-						image={{
-							src: getMarkerImage(loc.type),
-							size: { width: 44, height: 55 },
-						}}
-						title={loc.name}
-						onClick={() => handleMarkerClick(loc)}
-					/>
-				))}
-			</Map>
+			<ReMapMenu
+				searchHistory={searchHistory}
+				setSearchHistory={setSearchHistory}
+				locations={filteredLocations}
+				onLocationClick={handleMarkerClick}
+				activeTab={activeTab} // Pass activeTab to ReMapMenu
+				setActiveTab={setActiveTab} // Pass setActiveTab to ReMapMenu
+			/>
+			{center && (
+				<Map center={center} style={{ width: '800px', height: '600px' }} level={3}>
+					{filteredLocations.map((loc, idx) => (
+						<MapMarker
+							key={idx}
+							position={{ lat: loc.latitude, lng: loc.longitude }}
+							image={{
+								src: getMarkerImage(loc.type),
+								size: { width: 44, height: 55 },
+							}}
+							title={loc.name}
+							onClick={() => handleMarkerClick(loc)}
+						/>
+					))}
+				</Map>
+			)}
 		</div>
 	);
 };
