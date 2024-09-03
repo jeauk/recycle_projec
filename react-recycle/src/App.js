@@ -13,6 +13,7 @@ import styles from './App.module.css';
 import LoginHandeler from './myPage/LoginHandeler';
 import Mypage from './myPage/MyPage';
 import Sido from './market/Sido';
+import "./App.css";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
