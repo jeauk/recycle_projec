@@ -6,6 +6,7 @@ function PostDetail() {
   const navigate = useNavigate();
   const [post, setPost] = useState(null);
   const [isAuthor, setIsAuthor] = useState(false);
+  const [recommendCount, setRecommendCount] = useState(0); // 추천수 상태 추가
 
   useEffect(() => {
     // 서버에서 게시물 데이터를 가져옴
@@ -26,6 +27,7 @@ function PostDetail() {
         const data = await response.json();
         setPost(data.post); // 게시물 데이터 설정
         setIsAuthor(data.isAuthor); // 작성자인지 여부 설정
+        setRecommendCount(data.post.recommendCount); // 추천수 설정
       } catch (error) {
         console.error('에러 발생:', error);
       }
@@ -70,12 +72,24 @@ function PostDetail() {
     });
   
     if (response.ok) {
-      const result = await response.json();
-      alert(result.message);
-      setPost(prevPost => ({
-        ...prevPost,
-        recommendCount: result.recommendCount,
-      }));
+      // 추천 상태가 변경되었음을 알림
+  
+      // 서버에서 최신 게시물 데이터를 다시 가져옴
+      const postResponse = await fetch(`http://localhost:8080/api/posts/${id}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${jwt}`, // JWT 토큰을 Authorization 헤더에 추가
+          'Content-Type': 'application/json'
+        }
+      });
+  
+      if (postResponse.ok) {
+        const updatedData = await postResponse.json();
+        setPost(updatedData.post); // 게시물 데이터 업데이트
+        setRecommendCount(updatedData.post.recommendCount); // 추천수 업데이트
+      } else {
+        alert('최신 게시물 정보를 가져오는 데 실패했습니다.');
+      }
     } else {
       alert('추천 처리에 실패했습니다.');
     }
@@ -86,7 +100,7 @@ function PostDetail() {
 
   const createEmbedUrl = (videoLink) => {
     let embedUrl = null;
-  
+
     // 유튜브 "youtu.be" 형식
     if (videoLink.includes("youtu.be")) {
       const links = videoLink.split("/");
@@ -104,14 +118,13 @@ function PostDetail() {
       const videoId = videoLink.split("/v/")[1];
       embedUrl = `https://tv.naver.com/embed/${videoId}`;
     }
-  
+
     return embedUrl; // 유효하지 않은 링크일 경우 null 반환
   };
 
-
   return (
     <div>
-      <img src={post.imagePath.replace(/\\/g, "/")} alt="완성 사진" style={{ width: '100%', height: 'auto' }} />
+      <img src={post.imagePath ? post.imagePath.replace(/\\/g, "/") : ''} alt="완성 사진" style={{ width: '100%', height: 'auto' }} />
       <h1>{post.title}</h1>
       <p>
         작성자: {post.kakaoUserEntity.nickname} &nbsp;&nbsp;&nbsp; 
@@ -135,7 +148,7 @@ function PostDetail() {
       ))}
       <hr />
       <button onClick={handleRecommend}>
-        추천 {post.recommendCount}
+        추천 {recommendCount}
       </button>
       {isAuthor && (  // 작성자인 경우에만 수정 및 삭제 버튼을 렌더링
         <div>

@@ -9,5 +9,6 @@ import com.trashformer.springboot_recycle.entity.ReformBoardEntity;
 
 public interface ReformBoardRepository extends JpaRepository <ReformBoardEntity,Long>{
     List<ReformBoardEntity> findAllByKakaoUserEntityEmail(String email);
+
     Optional<ReformBoardEntity> findByKakaoUserEntityEmailAndId(String email, Long id);
 }

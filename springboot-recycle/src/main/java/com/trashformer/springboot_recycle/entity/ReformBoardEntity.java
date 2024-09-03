@@ -29,6 +29,7 @@ public class ReformBoardEntity {
     private String content;
     private String imagePath;
     private Long viewCount = 0L;
+    private int recommendCount = 0;
     private String videoLink;
 
 
@@ -44,4 +45,8 @@ public class ReformBoardEntity {
     @OneToMany(mappedBy = "reformBoardEntity", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<StepFormEntity> steps;
     
+    
+    @OneToMany(mappedBy = "reformBoardEntity", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @JsonIgnore
+    private List<RecommendEntity> recommendations;
 }

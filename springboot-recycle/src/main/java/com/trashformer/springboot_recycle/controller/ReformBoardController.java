@@ -14,6 +14,8 @@ import com.trashformer.springboot_recycle.repository.StepFormRepository;
 import com.trashformer.springboot_recycle.service.JwtService;
 import com.trashformer.springboot_recycle.util.JwtUtil;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -54,6 +56,8 @@ public class ReformBoardController {
 
     // 이미지 파일이 저장될 기본 디렉토리 경로
     private final String UPLOAD_DIR = "src/main/resources/static/uploads/reformBoard/";
+
+    private final Set<String> viewedIps = Collections.synchronizedSet(new HashSet<>());
 
     @PostMapping("/api/posts")
     public ResponseEntity<Map<String, Object>> post(
@@ -190,34 +194,36 @@ public class ReformBoardController {
         return response;
     }
 
-    @GetMapping("/api/posts/{id}")
+   @GetMapping("/api/posts/{id}")
     public ResponseEntity<Map<String, Object>> getPostById(
-        @RequestHeader("Authorization") String jwtToken,    
-        @PathVariable Long id) {
-        
-        // JWT에서 이메일 추출
-        String email = jwtService.extractEmailFromJwt(jwtToken);
+            @RequestHeader("Authorization") String jwtToken,
+            @PathVariable Long id,
+            HttpServletRequest request) {
+
+        // 클라이언트의 IP 주소를 가져옵니다.
+        String clientIp = request.getRemoteAddr();
 
         // 현재 게시물 ID로 게시물 조회
-        Optional<ReformBoardEntity> post = reformBoardRepository.findById(id);
-        if (post.isEmpty()) {
+        Optional<ReformBoardEntity> postOpt = reformBoardRepository.findById(id);
+        if (postOpt.isEmpty()) {
             return ResponseEntity.status(404).body(Map.of("message", "게시물을 찾을 수 없습니다."));
         }
-        
-        ReformBoardEntity viewPost = post.get();
-        viewPost.setViewCount(viewPost.getViewCount() + 1);  // viewCount 증가
-        reformBoardRepository.save(viewPost);  // 변경된 내용 저장
 
-        // 이메일로 사용자가 작성한 게시물들 조회
-        List<ReformBoardEntity> userPosts = reformBoardRepository.findAllByKakaoUserEntityEmail(email);
+        ReformBoardEntity post = postOpt.get();
 
-        // 사용자가 작성한 게시물 중에 현재 게시물과 동일한 ID가 있는지 확인
-        boolean isAuthor = userPosts.stream().anyMatch(userPost -> userPost.getId().equals(id));
+        // IP 주소가 조회된 적이 없다면 조회수 증가
+        String uniqueViewKey = id + "_" + clientIp;
+        if (!viewedIps.contains(uniqueViewKey)) {
+            viewedIps.add(uniqueViewKey);
+            post.setViewCount(post.getViewCount() + 1);
+            reformBoardRepository.save(post);
+        }
 
-        // 결과에 isAuthor 추가
+        // 결과 반환
         Map<String, Object> response = new HashMap<>();
-        response.put("post", post.get());
-        response.put("isAuthor", isAuthor);
+        response.put("post", post);
+        // 여기서 isAuthor는 사용자의 이메일 등을 바탕으로 추가 로직을 작성해야 함
+        response.put("isAuthor", false); // 예시용으로 false로 설정
 
         return ResponseEntity.ok(response);
     }
@@ -298,6 +304,12 @@ public ResponseEntity<String> editPost(
     // 메인 이미지 업데이트
     MultipartFile imageFile = editDto.getImageFile();
     if (imageFile != null && !imageFile.isEmpty()) {
+        // 기존 이미지 삭제
+        if (post.getImagePath() != null) {
+            deleteFile(post.getImagePath());
+        }
+
+        // 새 이미지 저장
         String imagePath = saveFile(imageFile);  // 이미지 저장 메서드 호출
         if (imagePath != null) {
             post.setImagePath(imagePath);  // 경로를 DB에 저장
@@ -315,6 +327,12 @@ public ResponseEntity<String> editPost(
 
             MultipartFile stepImageFile = steps.get(i).getStepImage();
             if (stepImageFile != null && !stepImageFile.isEmpty()) {
+                // 기존 스텝 이미지 삭제
+                if (stepForm.getImgUrl() != null) {
+                    deleteFile(stepForm.getImgUrl());
+                }
+
+                // 새 스텝 이미지 저장
                 String stepImagePath = saveFile(stepImageFile);  // 스텝 이미지 저장 메서드 호출
                 if (stepImagePath != null) {
                     stepForm.setImgUrl(stepImagePath);  // 경로를 DB에 저장
@@ -331,12 +349,20 @@ public ResponseEntity<String> editPost(
     // 게시물 저장
     post.setUpdateChange(true);
     reformBoardRepository.save(post);
-    
 
     return ResponseEntity.ok("게시물이 성공적으로 수정되었습니다.");
 }
 
-
+private void deleteFile(String filePath) {
+    try {
+        File file = new File(filePath);
+        if (file.exists()) {
+            file.delete();
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
 
 
 }
