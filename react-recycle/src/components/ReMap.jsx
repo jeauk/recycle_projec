@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Map} from "react-kakao-maps-sdk";
+import { Map } from "react-kakao-maps-sdk";
 import ReMapMenu from "./ReMapMenu";
 import ReMapMarker from "./ReMapMarker";
 
@@ -68,7 +68,7 @@ const ReMap = () => {
 		});
 	}, []);
 
-	const getMarkerImage = useCallback((type) => {
+	const getMarkerImage2 = useCallback((type) => {
 		if (type === "gwill") {
 			return "/img/gw-marker.png";
 		} else if (type === "bmarket") {
@@ -93,12 +93,12 @@ const ReMap = () => {
 			{center && (
 				<Map center={center} style={{ width: '800px', height: '600px' }} level={3}>
 					{filteredLocations.map((loc, idx) => (
-						<EventMarkerContainer
-						key={idx}
-						position={{ lat: loc.latitude, lng: loc.longitude }}
-						content={loc}
-						handleMarkerClick={handleMarkerClick}
-						getMarkerImage={getMarkerImage}
+						<ReMapMarker
+							key={idx}
+							position={{ lat: loc.latitude, lng: loc.longitude }}
+							content={loc}
+							handleMarkerClick={handleMarkerClick}
+							getMarkerImage2={getMarkerImage2}
 						/>
 					))}
 				</Map>
