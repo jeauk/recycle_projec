@@ -12,6 +12,8 @@
     padding: 0;
     display: flex; /* 수평 정렬 */
     justify-content: center; /* 중앙 정렬 */
+    align-items: center;
+    max-width: 100%;
 }
 
 /* 네비게이션 항목 */
@@ -22,6 +24,7 @@
     border-radius: 5px; /* 모서리 둥글게 */
     transition: background-color 0.3s ease, transform 0.3s ease; /* 호버 효과 애니메이션 */
     text-decoration: none; /* 기본 링크 스타일 제거 */
+    min-width: auto;
 }
 
 /* 항목 호버 효과 */
@@ -35,4 +38,6 @@
 .navLink {
     color: #ecf0f1; /* 텍스트 색상 */
     font-size: 16px; /* 폰트 크기 */
+    text-align: center;
+    white-space: nowrap;
 }

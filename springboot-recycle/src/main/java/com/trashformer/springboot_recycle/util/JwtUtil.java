@@ -52,5 +52,6 @@ public class JwtUtil {
         System.out.println(claims.get("email"));
         System.out.println(claims.get("nickname"));
         System.out.println(claims.get("profileImageUrl"));
+        
     }
 }
