@@ -5,7 +5,7 @@ const Contact = () => {
     const [replyTo, setReplyTo] = useState('');
     const [subject, setSubject] = useState('');
     const [text, setText] = useState('');
-    // const [image, setImage] = useState(null);
+    const [image, setImage] = useState(null);
     
     const handleSubmit = async (e) => {
         e.preventDefault(); // 기본 폼 제출 동작 방지
@@ -15,9 +15,9 @@ const Contact = () => {
         formData.append('replyTo', replyTo);
         formData.append('subject', subject);
         formData.append('text', text);
-        // if (image) {
-        //     formData.append('image', image);
-        // }
+        if (image) {
+            formData.append('image', image);
+        }
 
         const url = "http://localhost:8080/api/contact/post";
         try {
@@ -34,13 +34,11 @@ const Contact = () => {
             const responseText = await response.text();
             console.log('Response text:', responseText);
 
-            // 숫자 형식으로 변환 (필요시)
-            const parsedNumber = Number(responseText);
-            if(!isNaN(parsedNumber)){
-                console.log('Parsed number:', parsedNumber);
-            } else {
-                console.log('Received non-numeric response:', responseText);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
             }
+
+            alert('메시지가 성공적으로 전송되었습니다!');
 
         } catch (error) {
             console.error('Error:', error);
@@ -61,7 +59,7 @@ const Contact = () => {
                 />
             </div>
             <div>
-                <div>이메일(정확한 메일주소를 적지 않으시면 답변을 받으실수 없습니다.)</div>
+                <div>이메일(이메일 주소를 정확하게 입력하셔야 답변을 받을 수 있습니다.)</div>
                 <input
                     type="email"
                     value={replyTo}
@@ -85,14 +83,14 @@ const Contact = () => {
                     onChange={(e) => setText(e.target.value)}
                 />
             </div>
-            {/* <div>
+            <div>
                 <div>이미지 첨부</div>
                 <input
                     type="file"
                     accept="image/*"
                     onChange={(e) => setImage(e.target.files[0])}
                 />
-            </div> */}
+            </div>
             <button type="submit">보내기</button>
         </form>
     );
