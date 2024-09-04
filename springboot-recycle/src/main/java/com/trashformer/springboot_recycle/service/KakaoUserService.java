@@ -2,6 +2,7 @@ package com.trashformer.springboot_recycle.service;
 
 import com.trashformer.springboot_recycle.entity.KakaoUserEntity;
 import com.trashformer.springboot_recycle.repository.KakaoUserRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,4 +31,5 @@ public class KakaoUserService {
     }
 
     // 필요에 따라 사용자 검색, 업데이트, 삭제 등의 메서드를 추가할 수 있습니다.
+
 }

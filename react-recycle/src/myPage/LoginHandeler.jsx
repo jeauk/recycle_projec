@@ -16,13 +16,15 @@ const LoginHandler = ({onLogin}) => {
           });
 
           const res = await data.json();
-          sessionStorage.setItem("jwt", res.jwt);
 
-          onLogin();
+            if (res.jwt) {
+              sessionStorage.setItem("jwt", res.jwt);
+              onLogin(); 
+            }
 
           const jwt = sessionStorage.getItem("jwt");
 
-          const data2 = await fetch('http://localhost:8080/parseJwt', {
+          const res2 = await fetch('http://localhost:8080/parseJwt', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -30,22 +32,23 @@ const LoginHandler = ({onLogin}) => {
             },
             body: JSON.stringify({ jwt }) // POST 요청에 JWT 포함
           });
-          const res2 = await data2.json();
-          console.log('서버 응답:', res2);
+
+          const data2 = await res2.json();
+          console.log('서버 응답:', data2);
 
           // 로그인 성공 시 알림 표시
           alert('로그인에 성공했습니다!');
-          navigate('/'); // 성공 시 메인 페이지로 이동
+          navigate('/mypage');
         } catch (error) {
           console.error('에러 발생:', error);
           alert('로그인에 실패했습니다. 다시 시도해 주세요.');
-          navigate('/'); // 실패 시 로그인 페이지로 이동
+          navigate('/mypage'); 
         }
       }
     };
 
     sendCode();
-  }, [code, navigate, onLogin]);
+  }, []);
 
   return (
     <div className="LoginHandler">

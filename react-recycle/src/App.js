@@ -1,21 +1,20 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import './App.css';
-import Nav from './components/Nav';
-import Home from './components/Home';
-import Footer from './components/Footer';
-import KakaoMap from './components/KakaoMap';
-import TopHeader from './components/TopHeader';
+import { useEffect, useState } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import TopHeader from "./components/TopHeader";
+import Nav from "./components/Nav";
+import Home from "./MainPage/Home";
+import KakaoMap from "./vendingDevice/KakaoMap";
+import PostList from "./reformBoard/PostList";
+import PostForm from "./reformBoard/PostForm";
+import PostDetail from "./reformBoard/PostDetail";
+import PostEdit from "./reformBoard/PostEdit";
+import Footer from "./components/Footer";
 import styles from './App.module.css';
-import React, { useState, useEffect } from 'react';
-import PostForm from './components/PostForm';
-import PostList from './components/PostList';
-import PostDetail from './components/PostDetail';
-import PostEdit from './components/PostEdit';
-import LoginHandeler from './components/LoginHandeler';
-import Kakaobtn from './components/KakaoBtn';
-import Logout from './components/Logout';
-import Sido from './components/Sido';
-import ReMap from './components/ReMap';
+import LoginHandeler from './myPage/LoginHandeler';
+import Mypage from './myPage/MyPage';
+import Sido from './market/Sido';
+import "./App.css";
+import ReMap from "./reMap/ReMap";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -34,11 +33,6 @@ function App() {
     setIsLoggedIn(true); // 로그인 상태를 true로 변경
   };
 
-  const handleLogout = () => {
-    setIsLoggedIn(false); // 로그아웃 상태를 false로 변경
-    sessionStorage.removeItem("jwt"); // JWT 삭제
-  };
-
   return (
     <div className="App">
       <div className={styles.appContainer}>
@@ -46,18 +40,15 @@ function App() {
           <TopHeader />
           <Nav />
           <div className={styles.mainContent}>
-            {isLoggedIn ? (
-              <Logout onLogout={handleLogout} />
-            ) : (
-              <Kakaobtn onLogin={handleLogin} />
-            )}
             <Routes>
               <Route index element={<Home />} />
               <Route path='/map' element={<KakaoMap />} />
-              <Route path="/login" element={<PostList />} />
+              <Route path='/remap' element={<ReMap />} />
+              <Route path="/list" element={<PostList />} />
               <Route path="/post" element={<PostForm />} />
               <Route path="/post/:id" element={<PostDetail />} />
-              <Route path="/post/edit/:id" element={<PostEdit />} />
+              <Route path="/edit/:id" element={<PostEdit />} />
+              <Route path="/mypage" element={<Mypage />} />
               <Route
                 path="/login/oauth2/callback/kakao"
                 element={<LoginHandeler onLogin={handleLogin} />}

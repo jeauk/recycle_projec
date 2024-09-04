@@ -9,9 +9,9 @@ const TopHeader = () => {
                     TrashFormer
                 </div>
             </Link>
-            <Link className={s.loginContainer} to="/login">
+            <Link className={s.loginContainer} to="/mypage">
                 <button className={s.loginButton}>
-                    Login
+                    Mypage
                 </button>
             </Link>
         </header>
