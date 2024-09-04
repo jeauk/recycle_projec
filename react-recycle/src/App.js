@@ -14,6 +14,7 @@ import LoginHandeler from './myPage/LoginHandeler';
 import Mypage from './myPage/MyPage';
 import Sido from './market/Sido';
 import "./App.css";
+import Contact from "./components/Contact";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -47,6 +48,7 @@ function App() {
               <Route path="/post/:id" element={<PostDetail />} />
               <Route path="/post/edit/:id" element={<PostEdit />} />
               <Route path="/mypage" element={<Mypage />} />
+              <Route path="/contact" element={<Contact />} />
               <Route
                 path="/login/oauth2/callback/kakao"
                 element={<LoginHandeler onLogin={handleLogin} />}
