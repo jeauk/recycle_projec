@@ -19,6 +19,9 @@ const Nav = () => {
                 <Link to="/map" className={styles.navItem}>
                     <li className={styles.navLink}>지도</li>
                 </Link>
+                <Link to="/remap" className={styles.navItem}>
+                    <li className={styles.navLink}>중고가게 지도</li>
+                </Link>
             </ul>
         </nav>
     );

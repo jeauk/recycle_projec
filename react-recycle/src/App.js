@@ -44,7 +44,7 @@ function App() {
             <Routes>
               <Route index element={<Home />} />
               <Route path='/map' element={<KakaoMap />} />
-              <Route path='/remap' element={<ReMap />} />
+              <Route path="/remap" element={<ReMap />} />
               <Route path="/list" element={<PostList />} />
               <Route path="/post" element={<PostForm />} />
               <Route path="/post/:id" element={<PostDetail />} />
@@ -56,6 +56,7 @@ function App() {
                 element={<LoginHandeler onLogin={handleLogin} />}
               />
               <Route path="/sido" element={<Sido />} />
+              <Route path="/remap" element={<ReMap />} />
             </Routes>
           </div>
           <Footer />
