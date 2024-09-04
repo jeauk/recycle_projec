@@ -61,8 +61,7 @@ const Contact = () => {
                 />
             </div>
             <div>
-                <div>이메일</div>
-                <div>정확한 메일주소를 적지 않으시면 답변을 받으실수 없습니다.</div>
+                <div>이메일(정확한 메일주소를 적지 않으시면 답변을 받으실수 없습니다.)</div>
                 <input
                     type="email"
                     value={replyTo}
