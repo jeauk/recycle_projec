@@ -129,9 +129,20 @@ function Sido() {
               <li>
                 <strong>시도 : </strong> {region.sido} <br />
                 <strong>시·군·구 : </strong> {region.gungoo} <br />
-                <strong>전화 : </strong> {region.tel} <br />
-                <strong>사이트 : </strong> {region.site} <br />
-                <strong>기타사항 : </strong> {region.etc}
+               <strong>전화 : </strong>
+               {region.tel && region.tel.trim() !=='null' ? region.tel : <span>없음</span>} <br />
+                <strong>사이트 : </strong>
+                {region.site && region.site.split('|').map((site, index) => (
+                  <span key={index}>
+                    {site && site.trim() && site.trim() !== 'null' ? (
+                      <a href={site.trim()}>{site.trim()}</a>
+                    ) : (
+                      <span>없음</span>
+                    )}
+                    {index < region.site.split('|').length - 1 && ' | '}
+                  </span>
+                ))} <br />
+                <strong>기타사항 : </strong> {region.etc && region.etc.trim() !== 'null' ? region.etc : <span>없음</span>} <br />
               </li>
             }
           </ul>
