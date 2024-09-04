@@ -16,6 +16,6 @@ public class BmEntity {
   String name;
   String address;
   String tel;
-  String lat;
-  String lng;
+  String latitude;
+  String longitude;
 }
