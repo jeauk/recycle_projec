@@ -14,6 +14,7 @@ import LoginHandeler from './myPage/LoginHandeler';
 import Mypage from './myPage/MyPage';
 import Sido from './market/Sido';
 import "./App.css";
+import ReMap from "./reMap/ReMap";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -42,6 +43,7 @@ function App() {
             <Routes>
               <Route index element={<Home />} />
               <Route path='/map' element={<KakaoMap />} />
+              <Route path='/remap' element={<ReMap />} />
               <Route path="/list" element={<PostList />} />
               <Route path="/post" element={<PostForm />} />
               <Route path="/post/:id" element={<PostDetail />} />
