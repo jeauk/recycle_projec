@@ -51,7 +51,6 @@ function PostDetail() {
     console.log('삭제됨');
     navigate(`/`);
   };
-
   const handleRecommend = async () => {
     const jwt = sessionStorage.getItem('jwt');
   

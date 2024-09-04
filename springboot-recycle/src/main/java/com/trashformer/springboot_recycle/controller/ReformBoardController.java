@@ -15,6 +15,7 @@ import com.trashformer.springboot_recycle.service.JwtService;
 import com.trashformer.springboot_recycle.util.JwtUtil;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +31,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RestController
+@Transactional
 @CrossOrigin
 public class ReformBoardController {
 
@@ -219,11 +221,17 @@ public class ReformBoardController {
             reformBoardRepository.save(post);
         }
 
+         // JWT에서 이메일 추출
+    String email = jwtService.extractEmailFromJwt(jwtToken);
+
+    // 현재 사용자가 작성자인지 확인
+    boolean isAuthor = email != null && email.equals(post.getKakaoUserEntity().getEmail());
+
         // 결과 반환
         Map<String, Object> response = new HashMap<>();
         response.put("post", post);
         // 여기서 isAuthor는 사용자의 이메일 등을 바탕으로 추가 로직을 작성해야 함
-        response.put("isAuthor", false); // 예시용으로 false로 설정
+        response.put("isAuthor", isAuthor); // 예시용으로 false로 설정
 
         return ResponseEntity.ok(response);
     }

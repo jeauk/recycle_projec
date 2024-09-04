@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import TopHeader from "./components/TopHeader";
 import Nav from "./components/Nav";
-import Home from "./mainPage/Home";
+import Home from "./MainPage/Home";
 import KakaoMap from "./vendingDevice/KakaoMap";
 import PostList from "./reformBoard/PostList";
 import PostForm from "./reformBoard/PostForm";
