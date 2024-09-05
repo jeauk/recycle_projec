@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import TopHeader from "./components/TopHeader";
 import Nav from "./components/Nav";
-import Home from "./mainPage/Home";
+import Home from "./MainPage/Home";
 import KakaoMap from "./vendingDevice/KakaoMap";
 import PostList from "./reformBoard/PostList";
 import PostForm from "./reformBoard/PostForm";
@@ -13,6 +12,9 @@ import styles from './App.module.css';
 import LoginHandeler from './myPage/LoginHandeler';
 import Mypage from './myPage/MyPage';
 import Sido from './market/Sido';
+import "./App.css";
+import ReMap from "./reMap/ReMap";
+import Contact from "./components/Contact";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -35,22 +37,24 @@ function App() {
     <div className="App">
       <div className={styles.appContainer}>
         <BrowserRouter>
-          <TopHeader />
           <Nav />
           <div className={styles.mainContent}>
             <Routes>
               <Route index element={<Home />} />
               <Route path='/map' element={<KakaoMap />} />
+              <Route path="/remap" element={<ReMap />} />
               <Route path="/list" element={<PostList />} />
               <Route path="/post" element={<PostForm />} />
               <Route path="/post/:id" element={<PostDetail />} />
-              <Route path="/post/edit/:id" element={<PostEdit />} />
+              <Route path="/edit/:id" element={<PostEdit />} />
               <Route path="/mypage" element={<Mypage />} />
+              <Route path="/contact" element={<Contact />} />
               <Route
                 path="/login/oauth2/callback/kakao"
                 element={<LoginHandeler onLogin={handleLogin} />}
               />
               <Route path="/sido" element={<Sido />} />
+              <Route path="/remap" element={<ReMap />} />
             </Routes>
           </div>
           <Footer />

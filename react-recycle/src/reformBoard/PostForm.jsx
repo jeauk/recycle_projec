@@ -5,8 +5,9 @@ const PostForm = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [image, setImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null); // 메인 이미지 미리보기
   const [videoLink, setVideoLink] = useState("");
-  const [steps, setSteps] = useState([{ id: 1, content: "", image: null }]); // id 추가
+  const [steps, setSteps] = useState([{ id: 1, content: "", image: null, imagePreview: null }]); // id와 미리보기 추가
 
   const [nextId, setNextId] = useState(2); 
 
@@ -14,19 +15,26 @@ const PostForm = () => {
   const navigate = useNavigate();
 
   const handleImageChange = (e) => {
-    setImage(e.target.files[0]);
+    const file = e.target.files[0];
+    setImage(file);
+    setImagePreview(URL.createObjectURL(file)); // 메인 이미지 미리보기 설정
   };
 
   // Step별 데이터 변경 핸들러
   const handleStepChange = (index, field, value) => {
     const newSteps = [...steps];
-    newSteps[index][field] = value;
+    if (field === "image") {
+      newSteps[index].image = value;
+      newSteps[index].imagePreview = URL.createObjectURL(value); // 스텝 이미지 미리보기 설정
+    } else {
+      newSteps[index][field] = value;
+    }
     setSteps(newSteps);
   };
 
   // Step 추가 핸들러
   const handleAddStep = () => {
-    setSteps([...steps, { id: nextId, content: "", image: null }]); // 새로운 step에 id 추가
+    setSteps([...steps, { id: nextId, content: "", image: null, imagePreview: null }]); // 새로운 step에 id와 미리보기 추가
     setNextId(nextId + 1);
   };
 
@@ -103,6 +111,7 @@ const PostForm = () => {
           accept="image/*"
           onChange={handleImageChange}
         />
+        {imagePreview && <img src={imagePreview} alt="미리보기" style={{ width: '200px', marginTop: '10px' }} />}
       </div>
       <div>
         <label>동영상 링크 (유튜브 등)</label>
@@ -135,6 +144,7 @@ const PostForm = () => {
                 handleStepChange(index, "image", e.target.files[0])
               }
             />
+            {step.imagePreview && <img src={step.imagePreview} alt={`STEP ${index + 1} 미리보기`} style={{ width: '200px', marginTop: '10px' }} />}
           </div>
           <button type="button" onClick={() => handleRemoveStep(step.id)}>
             STEP 삭제
@@ -147,8 +157,8 @@ const PostForm = () => {
       </button>
 
       <button type="submit">올리기</button>
-      <button onClick={() => {
-            navigate('/list');
+      <button type="button" onClick={() => {
+            navigate('/');
           }}>취소</button>
     </form>
   );

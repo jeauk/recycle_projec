@@ -1,10 +1,16 @@
 package com.trashformer.springboot_recycle.controller;
 
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,6 +20,10 @@ import com.trashformer.springboot_recycle.service.JwtService;
 import com.trashformer.springboot_recycle.service.KakaoUserService;
 import com.trashformer.springboot_recycle.util.JwtUtil;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtParser;
+import io.jsonwebtoken.Jwts;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -22,6 +32,8 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+
+import javax.xml.bind.DatatypeConverter;
 
 @RestController
 @CrossOrigin
@@ -37,20 +49,20 @@ public class ProfileController {
     private KakaoUserRepository kakaoUserRepository;
 
     @Autowired
+    JwtUtil jUtil;
+
+    @Autowired
     private JwtService jwtService;
 
-    // 프로필 이미지가 저장될 디렉토리 경로
-    private final String PROFILE_DIR = "src/main/resources/static/uploads/profiles/";
-
-    // Base URL for accessing profile images
-    private final String BASE_URL = "http://localhost:8080/image/profiles/";
+    private final String BASE_URL = "http://localhost:8080/image/profiles";
+    private final String PROFILE_DIR = "src/main/resources/static/uploads/profiles/"; // 프로필 이미지가 저장될 디렉토리 경로
 
     @PostMapping("/oauth/kakao/callback")
     public Map<String, String> handleKakaoCallback(@RequestBody Map<String, String> requestData) {
         String code = requestData.get("code");
 
         // 엑세스 토큰 요청
-        String clientId = "your_client_id"; // 여기에 자신의 앱 REST API 키를 입력하세요.
+        String clientId = "dcedd1709d6d717e342a5c8ecea26356"; // 여기에 자신의 앱 REST API 키를 입력하세요.
         String redirectUri = "http://localhost:3000/login/oauth2/callback/kakao";
 
         String tokenRequestUrl = "https://kauth.kakao.com/oauth/token"
@@ -62,15 +74,20 @@ public class ProfileController {
         HttpHeaders tokenHeaders = new HttpHeaders();
         tokenHeaders.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 
-        ResponseEntity<Map> tokenResponse = new RestTemplate().postForEntity(tokenRequestUrl, new HttpEntity<>(tokenHeaders), Map.class);
+        HttpEntity<String> tokenRequestEntity = new HttpEntity<>(tokenHeaders);
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<Map> tokenResponse = restTemplate.postForEntity(tokenRequestUrl, tokenRequestEntity, Map.class);
 
         String accessToken = (String) tokenResponse.getBody().get("access_token");
+
+        //////////////////////////////////////위에는 엑세스토큰 받아오는거 밑에는 정보 받아오는거////////////////////////////////////
 
         // 사용자 정보 요청
         HttpHeaders profileHeaders = new HttpHeaders();
         profileHeaders.set("Authorization", "Bearer " + accessToken);
 
-        ResponseEntity<Map> profileResponse = new RestTemplate().postForEntity("https://kapi.kakao.com/v2/user/me", new HttpEntity<>(profileHeaders), Map.class);
+        HttpEntity<String> profileEntity = new HttpEntity<>(profileHeaders);
+        ResponseEntity<Map> profileResponse = restTemplate.postForEntity("https://kapi.kakao.com/v2/user/me", profileEntity, Map.class);
 
         // 응답에서 필요한 정보 추출
         Map<String, Object> kakaoAccount = (Map<String, Object>) profileResponse.getBody().get("kakao_account");
@@ -78,7 +95,7 @@ public class ProfileController {
 
         String email = (String) kakaoAccount.get("email");
         String nickname = (String) profile.get("nickname");
-        String profileImageUrl = (String) profile.getOrDefault("profile_image_url", BASE_URL + "default-profile-image.png");
+        String profileImageUrl = (String) profile.getOrDefault("profile_image_url", "https://example.com/default-profile-image.png");
 
         // DB에 사용자 정보 저장 또는 기존 사용자 반환
         KakaoUserEntity user = kakaoUserService.saveUser(email, nickname, profileImageUrl);
@@ -93,83 +110,119 @@ public class ProfileController {
         return result;
     }
 
+    @PostMapping("/parseJwt")
+    public Map<String, String> parseJwt(@RequestBody Map<String, String> requestData) {
+        String jwt = requestData.get("jwt");
+        jwtUtil.getDataFromJwt(jwt);
+
+        // 결과 반환
+        Map<String, String> result = new HashMap<>();
+        // 필요 시 result에 추가 데이터를 넣을 수 있습니다.
+
+        return result;
+    }
+
     @GetMapping("/user/profile")
     public ResponseEntity<Map<String, Object>> loadProfile(@RequestHeader("Authorization") String jwtToken) {
+        // JWT에서 이메일 추출
         String email = jwtService.extractEmailFromJwt(jwtToken);
         if (email == null) {
             return ResponseEntity.status(400).body(Map.of("message", "유효하지 않은 JWT 토큰입니다."));
         }
-    
+
+        // 이메일로 사용자 조회
         KakaoUserEntity user = kakaoUserRepository.findByEmail(email);
         if (user == null) {
             return ResponseEntity.status(404).body(Map.of("message", "사용자를 찾을 수 없습니다."));
         }
-    
-        // 저장된 프로필 이미지 경로를 URL로 변환
-        String profileImageUrl = user.getProfileImageUrl();
-        if (profileImageUrl != null && profileImageUrl.startsWith(PROFILE_DIR)) {
-            // 프로필 이미지 경로를 웹 URL로 변환
-            profileImageUrl = profileImageUrl.replace(PROFILE_DIR, BASE_URL);
-        }
-    
+
+        // 사용자 프로필 정보를 응답으로 반환
         Map<String, Object> profileData = new HashMap<>();
         profileData.put("nickname", user.getNickname());
-        profileData.put("profileImageUrl", profileImageUrl);
-    
+        profileData.put("profileImageUrl", user.getProfileImageUrl());
+
         return ResponseEntity.ok(profileData);
     }
-    
 
     @PostMapping("/user/updateProfile")
-    public ResponseEntity<Map<String, String>> updateProfile(
-        @RequestHeader("Authorization") String jwtToken,
-        @RequestParam("nickname") String nickname,
-        @RequestParam(value = "profileImage", required = false) MultipartFile profileImage
-    ) {
-        String email = jwtService.extractEmailFromJwt(jwtToken);
-        if (email == null) {
-            return ResponseEntity.status(400).body(Map.of("message", "유효하지 않은 JWT 토큰입니다."));
-        }
-
-        KakaoUserEntity user = kakaoUserRepository.findByEmail(email);
-        if (user == null) {
-            return ResponseEntity.status(404).body(Map.of("message", "사용자를 찾을 수 없습니다."));
-        }
-
-        user.setNickname(nickname);
-
-        if (profileImage != null && !profileImage.isEmpty()) {
-            String profileImagePath = saveProfileImage(profileImage);
-            if (profileImagePath != null) {
-                user.setProfileImageUrl(profileImagePath);
-            } else {
-                return ResponseEntity.status(500).body(Map.of("message", "프로필 이미지 저장 중 오류가 발생했습니다."));
-            }
-        }
-
-        kakaoUserRepository.save(user);
-
-        return ResponseEntity.ok(Map.of("message", "프로필이 성공적으로 업데이트되었습니다."));
+public ResponseEntity<Map<String, String>> updateProfile(
+    @RequestHeader("Authorization") String jwtToken,
+    @RequestParam("nickname") String nickname,
+    @RequestParam(value = "profileImage", required = false) MultipartFile profileImage
+) {
+    // JWT에서 이메일 추출
+    String email = jwtService.extractEmailFromJwt(jwtToken);
+    if (email == null) {
+        return ResponseEntity.status(400).body(Map.of("message", "유효하지 않은 JWT 토큰입니다."));
     }
 
-    private String saveProfileImage(MultipartFile file) {
-        try {
-            String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
-            String filePath = PROFILE_DIR + fileName;
+    // 이메일로 사용자 조회
+    KakaoUserEntity user = kakaoUserRepository.findByEmail(email);
+    if (user == null) {
+        return ResponseEntity.status(404).body(Map.of("message", "사용자를 찾을 수 없습니다."));
+    }
 
-            File directory = new File(PROFILE_DIR);
-            if (!directory.exists()) {
-                directory.mkdirs();
-            }
+    // 닉네임 업데이트
+    user.setNickname(nickname);
 
-            Path path = Paths.get(filePath);
-            Files.copy(file.getInputStream(), path);
-
-            // 실제 파일 경로를 URL로 변환하여 반환
-            return BASE_URL + fileName;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
+    // 프로필 이미지 업데이트
+    if (profileImage != null && !profileImage.isEmpty()) {
+        deleteProfileImage(user.getProfileImageUrl());
+        String profileImagePath = saveProfileImage(profileImage, email); // 이메일 인자를 추가
+        if (profileImagePath != null) {
+            user.setProfileImageUrl(profileImagePath);
+        } else {
+            return ResponseEntity.status(500).body(Map.of("message", "프로필 이미지 저장 중 오류가 발생했습니다."));
         }
     }
+
+    // 업데이트된 사용자 정보를 DB에 저장
+    kakaoUserRepository.save(user);
+
+    return ResponseEntity.ok(Map.of("message", "프로필이 성공적으로 업데이트되었습니다."));
+}
+
+// 기존 프로필 이미지 삭제 메소드
+private void deleteProfileImage(String imageUrl) {
+    if (imageUrl != null && !imageUrl.isEmpty()) {
+        // 로컬 파일 시스템에서 파일 경로 생성
+        String filePath = imageUrl.replace(BASE_URL, PROFILE_DIR);
+        File file = new File(filePath);
+        if (file.exists()) {
+            file.delete(); // 파일 삭제
+        }
+    }
+}
+
+    // 프로필 이미지 저장 메소드
+// 프로필 이미지 저장 메소드
+private String saveProfileImage(MultipartFile file, String email) {
+    try {
+        // 실제 email 값을 사용하여 경로 생성
+        String directoryPath = PROFILE_DIR + email;
+
+        // 파일 이름 생성 (UUID 사용)
+        String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+        // 로컬 파일 시스템에 저장될 실제 경로
+        String filePath = directoryPath + "/" + fileName;
+
+        // 파일 저장 디렉토리가 없으면 생성
+        File directory = new File(directoryPath);
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
+
+        // 파일 저장
+        Path path = Paths.get(filePath);
+        Files.copy(file.getInputStream(), path);
+
+        // 클라이언트가 접근할 수 있는 URL 경로 반환
+        return BASE_URL + "/" + email + "/" + fileName;
+    } catch (IOException e) {
+        e.printStackTrace();
+        return null;
+    }
+}
+
+
 }

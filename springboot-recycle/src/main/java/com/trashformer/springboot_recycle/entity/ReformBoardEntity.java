@@ -5,6 +5,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,7 +28,8 @@ public class ReformBoardEntity {
     private String title;
     private String content;
     private String imagePath;
-    private Long viewCount;
+    private Long viewCount = 0L;
+    private int recommendCount = 0;
     private String videoLink;
 
 
@@ -35,13 +37,16 @@ public class ReformBoardEntity {
     @Temporal(TemporalType.DATE)
     private Date createdAt; // 작성일, 날짜 형식만 저장
 
-    @UpdateTimestamp
-    @Temporal(TemporalType.DATE)
-    private Date updatedAt; // 수정일, 날짜 형식만 저장
+    private boolean updateChange;
 
     @ManyToOne
     private KakaoUserEntity kakaoUserEntity;
 
-    @OneToMany(mappedBy = "reformBoardEntity")
+    @OneToMany(mappedBy = "reformBoardEntity", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<StepFormEntity> steps;
+    
+    
+    @OneToMany(mappedBy = "reformBoardEntity", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @JsonIgnore
+    private List<RecommendEntity> recommendations;
 }
