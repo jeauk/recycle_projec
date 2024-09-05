@@ -87,7 +87,6 @@ function ProfileUpdateForm() {
 
     // 업데이트 후 알림 표시 또는 리다이렉트 처리
     alert('프로필이 성공적으로 업데이트되었습니다!');
-    window.location.reload(); // 페이지 새로고침 또는 다른 페이지로 리다이렉트
   };
 
   return (

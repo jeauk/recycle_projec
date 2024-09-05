@@ -17,6 +17,8 @@ import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import { useNavigate } from 'react-router-dom';  // useNavigate import
 import { useEffect, useState } from 'react'; // useEffect 및 useState 추가
+import { UserContext } from './UserContext';
+import { useContext } from 'react';
 
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -53,6 +55,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 function Nav() {
+  const { user, isLoggedIn } = useContext(UserContext);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [profileImageUrl, setProfileImageUrl] = useState('');  // 프로필 이미지 상태 관리
