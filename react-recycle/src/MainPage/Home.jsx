@@ -4,7 +4,7 @@ import TopContents from "./TopContents";
 
 const Home = () => {
     return (
-        <div className="home">
+        <div className="home" style={{width:'82%'}}>
             <TopContents />
             <PageContents />
         </div>
