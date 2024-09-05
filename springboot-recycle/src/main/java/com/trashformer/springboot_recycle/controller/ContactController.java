@@ -16,14 +16,14 @@ public class ContactController {
     private ContactService contactService;
 
     @PostMapping("/contact/post")
-    public void sendEmail(@ModelAttribute ContactDTO contactDTO) {
-        MultipartFile image = contactDTO.getImage();
+    public void sendEmail(@ModelAttribute ContactDTO contactDTO,
+                            @RequestParam("images") MultipartFile[] images) {
         contactService.sendSimpleMessage(
             contactDTO.getReplyTo(),
             contactDTO.getName(),
             contactDTO.getSubject(),
             contactDTO.getText(),
-            image // 이미지 파일 전달
+            images // 이미지 파일 전달
         );
     }
 }

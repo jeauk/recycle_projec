@@ -1,11 +1,22 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 const Contact = () => {
     const [name, setName] = useState('');
     const [replyTo, setReplyTo] = useState('');
     const [subject, setSubject] = useState('');
     const [text, setText] = useState('');
-    const [image, setImage] = useState(null);
+    const [images, setImages] = useState([]);
+    const [imagePreviews, setImagePreviews] = useState([]);
+    const fileInputRef = useRef(null); // 파일 입력필드에 대한 참조
+
+    const handleFileChange = (e) => {
+        const files = Array.from(e.target.files);
+        setImages(files);
+        
+        // 파일 미리보기 URL 생성
+        const previews = files.map(file => URL.createObjectURL(file));
+        setImagePreviews(previews);
+    };
     
     const handleSubmit = async (e) => {
         e.preventDefault(); // 기본 폼 제출 동작 방지
@@ -15,9 +26,10 @@ const Contact = () => {
         formData.append('replyTo', replyTo);
         formData.append('subject', subject);
         formData.append('text', text);
-        if (image) {
-            formData.append('image', image);
-        }
+        // 여러 파일을 추가
+        images.forEach((file) => {
+            formData.append('images', file);
+        });
 
         const url = "http://localhost:8080/api/contact/post";
         try {
@@ -26,26 +38,28 @@ const Contact = () => {
                 body: formData,
             });
 
-            // 응답 상태 및 헤더 확인
-            console.log('Response status:', response.status);
-            console.log('Response headers:', [...response.headers]);
-            
-            // 텍스트로 응답 확인
-            const responseText = await response.text();
-            console.log('Response text:', responseText);
+            if (response.ok) {
+                alert("문의가 접수되었습니다"); // 메시지 창 표시
+                // 폼 초기화
+                setName('');
+                setReplyTo('');
+                setSubject('');
+                setText('');
+                setImages([]);
+                setImagePreviews([]);
 
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
+                // 파일 입력 필드 초기화
+                if (fileInputRef.current) {
+                    fileInputRef.current.value = '';
+                }
+            } else {
+                throw new Error("문의를 보내는 중 오류가 발생했습니다.");
             }
-
-            alert('메시지가 성공적으로 전송되었습니다!');
-
         } catch (error) {
             console.error('Error:', error);
-            alert('요청에 문제가 있습니다.');
+            alert(error.message);
         }
     };
-
 
     return (
         <form onSubmit={handleSubmit}>
@@ -59,7 +73,7 @@ const Contact = () => {
                 />
             </div>
             <div>
-                <div>이메일(이메일 주소를 정확하게 입력하셔야 답변을 받을 수 있습니다.)</div>
+                <div>이메일 (이메일 주소를 정확하게 입력하셔야 답변을 받을 수 있습니다.)</div>
                 <input
                     type="email"
                     value={replyTo}
@@ -68,7 +82,7 @@ const Contact = () => {
                 />
             </div>
             <div>
-                <div>전달하고싶은 메세지</div>
+                <div>제목</div>
                 <input
                     type="text"
                     value={subject}
@@ -77,8 +91,9 @@ const Contact = () => {
                 />
             </div>
             <div>
-                <div>더 자세한 내용이 있다면 말씀해주세요.</div>
-                <textarea
+                <div>내용</div>
+                <input
+                    type="text"
                     value={text}
                     onChange={(e) => setText(e.target.value)}
                 />
@@ -88,8 +103,19 @@ const Contact = () => {
                 <input
                     type="file"
                     accept="image/*"
-                    onChange={(e) => setImage(e.target.files[0])}
+                    multiple
+                    ref={fileInputRef}
+                    onChange={handleFileChange}
                 />
+                <div>
+                    {imagePreviews.map((preview, index) => (
+                        <img
+                            key={index}
+                            src={preview}
+                            alt={`preview-${index}`}
+                        />
+                    ))}
+                </div>
             </div>
             <button type="submit">보내기</button>
         </form>
