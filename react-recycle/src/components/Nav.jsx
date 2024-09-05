@@ -13,8 +13,8 @@ const Nav = () => {
                 <Link to="/category2" className={styles.navItem}>
                     <li className={styles.navLink}>Category 2</li>
                 </Link>
-                <Link to="/category3" className={styles.navItem}>
-                    <li className={styles.navLink}>Category 3</li>
+                <Link to="/sido" className={styles.navItem}>
+                    <li className={styles.navLink}>폐기물 시/군/구 별 번호</li>
                 </Link>
                 <Link to="/map" className={styles.navItem}>
                     <li className={styles.navLink}>지도</li>

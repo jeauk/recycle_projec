@@ -15,6 +15,7 @@ import Mypage from './myPage/MyPage';
 import Sido from './market/Sido';
 import "./App.css";
 import ReMap from "./reMap/ReMap";
+import ResponsiveAppBar from "./MainPage/ResponsiveAppBar";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -55,6 +56,7 @@ function App() {
               />
               <Route path="/sido" element={<Sido />} />
               <Route path="/remap" element={<ReMap />} />
+              <Route path="/test" element={<ResponsiveAppBar />} />
             </Routes>
           </div>
           <Footer />
