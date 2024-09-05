@@ -110,6 +110,7 @@ const PostForm = () => {
           type="file"
           accept="image/*"
           onChange={handleImageChange}
+          required
         />
         {imagePreview && <img src={imagePreview} alt="미리보기" style={{ width: '200px', marginTop: '10px' }} />}
       </div>

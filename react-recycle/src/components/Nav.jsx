@@ -21,7 +21,7 @@ import { UserContext } from './UserContext';
 import { useContext } from 'react';
 
 const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ['Profile', 'Logout'];
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -125,28 +125,24 @@ function Nav() {
   };
 
   return (
-    <AppBar position="static" sx={{ backgroundColor: '#2C3E50', color: '#ffffff' }}>
+    <AppBar position="static" sx={{ backgroundColor: '#98c76a', color: '#ffffff' }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          {/* Logo */}
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
-          <Typography
-            variant="h6"
-            noWrap
+        <Box
             component="a"
             href="/"
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
+              alignItems: 'center',
             }}
           >
-            LOGO
-          </Typography>
+            <img
+              src="/img/logo.png" // 여기에 로고 이미지 경로를 입력
+              alt="Logo"
+              style={{ width: '170px', height: 'auto' }} // 이미지 크기 조절
+            />
+          </Box>
 
           {/* Mobile Menu */}
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -213,7 +209,7 @@ function Nav() {
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 {/* 프로필 이미지가 있을 때 보여주기 */}
-                <Avatar alt="User Profile" src={profileImageUrl || '/static/images/avatar/2.jpg'} />
+                <Avatar alt="User Profile" src={profileImageUrl || ''} />
               </IconButton>
             </Tooltip>
             <Menu

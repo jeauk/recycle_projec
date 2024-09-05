@@ -46,11 +46,12 @@ const PostList = () => {
             <strong>제목:</strong> {post.title} <br />
             <strong>작성자:</strong> {post.author}
             <strong>조회수:</strong> {post.viewCount} <br /> {/* 조회수 표시 */}
-            <strong>추천수:</strong> {post.likeCount} <br /> {/* 추천수 표시 */}
+            <strong>추천수:</strong> {post.recommendCount} <br /> {/* 추천수 표시 */}
             </div>
           </li>
         ))}
       </ul>
+
     </div>
   );
 };
