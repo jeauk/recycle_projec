@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import TopHeader from "./components/TopHeader";
 import Nav from "./components/Nav";
 import Home from "./MainPage/Home";
 import KakaoMap from "./vendingDevice/KakaoMap";
@@ -38,7 +37,6 @@ function App() {
     <div className="App">
       <div className={styles.appContainer}>
         <BrowserRouter>
-          <TopHeader />
           <Nav />
           <div className={styles.mainContent}>
             <Routes>
