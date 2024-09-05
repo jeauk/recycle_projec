@@ -15,8 +15,12 @@ public class ContactService {
     @Autowired
     private JavaMailSender emailSender;
 
-    public void sendSimpleMessage(String replyTo, String name, String subject, String text, MultipartFile[] images) {
-
+    public void sendSimpleMessage(
+            String replyTo,
+            String name,
+            String subject,
+            String text,
+            MultipartFile[] images) {
         try {
             MimeMessage message = emailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
@@ -25,7 +29,7 @@ public class ContactService {
             helper.setTo("projectrecyclebs@gmail.com"); // 이메일을 받는 주소 (Gmail 주소)
             helper.setReplyTo(replyTo); // 사용자가 입력한 회신 받을 이메일 주소
             helper.setSubject(subject); // 사용자가 입력한 제목
-            helper.setText("Name: " + name + "\n Email: " + replyTo + "\n\n Message: " + text); // 사용자 이름과 내용
+            helper.setText("Name: " + name + "\nEmail: " + replyTo + "\n\nMessage: " + text); // 사용자 이름과 내용
 
             // 이미지 파일이 있으면 첨부
             if (images != null) {

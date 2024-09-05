@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.trashformer.springboot_recycle.dto.ContactDTO;
 import com.trashformer.springboot_recycle.service.ContactService;
 
 @RestController
@@ -16,14 +15,20 @@ public class ContactController {
     private ContactService contactService;
 
     @PostMapping("/contact/post")
-    public void sendEmail(@ModelAttribute ContactDTO contactDTO,
-                            @RequestParam("images") MultipartFile[] images) {
+    public void sendEmail(
+        @RequestParam("name") String name,
+        @RequestParam("replyTo") String replyTo,
+        @RequestParam("subject") String subject,
+        @RequestParam("text") String text,
+        @RequestParam(value = "images", required = false) MultipartFile[] images) {
+
+        // 이메일 전송 로직
         contactService.sendSimpleMessage(
-            contactDTO.getReplyTo(),
-            contactDTO.getName(),
-            contactDTO.getSubject(),
-            contactDTO.getText(),
-            images // 이미지 파일 전달
+            replyTo,
+            name,
+            subject,
+            text,
+            images
         );
     }
 }
