@@ -90,8 +90,9 @@ function Sido() {
 
   return (
     <div id="sido">
-      <h1>시도 테스트 편</h1>
-      <select name="sido" id="sido" value={selectedSido} onChange={handleSidoChange}>
+      <h1>폐기물 시/군/구 별 전화번호</h1>
+      <p className={s.portal}><strong>폐가전 공통번호</strong> : 1599-0903 | <a href='https://15990903.or.kr/portal/main/main.do' className={s.site}>사이트로 이동</a></p>
+      <select name="sido" id="sido" className={s.sido} value={selectedSido} onChange={handleSidoChange}>
         <option value="0">도·특별·광역시</option>
         <option value="강원도">강원도</option>
         <option value="경기도">경기도</option>
@@ -111,7 +112,7 @@ function Sido() {
         <option value="충청남도">충청남도</option>
         <option value="충청북도">충청북도</option>
       </select>
-      <select name="gungoo" id="gungoo" className="type02" value={selectedGungoo} onChange={handleGungooChange}>
+      <select name="gungoo" id="gungoo" className={s.gungoo} value={selectedGungoo} onChange={handleGungooChange}>
         <option value="">시·군·구</option>
         {gungooOptions.map((gungoo, index) => (
           <option key={index} value={gungoo}>
@@ -119,11 +120,9 @@ function Sido() {
           </option>
         ))}
       </select>
-      <button onClick={handleSubmit}>선택</button>
-      <button onClick={() => { navigate('/'); }}>돌아가자~</button>
+      <button onClick={handleSubmit} className={s.btn1}>선택</button>
       {region.id && (
         <div>
-          <h2>선택 항목:</h2>
           <ul className={s.ulli}>
             {
               <li>
@@ -135,7 +134,7 @@ function Sido() {
                 {region.site && region.site.split('|').map((site, index) => (
                   <span key={index}>
                     {site && site.trim() && site.trim() !== 'null' ? (
-                      <a href={site.trim()}>{site.trim()}</a>
+                      <a href={site.trim()} className={s.site}>{site.trim()}</a>
                     ) : (
                       <span>없음</span>
                     )}

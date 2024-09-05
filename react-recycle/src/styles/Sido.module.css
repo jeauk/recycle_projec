@@ -2,3 +2,38 @@
   list-style: none;
   padding: 0;
 }
+
+.site {
+  text-decoration: none;
+  font-weight: bold;
+  color: blue;
+}
+
+.sido, .gungoo{
+  padding: 5px;
+  margin-right: 10px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: gray;
+  height: 45px;
+}
+
+.sido {
+  width: 250px;
+}
+
+.gungoo {
+  width: 150px;
+}
+
+.btn1 {
+  padding: 5px;
+  width: 75px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  height: 45px;
+}
+
+.portal {
+  font-size: 1.1rem;
+}
