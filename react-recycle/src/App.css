@@ -6,7 +6,7 @@
 }
 
 * {
-    font-family: 'GmarketSansMedium';
+    font-family: 'GmarketSansMedium' !important;
 }
 
 body {

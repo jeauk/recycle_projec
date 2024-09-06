@@ -52,7 +52,7 @@ const PostList = () => {
               <Typography gutterBottom variant="h5" component="div">
                 {post.title}
               </Typography>
-              <Typography variant="body2" sx={{ color: 'text.secondary'}}>
+              <Typography variant="body2" sx={{ color: 'text.secondary', fontSize:'10px', fontFamily:'GmarketSansMedium'}}>
                 <div className="imgContainer"style={{ display: 'flex', alignItems: 'center' }}>
                 <Avatar alt="Remy Sharp" src={post.authorImg} sx={{width:24,height:24}}/>
                 {post.author}

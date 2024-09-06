@@ -78,7 +78,7 @@ const ReMap = () => {
 
 	return (
 		<div>
-			<div>
+			<div style={{display:'flex', justifyContent: 'flex-end'}}>
 				<button onClick={() => setActiveTab("gwill")}>굿윌스토어</button>
 				<button onClick={() => setActiveTab("bmarket")}>아름다운가게</button>
 			</div>
