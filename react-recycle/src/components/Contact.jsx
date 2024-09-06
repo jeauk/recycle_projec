@@ -10,14 +10,15 @@ const Contact = () => {
     const fileInputRef = useRef(null); // 파일 입력필드에 대한 참조
 
     const handleFileChange = (e) => {
-        const files = Array.from(e.target.files);
-        setImages(files);
-        
-        // 파일 미리보기 URL 생성
-        const previews = files.map(file => URL.createObjectURL(file));
-        setImagePreviews(previews);
+        const newFiles = Array.from(e.target.files);
+        const newImages = [...images, ...newFiles];
+        setImages(newImages);
+
+        // 새로 선택된 파일들만 미리보기 URL 생성
+        const newPreviews = newFiles.map(file => URL.createObjectURL(file));
+        setImagePreviews(prevPreviews => [...prevPreviews, ...newPreviews]);
     };
-    
+
     const handleSubmit = async (e) => {
         e.preventDefault(); // 기본 폼 제출 동작 방지
 
@@ -101,6 +102,7 @@ const Contact = () => {
             </div>
             <div>
                 <div>이미지 첨부</div>
+                <div>1장씩 첨부시 첨부 순서대로 정렬되고 한번에 첨부시 파일 이름 순으로 정렬됩니다.</div>
                 <input
                     type="file"
                     accept="image/*"
@@ -114,6 +116,7 @@ const Contact = () => {
                             key={index}
                             src={preview}
                             alt={`preview-${index}`}
+                            style={{ width: '100px', height: '100px', objectFit: 'cover', margin: '5px' }}
                         />
                     ))}
                 </div>
