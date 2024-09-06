@@ -187,6 +187,7 @@ public class ReformBoardController {
             postMap.put("recommendCount",post.getRecommendCount());;
             postMap.put("viewCount",post.getViewCount());
             postMap.put("imagePath",post.getImagePath());
+            postMap.put("authorImg",post.getKakaoUserEntity().getProfileImageUrl());
             
             // 각 게시물 정보 출력
             System.out.println("Post Title: " + post.getTitle() + ", Author: " + post.getKakaoUserEntity().getNickname());

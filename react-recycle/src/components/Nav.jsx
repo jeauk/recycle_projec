@@ -137,7 +137,7 @@ function Nav() {
             <img
               src="/img/logo.png" // 여기에 로고 이미지 경로를 입력
               alt="Logo"
-              style={{ width: '170px', height: 'auto' }} // 이미지 크기 조절
+              style={{ width: '200px', height: 'auto' }} // 이미지 크기 조절
             />
           </Box>
 
