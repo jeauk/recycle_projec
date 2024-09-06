@@ -25,6 +25,7 @@ const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
   backgroundColor: alpha('#ffffff', 0.15),  // 검색창 배경을 흰색으로 유지
+  border: '1px solid lightgray',
   '&:hover': {
     backgroundColor: alpha('#ffffff', 0.25),
   },
@@ -122,7 +123,7 @@ function Nav() {
   };
 
   return (
-    <AppBar position="static" sx={{ backgroundColor: '#98c76a', color: '#ffffff' }}>
+    <AppBar position="static" sx={{ backgroundColor: '#ffffff', color: '#000000', borderBottom: '1px solid #98c76a', boxShadow: 'none', height:'120px', justifyContent: 'center' }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
         <Box
@@ -137,7 +138,7 @@ function Nav() {
             <img
               src="/img/logo.png" // 여기에 로고 이미지 경로를 입력
               alt="Logo"
-              style={{ width: '170px', height: 'auto' }} // 이미지 크기 조절
+              style={{ width: '225px', height: 'auto' }} // 이미지 크기 조절
             />
           </Box>
 
