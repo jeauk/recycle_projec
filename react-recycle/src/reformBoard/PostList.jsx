@@ -34,18 +34,18 @@ const PostList = () => {
   };
 
   return (
-    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px' }}>
+    <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '16px' }}>
       {posts.map((post) => (
         <Card
           key={post.id}
-          sx={{ maxWidth: 345 }}
+          sx={{ flexBasis: 'calc(25% - 16px)', maxWidth: 345 }} // 한 줄에 4개, 카드 간격 맞추기
           onClick={() => handlePostClick(post.id)}
         >
           <CardActionArea>
             <CardMedia
               component="img"
-              height="140"
-              image={post.imagePath} // 이미지가 없을 때 기본 이미지 제공
+              image={post.imagePath ? post.imagePath : "img/NOIMAGE.png"}
+              sx={{ width: '100%', height: 200, objectFit: 'cover' }} // 카드의 너비에 맞춰 이미지 적용
               alt={"대표이미지"}
             />
             <CardContent>
@@ -53,9 +53,9 @@ const PostList = () => {
                 {post.title}
               </Typography>
               <Typography variant="body2" sx={{ color: 'text.secondary'}}>
-                <div className="imgContainer"style={{ display: 'flex', alignItems: 'center' }}>
-                <Avatar alt="Remy Sharp" src={post.authorImg} sx={{width:24,height:24}}/>
-                {post.author}
+                <div className="imgContainer" style={{ display: 'flex', alignItems: 'center' }}>
+                  <Avatar alt="Remy Sharp" src={post.authorImg} sx={{ width: 24, height: 24 }} />
+                  {post.author}
                 </div>
                 {"조회수: "}{post.viewCount} {"추천수: "}{post.recommendCount}
               </Typography>
