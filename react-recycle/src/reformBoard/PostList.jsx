@@ -38,14 +38,14 @@ const PostList = () => {
       {posts.map((post) => (
         <Card
           key={post.id}
-          sx={{ flexBasis: 'calc(25% - 16px)', maxWidth: 345 }} // 한 줄에 4개, 카드 간격 맞추기
+          sx={{ flexBasis: 'calc(25% - 16px)'}} // 한 줄에 4개, 카드 간격 맞추기
           onClick={() => handlePostClick(post.id)}
         >
           <CardActionArea>
             <CardMedia
               component="img"
               image={post.imagePath ? post.imagePath : "img/NOIMAGE.png"}
-              sx={{ width: '100%', height: 200, objectFit: 'cover' }} // 카드의 너비에 맞춰 이미지 적용
+              sx={{ width: '100%', height: 250, objectFit: 'cover' }} // 카드의 너비에 맞춰 이미지 적용
               alt={"대표이미지"}
             />
             <CardContent>
