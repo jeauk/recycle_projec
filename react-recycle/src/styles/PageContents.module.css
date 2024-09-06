@@ -47,8 +47,12 @@
 }
 
 .d5 {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
     text-align: center !important;
-    padding: 1.5rem;
+    /* padding: 1.5rem; */
     box-sizing: border-box;
     position: relative;
 }
@@ -74,9 +78,8 @@
 
 .h1 {
     font-weight: 700 !important;
-    font-size: calc(1.275rem + 0.3vw) !important;
-    margin-top: 0;
-    margin-bottom: 0.5rem;
+    font-size: calc(1.4rem) !important;
+    margin: 0;
     line-height: 1.2;
     box-sizing: border-box;
     word-break: normal; /* 단어 단위로 줄바꿈 */
