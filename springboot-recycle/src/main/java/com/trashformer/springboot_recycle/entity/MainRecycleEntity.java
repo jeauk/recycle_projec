@@ -1,5 +1,6 @@
 package com.trashformer.springboot_recycle.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,6 +19,9 @@ public class MainRecycleEntity {
     private String mr_tag;
     private String mr_um;
     private String mr_category;
+
+    @Column(length=2000)
     private String mr_content;
+
 
 }
