@@ -46,6 +46,8 @@ public ResponseEntity<String> recommendPost(
     if (email == null) {
         return ResponseEntity.badRequest().body("유효하지 않은 JWT 토큰입니다.");
     }
+    System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+    System.out.println(id);
 
     // 게시물과 유저 정보 조회
     Optional<ReformBoardEntity> postOpt = reformBoardRepository.findById(id);

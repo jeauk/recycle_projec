@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import TopHeader from "./components/TopHeader";
 import Nav from "./components/Nav";
 import Home from "./MainPage/Home";
 import KakaoMap from "./vendingDevice/KakaoMap";
@@ -15,7 +14,11 @@ import Mypage from './myPage/MyPage';
 import Sido from './market/Sido';
 import "./App.css";
 import ReMap from "./reMap/ReMap";
+<<<<<<< HEAD
 import ResponsiveAppBar from "./MainPage/ResponsiveAppBar";
+=======
+import Contact from "./components/Contact";
+>>>>>>> jeauk
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -38,7 +41,6 @@ function App() {
     <div className="App">
       <div className={styles.appContainer}>
         <BrowserRouter>
-          <TopHeader />
           <Nav />
           <div className={styles.mainContent}>
             <Routes>
@@ -50,6 +52,7 @@ function App() {
               <Route path="/post/:id" element={<PostDetail />} />
               <Route path="/edit/:id" element={<PostEdit />} />
               <Route path="/mypage" element={<Mypage />} />
+              <Route path="/contact" element={<Contact />} />
               <Route
                 path="/login/oauth2/callback/kakao"
                 element={<LoginHandeler onLogin={handleLogin} />}

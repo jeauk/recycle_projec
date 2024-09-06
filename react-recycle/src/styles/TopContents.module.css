@@ -1,57 +1,32 @@
-.c1 {
-    box-sizing: border-box;
-    padding-top: 3rem;
-    padding-bottom: 3rem;
-    justify-content: center;
-    display: flex;
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.5;
-    color: #212529;
-    background-color: #fff;
-    -webkit-text-size-adjust: 100%;
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+.sliderContainer {
+  margin-top: 2%;
+  margin-bottom: 2%;
+  position: relative;
+  width: 100%; /* 슬라이드 컨테이너의 너비 */
+  height: 500px; /* 슬라이드 전체 높이 */
+  overflow: hidden; /* 슬라이드가 외부로 나가지 않도록 숨김 */
+  display: flex;
+  justify-content: center; /* 컨테이너의 중앙 정렬 */
+  align-items: center; /* 수직 중앙 정렬 */
 }
 
-.c2 {
-    width: 80%;
-    padding-left: 0;
-    padding-right: 0;
-    margin-left: auto;
-    margin-right: auto;
+.slidesWrapper {
+  display: flex; /* 슬라이드를 가로로 나란히 배치 */
+  transition: transform 0.5s ease-in-out; /* 부드러운 전환 */
+  width: 100%; /* 슬라이드 컨테이너의 100% 너비 */
 }
 
-.c3 {
-    border-radius: 0.5rem;
-    background-color: rgba(248,249,250,1);
-    text-align: center;
-    padding: 1.5rem;
+.slide {
+  min-width: 100%; /* 각각의 슬라이드가 컨테이너의 100% 너비 */
+  height: 100%;
+  display: flex;
+  justify-content: center; /* 슬라이드 내에서 수평 중앙 정렬 */
+  align-items: center; /* 슬라이드 내에서 수직 중앙 정렬 */
 }
 
-.c4 {
-    margin: 1.5rem;
-}
-
-.h1 {
-    font-weight: 700;
-    font-size: calc(1.425rem + 2.1vw);
-    line-height: 1.2;
-    margin-top: 0;
-    margin-bottom: 0.5rem;
-}
-
-.p1 {
-    font-size: calc(1.275rem + 0.3vw);
-    margin-top: 0;
-    margin-bottom: 1rem;
-}
-.lk {
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    font-size: 1.25rem;
-    color: #fff;
-    text-decoration: none;
-    border: 0.1rem solid #0d6efd;
-    border-radius: 0.5rem;
-    background-color: #0d6efd;
+img {
+  max-width: 100%; /* 이미지의 너비를 슬라이드의 너비에 맞춤 */
+  max-height: 100%; /* 이미지의 높이를 슬라이드의 높이에 맞춤 */
+  object-fit: contain; /* 이미지 비율을 유지하며 슬라이드에 맞추기 */
+  display: block; /* 이미지가 블록 요소로 설정되어 중간 정렬 */
 }

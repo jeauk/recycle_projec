@@ -5,8 +5,6 @@
 }
 
 .d1 {
-    padding-right: 3rem !important;
-    padding-left: 3rem !important;
     margin-right: auto;
     margin-left: auto;
     box-sizing: border-box;
@@ -19,26 +17,20 @@
     display: flex;
     flex-wrap: wrap; /* 요소들이 줄 바꿈을 할 수 있도록 설정 */
     justify-content: space-between; /* 요소 간의 간격을 동일하게 */
-    width: 87.5%;
-    margin-top: 0;
-    margin-right: auto;
-    margin-left: auto;
-    padding-left: 0;
-    padding-right: 0;
     box-sizing: border-box;
 }
 
 .d3 {
     width: calc(33.33% - 1.5rem);
-    padding-right: 0.75rem;
-    padding-left: 0.75rem;
+    /* padding-right: 0.75rem; */
+    /* padding-left: 0.75rem; */
     margin-bottom: 4rem !important;
     box-sizing: border-box;
 }
 
 .d4 {
     background-color: rgba(248,249,250,1);
-    height: 100% !important;
+    height: 220px;
     border: 0 !important;
     box-sizing: border-box;
     position: relative;
@@ -55,8 +47,12 @@
 }
 
 .d5 {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
     text-align: center !important;
-    padding: 1.5rem;
+    /* padding: 1.5rem; */
     box-sizing: border-box;
     position: relative;
 }
@@ -82,9 +78,8 @@
 
 .h1 {
     font-weight: 700 !important;
-    font-size: calc(1.275rem + 0.3vw) !important;
-    margin-top: 0;
-    margin-bottom: 0.5rem;
+    font-size: calc(1.4rem) !important;
+    margin: 0;
     line-height: 1.2;
     box-sizing: border-box;
     word-break: normal; /* 단어 단위로 줄바꿈 */

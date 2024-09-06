@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
+import CardActionArea from '@mui/material/CardActionArea';
 import { useNavigate } from "react-router-dom";
+import { Avatar } from "@mui/material";
 
 const PostList = () => {
   const [posts, setPosts] = useState([]);
@@ -23,29 +29,40 @@ const PostList = () => {
     fetchPosts();
   }, []);
 
-  const handleCreatePost = () => {
-    navigate("/post");
-  };
-
   const handlePostClick = (id) => {
     navigate(`/post/${id}`);
   };
 
   return (
-    <div>
-      <h1>게시글 목록</h1>
-      <button onClick={handleCreatePost}>작성하기</button>
-      <button onClick={() => {
-            navigate('/sido');
-          }}>시도테스트</button>
-      <ul>
-        {posts.map((post) => (
-          <li key={post.id} onClick={() => handlePostClick(post.id)}>
-            <strong>제목:</strong> {post.title} <br />
-            <strong>작성자:</strong> {post.author}
-          </li>
-        ))}
-      </ul>
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px' }}>
+      {posts.map((post) => (
+        <Card
+          key={post.id}
+          sx={{ maxWidth: 345 }}
+          onClick={() => handlePostClick(post.id)}
+        >
+          <CardActionArea>
+            <CardMedia
+              component="img"
+              height="140"
+              image={post.imagePath} // 이미지가 없을 때 기본 이미지 제공
+              alt={"대표이미지"}
+            />
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="div">
+                {post.title}
+              </Typography>
+              <Typography variant="body2" sx={{ color: 'text.secondary'}}>
+                <div className="imgContainer"style={{ display: 'flex', alignItems: 'center' }}>
+                <Avatar alt="Remy Sharp" src={post.authorImg} sx={{width:24,height:24}}/>
+                {post.author}
+                </div>
+                {"조회수: "}{post.viewCount} {"추천수: "}{post.recommendCount}
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+        </Card>
+      ))}
     </div>
   );
 };
