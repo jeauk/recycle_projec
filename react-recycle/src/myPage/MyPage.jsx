@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Logout from './Logout'; // 로그아웃 컴포넌트를 사용한다고 가정
 import Kakaobtn from './KakaoBtn'; // 로그인 버튼 컴포넌트를 사용한다고 가정
+import styles from './MyPage.module.css';
 
 function ProfileUpdateForm() {
   // 로그인 상태를 관리하는 state
@@ -90,29 +91,35 @@ function ProfileUpdateForm() {
   };
 
   return (
-    <div>
-      <h1>프로필 업데이트</h1>
+      <div className={styles.container}>
+      <h1 className={styles.header}>{nickname} 사용자님, 안녕하세요</h1>
+      <div className={styles.loginBox}>
+        <p className={styles.loginBoxText}>
+        게시글 쓰기 컨텐츠를 이용하기 위해서는 로그인이 필요합니다.
+        </p>
       {/* 로그인 상태에 따라 로그아웃 버튼 또는 로그인 버튼을 렌더링 */}
       {isLoggedIn ? (
         <Logout onLogout={handleLogout} />
       ) : (
-        <Kakaobtn onLogin={handleLogin} />
+        <Kakaobtn onLogin={handleLogin} className={styles.kakaoButton} />
       )}
-      <form onSubmit={handleSubmit}>
+      </div>
+      <form className={styles.form} onSubmit={handleSubmit}>
         <div>
-          <label>닉네임:</label>
+        <label className={styles.formLabel}>닉네임:</label>
           <input
             type="text"
             value={nickname} // 상태 변수에 바인딩
+            className={styles.formInput}
             onChange={(e) => setNickname(e.target.value)} // 입력 변경 시 닉네임 상태 업데이트
           />
         </div>
         <div>
-          <label>프로필 이미지:</label>
+        <label className={styles.formLabel}>프로필 이미지:</label>
           <input type="file" accept="image/*" onChange={handleImageChange} /> {/* 이미지 파일 선택 시 handleImageChange 함수 호출 */}
           {profileImageUrl && <img src={profileImageUrl} alt="Profile Preview" style={{ width: '150px', height: '150px' }} />} {/* 미리보기 이미지 또는 기존 이미지 */}
         </div>
-        <button type="submit">프로필 업데이트</button> {/* 제출 버튼 */}
+        <button type="submit" className={styles.submitButton}>프로필 업데이트</button>
       </form>
     </div>
   );

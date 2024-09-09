@@ -1,11 +1,9 @@
 import { useNavigate } from "react-router-dom";
-import { useContext, useEffect } from "react";
-import { UserContext } from "../components/UserContext";
+import { useEffect } from "react";
 
 const LoginHandler = ({onLogin}) => {
   const navigate = useNavigate();
   const code = new URL(window.location.href).searchParams.get("code");
-  const { fetchUserProfile } = useContext(UserContext);
 
   useEffect(() => {
     const sendCode = async () => {
@@ -22,7 +20,6 @@ const LoginHandler = ({onLogin}) => {
             if (res.jwt) {
               sessionStorage.setItem("jwt", res.jwt);
               onLogin(); 
-              await fetchUserProfile();
             }
 
           const jwt = sessionStorage.getItem("jwt");
@@ -51,7 +48,7 @@ const LoginHandler = ({onLogin}) => {
     };
 
     sendCode();
-  }, [code, onLogin, navigate, fetchUserProfile]);
+  }, []);
 
   return (
     <div className="LoginHandler">
