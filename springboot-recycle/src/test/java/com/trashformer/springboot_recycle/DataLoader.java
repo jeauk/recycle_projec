@@ -26,7 +26,7 @@ public class DataLoader implements CommandLineRunner {
         kakaoUserRepository.save(user);
 
         // 100개의 포스트 생성
-        for (int i = 1; i <= 100; i++) {
+        for (int i = 1; i <= 1000; i++) {
             ReformBoardEntity post = new ReformBoardEntity();
             post.setTitle("Sample Post Title " + i);
             post.setContent("This is the content for post number " + i);
@@ -36,6 +36,6 @@ public class DataLoader implements CommandLineRunner {
             reformBoardRepository.save(post);
         }
 
-        System.out.println("100개의 포스트가 생성되었습니다.");
+        System.out.println("1000개의 포스트가 생성되었습니다.");
     }
 }
