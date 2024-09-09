@@ -1,0 +1,75 @@
+/* PostList.module.css */
+.container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding-top: 50px;
+}
+
+.postListTitle {
+  font-size: 16px;
+}
+
+.imgContainer {
+  display: flex;
+  align-items: center;
+}
+
+.postListAuthorName {
+  font-family: 'GmarketSansMedium';
+}
+
+.cardMedia {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}
+
+.typographyBody {
+  font-size: 12px;
+  font-family: 'GmarketSansMedium';
+}
+
+/* New Styles moved from inline to CSS module */
+.card {
+  flex-basis: calc(25% - 16px);
+  margin-top: 50px;
+  border-radius: 30px 10px;
+}
+
+.paginationContainer {
+  padding: 20px 0px;
+  display: flex;  
+  justify-content: center;
+}
+.postingButton {
+  display: flex;
+  justify-content: flex-end; /* 오른쪽 정렬 */
+  padding-right: 20px; /* 여백 추가 */
+  margin-top: 20px;
+}
+.postingButton button {
+  background-color: #98c76a; /* 버튼 색상 */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.postingButton button:hover {
+  background-color: #86b261; /* hover 시 색상 변경 */
+}
+
+
+.postListDate {
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.updatedText {
+  font-size: 10px;  /* 작은 글씨 크기 */
+  color: gray;      /* 회색 글씨 */
+}
+

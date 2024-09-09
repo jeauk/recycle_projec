@@ -37,7 +37,6 @@ const LoginHandler = ({onLogin}) => {
           console.log('서버 응답:', data2);
 
           // 로그인 성공 시 알림 표시
-          alert('로그인에 성공했습니다!');
           navigate('/mypage');
         } catch (error) {
           console.error('에러 발생:', error);

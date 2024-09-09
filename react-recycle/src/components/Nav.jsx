@@ -11,7 +11,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
 import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
@@ -19,7 +18,7 @@ import { useNavigate } from 'react-router-dom';  // useNavigate import
 import { useEffect, useState } from 'react'; // useEffect 및 useState 추가
 
 const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Logout'];
+const settings = ['프로필', '글쓰기', '로그아웃'];
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -57,6 +56,7 @@ function Nav() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [profileImageUrl, setProfileImageUrl] = useState('');  // 프로필 이미지 상태 관리
+  const [isLoggedIn, setIsLoggedIn] = useState(false);  // 로그인 상태 관리
   const navigate = useNavigate();  // useNavigate 훅 사용
 
   const handleOpenNavMenu = (event) => {
@@ -79,6 +79,12 @@ function Nav() {
     const getData = async () => {
       try {
         const jwt = sessionStorage.getItem('jwt');
+        
+        // 로그인 상태 확인
+        if (jwt) {
+          setIsLoggedIn(true);
+        }
+
         const url = 'http://localhost:8080/user/profile';
         const response = await fetch(url, {
           method: 'GET',
@@ -110,15 +116,15 @@ function Nav() {
   const handleMenuClick = (setting) => {
     handleCloseUserMenu();
 
-    if (setting === 'Profile') {
+    if (setting === '프로필') {
       navigate('/mypage');
-    } else if (setting === 'Account') {
-      navigate('/account');
-    } else if (setting === 'Dashboard') {
-      navigate('/dashboard');
-    } else if (setting === 'Logout') {
+    } else if (setting === '글쓰기') {
+      navigate('/post');
+    } else if (setting === '로그아웃') {
       sessionStorage.removeItem('jwt');
       navigate('/');
+      setIsLoggedIn(false);  // 로그아웃 후 로그인 상태 변경
+      alert("로그아웃 되었습니다")
     }
   };
 
@@ -226,11 +232,13 @@ function Nav() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={() => handleMenuClick(setting)}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
+              {settings
+                .filter(setting => setting !== '로그아웃' || isLoggedIn)  // 로그인 상태일 때만 '로그아웃' 표시
+                .map((setting) => (
+                  <MenuItem key={setting} onClick={() => handleMenuClick(setting)}>
+                    <Typography textAlign="center">{setting}</Typography>
+                  </MenuItem>
+                ))}
             </Menu>
           </Box>
         </Toolbar>

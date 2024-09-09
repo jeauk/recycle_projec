@@ -18,6 +18,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -171,33 +174,41 @@ public class ReformBoardController {
     }
 
     @GetMapping("/api/postlist")
-    public List<Map<String, Object>> getPosts() {
-        // ReformBoardEntity 리스트를 가져옵니다.
-        List<ReformBoardEntity> posts = reformBoardRepository.findAll();
+    public ResponseEntity<Map<String, Object>> getPosts(
+        @RequestParam(defaultValue = "0") int page,   // 페이지 번호 (0부터 시작)
+        @RequestParam(defaultValue = "12") int size   // 한 페이지에 보여줄 게시물 수
+    ) {
+        // Pageable 객체 생성 (요청된 페이지 번호와 페이지 크기 설정)
+        Pageable pageable = PageRequest.of(page, size);
+        
+        // 페이징된 게시물 리스트 가져오기
+        Page<ReformBoardEntity> postPage = reformBoardRepository.findAll(pageable);
 
-        // 응답을 위한 리스트 생성
-        List<Map<String, Object>> response = new ArrayList<>();
-
-        for (ReformBoardEntity post : posts) {
-            // 각 게시물에 대해 제목과 작성자의 닉네임을 추출
+        // 게시물 데이터를 담을 리스트 생성
+        List<Map<String, Object>> postList = new ArrayList<>();
+        for (ReformBoardEntity post : postPage.getContent()) {
             Map<String, Object> postMap = new HashMap<>();
             postMap.put("id", post.getId());
             postMap.put("title", post.getTitle());
-            postMap.put("author", post.getKakaoUserEntity().getNickname()); // 작성자의 닉네임을 포함
-            postMap.put("recommendCount",post.getRecommendCount());;
-            postMap.put("viewCount",post.getViewCount());
-            postMap.put("imagePath",post.getImagePath());
-            postMap.put("authorImg",post.getKakaoUserEntity().getProfileImageUrl());
-            
-            // 각 게시물 정보 출력
-            System.out.println("Post Title: " + post.getTitle() + ", Author: " + post.getKakaoUserEntity().getNickname());
+            postMap.put("author", post.getKakaoUserEntity().getNickname()); // 작성자의 닉네임
+            postMap.put("recommendCount", post.getRecommendCount());
+            postMap.put("viewCount", post.getViewCount());
+            postMap.put("imagePath", post.getImagePath());
+            postMap.put("authorImg", post.getKakaoUserEntity().getProfileImageUrl());
+            postMap.put("createAt",post.getCreatedAt());
+            postMap.put("updateChange",post.isUpdateChange());
 
-            // 응답 리스트에 추가
-            response.add(postMap);
+            postList.add(postMap);
         }
 
-        // 응답 반환
-        return response;
+        // 응답에 페이징 정보와 게시물 데이터를 함께 전달
+        Map<String, Object> response = new HashMap<>();
+        response.put("posts", postList);                    // 게시물 리스트
+        response.put("currentPage", postPage.getNumber());  // 현재 페이지 번호
+        response.put("totalItems", postPage.getTotalElements());  // 전체 게시물 수
+        response.put("totalPages", postPage.getTotalPages());     // 전체 페이지 수
+
+        return ResponseEntity.ok(response);
     }
 
    @GetMapping("/api/posts/{id}")
