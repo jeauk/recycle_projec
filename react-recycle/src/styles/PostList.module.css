@@ -1,8 +1,6 @@
-/* PostList.module.css */
 .container {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 한 줄에 4개의 칸 */
   gap: 16px;
   padding-top: 50px;
 }
@@ -31,9 +29,9 @@
   font-family: 'GmarketSansMedium';
 }
 
-/* New Styles moved from inline to CSS module */
+/* 카드 스타일 */
 .card {
-  flex-basis: calc(25% - 16px);
+  width: 300px;
   margin-top: 50px;
   border-radius: 30px 10px;
 }
@@ -43,12 +41,14 @@
   display: flex;  
   justify-content: center;
 }
+
 .postingButton {
   display: flex;
   justify-content: flex-end; /* 오른쪽 정렬 */
   padding-right: 20px; /* 여백 추가 */
   margin-top: 20px;
 }
+
 .postingButton button {
   background-color: #98c76a; /* 버튼 색상 */
   color: white;
@@ -62,7 +62,6 @@
   background-color: #86b261; /* hover 시 색상 변경 */
 }
 
-
 .postListDate {
   font-size: 12px;
   margin-top: 5px;
@@ -73,3 +72,8 @@
   color: gray;      /* 회색 글씨 */
 }
 
+.searchBox{
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row-reverse;
+}

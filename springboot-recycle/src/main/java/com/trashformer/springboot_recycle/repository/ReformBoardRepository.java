@@ -14,4 +14,5 @@ public interface ReformBoardRepository extends JpaRepository <ReformBoardEntity,
 
     Optional<ReformBoardEntity> findByKakaoUserEntityEmailAndId(String email, Long id);
     Page<ReformBoardEntity> findAll(Pageable pageable);
+    Page<ReformBoardEntity> findByTitleContainingOrContentContaining(String title, String content, Pageable pageable);
 }

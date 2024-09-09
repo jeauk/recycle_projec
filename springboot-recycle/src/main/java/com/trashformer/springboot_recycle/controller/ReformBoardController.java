@@ -174,42 +174,51 @@ public class ReformBoardController {
     }
 
     @GetMapping("/api/postlist")
-    public ResponseEntity<Map<String, Object>> getPosts(
-        @RequestParam(defaultValue = "0") int page,   // 페이지 번호 (0부터 시작)
-        @RequestParam(defaultValue = "12") int size   // 한 페이지에 보여줄 게시물 수
-    ) {
-        // Pageable 객체 생성 (요청된 페이지 번호와 페이지 크기 설정)
-        Pageable pageable = PageRequest.of(page, size);
-        
-        // 페이징된 게시물 리스트 가져오기
-        Page<ReformBoardEntity> postPage = reformBoardRepository.findAll(pageable);
+public ResponseEntity<Map<String, Object>> getPosts(
+    @RequestParam(defaultValue = "0") int page,   // 페이지 번호 (0부터 시작)
+    @RequestParam(defaultValue = "12") int size,  // 한 페이지에 보여줄 게시물 수
+    @RequestParam(required = false) String search // 검색어 (옵션)
+) {
+    // Pageable 객체 생성
+    Pageable pageable = PageRequest.of(page-1, size);
 
-        // 게시물 데이터를 담을 리스트 생성
-        List<Map<String, Object>> postList = new ArrayList<>();
-        for (ReformBoardEntity post : postPage.getContent()) {
-            Map<String, Object> postMap = new HashMap<>();
-            postMap.put("id", post.getId());
-            postMap.put("title", post.getTitle());
-            postMap.put("author", post.getKakaoUserEntity().getNickname()); // 작성자의 닉네임
-            postMap.put("recommendCount", post.getRecommendCount());
-            postMap.put("viewCount", post.getViewCount());
-            postMap.put("imagePath", post.getImagePath());
-            postMap.put("authorImg", post.getKakaoUserEntity().getProfileImageUrl());
-            postMap.put("createAt",post.getCreatedAt());
-            postMap.put("updateChange",post.isUpdateChange());
-
-            postList.add(postMap);
-        }
-
-        // 응답에 페이징 정보와 게시물 데이터를 함께 전달
-        Map<String, Object> response = new HashMap<>();
-        response.put("posts", postList);                    // 게시물 리스트
-        response.put("currentPage", postPage.getNumber());  // 현재 페이지 번호
-        response.put("totalItems", postPage.getTotalElements());  // 전체 게시물 수
-        response.put("totalPages", postPage.getTotalPages());     // 전체 페이지 수
-
-        return ResponseEntity.ok(response);
+    // 검색 조건이 있는 경우와 없는 경우 분기 처리
+    Page<ReformBoardEntity> postPage;
+    if (search != null && !search.trim().isEmpty()) {
+        // 검색어가 있는 경우: 제목 또는 내용에 검색어가 포함된 게시물 조회
+        postPage = reformBoardRepository.findByTitleContainingOrContentContaining(search, search, pageable);
+    } else {
+        // 검색어가 없는 경우: 전체 게시물 조회
+        postPage = reformBoardRepository.findAll(pageable);
     }
+
+    // 게시물 데이터를 담을 리스트 생성
+    List<Map<String, Object>> postList = new ArrayList<>();
+    for (ReformBoardEntity post : postPage.getContent()) {
+        Map<String, Object> postMap = new HashMap<>();
+        postMap.put("id", post.getId());
+        postMap.put("title", post.getTitle());
+        postMap.put("author", post.getKakaoUserEntity().getNickname()); // 작성자의 닉네임
+        postMap.put("recommendCount", post.getRecommendCount());
+        postMap.put("viewCount", post.getViewCount());
+        postMap.put("imagePath", post.getImagePath());
+        postMap.put("authorImg", post.getKakaoUserEntity().getProfileImageUrl());
+        postMap.put("createAt", post.getCreatedAt());
+        postMap.put("updateChange", post.isUpdateChange());
+
+        postList.add(postMap);
+    }
+
+    // 응답에 페이징 정보와 게시물 데이터를 함께 전달
+    Map<String, Object> response = new HashMap<>();
+    response.put("posts", postList);                    // 게시물 리스트
+    response.put("currentPage", postPage.getNumber());   // 현재 페이지 번호
+    response.put("totalItems", postPage.getTotalElements());  // 전체 게시물 수
+    response.put("totalPages", postPage.getTotalPages());     // 전체 페이지 수
+
+    return ResponseEntity.ok(response);
+}
+
 
    @GetMapping("/api/posts/{id}")
     public ResponseEntity<Map<String, Object>> getPostById(
