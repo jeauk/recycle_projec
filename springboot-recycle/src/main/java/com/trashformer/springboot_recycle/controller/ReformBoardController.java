@@ -378,6 +378,7 @@ public ResponseEntity<String> editPost(
         }
     }
 
+    post.setCreatedAt(new Date());  // 현재 시간을 설정
     // 게시물 저장
     post.setUpdateChange(true);
     reformBoardRepository.save(post);

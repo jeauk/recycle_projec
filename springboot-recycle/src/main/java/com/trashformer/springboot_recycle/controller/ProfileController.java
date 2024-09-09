@@ -157,7 +157,10 @@ public class ProfileController {
                 Map<String, Object> recommendInfo = new HashMap<>();
                 recommendInfo.put("boardId", recommend.getReformBoardEntity().getId());  // 게시판 ID
                 recommendInfo.put("title", recommend.getReformBoardEntity().getTitle()); // 게시판 제목
-                return recommendInfo;
+                recommendInfo.put("viewCount", recommend.getReformBoardEntity().getViewCount()); 
+                recommendInfo.put("createAt", recommend.getReformBoardEntity().getCreatedAt()); 
+                recommendInfo.put("recommendCount", recommend.getReformBoardEntity().getRecommendCount()); 
+                recommendInfo.put("nickname", recommend.getReformBoardEntity().getKakaoUserEntity().getNickname());                return recommendInfo;
             })
             .collect(Collectors.toList());
     
@@ -171,6 +174,10 @@ public class ProfileController {
             Map<String, Object> postInfo = new HashMap<>();
             postInfo.put("postId", post.getId());
             postInfo.put("title", post.getTitle());
+            postInfo.put("createAt",post.getCreatedAt());
+            postInfo.put("viewCount",post.getViewCount());
+            postInfo.put("nickname",post.getKakaoUserEntity().getNickname());
+            postInfo.put("recommendCount",post.getRecommendCount());
             return postInfo;
         }).collect(Collectors.toList());
         profileData.put("userPosts", postData);
