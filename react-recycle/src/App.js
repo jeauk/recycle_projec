@@ -7,6 +7,8 @@ import KakaoMap from './components/KakaoMap';
 import TopHeader from './components/TopHeader';
 import Login from './components/Login';
 import styles from './App.module.css';
+import MainRecycleDetail from './mainRecycle/MainRecycleDetail';
+import MainRecycleSearch from './mainRecycle/MainRecycleSearch';
 
 function App() {
   return (
@@ -20,6 +22,9 @@ function App() {
               <Route index element={<Home />} />
               <Route path='/map' element={<KakaoMap />} />
               <Route path='/login' element={<Login />} />
+              <Route path='/RecycleMain' element={<MainRecycleSearch />} />
+              <Route path='/RecycleMain/:id' element={<MainRecycleDetail />} />
+
             </Routes>
           </div>
           <Footer />
