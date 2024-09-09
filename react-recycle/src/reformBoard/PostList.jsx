@@ -14,12 +14,13 @@ const PostList = () => {
   const [totalPages, setTotalPages] = useState(10); // 총 페이지 수 기본값 설정
   const [search, setSearch] = useState(""); // 검색어 상태 추가
   const [searchQuery, setSearchQuery] = useState(""); // 실제 검색에 사용할 검색어 상태
+  const [searchType, setSearchType] = useState("title_content"); // 검색 타입 상태 추가
   const navigate = useNavigate();
 
   // API 호출 함수 분리
-  const fetchPosts = async (page, searchQuery) => {
+  const fetchPosts = async (page, searchQuery, searchType) => {
     try {
-      const query = searchQuery ? `&search=${encodeURIComponent(searchQuery)}` : "";
+      const query = searchQuery ? `&search=${encodeURIComponent(searchQuery)}&type=${searchType}` : "";
       const response = await fetch(
         `http://localhost:8080/api/postlist?page=${page}&size=12${query}`,
         {
@@ -42,8 +43,8 @@ const PostList = () => {
 
   // 페이지 및 검색어가 변경될 때마다 API 호출
   useEffect(() => {
-    fetchPosts(page, searchQuery); // 분리된 API 호출 함수 호출
-  }, [page, searchQuery]);
+    fetchPosts(page, searchQuery, searchType); // 검색 타입과 검색어, 페이지 정보를 전달
+  }, [page, searchQuery, searchType]);
 
   // 검색어 입력 핸들러
   const searchChange = (e) => {
@@ -56,6 +57,11 @@ const PostList = () => {
     setPage(1); // 검색 시 페이지를 1로 초기화
   };
 
+  // 검색 타입 변경 핸들러
+  const handleSearchTypeChange = (e) => {
+    setSearchType(e.target.value); // 검색 타입을 상태로 저장
+  };
+
   const handlePostClick = (id) => {
     navigate(`/post/${id}`);
   };
@@ -63,8 +69,10 @@ const PostList = () => {
   return (
     <div className="big">
       <div className={styles.searchBox}>
-        <select>
-        <option value="">내용+제목</option>
+        <select onChange={handleSearchTypeChange} value={searchType}> {/* 검색 타입 변경 핸들러 연결 */}
+          <option value="title_content">내용+제목</option>
+          <option value="title">제목</option>
+          <option value="author">작성자</option>
         </select>
         <input
           onChange={searchChange} // 입력값 변경 시 상태 업데이트
