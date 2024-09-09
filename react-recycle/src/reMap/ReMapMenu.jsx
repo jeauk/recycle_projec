@@ -3,7 +3,7 @@ import m from '../styles/KaKaoMapMenu.module.css';
 import rm from '../styles/ReMap.module.css';
 
 const ReMapMenu = React.memo(({ locations, onLocationClick, searchHistory, setSearchHistory, activeTab, setActiveTab }) => {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [activeButton, setActiveButton] = useState(activeTab);
 
@@ -53,21 +53,21 @@ const ReMapMenu = React.memo(({ locations, onLocationClick, searchHistory, setSe
   }, [setActiveTab]);
 
   return (
-    <div>
+    <div className={rm.rewrap}>
       <div className={`${m.sideMenu} ${isOpen ? m.open : ''}`}>
         <div className={m.search}>
           <input type="text" placeholder="중고 가게 위치 검색" onChange={handleSearchChange} value={searchQuery} onKeyDown={handleKeyPress} />
-          <p style={{display:'inline-block'}}>검색된 가게: {filteredLocations.length}개</p>
+          <p className={rm.searchres}><span className={rm.gsearch}>검색된 가게:</span> {filteredLocations.length}개</p>
           <button className={m.clearButton} onClick={clearSearch}>⟳</button>
           <div>
             {searchHistory.map((query, index) => (
-              <p key={index} onClick={() => handleSearchClick(index)}>검색어{index + 1}: {query}</p>
+              <p key={index} onClick={() => handleSearchClick(index)} className={rm.select}>검색어{index + 1}: {query}</p>
             ))}
           </div>
         </div>
         <div className={`${m.KakaoMapList} ${isOpen ? m.open : ''}`}>
           {filteredLocations.map((loc, locIdx) => (
-            <div key={locIdx} className={m.locationItem} onClick={() => handleLocationClick(loc)}>
+            <div key={locIdx} className={rm.res} onClick={() => handleLocationClick(loc)}>
               <h4>{loc.name}</h4>
               <p>{loc.address}</p>
               <p>{loc.tel}</p>
