@@ -32,7 +32,7 @@
 /* 카드 스타일 */
 .card {
   width: 300px;
-  margin-top: 50px;
+  margin-top: 30px;
   border-radius: 30px 10px;
 }
 
@@ -73,7 +73,7 @@
 }
 
 .searchBox{
-  margin-top: 10px;
+  margin-top: 20px;
   display: flex;
-  flex-direction: row-reverse;
+  justify-content: flex-end;
 }

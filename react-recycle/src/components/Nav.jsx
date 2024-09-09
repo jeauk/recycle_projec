@@ -233,6 +233,7 @@ function Nav() {
               onClose={handleCloseUserMenu}
             >
               {settings
+                .filter(setting => (setting === '글쓰기' && isLoggedIn) || setting !== '글쓰기')  // 로그인 상태일 때만 '글쓰기' 표시
                 .filter(setting => setting !== '로그아웃' || isLoggedIn)  // 로그인 상태일 때만 '로그아웃' 표시
                 .map((setting) => (
                   <MenuItem key={setting} onClick={() => handleMenuClick(setting)}>

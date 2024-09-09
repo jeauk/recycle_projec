@@ -62,8 +62,10 @@ const PostList = () => {
 
   return (
     <div className="big">
-      <div className="searchBox">
-        <select></select>
+      <div className={styles.searchBox}>
+        <select>
+        <option value="">내용+제목</option>
+        </select>
         <input
           onChange={searchChange} // 입력값 변경 시 상태 업데이트
           placeholder="검색 할 내용"
