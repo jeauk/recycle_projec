@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Nav from "./components/Nav";
 import Home from "./MainPage/Home";
 import KakaoMap from "./vendingDevice/KakaoMap";
+import SuMap from "./vendingDevice/KakaoMapMarker";
 import PostList from "./reformBoard/PostList";
 import PostForm from "./reformBoard/PostForm";
 import PostDetail from "./reformBoard/PostDetail";
@@ -11,7 +12,7 @@ import Footer from "./components/Footer";
 import styles from './App.module.css';
 import LoginHandeler from './myPage/LoginHandeler';
 import Mypage from './myPage/MyPage';
-import Sido from './market/Sido';
+import Sido from './sido/Sido';
 import "./App.css";
 import ReMap from "./reMap/ReMap";
 import Contact from "./components/Contact";
@@ -42,6 +43,7 @@ function App() {
             <Routes>
               <Route index element={<Home />} />
               <Route path='/map' element={<KakaoMap />} />
+              <Route path='/sumap' element={<SuMap />} />
               <Route path="/remap" element={<ReMap />} />
               <Route path="/list" element={<PostList />} />
               <Route path="/post" element={<PostForm />} />

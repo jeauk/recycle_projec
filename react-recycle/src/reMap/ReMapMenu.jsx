@@ -1,9 +1,11 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import m from '../styles/KaKaoMapMenu.module.css';
+import rm from '../styles/ReMap.module.css';
 
-const ReMapMenu = React.memo(({ locations, onLocationClick, searchHistory, setSearchHistory, activeTab }) => {
+const ReMapMenu = React.memo(({ locations, onLocationClick, searchHistory, setSearchHistory, activeTab, setActiveTab }) => {
   const [isOpen, setIsOpen] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
+  const [activeButton, setActiveButton] = useState(activeTab);
 
   const toggleMenu = useCallback(() => {
     setIsOpen(!isOpen);
@@ -43,17 +45,20 @@ const ReMapMenu = React.memo(({ locations, onLocationClick, searchHistory, setSe
 
   const handleLocationClick = useCallback((loc) => {
     onLocationClick(loc);
-  }, [onLocationClick, setSearchHistory]);
+  }, [onLocationClick]);
+
+  const handleTabClick = useCallback((tab) => {
+    setActiveTab(tab);
+    setActiveButton(tab);
+  }, [setActiveTab]);
 
   return (
     <div>
       <div className={`${m.sideMenu} ${isOpen ? m.open : ''}`}>
         <div className={m.search}>
           <input type="text" placeholder="중고 가게 위치 검색" onChange={handleSearchChange} value={searchQuery} onKeyDown={handleKeyPress} />
-          <p>검색된 가게: {filteredLocations.length}개</p>
-          <button className={m.clearButton} onClick={clearSearch}>
-            X
-          </button>
+          <p style={{display:'inline-block'}}>검색된 가게: {filteredLocations.length}개</p>
+          <button className={m.clearButton} onClick={clearSearch}>⟳</button>
           <div>
             {searchHistory.map((query, index) => (
               <p key={index} onClick={() => handleSearchClick(index)}>검색어{index + 1}: {query}</p>
@@ -69,6 +74,10 @@ const ReMapMenu = React.memo(({ locations, onLocationClick, searchHistory, setSe
               <br />
             </div>
           ))}
+        </div>
+        <div className={rm.btn}>
+          <button className={`${rm.btn1} ${activeButton === "gwill" ? rm.active : ''}`} onClick={() => handleTabClick("gwill")}>굿윌스토어</button>
+          <button className={`${rm.btn2} ${activeButton === "bmarket" ? rm.active : ''}`} onClick={() => handleTabClick("bmarket")}>아름다운가게</button>
         </div>
       </div>
       <button className={`${m.toggleButton} ${isOpen ? m.open : ''}`} onClick={toggleMenu}>

@@ -10,7 +10,7 @@ const PageContents = () => {
                         <div className={s.d4}>
                             <div className={s.d5}>
                                 <div className={s.d6}><i>AI</i></div>
-                                <h2 className={s.h1}>AI 판독기</h2>
+                                <h2 className={s.h1}><a href='https://teachablemachine.withgoogle.com/models/xzeLom0rm/' className={s.a}>AI 판독기</a></h2>
                                 <p className={s.p1}>애매한 재활용을 찍어보자</p>
                             </div>
                         </div>
