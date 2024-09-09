@@ -88,7 +88,7 @@ function Sido() {
     }
   }, [id]);
 
-  return (
+  return ( 
     <div className={s.wrap}>
       <div id="sido">
         <h1>폐기물 시/군/구 별 전화번호</h1>
