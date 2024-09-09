@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import Logout from './Logout'; // 로그아웃 컴포넌트를 사용한다고 가정
 import Kakaobtn from './KakaoBtn'; // 로그인 버튼 컴포넌트를 사용한다고 가정
 import styles from './MyPage.module.css';
+import { useNavigate } from 'react-router-dom';
 
 function ProfileUpdateForm() {
+  const navigate = useNavigate();
   // 로그인 상태를 관리하는 state
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -19,6 +20,7 @@ function ProfileUpdateForm() {
       setIsLoggedIn(true); // JWT 토큰이 있으면 로그인 상태로 설정
     } else {
       setIsLoggedIn(false); // JWT 토큰이 없으면 로그아웃 상태로 설정
+      setProfileImageUrl('/img/loginplz.jpg');
     }
 
     // 기존 프로필 정보를 가져오는 로직
@@ -36,21 +38,10 @@ function ProfileUpdateForm() {
       }
     };
 
-    fetchProfile(); // 프로필 정보를 가져옴
-    
-  }, []);
-
-  // 로그인 핸들러 함수
-  const handleLogin = () => {
-    setIsLoggedIn(true); // 로그인 상태를 true로 변경
-  };
-
-  // 로그아웃 핸들러 함수
-  const handleLogout = () => {
-    setIsLoggedIn(false); // 로그인 상태를 false로 변경
-    sessionStorage.removeItem('jwt'); // JWT 토큰을 세션에서 제거
-    window.location.reload();
-  };
+    if (isLoggedIn) {
+      fetchProfile(); // 로그인 상태에서만 프로필 정보를 가져옴
+    }
+  }, [isLoggedIn]);
 
   // 이미지 파일 선택 시 호출되는 함수
   const handleImageChange = (e) => {
@@ -94,38 +85,58 @@ function ProfileUpdateForm() {
   };
 
   return (
-      <div className={styles.container}>
-      <h1 className={styles.header}>{nickname} 사용자님, 안녕하세요</h1>
-      <div className={styles.loginBox}>
-        <p className={styles.loginBoxText}>
-        게시글 쓰기 컨텐츠를 이용하기 위해서는 로그인이 필요합니다.
-        </p>
-      {/* 로그인 상태에 따라 로그아웃 버튼 또는 로그인 버튼을 렌더링 */}
-      {isLoggedIn ? (
-        <Logout onLogout={handleLogout} />
-      ) : (
-        <Kakaobtn onLogin={handleLogin} className={styles.kakaoButton} />
-      )}
+    <div>
+      <div className={styles.headerContainer}>
+        <h1 className={styles.header}>{nickname ? `${nickname} 사용자님, 안녕하세요` : ' 사용자님, 안녕하세요'}</h1>
       </div>
-      <form className={styles.form} onSubmit={handleSubmit}>
-        <div>
-        <label className={styles.formLabel}>닉네임:</label>
+       <div className={styles.container}>
+        {/* 왼쪽 상단 프로필 이미지와 닉네임 입력란 */}
+        <div className={styles.profileContainer}>
+          <img 
+            src={profileImageUrl} 
+            alt="Profile" 
+            className={styles.profileImage} 
+          />
           <input
             type="text"
-            value={nickname} // 상태 변수에 바인딩
-            className={styles.formInput}
-            onChange={(e) => setNickname(e.target.value)} // 입력 변경 시 닉네임 상태 업데이트
+            value={nickname}
+            placeholder="닉네임"
+            className={styles.nicknameInput}
+            onChange={(e) => setNickname(e.target.value)}
+            readOnly={!isLoggedIn}  // 로그인이 안되었을 때는 입력할 수 없도록 설정
           />
         </div>
-        <div>
-        <label className={styles.formLabel}>프로필 이미지:</label>
-          <input type="file" accept="image/*" onChange={handleImageChange} /> {/* 이미지 파일 선택 시 handleImageChange 함수 호출 */}
-          {profileImageUrl && <img src={profileImageUrl} alt="Profile Preview" style={{ width: '150px', height: '150px' }} />} {/* 미리보기 이미지 또는 기존 이미지 */}
-        </div>
-        <button type="submit" className={styles.submitButton}>프로필 업데이트</button>
-      </form>
+
+        {isLoggedIn ? (
+          <div className={styles.loginContainer}>
+            <form className={styles.form} onSubmit={handleSubmit}>
+              <div>
+                <label className={styles.formLabel}>프로필 이미지:</label>
+                <input type="file" accept="image/*" onChange={handleImageChange} />
+              </div>
+              <button type="submit" className={styles.submitButton}>프로필 업데이트</button>
+            </form>
+
+            <div className={styles.buttonList}>
+              <div className={styles.buttonItem} onClick={() => navigate('/mypage/mylist')}>
+                <span className={styles.buttonLabel}>내가 쓴 리폼 게시글</span>
+              </div>
+              <div className={styles.buttonItem} onClick={() => navigate('/mypage/myrecommend')}>
+                <span className={styles.buttonLabel}>내가 추천한 리폼 게시글</span>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className={styles.loginContainer}>
+            <p className={styles.loginBoxText}>
+              게시글 쓰기 컨텐츠를 이용하기 위해서는 로그인이 필요합니다.
+            </p>
+            <Kakaobtn onLogin={() => setIsLoggedIn(true)} />
+          </div>
+        )}
+      </div>
     </div>
-  );
+  );  
 }
 
 export default ProfileUpdateForm;

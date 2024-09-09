@@ -182,32 +182,6 @@ public ResponseEntity<Map<String, Object>> getPosts(
     // Pageable 객체 생성
     Pageable pageable = PageRequest.of(page-1, size);
 
-        // 응답을 위한 리스트 생성
-        List<Map<String, Object>> response = new ArrayList<>();
-
-        for (ReformBoardEntity post : posts) {
-            // 각 게시물에 대해 제목과 작성자의 닉네임을 추출
-            Map<String, Object> postMap = new HashMap<>();
-            postMap.put("id", post.getId());
-            postMap.put("title", post.getTitle());
-            postMap.put("author", post.getKakaoUserEntity().getNickname()); // 작성자의 닉네임을 포함
-            postMap.put("recommendCount",post.getRecommendCount());;
-            postMap.put("viewCount",post.getViewCount());
-            postMap.put("imagePath",post.getImagePath());
-            
-            // 대표 이미지 경로, 조회수 추가 ccccccc
-        postMap.put("imagePath", post.getImagePath());
-        postMap.put("viewCount", post.getViewCount());
-
-            // 각 게시물 정보 출력
-            System.out.println("Post Title: " + post.getTitle() + ", Author: " + post.getKakaoUserEntity().getNickname());
-
-            // 응답 리스트에 추가
-            response.add(postMap);
-        }
-
-        // 응답 반환
-        return response;
     // 검색 조건이 있는 경우와 없는 경우 분기 처리
     Page<ReformBoardEntity> postPage;
     if (search != null && !search.trim().isEmpty()) {
