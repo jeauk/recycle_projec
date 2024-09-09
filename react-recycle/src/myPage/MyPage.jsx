@@ -31,10 +31,12 @@ function ProfileUpdateForm() {
         const data = await response.json();
         setNickname(data.nickname); // 닉네임 설정
         setProfileImageUrl(data.profileImageUrl); // 기존 프로필 이미지 URL 설정
+        
       }
     };
 
     fetchProfile(); // 프로필 정보를 가져옴
+    
   }, []);
 
   // 로그인 핸들러 함수
@@ -46,6 +48,7 @@ function ProfileUpdateForm() {
   const handleLogout = () => {
     setIsLoggedIn(false); // 로그인 상태를 false로 변경
     sessionStorage.removeItem('jwt'); // JWT 토큰을 세션에서 제거
+    window.location.reload();
   };
 
   // 이미지 파일 선택 시 호출되는 함수

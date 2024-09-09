@@ -134,47 +134,52 @@ public class ProfileController {
         return result;
     }
 
-@GetMapping("/user/profile")
-public ResponseEntity<Map<String, Object>> loadProfile(@RequestHeader("Authorization") String jwtToken) {
-    // JWT에서 이메일 추출
-    String email = jwtService.extractEmailFromJwt(jwtToken);
-    if (email == null) {
-        return ResponseEntity.status(400).body(Map.of("message", "유효하지 않은 JWT 토큰입니다."));
+    @GetMapping("/user/profile")
+    public ResponseEntity<Map<String, Object>> loadProfile(@RequestHeader("Authorization") String jwtToken) {
+        // JWT에서 이메일 추출
+        String email = jwtService.extractEmailFromJwt(jwtToken);
+        if (email == null) {
+            return ResponseEntity.status(400).body(Map.of("message", "유효하지 않은 JWT 토큰입니다."));
+        }
+    
+        // 이메일로 사용자 조회
+        KakaoUserEntity user = kakaoUserRepository.findByEmail(email);
+        if (user == null) {
+            return ResponseEntity.status(404).body(Map.of("message", "사용자를 찾을 수 없습니다."));
+        }
+    
+        // 사용자 작성 게시글 목록 조회
+        List<ReformBoardEntity> userPosts = reformBoardRepository.findByKakaoUserEntity(user);
+    
+        // 사용자가 추천한 게시글 목록 조회
+        List<Map<String, Object>> recommendedPosts = recommendRepository.findByUser(user).stream()
+            .map(recommend -> {
+                Map<String, Object> recommendInfo = new HashMap<>();
+                recommendInfo.put("boardId", recommend.getReformBoardEntity().getId());  // 게시판 ID
+                recommendInfo.put("title", recommend.getReformBoardEntity().getTitle()); // 게시판 제목
+                return recommendInfo;
+            })
+            .collect(Collectors.toList());
+    
+        // 사용자 프로필 정보를 응답으로 반환
+        Map<String, Object> profileData = new HashMap<>();
+        profileData.put("nickname", user.getNickname());
+        profileData.put("profileImageUrl", user.getProfileImageUrl());
+    
+        // 사용자 작성 게시글 정보 추가
+        List<Map<String, Object>> postData = userPosts.stream().map(post -> {
+            Map<String, Object> postInfo = new HashMap<>();
+            postInfo.put("postId", post.getId());
+            postInfo.put("title", post.getTitle());
+            return postInfo;
+        }).collect(Collectors.toList());
+        profileData.put("userPosts", postData);
+    
+        // 사용자가 추천한 게시글 정보 추가
+        profileData.put("recommendedPosts", recommendedPosts);
+    
+        return ResponseEntity.ok(profileData);
     }
-
-    // 이메일로 사용자 조회
-    KakaoUserEntity user = kakaoUserRepository.findByEmail(email);
-    if (user == null) {
-        return ResponseEntity.status(404).body(Map.of("message", "사용자를 찾을 수 없습니다."));
-    }
-
-    // 사용자 작성 게시글 목록 조회
-    List<ReformBoardEntity> userPosts = reformBoardRepository.findByKakaoUserEntity(user);
-
-    // 사용자가 추천한 게시글 목록 조회
-    List<Long> recommendedBoardIds = recommendRepository.findByUser(user).stream()
-        .map(recommend -> recommend.getReformBoardEntity().getId())
-        .collect(Collectors.toList());
-
-    // 사용자 프로필 정보를 응답으로 반환
-    Map<String, Object> profileData = new HashMap<>();
-    profileData.put("nickname", user.getNickname());
-    profileData.put("profileImageUrl", user.getProfileImageUrl());
-
-    // 사용자 작성 게시글 정보 추가
-    List<Map<String, Object>> postData = userPosts.stream().map(post -> {
-        Map<String, Object> postInfo = new HashMap<>();
-        postInfo.put("postId", post.getId());
-        postInfo.put("title", post.getTitle());
-        return postInfo;
-    }).collect(Collectors.toList());
-    profileData.put("userPosts", postData);
-
-    // 사용자가 추천한 게시글 번호 추가
-    profileData.put("recommendedPostIds", recommendedBoardIds);
-
-    return ResponseEntity.ok(profileData);
-}
 
 
     @PostMapping("/user/updateProfile")

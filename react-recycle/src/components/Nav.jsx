@@ -14,8 +14,8 @@ import MenuItem from '@mui/material/MenuItem';
 import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
-import { useNavigate } from 'react-router-dom';  // useNavigate import
-import { useEffect, useState } from 'react'; // useEffect 및 useState 추가
+import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['프로필', '글쓰기', '로그아웃'];
@@ -23,7 +23,7 @@ const settings = ['프로필', '글쓰기', '로그아웃'];
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha('#ffffff', 0.15),  // 검색창 배경을 흰색으로 유지
+  backgroundColor: alpha('#ffffff', 0.15),
   border: '1px solid lightgray',
   '&:hover': {
     backgroundColor: alpha('#ffffff', 0.25),
@@ -47,7 +47,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    width: '250px', // 여기에서 크기를 250px로 고정
+    width: '250px',
     transition: theme.transitions.create('width'),
   },
 }));
@@ -55,9 +55,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 function Nav() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const [profileImageUrl, setProfileImageUrl] = useState('');  // 프로필 이미지 상태 관리
-  const [isLoggedIn, setIsLoggedIn] = useState(false);  // 로그인 상태 관리
-  const navigate = useNavigate();  // useNavigate 훅 사용
+  const [profileImageUrl, setProfileImageUrl] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -74,45 +74,43 @@ function Nav() {
     setAnchorElUser(null);
   };
 
-  // 컴포넌트 마운트 시 데이터 패칭
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const jwt = sessionStorage.getItem('jwt');
-        
-        // 로그인 상태 확인
-        if (jwt) {
-          setIsLoggedIn(true);
-        }
+  // 로그인 상태 및 프로필 정보를 로드하는 함수
+  const loadProfileData = async () => {
+    try {
+      const jwt = sessionStorage.getItem('jwt');
 
-        const url = 'http://localhost:8080/user/profile';
-        const response = await fetch(url, {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${jwt}`
-          }
-        });
-
-        // 응답 상태 체크
-        if (!response.ok) {
-          throw new Error(`Error: ${response.status}`);
-        }
-
-        const data = await response.json();
-        console.log(data);
-
-        // 프로필 이미지가 있으면 상태에 저장
-        if (data && data.profileImageUrl) {
-          setProfileImageUrl(data.profileImageUrl); 
-        }
-      } catch (error) {
-        console.error('Failed to fetch data', error);
+      // JWT가 존재할 때 로그인 상태로 변경
+      if (jwt) {
+        setIsLoggedIn(true);
       }
-    };
-    getData();
-  }, []); // 빈 배열로 의존성을 지정해 최초 렌더링 시에만 호출
 
-  // 프로필 메뉴 항목을 클릭할 때 페이지 이동 처리
+      const url = 'http://localhost:8080/user/profile';
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${jwt}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      if (data && data.profileImageUrl) {
+        setProfileImageUrl(data.profileImageUrl);
+      }
+    } catch (error) {
+      console.error('Failed to fetch data', error);
+    }
+  };
+
+  useEffect(() => {
+    // 컴포넌트가 마운트될 때 로그인 상태 및 프로필 데이터 로드
+    loadProfileData();
+  }, []);
+
+  // 프로필 메뉴 항목 클릭 시 페이지 이동
   const handleMenuClick = (setting) => {
     handleCloseUserMenu();
 
@@ -121,18 +119,19 @@ function Nav() {
     } else if (setting === '글쓰기') {
       navigate('/post');
     } else if (setting === '로그아웃') {
-      sessionStorage.removeItem('jwt');
-      navigate('/');
-      setIsLoggedIn(false);  // 로그아웃 후 로그인 상태 변경
-      alert("로그아웃 되었습니다")
+      sessionStorage.removeItem('jwt');  // JWT 토큰 삭제
+      setIsLoggedIn(false);  // 로그인 상태를 false로 변경
+      navigate('/mypage');
+      alert("로그아웃 되었습니다");
+      window.location.reload();
     }
   };
 
   return (
-    <AppBar position="static" sx={{ backgroundColor: '#ffffff', color: '#000000', borderBottom: '1px solid #98c76a', boxShadow: 'none', height:'120px', justifyContent: 'center' }}>
+    <AppBar position="static" sx={{ backgroundColor: '#ffffff', color: '#000000', borderBottom: '1px solid #98c76a', boxShadow: 'none', height: '120px', justifyContent: 'center' }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-        <Box
+          <Box
             component="a"
             href="/"
             sx={{
@@ -142,9 +141,9 @@ function Nav() {
             }}
           >
             <img
-              src="/img/logo.png" // 여기에 로고 이미지 경로를 입력
+              src="/img/logo.png"
               alt="Logo"
-              style={{ width: '225px', height: 'auto' }} // 이미지 크기 조절
+              style={{ width: '225px', height: 'auto' }}
             />
           </Box>
 
@@ -212,7 +211,7 @@ function Nav() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                {/* 프로필 이미지가 있을 때 보여주기 */}
+                {/* 프로필 이미지가 있으면 보여주기 */}
                 <Avatar alt="User Profile" src={profileImageUrl || ''} />
               </IconButton>
             </Tooltip>
@@ -233,8 +232,8 @@ function Nav() {
               onClose={handleCloseUserMenu}
             >
               {settings
-                .filter(setting => (setting === '글쓰기' && isLoggedIn) || setting !== '글쓰기')  // 로그인 상태일 때만 '글쓰기' 표시
-                .filter(setting => setting !== '로그아웃' || isLoggedIn)  // 로그인 상태일 때만 '로그아웃' 표시
+                .filter((setting) => (setting === '글쓰기' && isLoggedIn) || setting !== '글쓰기') // 로그인 상태일 때만 '글쓰기' 표시
+                .filter((setting) => setting !== '로그아웃' || isLoggedIn) // 로그인 상태일 때만 '로그아웃' 표시
                 .map((setting) => (
                   <MenuItem key={setting} onClick={() => handleMenuClick(setting)}>
                     <Typography textAlign="center">{setting}</Typography>
