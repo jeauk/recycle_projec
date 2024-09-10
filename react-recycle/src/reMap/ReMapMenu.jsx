@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import m from '../styles/KaKaoMapMenu.module.css';
+import m from '../styles/VendingDeviceMenu.module.css';
 import rm from '../styles/ReMap.module.css';
 
 const ReMapMenu = React.memo(({ locations, onLocationClick, searchHistory, setSearchHistory, activeTab, setActiveTab }) => {
