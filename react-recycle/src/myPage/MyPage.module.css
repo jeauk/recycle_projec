@@ -2,9 +2,12 @@
 .container {
     display: flex; 
     justify-content: space-between;
-    max-width: 100%;
+    align-items: stretch;
+    width: 70vw;
+    height: 70vh;
+    padding: 0;
     margin: 0;
-    padding: 5%;
+    box-sizing: border-box;
 }
 
 .headerContainer {
@@ -12,9 +15,8 @@
     padding: 20px;
     background-color: #f5f5f5; 
     border-radius: 10px;
-    margin-top: 20px;
-    margin-bottom: 20px;
     text-align: center;
+    box-sizing: border-box;
 }
 
 .header {
@@ -30,12 +32,14 @@
     align-items: center; 
     width: 30%; 
     padding: 20px;
+    box-sizing: border-box;
+    border-right: 1px solid #e5e5e5;
 }
 
 /* 프로필 이미지 스타일 */
 .profileImage {
-    width: 150px;
-    height: 150px;
+    width: 200px;
+    height: 200px;
     border-radius: 50%;
     object-fit: cover;
     margin-bottom: 20px;
@@ -43,52 +47,72 @@
 
 /* 닉네임 입력란 스타일 */
 .nicknameInput {
-    width: 100%;
+    width: 80%;
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 5px;
     margin-top: 10px;
 }
 
+.contactButton {
+    background-color: #008CBA;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+.contactButton:hover {
+    background-color: #007B9A;
+}
+
+.kakaoBtnContainer {
+    display: flex;
+    justify-content: center;  /* 가로 중앙 정렬 */
+    height: 100px;            
+}
+
 /* 중앙 로그인 및 기능 영역 스타일 */
 .loginContainer {
-    width: 60%;
-    padding: 100px;
-    background-color: #fff;
-    border: 1px solid #e5e5e5;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
+        flex-grow: 1;   /* 중앙 영역이 남은 모든 공간 차지 */
+        padding: 40px;  /* 여백 추가 */
+        background-color: #fff;
+        border-radius: 10px;
+        /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+        text-align: center;
+        box-sizing: border-box;
 }
 
 .loginBoxText {
-    font-size: 16px;
+    font-size: 20px;
     margin-bottom: 20px;
 }
 
 .buttonList {
     display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-    gap: 20px;
+    flex-direction: column; /* 세로 정렬 */
+    justify-content: center; /* 중앙 정렬 */
+    align-items: center; /* 중앙 정렬 */
+    gap: 20px; /* 버튼 사이 간격 */
+    width: 100%; /* 버튼 리스트가 중앙에서 너비를 차지 */
+    margin-top: 40px;
 }
 
 .buttonItem {
-    width: 100%;
-    padding: 10px 20px;
+    width: 80%; /* 버튼을 중앙에 맞게 넓게 */
+    padding: 15px 20px;
     border-radius: 10px;
     border: 1px solid #ddd;
     display: flex;
-    justify-content: space-between;
+    justify-content: center; /* 버튼 텍스트 중앙 정렬 */
     align-items: center;
     cursor: pointer;
-    background-color: #f9f9f9;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: bold;
-}
-
-.buttonItem:hover {
-    background-color: #e5e5e5;
+    text-align: center; /* 텍스트 중앙 정렬 */
 }
 
 .buttonLabel {
@@ -104,7 +128,7 @@
     font-size: 16px;
     border-radius: 5px;
     cursor: pointer;
-    margin-top: 20px;
+    margin-top: auto;
 }
 
 .submitButton:hover {

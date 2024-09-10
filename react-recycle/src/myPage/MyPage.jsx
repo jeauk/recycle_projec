@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Kakaobtn from './KakaoBtn'; // 로그인 버튼 컴포넌트를 사용한다고 가정
 import styles from './MyPage.module.css';
 import { useNavigate } from 'react-router-dom';
@@ -12,6 +12,8 @@ function ProfileUpdateForm() {
   const [nickname, setNickname] = useState('');
   const [profileImage, setProfileImage] = useState(null);
   const [profileImageUrl, setProfileImageUrl] = useState('');
+
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
     // 컴포넌트 마운트 시 로그인 상태를 확인
@@ -61,6 +63,17 @@ function ProfileUpdateForm() {
     }
   };
 
+    // 프로필 이미지를 클릭하면 파일 선택 창을 엶
+    const handleProfileClick = () => {
+      if (isLoggedIn) {
+        fileInputRef.current.click();  // 로그인되어 있을 때만 파일 선택 창 열기
+      }
+    };
+
+    const handleContactClick = () => {
+      navigate('/contact');
+    };
+
   // 폼 제출 시 호출되는 함수
   const handleSubmit = async (e) => {
     e.preventDefault(); // 기본 폼 제출 동작을 막음
@@ -96,27 +109,37 @@ function ProfileUpdateForm() {
             src={profileImageUrl} 
             alt="Profile" 
             className={styles.profileImage} 
+            onClick={handleProfileClick}
+            style={{ cursor: isLoggedIn ? 'pointer' : 'default' }}
+          />
+          <input 
+            type="file" 
+            accept="image/*" 
+            onChange={handleImageChange}
+            ref={fileInputRef}
+            style={{ display: 'none' }}
           />
           <input
             type="text"
             value={nickname}
             placeholder="닉네임"
+            maxLength={7}
             className={styles.nicknameInput}
             onChange={(e) => setNickname(e.target.value)}
             readOnly={!isLoggedIn}  // 로그인이 안되었을 때는 입력할 수 없도록 설정
           />
+          <button onClick={handleContactClick} className={styles.contactButton}>
+            문의하기
+          </button>
+          {isLoggedIn && (
+            <button onClick={handleSubmit} className={styles.submitButton}>
+              프로필 업데이트
+            </button>
+          )}
         </div>
 
         {isLoggedIn ? (
           <div className={styles.loginContainer}>
-            <form className={styles.form} onSubmit={handleSubmit}>
-              <div>
-                <label className={styles.formLabel}>프로필 이미지:</label>
-                <input type="file" accept="image/*" onChange={handleImageChange} />
-              </div>
-              <button type="submit" className={styles.submitButton}>프로필 업데이트</button>
-            </form>
-
             <div className={styles.buttonList}>
               <div className={styles.buttonItem} onClick={() => navigate('/mypage/mylist')}>
                 <span className={styles.buttonLabel}>내가 쓴 리폼 게시글</span>
@@ -131,7 +154,9 @@ function ProfileUpdateForm() {
             <p className={styles.loginBoxText}>
               게시글 쓰기 컨텐츠를 이용하기 위해서는 로그인이 필요합니다.
             </p>
-            <Kakaobtn onLogin={() => setIsLoggedIn(true)} />
+            <div className={styles.kakaoBtnContainer}>
+              <Kakaobtn onLogin={() => setIsLoggedIn(true)} />
+            </div>
           </div>
         )}
       </div>
