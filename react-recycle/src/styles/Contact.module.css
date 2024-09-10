@@ -103,3 +103,18 @@
 .messageButton:hover {
     background-color: #0056b3;
 }
+
+.formRow {
+    display: flex;
+    justify-content: space-between; /* 각 입력 필드 간에 공간을 배분 */
+    margin-bottom: 15px; /* 필드 간의 여백 */
+}
+
+.formRow > div {
+    flex: 1;
+    margin-right: 10px; /* 입력 필드 사이 간격 */
+}
+
+.formRow > div:last-child {
+    margin-right: 0; /* 마지막 입력 필드의 오른쪽 마진을 제거 */
+}
