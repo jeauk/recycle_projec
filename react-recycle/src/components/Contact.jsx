@@ -11,6 +11,7 @@ const Contact = () => {
     const [imagePreviews, setImagePreviews] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const fileInputRef = useRef(null); // 파일 입력필드에 대한 참조
+    const [message, setMessage] = useState({ text: '', type: '', visible: false }); // type: 'success' or 'error'
 
 
     const handleFileChange = async (e) => {
@@ -45,6 +46,10 @@ const Contact = () => {
         }
     };
 
+    const closeMessage = () => {
+        setMessage({ text: '', type: '', visible: false });
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault(); // 기본 폼 제출 동작 방지
         setIsLoading(true); // 로딩 시작
@@ -67,7 +72,7 @@ const Contact = () => {
             });
 
             if (response.ok) {
-                alert("문의가 접수되었습니다"); // 메시지 창 표시
+                setMessage({ text: "문의가 접수되었습니다.", type: 'success', visible: true});
                 // 폼 초기화
                 setName('');
                 setReplyTo('');
@@ -85,7 +90,7 @@ const Contact = () => {
             }
         } catch (error) {
             console.error('Error:', error);
-            alert(error.message);
+            setMessage({ text: error.message, type: 'error', visible: true});
         } finally {
             setIsLoading(false); // 로딩 종료
         }
@@ -98,6 +103,14 @@ const Contact = () => {
                     <div className={style.spinner} />
                     <div className={style.spinnerOverlay} />
                 </>
+            )}
+            {message.text && (
+                <div className={`${style.message} ${style[`${message.type}Message`]}`}>
+                    {message.text}
+                    <button className={style.messageButton} type="button" onClick={closeMessage}>
+                    확인
+                </button>
+                </div>
             )}
             <div>
                 <div>이름(닉네임)</div>
