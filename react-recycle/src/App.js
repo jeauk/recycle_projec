@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Nav from "./components/Nav";
 import Home from "./mainPage/Home";
 import KakaoMap from "./vendingDevice/KakaoMap";
-import SuMap from "./vendingDevice/KakaoMapMarker";
+import SuMap from "./vendingDevice/VendingDeviceMap";
 import PostList from "./reformBoard/PostList";
 import PostForm from "./reformBoard/PostForm";
 import PostDetail from "./reformBoard/PostDetail";
