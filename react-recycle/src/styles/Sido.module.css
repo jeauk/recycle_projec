@@ -1,0 +1,64 @@
+.ulli {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+}
+
+.wrap {
+  width: 85%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.site {
+  text-decoration: none;
+  font-weight: bold;
+  color: blue;
+}
+
+.sido, .gungoo {
+  padding: 5px;
+  margin-right: 10px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: gray;
+  height: 45px;
+}
+
+.sido{
+  width: 250px;
+}
+
+.index {
+  display: inline-block;
+}
+
+.index > div:nth-of-type(1){
+  display: inline-block;
+}
+
+.sindex {
+  display: inline-block;
+}
+
+.sindex > div:nth-of-type(1){
+  display: inline-block;
+}
+
+.gungoo {
+  width: 150px;
+}
+
+.btn1 {
+  padding: 5px;
+  width: 75px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  height: 45px;
+}
+
+.portal {
+  font-size: 1.1rem;
+  margin: 20px 0px;
+}

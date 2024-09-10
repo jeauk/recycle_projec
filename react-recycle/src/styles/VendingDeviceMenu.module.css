@@ -5,10 +5,10 @@
     top: 50%;
     left: 0;
     transform: translateY(-50%);
-    background-color: #f0f0f0;
-    color: black;
-    border: 1px solid #cccccc;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: #98c76a;
+    color: white;
+    border: 1px solid #98c76a;
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); */
     font-size: 24px;
     cursor: pointer;
     z-index: 1001;
@@ -23,11 +23,13 @@
     left: -26%;
     width: 26%;
     height: 100%;
-    background-color: #f0f0f0;
+    background-color: #fff;
     color: black;
     transition: left 0.3s ease;
     z-index: 1000;
-    box-shadow: 4px 0 8px rgba(0, 0, 0, 0.2);
+    border-right: 10px solid #98c76a;
+    /* box-shadow: 4px 0 8px rgba(0, 0, 0, 0.2); */
+    /* box-sizing: border-box; */
   }
   
   .sideMenu.open {
@@ -41,16 +43,16 @@
   .search {
     position: relative;
     width: 80%;
-    margin: 20px auto;
-    padding: 10px 0;
+    margin: 0% 10%;
+    padding: 5% 0;
   }
   
   .search input {
     width: calc(100% - 40px);
-    border: 1px solid #bbb;
+    border: 2px solid #98c76a;
     border-radius: 8px;
     padding: 10px 12px;
-    font-size: 14px;
+    font-size: 17px;
   }
   
   .clearButton {
@@ -70,8 +72,20 @@
   .KakaoMapList {
     max-height: 500px;
     overflow-y: auto;
-    padding-right: 10px;
+    padding: 0% 10%;
     scrollbar-width: none;
+  }
+
+  .KakaoMapList > div {
+    border-top: 1px solid #98c76a;
+  }
+
+  .KakaoMapList > div:last-of-type {
+    border-bottom: 1px solid #98c76a;
+  }
+
+  .KakaoMapList > div > p {
+    margin-bottom: 0px;
   }
   
   .KakaoMapList::-webkit-scrollbar {
