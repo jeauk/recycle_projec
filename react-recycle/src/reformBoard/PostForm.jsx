@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import styles from './PostForm.module.css';
 
 const PostForm = () => {
   const [title, setTitle] = useState("");
@@ -114,7 +115,7 @@ const PostForm = () => {
   return (
     <form onSubmit={handleSubmit}>
       <div>
-        <label>제목</label>
+      <label className={styles.label}>제목</label>
         <input
           type="text"
           value={title}
@@ -122,16 +123,18 @@ const PostForm = () => {
           onFocus={handleTitleFocus}
           onChange={(e) => setTitle(e.target.value)}
           required
+          className={styles.inputField}
         />
       </div>
       <div>
-        <label>내용(여기에재료)</label>
+      <label className={styles.label}>내용(여기에재료)</label>
         <textarea
           value={content}
           placeholder={contentPlaceholder}
           onFocus={handleContentFocus}
           onChange={(e) => setContent(e.target.value)}
           required
+          className={styles.textareaField}
         ></textarea>
       </div>
       <div>
@@ -141,6 +144,7 @@ const PostForm = () => {
           accept="image/*"
           onChange={handleImageChange}
           required
+          className={styles.fileInput}
         />
         {imagePreview && <img src={imagePreview} alt="미리보기" style={{ width: '200px', marginTop: '10px' }} />}
       </div>
@@ -157,41 +161,48 @@ const PostForm = () => {
     </div>
 
       {steps.map((step, index) => (
-        <div key={step.id}> {/* 고유한 id를 key로 사용 */}
-          <h3>STEP {index + 1}</h3>
+        <div key={step.id} className={styles.stepContainer}> {/* 고유한 id를 key로 사용 */}
+          <h3 className={styles.stepTitle}>STEP {index + 1}</h3>
           <div>
-            <label>내용</label>
+          <label className={styles.label}>내용</label>
             <textarea
               value={step.content}
               onChange={(e) =>
                 handleStepChange(index, "content", e.target.value)
               }
               required
+              className={styles.textareaField}
             ></textarea>
           </div>
           <div>
-            <label>이미지 첨부</label>
+          <label className={styles.label}>이미지 첨부</label>
             <input
               type="file"
               accept="image/*"
               onChange={(e) =>
                 handleStepChange(index, "image", e.target.files[0])
               }
+              className={styles.fileInput}
             />
-            {step.imagePreview && <img src={step.imagePreview} alt={`STEP ${index + 1} 미리보기`} style={{ width: '200px', marginTop: '10px' }} />}
+            {step.imagePreview && <img src={step.imagePreview} alt={`STEP ${index + 1} 미리보기`} className={styles.imagePreview} />}
           </div>
-          <button type="button" onClick={() => handleRemoveStep(step.id)}>
-            STEP 삭제
-          </button>
+          {/* 스텝이 하나만 남아있을 경우 삭제 버튼 숨기기 */}
+          {steps.length > 1 && (
+      <button
+        type="button"
+        className={styles.deleteButton}
+        onClick={() => handleRemoveStep(step.id)}
+      >X</button>
+    )}
         </div>
       ))}
       
-      <button type="button" onClick={handleAddStep}>
+      <button type="button" className={styles.addButton} onClick={handleAddStep}>
         + STEP 추가
       </button>
 
-      <button type="submit">올리기</button>
-      <button type="button" onClick={() => {
+      <button type="submit" >올리기</button>
+      <button type="button" className={styles.cancelButton} onClick={() => {
             navigate('/');
           }}>취소</button>
     </form>

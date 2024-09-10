@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Nav from "./components/Nav";
-import Home from "./MainPage/Home";
+import Home from "./mainPage/Home";
 import KakaoMap from "./vendingDevice/KakaoMap";
 import SuMap from "./vendingDevice/KakaoMapMarker";
 import PostList from "./reformBoard/PostList";
