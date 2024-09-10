@@ -3,10 +3,6 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Nav from "./components/Nav";
 import Home from "./mainPage/Home";
 import KakaoMap from "./vendingDevice/KakaoMap";
-<<<<<<< HEAD
-import SuMap from "./vendingDevice/VendingDeviceMap";
-=======
->>>>>>> develop
 import PostList from "./reformBoard/PostList";
 import PostForm from "./reformBoard/PostForm";
 import PostDetail from "./reformBoard/PostDetail";
