@@ -15,13 +15,11 @@ public class MainRecycleEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String mr_name;
-    private String mr_tag;
-    private String mr_um;
-    private String mr_category;
-
-    @Column(length=2000)
-    private String mr_content;
-
+    private String mrName;
+    private String mrTag;
+    private String mrUm;
+    private String mrCategory;
+    @Column(length = 2000)
+    private String mrContent;
 
 }

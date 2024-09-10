@@ -17,7 +17,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
-const pages = ['Products', 'Pricing', 'Blog'];
+const pages = [];
 const settings = ['프로필', '글쓰기', '로그아웃'];
 
 const Search = styled('div')(({ theme }) => ({
