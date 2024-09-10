@@ -53,7 +53,7 @@ const VendingDeviceMenu = React.memo(({  locations, onLocationClick, searchHisto
           </button>
           <div>
             {searchHistory.map((query, index) => (
-              <p key={index} onClick={() => handleSearchClick(index)}>검색어{index + 1}: {query}</p>
+              <p key={index} className='m.searchHistoryItem' onClick={() => handleSearchClick(index)}>검색어{index + 1}: {query}</p>
             ))}
           </div>
         </div>
