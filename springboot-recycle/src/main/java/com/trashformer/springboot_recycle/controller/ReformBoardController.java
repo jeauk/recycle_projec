@@ -18,6 +18,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -171,34 +175,64 @@ public class ReformBoardController {
     }
 
     @GetMapping("/api/postlist")
-    public List<Map<String, Object>> getPosts() {
-        // ReformBoardEntity 리스트를 가져옵니다.
-        List<ReformBoardEntity> posts = reformBoardRepository.findAll();
-
-        // 응답을 위한 리스트 생성
-        List<Map<String, Object>> response = new ArrayList<>();
-
-        for (ReformBoardEntity post : posts) {
-            // 각 게시물에 대해 제목과 작성자의 닉네임을 추출
+    public ResponseEntity<Map<String, Object>> getPosts(
+        @RequestParam(defaultValue = "0") int page,   // 페이지 번호 (0부터 시작)
+        @RequestParam(defaultValue = "12") int size,  // 한 페이지에 보여줄 게시물 수
+        @RequestParam(required = false) String search, // 검색어 (옵션)
+        @RequestParam(defaultValue = "title_content") String type // 검색 타입 (기본값: 제목+내용)
+    ) {
+        // Pageable 객체 생성
+        Pageable pageable = PageRequest.of(page-1, size, Sort.by(Sort.Direction.DESC, "createdAt").and(Sort.by(Sort.Direction.DESC, "id")));
+    
+        // 검색 조건에 따른 분기 처리
+        Page<ReformBoardEntity> postPage;
+        if (search != null && !search.trim().isEmpty()) {
+            switch (type) {
+                case "title":
+                    // 제목으로 검색
+                    postPage = reformBoardRepository.findByTitleContaining(search, pageable);
+                    break;
+                case "author":
+                    // 작성자 닉네임으로 검색
+                    postPage = reformBoardRepository.findByKakaoUserEntityNicknameContaining(search, pageable);
+                    break;
+                default:
+                    // 기본: 제목 또는 내용으로 검색
+                    postPage = reformBoardRepository.findByTitleContainingOrContentContaining(search, search, pageable);
+                    break;
+            }
+        } else {
+            // 검색어가 없는 경우: 전체 게시물 조회
+            postPage = reformBoardRepository.findAll(pageable);
+        }
+    
+        // 게시물 데이터를 담을 리스트 생성
+        List<Map<String, Object>> postList = new ArrayList<>();
+        for (ReformBoardEntity post : postPage.getContent()) {
             Map<String, Object> postMap = new HashMap<>();
             postMap.put("id", post.getId());
             postMap.put("title", post.getTitle());
-            postMap.put("author", post.getKakaoUserEntity().getNickname()); // 작성자의 닉네임을 포함
-            postMap.put("recommendCount",post.getRecommendCount());;
-            postMap.put("viewCount",post.getViewCount());
-            postMap.put("imagePath",post.getImagePath());
-            postMap.put("authorImg",post.getKakaoUserEntity().getProfileImageUrl());
-            
-            // 각 게시물 정보 출력
-            System.out.println("Post Title: " + post.getTitle() + ", Author: " + post.getKakaoUserEntity().getNickname());
-
-            // 응답 리스트에 추가
-            response.add(postMap);
+            postMap.put("author", post.getKakaoUserEntity().getNickname()); // 작성자의 닉네임
+            postMap.put("recommendCount", post.getRecommendCount());
+            postMap.put("viewCount", post.getViewCount());
+            postMap.put("imagePath", post.getImagePath());
+            postMap.put("authorImg", post.getKakaoUserEntity().getProfileImageUrl());
+            postMap.put("createAt", post.getCreatedAt());
+            postMap.put("updateChange", post.isUpdateChange());
+    
+            postList.add(postMap);
         }
-
-        // 응답 반환
-        return response;
+    
+        // 응답 데이터에 페이지 정보 추가
+        Map<String, Object> response = new HashMap<>();
+        response.put("posts", postList);
+        response.put("totalPages", postPage.getTotalPages());
+        response.put("currentPage", postPage.getNumber());
+    
+        return ResponseEntity.ok(response);
     }
+    
+
 
    @GetMapping("/api/posts/{id}")
     public ResponseEntity<Map<String, Object>> getPostById(
@@ -358,6 +392,7 @@ public ResponseEntity<String> editPost(
         }
     }
 
+    post.setCreatedAt(new Date());  // 현재 시간을 설정
     // 게시물 저장
     post.setUpdateChange(true);
     reformBoardRepository.save(post);
