@@ -18,12 +18,10 @@ const Contact = () => {
         const newFiles = Array.from(e.target.files);
         const newImages = [...images];
         const newPreviews = [];
-
         for (const file of newFiles) {
             const fileHash = await getFileHash(file);
             // 중복 파일 체크
             const isDuplicate = images.some(img => img.hash === fileHash);
-
             if (!isDuplicate) {
                 newImages.push({ file, hash: fileHash });
                 newPreviews.push(URL.createObjectURL(file));
@@ -39,7 +37,6 @@ const Contact = () => {
         setImages((prevImages) => prevImages.filter((_, i) => i !== index));
         // 이미지 미리보기 배열에서 특정 미리보기를 제거
         setImagePreviews((prevPreviews) => prevPreviews.filter((_, i) => i !== index));
-
         // 파일 입력 필드를 초기화
         if (fileInputRef.current) {
             fileInputRef.current.value = '';
@@ -185,7 +182,6 @@ const Contact = () => {
             </div>
 
             <button type="submit">보내기</button>
-
             {isLoading && <div>메일을 보내는 중입니다...</div>}
         </form>
 

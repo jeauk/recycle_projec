@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import TopHeader from "./components/TopHeader";
 import Nav from "./components/Nav";
 import Home from "./mainPage/Home";
 import KakaoMap from "./vendingDevice/KakaoMap";
@@ -10,11 +9,18 @@ import PostDetail from "./reformBoard/PostDetail";
 import PostEdit from "./reformBoard/PostEdit";
 import Footer from "./components/Footer";
 import styles from './App.module.css';
+import MainRecycleDetail from './mainRecycle/MainRecycleDetail';
+import MainRecycleSearch from './mainRecycle/MainRecycleSearch';
 import LoginHandeler from './myPage/LoginHandeler';
 import Mypage from './myPage/MyPage';
-import Sido from './market/Sido';
+import Sido from './sido/Sido';
 import "./App.css";
+import ReMap from "./reMap/ReMap";
 import Contact from "./components/Contact";
+import MyList from "./myPage/MyList";
+import MyRecommend from "./myPage/MyRecommend";
+import VendingDeviceMarker from "./vendingDevice/VendingDeviceMarker";
+import VendingDeviceMap from "./vendingDevice/VendingDeviceMap";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -37,18 +43,23 @@ function App() {
     <div className="App">
       <div className={styles.appContainer}>
         <BrowserRouter>
-          <TopHeader />
           <Nav />
           <div className={styles.mainContent}>
             <Routes>
               <Route index element={<Home />} />
               <Route path='/map' element={<KakaoMap />} />
+              <Route path='/RecycleMain' element={<MainRecycleSearch />} />
+              <Route path='/RecycleMain/:id' element={<MainRecycleDetail />} />
+              <Route path='/sumap' element={<VendingDeviceMap />} />
+              <Route path="/remap" element={<ReMap />} />
               <Route path="/list" element={<PostList />} />
               <Route path="/post" element={<PostForm />} />
               <Route path="/post/:id" element={<PostDetail />} />
-              <Route path="/post/edit/:id" element={<PostEdit />} />
+              <Route path="/edit/:id" element={<PostEdit />} />
               <Route path="/mypage" element={<Mypage />} />
               <Route path="/contact" element={<Contact />} />
+              <Route path="/mypage/mylist" element={<MyList />} />
+              <Route path="/mypage/myrecommend" element={<MyRecommend />} />
               <Route
                 path="/login/oauth2/callback/kakao"
                 element={<LoginHandeler onLogin={handleLogin} />}

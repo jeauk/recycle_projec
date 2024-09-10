@@ -1,6 +1,7 @@
 package com.trashformer.springboot_recycle.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.trashformer.springboot_recycle.dto.StepDto;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

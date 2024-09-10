@@ -1,6 +1,5 @@
 package com.trashformer.springboot_recycle.controller;
 
-
 import java.util.List; 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +8,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.trashformer.springboot_recycle.entity.GwEntity;
 import com.trashformer.springboot_recycle.repository.GwRepository;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 
-
+@CrossOrigin
 @RestController
 public class GwController {
   @Autowired GwRepository gwRepository;

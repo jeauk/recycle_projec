@@ -6,6 +6,7 @@ function PostDetail() {
   const navigate = useNavigate();
   const [post, setPost] = useState(null);
   const [isAuthor, setIsAuthor] = useState(false);
+  const [recommendCount, setRecommendCount] = useState(0); // 추천수 상태 추가
 
   useEffect(() => {
     // 서버에서 게시물 데이터를 가져옴
@@ -26,6 +27,7 @@ function PostDetail() {
         const data = await response.json();
         setPost(data.post); // 게시물 데이터 설정
         setIsAuthor(data.isAuthor); // 작성자인지 여부 설정
+        setRecommendCount(data.post.recommendCount); // 추천수 설정
       } catch (error) {
         console.error('에러 발생:', error);
       }
@@ -36,22 +38,68 @@ function PostDetail() {
 
   const handleEdit = () => {
     navigate(`/edit/${id}`);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const handleDelete = () => {
-    // 삭제 로직 구현
-    navigate('/');
+  const handleDelete = async () => {
+    const jwt = sessionStorage.getItem('jwt');
+    const url = `http://localhost:8080/delete/posts/${id}`
+    const response = await fetch(url, {
+      method: 'DELETE',
+      headers: {'Authorization': `Bearer ${jwt}`}
+    });
+    console.log('삭제됨');
+    navigate(`/`);
   };
-
-  const handleRecommend = () => {
-    alert('추천이 반영되었습니다!');
+  const handleRecommend = async () => {
+    const jwt = sessionStorage.getItem('jwt');
+  
+    // 로그인 여부 확인
+    if (!jwt) {
+      alert("로그인해야 추천할 수 있습니다.");
+      return;
+    }
+  
+    const url = `http://localhost:8080/api/posts/recommend/${id}`;
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${jwt}`
+      },
+      body: JSON.stringify({})  // 빈 객체를 보냅니다.
+    });
+  
+    if (response.ok) {
+      // 추천 상태가 변경되었음을 알림
+  
+      // 서버에서 최신 게시물 데이터를 다시 가져옴
+      const postResponse = await fetch(`http://localhost:8080/api/posts/${id}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${jwt}`, // JWT 토큰을 Authorization 헤더에 추가
+          'Content-Type': 'application/json'
+        }
+      });
+  
+      if (postResponse.ok) {
+        const updatedData = await postResponse.json();
+        setPost(updatedData.post); // 게시물 데이터 업데이트
+        setRecommendCount(updatedData.post.recommendCount); // 추천수 업데이트
+      } else {
+        alert('최신 게시물 정보를 가져오는 데 실패했습니다.');
+      }
+    } else {
+      alert('추천 처리에 실패했습니다.');
+    }
   };
+  
 
   if (!post) return <div>로딩 중...</div>;
 
   const createEmbedUrl = (videoLink) => {
     let embedUrl = null;
-  
+
     // 유튜브 "youtu.be" 형식
     if (videoLink.includes("youtu.be")) {
       const links = videoLink.split("/");
@@ -69,14 +117,13 @@ function PostDetail() {
       const videoId = videoLink.split("/v/")[1];
       embedUrl = `https://tv.naver.com/embed/${videoId}`;
     }
-  
+
     return embedUrl; // 유효하지 않은 링크일 경우 null 반환
   };
 
-
   return (
     <div>
-      <img src={post.imagePath} alt="완성 사진" style={{ width: '100%', height: 'auto' }} />
+      <img src={post.imagePath ? post.imagePath.replace(/\\/g, "/") : ''} alt="완성 사진" style={{ width: '100%', height: 'auto' }} />
       <h1>{post.title}</h1>
       <p>
         작성자: {post.kakaoUserEntity.nickname} &nbsp;&nbsp;&nbsp; 
@@ -87,9 +134,18 @@ function PostDetail() {
       <h2>내용 (재료)</h2>
       <p>{post.content}</p>
       <hr />
-      <h2>동영상 링크</h2>
-      <p><iframe width="420" height="315" src={createEmbedUrl(post.videoLink)} /></p>
-      <hr />
+      
+      {post.videoLink && (
+  <>
+    <h2>동영상 링크</h2>
+    <p>
+      <iframe width="420" height="315" src={createEmbedUrl(post.videoLink)} />
+    </p>
+    <hr />
+  </>
+)}
+
+
       <h2>스탭</h2>
       {post.steps.map((step, index) => (
         <div key={index}>
@@ -100,7 +156,7 @@ function PostDetail() {
       ))}
       <hr />
       <button onClick={handleRecommend}>
-        추천 {post.recommendCount}
+        추천 {recommendCount}
       </button>
       {isAuthor && (  // 작성자인 경우에만 수정 및 삭제 버튼을 렌더링
         <div>

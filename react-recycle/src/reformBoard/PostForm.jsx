@@ -1,32 +1,44 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import styles from './PostForm.module.css';
 
 const PostForm = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [image, setImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null); // 메인 이미지 미리보기
   const [videoLink, setVideoLink] = useState("");
-  const [steps, setSteps] = useState([{ id: 1, content: "", image: null }]); // id 추가
-
+  const [steps, setSteps] = useState([{ id: 1, content: "", image: null, imagePreview: null }]); // id와 미리보기 추가
+  const [errorMessage, setErrorMessage] = useState('');
   const [nextId, setNextId] = useState(2); 
+  const [titleplaceholder, setTitlePlaceholder] = useState('옷걸이로 선반 만들기');
+  const [contentPlaceholder, setContentPlaceholder] = useState('쇠 옷걸이, 니퍼(펜치)')
+  
 
   const jwt = sessionStorage.getItem("jwt");
   const navigate = useNavigate();
 
   const handleImageChange = (e) => {
-    setImage(e.target.files[0]);
+    const file = e.target.files[0];
+    setImage(file);
+    setImagePreview(URL.createObjectURL(file)); // 메인 이미지 미리보기 설정
   };
 
   // Step별 데이터 변경 핸들러
   const handleStepChange = (index, field, value) => {
     const newSteps = [...steps];
-    newSteps[index][field] = value;
+    if (field === "image") {
+      newSteps[index].image = value;
+      newSteps[index].imagePreview = URL.createObjectURL(value); // 스텝 이미지 미리보기 설정
+    } else {
+      newSteps[index][field] = value;
+    }
     setSteps(newSteps);
   };
 
   // Step 추가 핸들러
   const handleAddStep = () => {
-    setSteps([...steps, { id: nextId, content: "", image: null }]); // 새로운 step에 id 추가
+    setSteps([...steps, { id: nextId, content: "", image: null, imagePreview: null }]); // 새로운 step에 id와 미리보기 추가
     setNextId(nextId + 1);
   };
 
@@ -77,23 +89,52 @@ const PostForm = () => {
     }
   };
 
+  const handleChange = (e) => {
+    const value = e.target.value;
+    
+    // '.com'이 포함되어 있는지 확인
+    if (!value.includes('youtube.com') && !value.includes('naver.com')) {
+      setErrorMessage('유튜브나 네이버링크로 작성해주세요.'); // 경고 메시지 설정
+    } else {
+      setErrorMessage(''); // 오류 메시지 초기화
+    }
+    
+    setVideoLink(value);
+  };
+
+  const handleTitleFocus = () => {
+    setTitlePlaceholder(''); // 포커스 시 placeholder를 지움
+  };
+
+  const handleContentFocus = ()=>{
+    setContentPlaceholder('');
+  };
+
+
+
   return (
     <form onSubmit={handleSubmit}>
       <div>
-        <label>제목</label>
+      <label className={styles.label}>제목</label>
         <input
           type="text"
           value={title}
+          placeholder={titleplaceholder}
+          onFocus={handleTitleFocus}
           onChange={(e) => setTitle(e.target.value)}
           required
+          className={styles.inputField}
         />
       </div>
       <div>
-        <label>내용(여기에재료)</label>
+      <label className={styles.label}>내용(여기에재료)</label>
         <textarea
           value={content}
+          placeholder={contentPlaceholder}
+          onFocus={handleContentFocus}
           onChange={(e) => setContent(e.target.value)}
           required
+          className={styles.textareaField}
         ></textarea>
       </div>
       <div>
@@ -102,52 +143,66 @@ const PostForm = () => {
           type="file"
           accept="image/*"
           onChange={handleImageChange}
+          required
+          className={styles.fileInput}
         />
+        {imagePreview && <img src={imagePreview} alt="미리보기" style={{ width: '200px', marginTop: '10px' }} />}
       </div>
       <div>
-        <label>동영상 링크 (유튜브 등)</label>
-        <input
-          type="text"
-          value={videoLink}
-          onChange={(e) => setVideoLink(e.target.value)}
-        />
-      </div>
+      <label>동영상 링크 (유튜브, 네이버만 가능)</label>
+      <input
+        type="url"
+        value={videoLink}
+        onChange={handleChange}
+        placeholder="링크가 없을 경우 칸을 비워주세요."
+        style={{ borderColor: errorMessage ? 'red' : '' }} // 에러 발생 시 빨간 테두리
+      />
+      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+    </div>
 
       {steps.map((step, index) => (
-        <div key={step.id}> {/* 고유한 id를 key로 사용 */}
-          <h3>STEP {index + 1}</h3>
+        <div key={step.id} className={styles.stepContainer}> {/* 고유한 id를 key로 사용 */}
+          <h3 className={styles.stepTitle}>STEP {index + 1}</h3>
           <div>
-            <label>내용</label>
+          <label className={styles.label}>내용</label>
             <textarea
               value={step.content}
               onChange={(e) =>
                 handleStepChange(index, "content", e.target.value)
               }
               required
+              className={styles.textareaField}
             ></textarea>
           </div>
           <div>
-            <label>이미지 첨부</label>
+          <label className={styles.label}>이미지 첨부</label>
             <input
               type="file"
               accept="image/*"
               onChange={(e) =>
                 handleStepChange(index, "image", e.target.files[0])
               }
+              className={styles.fileInput}
             />
+            {step.imagePreview && <img src={step.imagePreview} alt={`STEP ${index + 1} 미리보기`} className={styles.imagePreview} />}
           </div>
-          <button type="button" onClick={() => handleRemoveStep(step.id)}>
-            STEP 삭제
-          </button>
+          {/* 스텝이 하나만 남아있을 경우 삭제 버튼 숨기기 */}
+          {steps.length > 1 && (
+      <button
+        type="button"
+        className={styles.deleteButton}
+        onClick={() => handleRemoveStep(step.id)}
+      >X</button>
+    )}
         </div>
       ))}
       
-      <button type="button" onClick={handleAddStep}>
+      <button type="button" className={styles.addButton} onClick={handleAddStep}>
         + STEP 추가
       </button>
 
-      <button type="submit">올리기</button>
-      <button onClick={() => {
+      <button type="submit" >올리기</button>
+      <button type="button" className={styles.cancelButton} onClick={() => {
             navigate('/');
           }}>취소</button>
     </form>

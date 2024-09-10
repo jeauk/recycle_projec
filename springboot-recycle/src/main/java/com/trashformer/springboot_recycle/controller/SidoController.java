@@ -21,9 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @CrossOrigin
 @RestController
 public class SidoController {
-  @Autowired
-  SidoRepository sidoRepository;
-  @Autowired
+  @Autowired SidoRepository sidoRepository;
 
   @GetMapping("/sido")
   public List<SidoEntity> getsido() {

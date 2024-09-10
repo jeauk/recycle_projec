@@ -22,16 +22,6 @@ public class MapController {
     public List<RecycleEntity> mapdata(@RequestParam(value = "query", required = false) String query) {
         List<RecycleEntity> latlng = recycleRepository.findAll();
 
-        if (query != null && !query.isEmpty()) {
-            latlng = latlng.stream()
-                           .filter(loc -> loc.getName().contains(query) || 
-                                          loc.getAddress().contains(query) ||
-                                          loc.getRegion1().contains(query) ||
-                                          loc.getRegion2().contains(query) ||
-                                          loc.getRegion3().contains(query))
-                           .collect(Collectors.toList());
-        }
-
         return latlng;
     }
 }
