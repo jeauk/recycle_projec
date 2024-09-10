@@ -6,7 +6,7 @@ const MainRecycleDetail = () => {
     useEffect(() => {
         const fetchItem = async () => {
             try {
-                const res = await fetch(`http://127.0.0.1:8080/MainRecycle/${id}`);
+                const res = await fetch(`http://127.0.0.1:8080/mainrecycle/${id}`);
                 const data = await res.json();
                 console.log(data)
                 setItem(data);

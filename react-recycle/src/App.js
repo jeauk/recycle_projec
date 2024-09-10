@@ -48,8 +48,8 @@ function App() {
             <Routes>
               <Route index element={<Home />} />
               <Route path='/map' element={<KakaoMap />} />
-              <Route path='/RecycleMain' element={<MainRecycleSearch />} />
-              <Route path='/RecycleMain/:id' element={<MainRecycleDetail />} />
+              <Route path='/recyclemain' element={<MainRecycleSearch />} />
+              <Route path='/recyclemain/:id' element={<MainRecycleDetail />} />
               <Route path='/sumap' element={<VendingDeviceMap />} />
               <Route path="/remap" element={<ReMap />} />
               <Route path="/list" element={<PostList />} />
