@@ -134,9 +134,18 @@ function PostDetail() {
       <h2>내용 (재료)</h2>
       <p>{post.content}</p>
       <hr />
-      <h2>동영상 링크</h2>
-      <p><iframe width="420" height="315" src={createEmbedUrl(post.videoLink)} /></p>
-      <hr />
+      
+      {post.videoLink && (
+  <>
+    <h2>동영상 링크</h2>
+    <p>
+      <iframe width="420" height="315" src={createEmbedUrl(post.videoLink)} />
+    </p>
+    <hr />
+  </>
+)}
+
+
       <h2>스탭</h2>
       {post.steps.map((step, index) => (
         <div key={index}>

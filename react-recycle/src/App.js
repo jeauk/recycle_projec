@@ -16,6 +16,8 @@ import Sido from './sido/Sido';
 import "./App.css";
 import ReMap from "./reMap/ReMap";
 import Contact from "./components/Contact";
+import MyList from "./myPage/MyList";
+import MyRecommend from "./myPage/MyRecommend";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -51,7 +53,12 @@ function App() {
               <Route path="/edit/:id" element={<PostEdit />} />
               <Route path="/mypage" element={<Mypage />} />
               <Route path="/contact" element={<Contact />} />
-              <Route path="/login/oauth2/callback/kakao" element={<LoginHandeler onLogin={handleLogin} />}/>
+              <Route path="/mypage/mylist" element={<MyList />} />
+              <Route path="/mypage/myrecommend" element={<MyRecommend />} />
+              <Route
+                path="/login/oauth2/callback/kakao"
+                element={<LoginHandeler onLogin={handleLogin} />}
+              />
               <Route path="/sido" element={<Sido />} />
               <Route path="/remap" element={<ReMap />} />
             </Routes>

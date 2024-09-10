@@ -2,6 +2,10 @@ package com.trashformer.springboot_recycle.controller;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,7 +19,11 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.trashformer.springboot_recycle.entity.KakaoUserEntity;
+import com.trashformer.springboot_recycle.entity.RecommendEntity;
+import com.trashformer.springboot_recycle.entity.ReformBoardEntity;
 import com.trashformer.springboot_recycle.repository.KakaoUserRepository;
+import com.trashformer.springboot_recycle.repository.RecommendRepository;
+import com.trashformer.springboot_recycle.repository.ReformBoardRepository;
 import com.trashformer.springboot_recycle.service.JwtService;
 import com.trashformer.springboot_recycle.service.KakaoUserService;
 import com.trashformer.springboot_recycle.util.JwtUtil;
@@ -30,8 +38,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import javax.xml.bind.DatatypeConverter;
 
@@ -47,6 +57,12 @@ public class ProfileController {
 
     @Autowired
     private KakaoUserRepository kakaoUserRepository;
+
+    @Autowired 
+    private ReformBoardRepository reformBoardRepository;
+
+    @Autowired
+    private RecommendRepository recommendRepository;
 
     @Autowired
     JwtUtil jUtil;
@@ -129,20 +145,53 @@ public class ProfileController {
         if (email == null) {
             return ResponseEntity.status(400).body(Map.of("message", "유효하지 않은 JWT 토큰입니다."));
         }
-
+    
         // 이메일로 사용자 조회
         KakaoUserEntity user = kakaoUserRepository.findByEmail(email);
         if (user == null) {
             return ResponseEntity.status(404).body(Map.of("message", "사용자를 찾을 수 없습니다."));
         }
-
+    
+        // 사용자 작성 게시글 목록 조회
+        List<ReformBoardEntity> userPosts = reformBoardRepository.findByKakaoUserEntity(user);
+    
+        // 사용자가 추천한 게시글 목록 조회
+        List<Map<String, Object>> recommendedPosts = recommendRepository.findByUser(user).stream()
+            .map(recommend -> {
+                Map<String, Object> recommendInfo = new HashMap<>();
+                recommendInfo.put("boardId", recommend.getReformBoardEntity().getId());  // 게시판 ID
+                recommendInfo.put("title", recommend.getReformBoardEntity().getTitle()); // 게시판 제목
+                recommendInfo.put("viewCount", recommend.getReformBoardEntity().getViewCount()); 
+                recommendInfo.put("createAt", recommend.getReformBoardEntity().getCreatedAt()); 
+                recommendInfo.put("recommendCount", recommend.getReformBoardEntity().getRecommendCount()); 
+                recommendInfo.put("nickname", recommend.getReformBoardEntity().getKakaoUserEntity().getNickname());                return recommendInfo;
+            })
+            .collect(Collectors.toList());
+    
         // 사용자 프로필 정보를 응답으로 반환
         Map<String, Object> profileData = new HashMap<>();
         profileData.put("nickname", user.getNickname());
         profileData.put("profileImageUrl", user.getProfileImageUrl());
-
+    
+        // 사용자 작성 게시글 정보 추가
+        List<Map<String, Object>> postData = userPosts.stream().map(post -> {
+            Map<String, Object> postInfo = new HashMap<>();
+            postInfo.put("postId", post.getId());
+            postInfo.put("title", post.getTitle());
+            postInfo.put("createAt",post.getCreatedAt());
+            postInfo.put("viewCount",post.getViewCount());
+            postInfo.put("nickname",post.getKakaoUserEntity().getNickname());
+            postInfo.put("recommendCount",post.getRecommendCount());
+            return postInfo;
+        }).collect(Collectors.toList());
+        profileData.put("userPosts", postData);
+    
+        // 사용자가 추천한 게시글 정보 추가
+        profileData.put("recommendedPosts", recommendedPosts);
+    
         return ResponseEntity.ok(profileData);
     }
+
 
     @PostMapping("/user/updateProfile")
 public ResponseEntity<Map<String, String>> updateProfile(
@@ -223,6 +272,102 @@ private String saveProfileImage(MultipartFile file, String email) {
         return null;
     }
 }
+
+
+@GetMapping("/mypage/mylist")
+public ResponseEntity<Map<String, Object>> loadMyList(
+        @RequestHeader("Authorization") String jwtToken,
+        @RequestParam(defaultValue = "1") int page, // 페이지 번호
+        @RequestParam(defaultValue = "10") int size // 페이지당 게시글 수
+) {
+    // JWT에서 이메일 추출
+    String email = jwtService.extractEmailFromJwt(jwtToken);
+    if (email == null) {
+        return ResponseEntity.status(400).body(Map.of("message", "유효하지 않은 JWT 토큰입니다."));
+    }
+
+    // 이메일로 사용자 조회
+    KakaoUserEntity user = kakaoUserRepository.findByEmail(email);
+    if (user == null) {
+        return ResponseEntity.status(404).body(Map.of("message", "사용자를 찾을 수 없습니다."));
+    }
+
+    // 사용자 작성 게시글 목록 조회 (페이징 처리)
+    Pageable pageable = PageRequest.of(page - 1, size, Sort.by(Sort.Direction.DESC, "createdAt"));
+    Page<ReformBoardEntity> userPostsPage = reformBoardRepository.findByKakaoUserEntity(user, pageable);
+
+    // 사용자 프로필 정보를 응답으로 반환
+    Map<String, Object> profileData = new HashMap<>();
+    profileData.put("nickname", user.getNickname());
+    profileData.put("profileImageUrl", user.getProfileImageUrl());
+
+    // 사용자 작성 게시글 정보 추가 (페이징 처리)
+    List<Map<String, Object>> postData = userPostsPage.getContent().stream().map(post -> {
+        Map<String, Object> postInfo = new HashMap<>();
+        postInfo.put("postId", post.getId());
+        postInfo.put("title", post.getTitle());
+        postInfo.put("createAt", post.getCreatedAt());
+        postInfo.put("viewCount", post.getViewCount());
+        postInfo.put("nickname", post.getKakaoUserEntity().getNickname());
+        postInfo.put("recommendCount", post.getRecommendCount());
+        return postInfo;
+    }).collect(Collectors.toList());
+
+    // 페이징 정보 및 게시글 데이터 추가
+    profileData.put("userPosts", postData);
+    profileData.put("currentPage", userPostsPage.getNumber() + 1); // 현재 페이지 번호 (0-based이므로 +1)
+    profileData.put("totalPages", userPostsPage.getTotalPages()); // 총 페이지 수
+    profileData.put("totalItems", userPostsPage.getTotalElements()); // 전체 게시글 수
+
+    return ResponseEntity.ok(profileData);
+}
+
+@GetMapping("/mypage/recommend")
+public ResponseEntity<Map<String, Object>> loadMyRecommend(
+        @RequestHeader("Authorization") String jwtToken,
+        @RequestParam(defaultValue = "1") int page, // 페이지 번호, 기본값 1
+        @RequestParam(defaultValue = "10") int size // 페이지당 게시글 수, 기본값 10
+) {
+    // JWT에서 이메일 추출
+    String email = jwtService.extractEmailFromJwt(jwtToken);
+    if (email == null) {
+        return ResponseEntity.status(400).body(Map.of("message", "유효하지 않은 JWT 토큰입니다."));
+    }
+
+    // 이메일로 사용자 조회
+    KakaoUserEntity user = kakaoUserRepository.findByEmail(email);
+    if (user == null) {
+        return ResponseEntity.status(404).body(Map.of("message", "사용자를 찾을 수 없습니다."));
+    }
+
+    // 사용자가 추천한 게시글 목록 조회 (페이징 처리)
+    Pageable pageable = PageRequest.of(page - 1, size, Sort.by(Sort.Direction.DESC, "reformBoardEntity.createdAt"));
+    Page<RecommendEntity> recommendedPostsPage = recommendRepository.findByUser(user, pageable);
+
+    // 추천 게시글 정보 수집
+    List<Map<String, Object>> recommendedPosts = recommendedPostsPage.getContent().stream()
+    .map(recommend -> {
+        Map<String, Object> recommendInfo = new HashMap<>();
+        ReformBoardEntity post = recommend.getReformBoardEntity();
+        recommendInfo.put("boardId", post.getId());  // 게시판 ID
+        recommendInfo.put("title", post.getTitle()); // 게시판 제목
+        recommendInfo.put("viewCount", post.getViewCount());
+        recommendInfo.put("createAt", post.getCreatedAt());  // 게시판 생성 시간
+        recommendInfo.put("recommendCount", post.getRecommendCount());
+        recommendInfo.put("nickname", post.getKakaoUserEntity().getNickname());
+        return recommendInfo;
+    }).collect(Collectors.toList());
+
+    // 페이징 정보 및 추천 게시글 반환
+    Map<String, Object> responseData = new HashMap<>();
+    responseData.put("recommendedPosts", recommendedPosts);
+    responseData.put("currentPage", recommendedPostsPage.getNumber() + 1); // 현재 페이지 번호 (0-based이므로 +1)
+    responseData.put("totalPages", recommendedPostsPage.getTotalPages()); // 총 페이지 수
+    responseData.put("totalItems", recommendedPostsPage.getTotalElements()); // 전체 추천 게시글 수
+
+    return ResponseEntity.ok(responseData);
+}
+
 
 
 }
