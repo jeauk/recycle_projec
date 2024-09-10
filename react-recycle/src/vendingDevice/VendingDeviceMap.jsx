@@ -49,7 +49,7 @@ const VendingDeviceMap = () => {
 				loc.region3.toLowerCase().includes(query.toLowerCase()) ||
 				loc.inputWastes.some(waste => waste.inputWaste.toLowerCase().includes(query.toLowerCase()))
 			)
-		);
+		); 
 	}, [locations, searchHistory]);
 
 	const handleMarkerClick = useCallback((loc) => {

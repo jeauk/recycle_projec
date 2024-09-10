@@ -1,0 +1,62 @@
+.contactpreview {
+    position: relative;
+    display: inline-block;
+    margin: 0.5rem;
+    overflow: hidden;
+}
+
+.contactpreviewimg {
+    object-fit: contain;
+    width: 100px;
+    height: 100px;
+}
+
+.contactdeletebtn {
+    position: absolute;
+    top: 3%;
+    right: 3%;
+    background: red;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    border-top: 4px solid #3498db;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    /* 화면 중앙에 고정 */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000; /* 다른 요소들보다 위에 표시되도록 설정 */
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.hidden {
+    display: none;
+}
+
+.spinnerOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
+    z-index: 999; /* 스피너보다 낮지만 다른 요소들보다 높게 설정 */
+}

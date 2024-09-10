@@ -3,13 +3,18 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Nav from "./components/Nav";
 import Home from "./mainPage/Home";
 import KakaoMap from "./vendingDevice/KakaoMap";
+<<<<<<< HEAD
 import SuMap from "./vendingDevice/VendingDeviceMap";
+=======
+>>>>>>> develop
 import PostList from "./reformBoard/PostList";
 import PostForm from "./reformBoard/PostForm";
 import PostDetail from "./reformBoard/PostDetail";
 import PostEdit from "./reformBoard/PostEdit";
 import Footer from "./components/Footer";
 import styles from './App.module.css';
+import MainRecycleDetail from './mainRecycle/MainRecycleDetail';
+import MainRecycleSearch from './mainRecycle/MainRecycleSearch';
 import LoginHandeler from './myPage/LoginHandeler';
 import Mypage from './myPage/MyPage';
 import Sido from './sido/Sido';
@@ -18,6 +23,8 @@ import ReMap from "./reMap/ReMap";
 import Contact from "./components/Contact";
 import MyList from "./myPage/MyList";
 import MyRecommend from "./myPage/MyRecommend";
+import VendingDeviceMarker from "./vendingDevice/VendingDeviceMarker";
+import VendingDeviceMap from "./vendingDevice/VendingDeviceMap";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -45,7 +52,9 @@ function App() {
             <Routes>
               <Route index element={<Home />} />
               <Route path='/map' element={<KakaoMap />} />
-              <Route path='/sumap' element={<SuMap />} />
+              <Route path='/RecycleMain' element={<MainRecycleSearch />} />
+              <Route path='/RecycleMain/:id' element={<MainRecycleDetail />} />
+              <Route path='/sumap' element={<VendingDeviceMap />} />
               <Route path="/remap" element={<ReMap />} />
               <Route path="/list" element={<PostList />} />
               <Route path="/post" element={<PostForm />} />
@@ -60,7 +69,6 @@ function App() {
                 element={<LoginHandeler onLogin={handleLogin} />}
               />
               <Route path="/sido" element={<Sido />} />
-              <Route path="/remap" element={<ReMap />} />
             </Routes>
           </div>
           <Footer />
