@@ -57,9 +57,12 @@ const VendingDeviceMenu = React.memo(({  locations, onLocationClick, searchHisto
             ))}
           </div>
         </div>
-        <div className={`${m.KakaoMapList} ${isOpen ? m.open : ''}`}>
+        <div className={`${m.KakaoMapList} ${isOpen ? m.open : ''} ${loading ? m.loading : ''}`}>
           {loading ? (
-            <div className={m.VendingDeviceLoading}>Loading...</div>
+            <div className={m.VendingDeviceLoading}>
+              <img src="/img/VendingLoading.gif" alt="Loading..." />
+              <h4>Loading...</h4>
+            </div>
           ) : (
             locations.map((loc, locIdx) => (
               loc.vendingDevices.map((device, deviceIdx) => (
