@@ -20,6 +20,9 @@ import Contact from "./components/Contact";
 import MyList from "./myPage/MyList";
 import MyRecommend from "./myPage/MyRecommend";
 import VendingDeviceMap from "./vendingDevice/VendingDeviceMap";
+import CompanyList from "./carvon/CompanyList";
+import Drafting from "./carvon/Drafting";
+import Incentive from "./carvon/Incentive";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -47,8 +50,8 @@ function App() {
             <Routes>
               <Route index element={<Home />} />
               <Route path='/map' element={<KakaoMap />} />
-              <Route path='/RecycleMain' element={<MainRecycleSearch />} />
-              <Route path='/RecycleMain/:id' element={<MainRecycleDetail />} />
+              <Route path='/recycleMain' element={<MainRecycleSearch />} />
+              <Route path='/recycleMain/:id' element={<MainRecycleDetail />} />
               <Route path='/sumap' element={<VendingDeviceMap />} />
               <Route path="/remap" element={<ReMap />} />
               <Route path="/list" element={<PostList />} />
@@ -59,6 +62,10 @@ function App() {
               <Route path="/contact" element={<Contact />} />
               <Route path="/mypage/mylist" element={<MyList />} />
               <Route path="/mypage/myrecommend" element={<MyRecommend />} />
+              <Route path="/carvon/companyList" element={<CompanyList />} />
+              <Route path="/carvon/drafting" element={<Drafting />} />
+              <Route path="/carvon/incentive" element={<Incentive />} />
+              <Route path="/mainRecycleDetail" element={<MainRecycleDetail />} />
               <Route
                 path="/login/oauth2/callback/kakao"
                 element={<LoginHandeler onLogin={handleLogin} />}

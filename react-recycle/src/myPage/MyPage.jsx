@@ -107,7 +107,7 @@ function ProfileUpdateForm() {
         <div className={styles.profileContainer}>
           <img 
             src={profileImageUrl} 
-            alt="Profile" 
+ 
             className={styles.profileImage} 
             onClick={handleProfileClick}
             style={{ cursor: isLoggedIn ? 'pointer' : 'default' }}
