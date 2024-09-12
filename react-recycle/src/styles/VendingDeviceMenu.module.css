@@ -100,3 +100,6 @@
   .searchHistoryItem:hover{
     background-color: hotpink;
   }
+  .locationItem {
+    cursor: pointer;
+  }
