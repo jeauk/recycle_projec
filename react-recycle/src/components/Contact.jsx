@@ -94,97 +94,110 @@ const Contact = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            {isLoading && (
-                <>
-                    <div className={style.spinner} />
-                    <div className={style.spinnerOverlay} />
-                </>
-            )}
+        <div className={style.formContainer}>
+            <form onSubmit={handleSubmit}>
+                {isLoading && (
+                    <>
+                        <div className={style.spinner} />
+                        <div className={style.spinnerOverlay} />
+                    </>
+                )}
 
-            {/* 이름과 이메일을 같은 줄에 배치 */}
-            <div className={style.formRow}>
-                <div>
-                    <div>이름</div>
+                {/* 이름과 이메일을 같은 줄에 배치 */}
+                <div className={style.formRow}>
+                    <div className={`${style.nameInput} ${style.inputWrapper}`}>
+                        <div>이름(닉네임)</div>
+                        <input
+                            type="text"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            required
+                            disabled={isLoading}
+                        />
+                    </div>
+                    <div className={`${style.emailInput} ${style.inputWrapper}`}>
+                        <div className={style.noWrapText}>
+                            이메일 (이메일 주소를 정확하게 입력하셔야 답변을 받을 수 있습니다.)
+                        </div>
+                        <input
+                            type="email"
+                            value={replyTo}
+                            onChange={(e) => setReplyTo(e.target.value)}
+                            required
+                            disabled={isLoading}
+                        />
+                    </div>
+                </div>
+
+
+                <div className={`${style.subjectInput} ${style.inputWrapper}`}>
+                    <div>제목</div>
                     <input
                         type="text"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        value={subject}
+                        onChange={(e) => setSubject(e.target.value)}
                         required
                         disabled={isLoading}
                     />
                 </div>
-                <div>
-                    <div>이메일 (이메일 주소를 정확하게 입력하셔야 답변을 받을 수 있습니다.)</div>
-                    <input
-                        type="email"
-                        value={replyTo}
-                        onChange={(e) => setReplyTo(e.target.value)}
+
+                <div className={`${style.inputWrapper} ${style.contentInput}`}>
+                    <div>내용</div>
+                    <textarea
+                        type="text"
+                        value={text}
+                        onChange={(e) => setText(e.target.value)}
                         required
                         disabled={isLoading}
                     />
                 </div>
-            </div>
 
-            <div>
-                <div>제목</div>
-                <input
-                    type="text"
-                    value={subject}
-                    onChange={(e) => setSubject(e.target.value)}
-                    required
-                    disabled={isLoading}
-                />
-            </div>
-
-            <div>
-                <div>내용</div>
-                <input
-                    type="text"
-                    value={text}
-                    onChange={(e) => setText(e.target.value)}
-                    required
-                    disabled={isLoading}
-                />
-            </div>
-
-            {/* 이미지 첨부 필드 */}
-            <div>
-                <div>이미지 첨부</div>
-                <div>1장씩 첨부시 첨부 순서대로 정렬되고 한번에 첨부시 파일 이름 순으로 정렬됩니다.</div>
-                <input
-                    type="file"
-                    accept="image/*"
-                    multiple
-                    ref={fileInputRef}
-                    onChange={handleFileChange}
-                    disabled={isLoading}
-                />
-                <div>
-                    {imagePreviews.map((preview, index) => (
-                        <div key={index} className={style.contactpreview}>
-                            <img
-                                className={style.contactpreviewimg}
-                                src={preview}
-                                alt={`preview-${index}`}
-                            />
-                            <button
-                                className={style.contactdeletebtn}
-                                type="button"
-                                onClick={() => handleImageDelete(index)}
-                                disabled={isLoading}
-                            >
-                                X
-                            </button>
-                        </div>
-                    ))}
+                {/* 이미지 첨부 필드 */}
+                <div className={style.inputWrapper}>
+                    <label className={style.customFileInput}>
+                        이미지 첨부
+                        <input
+                            type="file"
+                            accept="image/*"
+                            multiple
+                            ref={fileInputRef}
+                            onChange={handleFileChange}
+                            disabled={isLoading}
+                            className={style.hiddenFileInput}
+                        />
+                    </label>
+                    <div>1장씩 첨부시 첨부 순서대로 정렬되고 한번에 첨부시 파일 이름 순으로 정렬됩니다.</div>
+                    <div>
+                        {imagePreviews.map((preview, index) => (
+                            <div key={index} className={style.contactpreview}>
+                                <img
+                                    className={style.contactpreviewimg}
+                                    src={preview}
+                                    alt={`preview-${index}`}
+                                />
+                                <button
+                                    className={style.contactdeletebtn}
+                                    type="button"
+                                    onClick={() => handleImageDelete(index)}
+                                    disabled={isLoading}
+                                >
+                                    X
+                                </button>
+                            </div>
+                        ))}
+                    </div>
                 </div>
-            </div>
 
-            <button type="submit">보내기</button>
-            {isLoading && <div>메일을 보내는 중입니다...</div>}
-        </form>
-
+                <button
+                    type="submit"
+                    className={style.contactButton}
+                    disabled={isLoading}
+                >
+                    보내기
+                </button>
+                {isLoading && <div>메일을 보내는 중입니다...</div>}
+            </form>
+        </div>
     );
 };
 

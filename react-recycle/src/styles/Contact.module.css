@@ -39,12 +39,18 @@
     top: 45%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 1000; /* 다른 요소들보다 위에 표시되도록 설정 */
+    z-index: 1000;
+    /* 다른 요소들보다 위에 표시되도록 설정 */
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 .hidden {
@@ -57,8 +63,10 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
-    z-index: 999; /* 스피너보다 낮지만 다른 요소들보다 높게 설정 */
+    background-color: rgba(0, 0, 0, 0.5);
+    /* 반투명 배경 */
+    z-index: 999;
+    /* 스피너보다 낮지만 다른 요소들보다 높게 설정 */
 }
 
 /* 아래 3개는 보내기 클릭시 알럴트 창 설정 */
@@ -72,8 +80,10 @@
     z-index: 1001;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
-    width: 80%; /* 또는 원하는 너비 */
-    max-width: 500px; /* 최대 너비 */
+    width: 80%;
+    /* 또는 원하는 너비 */
+    max-width: 500px;
+    /* 최대 너비 */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -106,15 +116,173 @@
 
 .formRow {
     display: flex;
-    justify-content: space-between; /* 각 입력 필드 간에 공간을 배분 */
-    margin-bottom: 15px; /* 필드 간의 여백 */
+    justify-content: space-between;
+    /* 각 입력 필드 간에 공간을 배분 */
+    align-items: center;
 }
 
-.formRow > div {
+.formRow>div {
     flex: 1;
-    margin-right: 10px; /* 입력 필드 사이 간격 */
+    margin-right: 2rem;
+    /* 입력 필드 사이 간격 */
 }
 
-.formRow > div:last-child {
-    margin-right: 0; /* 마지막 입력 필드의 오른쪽 마진을 제거 */
+.formRow>div:last-child {
+    margin-right: 0.2rem;
+    /* 마지막 입력 필드의 오른쪽 마진을 제거 */
+}
+
+.noWrapText {
+    white-space: nowrap;
+}
+
+.nameInput {
+    flex: 1;
+    /* 균형 잡힌 레이아웃을 위해 flex를 적용 */
+}
+
+.emailInput {
+    flex: 1;
+    /* 이메일 필드 */
+    margin-bottom: 1.2rem !important;
+}
+
+.emailInput input {
+    width: 100%;
+    /* 부모 div에 맞춰 가로 길이 조정 */
+    max-width: 485px;
+    /* 원하는 최대 가로 길이 */
+    min-width: 300px;
+    /* 최소 가로 길이 설정 */
+}
+
+.subjectInput {
+    flex: 1.5;
+    /* 제목 필드 */
+}
+
+.subjectInput input {
+    width: 100%;
+    /* 부모 div에 맞춰 가로 길이 조정 */
+    max-width: 485px;
+    /* 원하는 최대 가로 길이 */
+    min-width: 300px;
+    /* 최소 가로 길이 설정 */
+}
+
+.formContainer {
+    display: flex;
+    flex-direction: column; /* 세로 방향으로 배치 */
+    border: 2px solid #3498db;
+    /* 파란색 테두리 */
+    padding: 20px;
+    /* 테두리와 내용 사이의 여백 */
+    border-radius: 10px;
+    /* 모서리 둥글게 처리 */
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.inputWrapper {
+    margin-bottom: 1rem; /* 필드 간의 여백을 설정 */
+}
+
+.nameInput input {
+    box-sizing: border-box; /* 패딩과 테두리를 요소의 총 너비와 높이에 포함 */
+    padding: 8px; /* 패딩 설정 */
+    border: 1px solid #ccc; /* 테두리 설정 */
+    border-radius: 4px; /* 둥근 모서리 설정 */
+    font-size: 16px; /* 폰트 크기 설정 */
+    line-height: 1.5; /* 줄 높이 설정 */
+    width: 100%; /* 전체 너비 설정 */
+    height: 40px; /* 높이 설정 */
+}
+
+.emailInput input {
+    box-sizing: border-box; /* 패딩과 테두리를 요소의 총 너비와 높이에 포함 */
+    padding: 8px; /* 패딩 설정 */
+    border: 1px solid #ccc; /* 테두리 설정 */
+    border-radius: 4px; /* 둥근 모서리 설정 */
+    font-size: 16px; /* 폰트 크기 설정 */
+    line-height: 1.5; /* 줄 높이 설정 */
+    width: 100%; /* 전체 너비 설정 */
+    height: 40px; /* 높이 설정 */
+}
+
+.subjectInput input {
+    box-sizing: border-box; /* 패딩과 테두리를 요소의 총 너비와 높이에 포함 */
+    padding: 8px; /* 패딩 설정 */
+    border: 1px solid #ccc; /* 테두리 설정 */
+    border-radius: 4px; /* 둥근 모서리 설정 */
+    font-size: 16px; /* 폰트 크기 설정 */
+    line-height: 1.5; /* 줄 높이 설정 */
+    width: 100%; /* 전체 너비 설정 */
+    height: 40px; /* 높이 설정 */
+}
+
+.contentInput textarea {
+    box-sizing: border-box; /* 패딩과 테두리를 요소의 총 너비와 높이에 포함 */
+    padding: 8px; /* 패딩 설정 */
+    border: 1px solid #ccc; /* 테두리 설정 */
+    border-radius: 4px; /* 둥근 모서리 설정 */
+    font-size: 16px; /* 폰트 크기 설정 */
+    line-height: 1.5; /* 줄 높이 설정 */
+    width: 100%; /* 전체 너비 설정 */
+    height: 200px; /* 높이 설정 (좀 더 높은 입력 필드) */
+    resize: none; /* 세로 방향으로 크기 조정 가능 */
+}
+
+/* 숨겨진 파일 입력 필드 */
+.hiddenFileInput {
+    display: none;
+}
+
+/* 사용자 정의 파일 첨부 버튼 스타일 */
+.customFileInput {
+    background-color: #3498db;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: inline-block;
+    margin-top: 1rem;
+}
+
+.customFileInput:hover {
+    background-color: #2980b9;
+}
+
+
+/* 보내기 버튼 스타일 */
+.contactButton {
+    background-color: #3498db; /* 파란색 배경 */
+    color: white; /* 흰색 텍스트 */
+    padding: 10px 20px; /* 버튼의 안쪽 여백 */
+    border: none; /* 테두리 제거 */
+    border-radius: 5px; /* 둥근 모서리 */
+    font-size: 16px; /* 폰트 크기 */
+    cursor: pointer; /* 마우스를 올리면 포인터로 변경 */
+    transition: background-color 0.3s ease; /* 배경색 변화에 부드러운 전환 효과 */
+    display: inline-block; /* 버튼을 인라인 블록 요소로 설정 */
+    margin-top: 20px; /* 버튼 위쪽에 여백 */
+}
+
+/* 호버 시 배경색 변경 */
+.contactButton:hover {
+    background-color: #2980b9; /* 좀 더 진한 파란색 */
+}
+
+/* 클릭 시 */
+.contactButton:active {
+    background-color: #1f6391; /* 클릭 시 더 진한 색상 */
+    transform: scale(0.98); /* 클릭할 때 살짝 작아지는 효과 */
+}
+
+/* 버튼이 비활성화된 경우 */
+.contactButton:disabled {
+    background-color: #95a5a6; /* 회색 배경 */
+    cursor: not-allowed; /* 클릭할 수 없다는 표시 */
 }
