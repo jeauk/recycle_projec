@@ -255,6 +255,11 @@
     background-color: #6baf28;
 }
 
+/* 클릭 시 */
+.customFileInput:active {
+    background-color: #558d1d; /* 클릭 시 더 진한 색상 */
+    transform: scale(0.98); /* 클릭할 때 살짝 작아지는 효과 */
+}
 
 /* 보내기 버튼 스타일 */
 .contactButton {
