@@ -52,6 +52,30 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+const ResultList = styled('ul')(({ theme }) => ({
+  position: 'absolute',
+  top: '100%',
+  left: 0,
+  right: 0,
+  backgroundColor: '#ffffff',
+  boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+  borderRadius: theme.shape.borderRadius,
+  margin: 0,
+  padding: 0,
+  listStyle: 'none',
+  zIndex: 1, // 검색창 위에 나타나도록 설정
+  maxHeight: '200px', // 리스트의 최대 높이 설정
+  overflowY: 'auto', // 리스트가 넘칠 때 스크롤 가능
+}));
+
+const ResultItem = styled('li')(({ theme }) => ({
+  padding: theme.spacing(1),
+  borderBottom: '1px solid lightgray',
+  '&:hover': {
+    backgroundColor: alpha('#000000', 0.05),
+  },
+}));
+
 function Nav() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -60,23 +84,31 @@ function Nav() {
   const [searchItem, setSearchItem] = useState(''); // 검색할 단어
   const [searchResult, setSearchResult] = useState([]); // 검색 결과를 저장
   const [isSearching, setIsSearching] = useState(false);
+  const [filteredResult, setFilteredResult] = useState([]);
   const navigate = useNavigate();
 
   const onChange = (e) => {
     setSearchItem(e.target.value);
+
+    if (e.target.value === '') {
+      setSearchResult([]);
+      setFilteredResult([]);
+    }
   };
 
-  const searchFilter = searchResult.filter((item) =>
-    item.mrTag?.toLowerCase().includes(searchItem.toLowerCase())
-  );
 
   const onSearch = async () => {
     try {
       const res = await fetch(`http://127.0.0.1:8080/MainRecycle?query=${searchItem}`);
       const data = await res.json();
+      console.log(data);
       setSearchResult(data);
+      const searchFilter = data.filter(item =>
+        item.mrTag?.toLowerCase().includes(searchItem.toLowerCase())
+      );
+      setFilteredResult(searchFilter);
     } catch (error) {
-      console.error('서버에 연결하는데 실패했습니다.', error);
+      console.error("서버에 연결하는데 실패했습니다.", error);
     }
   };
 
@@ -242,36 +274,37 @@ function Nav() {
           </Box>
 
           {/* Search Bar */}
-          <Search style={{ marginRight: '3%' }}>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="예)음료수병, 우산, 가위"
-              inputProps={{ 'aria-label': 'search' }}
-              value={searchItem}
-              onChange={onChange}
-              onKeyDown={handleKeyDown}
-            />
-            <Button onClick={handleSearchClick}>검색</Button>
-          </Search>
+          <Box sx={{ position: 'relative', marginRight: '3%' }}>
+            <Search>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase
+                placeholder="예)음료수병, 우산, 가위"
+                inputProps={{ 'aria-label': 'search' }}
+                value={searchItem}
+                onChange={onChange}
+                onKeyDown={handleKeyDown}
+              />
+              <Button onClick={handleSearchClick}>검색</Button>
+            </Search>
 
-          {/* 검색 결과 출력 */}
-          {searchResult.length > 0 && (
-            <ul>
-              {searchFilter.map((item) => (
-                <li key={item.id}>
-                  <Link to={`/RecycleMain/${item.id}`}>
-                    <p>{item.mrName}</p>
-                    <span>{item.mrTag}</span>
-                    <span>{item.mrCategory}</span>
-                    <span>{item.mrContent}</span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          )}
+            {/* 검색 결과 출력 */}
+            {searchResult.length > 0 && (
+              <ResultList>
 
+                {filteredResult && filteredResult.map((item) => (
+                  <ResultItem
+                    key={item.id}>
+                    <Link to={`/RecycleMain/${item.id}`}>
+                      <img src={item.imgurl} alt={item.mrName}/>
+                      <p>{item.mrName}</p>
+                    </Link>
+                  </ResultItem>
+                ))}
+              </ResultList>
+            )}
+          </Box>
           {/* Avatar and Settings Menu */}
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
