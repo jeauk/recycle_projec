@@ -41,15 +41,51 @@ const MyList = () => {
   return (
     <div>
       <h1>게시판</h1>
-      <ul>
+      <ul style={{ padding: 0, listStyleType: "none" }}>
         {posts.length > 0 ? (
           posts.map((post) => (
-            <li key={post.postId}>
-              <h3>{post.title}</h3>
-              <p>작성자 : {post.nickname}</p>
-              <p>작성일: {post.createAt}</p>
-              <p>조회수: {post.viewCount}</p>
-              <p>추천수: {post.recommendCount}</p>
+            <li
+              key={post.postId}
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                padding: "10px 20px",
+                borderBottom: "1px solid #ccc",
+                alignItems: "center",
+              }}
+            >
+              <div style={{ flex: 2, fontSize: "1.2rem" }}>
+                <h3 style={{ margin: 0, fontSize: "1.2rem" }}>{post.title}</h3>
+              </div>
+              <div
+                style={{
+                  flex: 1,
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  fontSize: "0.9rem",
+                }}
+              >
+                <p style={{ margin: 0 }}>작성자: {post.nickname}</p>
+              </div>
+              <div
+                style={{
+                  flex: 1,
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  fontSize: "0.9rem",
+                }}
+              >
+                <p style={{ margin: 0 }}>작성일: {post.createAt}</p>
+              </div>
+              <div style={{ flex: 1, fontSize: "0.9rem" }}>
+                <p style={{ margin: 0 }}>조회수: {post.viewCount}</p>
+              </div>
+              <div style={{ flex: 1, fontSize: "0.9rem" }}>
+                <p style={{ margin: 0 }}>추천수: {post.recommendCount}</p>
+              </div>
             </li>
           ))
         ) : (

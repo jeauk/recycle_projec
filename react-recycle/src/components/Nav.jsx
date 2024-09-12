@@ -14,7 +14,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 const pages = [];
@@ -57,11 +57,50 @@ function Nav() {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [profileImageUrl, setProfileImageUrl] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [searchItem, setSearchItem] = useState(''); // 검색할 단어
+  const [searchResult, setSearchResult] = useState([]); // 검색 결과를 저장
+  const [isSearching, setIsSearching] = useState(false);
   const navigate = useNavigate();
+
+  const onChange = (e) => {
+    setSearchItem(e.target.value);
+  };
+
+  const searchFilter = searchResult.filter((item) =>
+    item.mrTag?.toLowerCase().includes(searchItem.toLowerCase())
+  );
+
+  const onSearch = async () => {
+    try {
+      const res = await fetch(`http://127.0.0.1:8080/MainRecycle?query=${searchItem}`);
+      const data = await res.json();
+      setSearchResult(data);
+    } catch (error) {
+      console.error('서버에 연결하는데 실패했습니다.', error);
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      setIsSearching(true);
+    }
+  };
+
+  const handleSearchClick = () => {
+    setIsSearching(true);
+  };
+
+  useEffect(() => {
+    if (isSearching) {
+      onSearch();
+      setIsSearching(false);
+    }
+  }, [isSearching]);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
+
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -74,12 +113,10 @@ function Nav() {
     setAnchorElUser(null);
   };
 
-  // 로그인 상태 및 프로필 정보를 로드하는 함수
   const loadProfileData = async () => {
     try {
       const jwt = sessionStorage.getItem('jwt');
 
-      // JWT가 존재할 때 로그인 상태로 변경
       if (jwt) {
         setIsLoggedIn(true);
       }
@@ -88,7 +125,7 @@ function Nav() {
       const response = await fetch(url, {
         method: 'GET',
         headers: {
-          'Authorization': `Bearer ${jwt}`,
+          Authorization: `Bearer ${jwt}`,
         },
       });
 
@@ -106,11 +143,9 @@ function Nav() {
   };
 
   useEffect(() => {
-    // 컴포넌트가 마운트될 때 로그인 상태 및 프로필 데이터 로드
     loadProfileData();
   }, []);
 
-  // 프로필 메뉴 항목 클릭 시 페이지 이동
   const handleMenuClick = (setting) => {
     handleCloseUserMenu();
 
@@ -119,16 +154,26 @@ function Nav() {
     } else if (setting === '글쓰기') {
       navigate('/post');
     } else if (setting === '로그아웃') {
-      sessionStorage.removeItem('jwt');  // JWT 토큰 삭제
-      setIsLoggedIn(false);  // 로그인 상태를 false로 변경
+      sessionStorage.removeItem('jwt');
+      setIsLoggedIn(false);
       navigate('/mypage');
-      alert("로그아웃 되었습니다");
+      alert('로그아웃 되었습니다');
       window.location.reload();
     }
   };
 
   return (
-    <AppBar position="static" sx={{ backgroundColor: '#ffffff', color: '#000000', borderBottom: '1px solid #98c76a', boxShadow: 'none', height: '120px', justifyContent: 'center' }}>
+    <AppBar
+      position="static"
+      sx={{
+        backgroundColor: '#ffffff',
+        color: '#000000',
+        borderBottom: '1px solid #98c76a',
+        boxShadow: 'none',
+        height: '120px',
+        justifyContent: 'center',
+      }}
+    >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Box
@@ -204,14 +249,33 @@ function Nav() {
             <StyledInputBase
               placeholder="예)음료수병, 우산, 가위"
               inputProps={{ 'aria-label': 'search' }}
+              value={searchItem}
+              onChange={onChange}
+              onKeyDown={handleKeyDown}
             />
+            <Button onClick={handleSearchClick}>검색</Button>
           </Search>
+
+          {/* 검색 결과 출력 */}
+          {searchResult.length > 0 && (
+            <ul>
+              {searchFilter.map((item) => (
+                <li key={item.id}>
+                  <Link to={`/RecycleMain/${item.id}`}>
+                    <p>{item.mrName}</p>
+                    <span>{item.mrTag}</span>
+                    <span>{item.mrCategory}</span>
+                    <span>{item.mrContent}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
 
           {/* Avatar and Settings Menu */}
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                {/* 프로필 이미지가 있으면 보여주기 */}
                 <Avatar alt="User Profile" src={profileImageUrl || ''} />
               </IconButton>
             </Tooltip>
@@ -232,8 +296,8 @@ function Nav() {
               onClose={handleCloseUserMenu}
             >
               {settings
-                .filter((setting) => (setting === '글쓰기' && isLoggedIn) || setting !== '글쓰기') // 로그인 상태일 때만 '글쓰기' 표시
-                .filter((setting) => setting !== '로그아웃' || isLoggedIn) // 로그인 상태일 때만 '로그아웃' 표시
+                .filter((setting) => (setting === '글쓰기' && isLoggedIn) || setting !== '글쓰기')
+                .filter((setting) => setting !== '로그아웃' || isLoggedIn)
                 .map((setting) => (
                   <MenuItem key={setting} onClick={() => handleMenuClick(setting)}>
                     <Typography textAlign="center">{setting}</Typography>

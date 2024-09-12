@@ -122,14 +122,20 @@ function PostDetail() {
   };
 
   return (
-    <div>
-      <img src={post.imagePath ? post.imagePath.replace(/\\/g, "/") : ''} alt="완성 사진" style={{ width: '100%', height: 'auto' }} />
-      <h1>{post.title}</h1>
-      <p>
-        작성자: {post.kakaoUserEntity.nickname} &nbsp;&nbsp;&nbsp; 
-        작성날짜: {post.modifiedAt ? `${post.modifiedAt} (수정됨)` : post.createdAt} &nbsp;&nbsp;&nbsp; 
-        조회수: {post.viewCount}
-      </p>
+    <div className='big_container'>
+      <div className='main_one_container'>
+        <div className='main_img'>
+          <img src={post.imagePath ? post.imagePath.replace(/\\/g, "/") : ''} alt="완성 사진" style={{ width: '100%', height: 'auto' }} />
+        </div>
+
+        <h1>{post.title}</h1>
+        <p>
+          작성자: {post.kakaoUserEntity.nickname} &nbsp;&nbsp;&nbsp; 
+          작성날짜: {post.modifiedAt ? `${post.modifiedAt} (수정됨)` : post.createdAt} &nbsp;&nbsp;&nbsp; 
+          조회수: {post.viewCount}
+        </p>
+      </div>
+      
       <hr />
       <h2>내용 (재료)</h2>
       <p>{post.content}</p>
