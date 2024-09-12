@@ -55,7 +55,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const ResultList = styled('ul')(({ theme }) => ({
   position: 'absolute',
   top: '100%',
-  left: 0,
+  left: '5%',
   right: 0,
   backgroundColor: '#ffffff',
   boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',

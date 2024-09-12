@@ -20,7 +20,7 @@ const VendingDeviceMap = () => {
 			} catch (error) {
 				console.error("위치 데이터를 가져오는데 실패했습니다", error);
 			} finally{
-				// setLoading(false); //로딩 끝
+				setLoading(false); //로딩 끝
 			}
 		};
 		fetchLocations();
