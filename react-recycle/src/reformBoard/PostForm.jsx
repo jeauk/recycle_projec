@@ -69,9 +69,9 @@ const PostForm = () => {
     formData.append("videoLink", videoLink);
 
     steps.forEach((step, index) => {
-      formData.append(`steps`, step.content);
+      formData.append(`steps[${index}][content]`, step.content); 
       if (step.image) {
-        formData.append(`stepImages`, step.image);
+        formData.append(`steps[${index}][image]`, step.image); // 문자열
       }
     });
 
@@ -104,7 +104,7 @@ const PostForm = () => {
     const value = e.target.value;
     
     // '.com'이 포함되어 있는지 확인
-    if (!value.includes('youtube.com') && !value.includes('naver.com')) {
+    if (!value.includes('youtube.com') && !value.includes('youtu.be') && !value.includes('naver.com')) {
       setErrorMessage('유튜브나 네이버링크로 작성해주세요.'); // 경고 메시지 설정
     } else {
       setErrorMessage(''); // 오류 메시지 초기화
@@ -120,8 +120,6 @@ const PostForm = () => {
   const handleContentFocus = ()=>{
     setContentPlaceholder('');
   };
-
-
 
 return (
     <form onSubmit={handleSubmit} className={styles.formContainer}>
@@ -145,31 +143,45 @@ return (
           <input
             type="text"
             value={title}
+            placeholder={titleplaceholder}
+            onFocus={handleTitleFocus}
             onChange={(e) => setTitle(e.target.value)}
             required
             className={styles.inputField}
           />
           <label className={styles.label}>재료</label>
-          <textarea
+          <input
+          type = "text"
             value={content}
+            placeholder={contentPlaceholder}
+            onFocus={handleContentFocus}
             onChange={(e) => setContent(e.target.value)}
             required
-            className={styles.textareaField}
-          ></textarea>
+            className={styles.contentInput}
+          />
+          </div>
+          </div>
+
+          <div className={styles.videoLinkContainer}>
+          <div className={styles.videoLinkFields}>
           <label className={styles.label}>동영상 링크 (유튜브 등)</label>
           <input
-            type="text"
+            type="url"
             value={videoLink}
-            onChange={(e) => setVideoLink(e.target.value)}
-            className={styles.textField}
+            onChange={handleChange}  // 동영상 링크 입력 시 handleChange 실행
+            placeholder="링크가 없을 경우 칸을 비워주세요."
+            style={{ borderColor: errorMessage ? 'red' : '' }}
+            className={styles.inputField}
           />
+          {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
         </div>
       </div>
 
+      <div className={styles.stepsContainer}>
       {steps.map((step, index) => (
         <div key={step.id} className={styles.stepContainer}> {/* 고유한 id를 key로 사용 */}
           <div className={styles.stepContent}>
-            <label className={styles.stepLabel}>STEP 내용</label>
+            <label className={styles.label}>STEP {index + 1}</label>
             <textarea
               value={step.content}
               onChange={(e) =>
@@ -193,17 +205,29 @@ return (
               onChange={(e) => handleStepChange(index, "image", e.target.files[0])}
             />
           </div>
-          {steps.length > 1 && (
-            <button type="button" className={styles.deleteButton} onClick={() => handleRemoveStep(step.id)}>
+          {/* {steps.length > 1 && (
+            <button type="button" 
+            className={styles.deleteButton}
+            onClick={() => handleRemoveStep(step.id)}
+            >
               X
             </button>
-          )}
+          )} */}
+          <button
+            type="button"
+            className={styles.deleteButton}
+            style={{ visibility: steps.length > 1 ? 'visible' : 'hidden' }} // X 버튼의 visibility 속성 조절
+            onClick={() => handleRemoveStep(step.id)}
+    >
+      X
+    </button>
         </div>
       ))}
       
       <button type="button" className={styles.addButton} onClick={handleAddStep}>
         + STEP 추가
       </button>
+      </div>
 
       <button type="submit" className={styles.submitButton}>올리기</button>
       <button type="button" className={styles.cancelButton} onClick={() => navigate('/')}>취소</button>
