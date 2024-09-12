@@ -173,7 +173,7 @@
 .formContainer {
     display: flex;
     flex-direction: column; /* 세로 방향으로 배치 */
-    border: 2px solid #3498db;
+    border: 2px solid #98c76a;
     /* 파란색 테두리 */
     padding: 20px;
     /* 테두리와 내용 사이의 여백 */
@@ -239,7 +239,7 @@
 
 /* 사용자 정의 파일 첨부 버튼 스타일 */
 .customFileInput {
-    background-color: #3498db;
+    background-color: #98c76a;
     color: white;
     padding: 10px 20px;
     border: none;
@@ -252,13 +252,13 @@
 }
 
 .customFileInput:hover {
-    background-color: #2980b9;
+    background-color: #6baf28;
 }
 
 
 /* 보내기 버튼 스타일 */
 .contactButton {
-    background-color: #3498db; /* 파란색 배경 */
+    background-color: #98c76a; /* 파란색 배경 */
     color: white; /* 흰색 텍스트 */
     padding: 10px 20px; /* 버튼의 안쪽 여백 */
     border: none; /* 테두리 제거 */
@@ -272,12 +272,12 @@
 
 /* 호버 시 배경색 변경 */
 .contactButton:hover {
-    background-color: #2980b9; /* 좀 더 진한 파란색 */
+    background-color: #6baf28; /* 좀 더 진한 파란색 */
 }
 
 /* 클릭 시 */
 .contactButton:active {
-    background-color: #1f6391; /* 클릭 시 더 진한 색상 */
+    background-color: #558d1d; /* 클릭 시 더 진한 색상 */
     transform: scale(0.98); /* 클릭할 때 살짝 작아지는 효과 */
 }
 
