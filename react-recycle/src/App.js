@@ -19,7 +19,6 @@ import ReMap from "./reMap/ReMap";
 import Contact from "./components/Contact";
 import MyList from "./myPage/MyList";
 import MyRecommend from "./myPage/MyRecommend";
-import VendingDeviceMarker from "./vendingDevice/VendingDeviceMarker";
 import VendingDeviceMap from "./vendingDevice/VendingDeviceMap";
 import CompanyList from "./carvon/CompanyList";
 import Drafting from "./carvon/Drafting";
