@@ -128,7 +128,7 @@ function Nav() {
   };
 
   return (
-    <AppBar position="static" sx={{ backgroundColor: '#ffffff', color: '#000000', borderBottom: '1px solid #98c76a', boxShadow: 'none', height: '120px', justifyContent: 'center' }}>
+    <AppBar position="static" sx={{ backgroundColor: '#ffffff', color: '#000000', borderBottom: '1px solid #98c76a', boxShadow: 'none', height: '120px', justifyContent: 'center', zIndex:'1000000' }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Box

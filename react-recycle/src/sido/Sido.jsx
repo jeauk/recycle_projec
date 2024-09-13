@@ -90,7 +90,7 @@ function Sido() {
 
   return (
     <div className={s.wrap}>
-      <div id="sido">
+      <div className={s.select}>
         <h1 className={s.title}>폐기물 시/군/구 별 전화번호</h1>
         <p className={s.portal}><strong>폐가전 공통번호</strong> : 1599-0903 | <a href='https://15990903.or.kr/portal/main/main.do' className={s.site}>사이트로 이동</a></p>
         <select name="sido" id="sido" className={s.sido} value={selectedSido} onChange={handleSidoChange}>
@@ -122,12 +122,14 @@ function Sido() {
           ))}
         </select>
         <button onClick={handleSubmit} className={s.btn1}>선택</button>
+      </div>
+      <div id="sido" className={s.res}>
         {region.id && (
           <div>
             <ul className={s.ulli}>
               {
                 <li>
-                  <strong className={s.mj}>시도 : </strong> {region.sido} <br />
+                  <strong className={s.fmj}>시도 : </strong> {region.sido} <br />
                   <strong className={s.mj}>시·군·구 : </strong> {region.gungoo} <br />
                   <div className={s.index}>
                     <strong className={s.mj}>전화 :&nbsp;</strong>
