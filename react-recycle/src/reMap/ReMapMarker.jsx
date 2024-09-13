@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { MapMarker } from "react-kakao-maps-sdk";
+import rm from '../styles/ReMap.module.css';
 
 const ReMapMarker = ({ position, content, handleMarkerClick, getMarkerImage }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -15,7 +16,7 @@ const ReMapMarker = ({ position, content, handleMarkerClick, getMarkerImage }) =
       title={content.name}
     >
       {isVisible && (
-        <div style={{width:"250px", padding: "2px", color: "#000" }}>
+        <div style={{width:"250px", padding: "2px", color: "#000" }} className={rm.pin}>
           <h4>{content.name}</h4>
           <p>{content.address}</p>
           <p>{content.tel}</p>

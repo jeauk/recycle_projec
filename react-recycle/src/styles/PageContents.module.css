@@ -97,3 +97,8 @@
     text-align: center; /* 텍스트 중앙 정렬 */
     display: inline-block; /* 너비에 따라 적절히 줄바꿈 */
 }
+
+.a {
+    color: black;
+    text-decoration: none;
+}

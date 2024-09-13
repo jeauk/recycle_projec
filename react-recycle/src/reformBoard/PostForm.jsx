@@ -14,7 +14,6 @@ const PostForm = () => {
   const [nextId, setNextId] = useState(2); 
   const [titleplaceholder, setTitlePlaceholder] = useState('옷걸이로 선반 만들기');
   const [contentPlaceholder, setContentPlaceholder] = useState('쇠 옷걸이, 니퍼(펜치)')
-  
 
   const jwt = sessionStorage.getItem("jwt");
   const navigate = useNavigate();
@@ -62,6 +61,7 @@ const PostForm = () => {
     e.preventDefault();
 
     const formData = new FormData();
+    
     formData.append("title", title);
     formData.append("content", content);
     if (image) {
@@ -70,11 +70,16 @@ const PostForm = () => {
     formData.append("videoLink", videoLink);
 
     steps.forEach((step, index) => {
-      formData.append(`steps[${index}][content]`, step.content); 
+      formData.append(`steps[${index}]`, step.content); // 스텝 내용
       if (step.image) {
-        formData.append(`steps[${index}][image]`, step.image); // 문자열
+        formData.append(`stepImages[${index}]`, step.image); // 스텝 이미지
       }
     });
+    
+    // FormData 내용 출력
+    for (let pair of formData.entries()) {
+      console.log(`${pair[0]}: ${pair[1]}`);
+    }
 
     try {
       const response = await fetch("http://localhost:8080/api/posts", {
@@ -84,6 +89,8 @@ const PostForm = () => {
         },
         body: formData,
       });
+      console.log("보내는곳"+formData);
+      
 
       const textResponse = await response.text();
       console.log("서버 응답 (텍스트):", textResponse);
@@ -101,34 +108,53 @@ const PostForm = () => {
     }
   };
 
-  const handleChange = (e) => {
+  const handleChange = async (e) => {
     const value = e.target.value;
-  
     if (!value.includes('youtube.com') && !value.includes('youtu.be') && !value.includes('tv.naver.com') && !value.includes('naver.me')) {
       setErrorMessage('유튜브나 네이버링크로 작성해주세요.'); // 경고 메시지 설정
     } else {
       setErrorMessage(''); // 오류 메시지 초기화
-      setThumbnailUrl(generateThumbnailUrl(value)); // 썸네일 URL 업데이트
+      const thumbnail = await generateThumbnailUrl(value); // 썸네일 URL 생성
+      setThumbnailUrl(thumbnail); // 썸네일 URL 설정
+      console.log("썸네일 URL:", thumbnail); // 썸네일 URL 출력
     }
-  
+
     setVideoLink(value);
   };
   
-
   //썸네일
-  const generateThumbnailUrl = (url) => {
+  const generateThumbnailUrl = async (url) => {
     const youtubeRegex = /(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
-    const naverRegex = /tv\.naver\.com\/v\/(\d+)/; // 네이버 TV 링크에서 고유한 비디오 ID 추출
-  
     const youtubeMatch = url.match(youtubeRegex);
-    const naverMatch = url.match(naverRegex);
-  
+    
     if (youtubeMatch && youtubeMatch[1]) {
+      // 유튜브 영상인 경우
       return `https://img.youtube.com/vi/${youtubeMatch[1]}/0.jpg`;
-    } else if (naverMatch && naverMatch[1]) {
-      return `https://tv.pstatic.net/thumb/${naverMatch[1]}/480`;
+    } else if (url.includes('naver.com')) {
+      // 네이버 영상인 경우, 백엔드에 요청
+      try {
+        const response = await fetch('http://localhost:8080/naver', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ url })  // 네이버 URL을 백엔드에 전달
+        });
+        
+        if (!response.ok) {
+          throw new Error('네이버 썸네일을 가져오는 데 실패했습니다.');
+        }
+
+        const result = await response.json();
+        console.log("네이버 썸네일 URL:", result.thumbnailUrl); // 네이버 썸네일 URL 출력
+        
+        return result.thumbnailUrl;  // 백엔드에서 썸네일 URL을 반환 받음
+      } catch (error) {
+        console.error('네이버 썸네일 추출 실패:', error);
+        return '';
+      }
     }
-  
+
     return '';
   };
 
@@ -136,11 +162,11 @@ const PostForm = () => {
     setTitlePlaceholder(''); // 포커스 시 placeholder를 지움
   };
 
-  const handleContentFocus = ()=>{
+  const handleContentFocus = () => {
     setContentPlaceholder('');
   };
 
-return (
+  return (
     <form onSubmit={handleSubmit} className={styles.formContainer}>
       <div className={styles.mainContent}>
         <div className={styles.imageUpload} onClick={handleImageClick}>
@@ -155,6 +181,7 @@ return (
             ref={mainImageInputRef} // useRef를 사용하여 참조
             style={{ display: 'none' }}  // 숨김 처리
             onChange={handleImageChange}
+            required
           />
         </div>
         <div className={styles.inputFields}>
@@ -170,7 +197,7 @@ return (
           />
           <label className={styles.label}>재료</label>
           <input
-          type = "text"
+            type="text"
             value={content}
             placeholder={contentPlaceholder}
             onFocus={handleContentFocus}
@@ -178,11 +205,11 @@ return (
             required
             className={styles.contentInput}
           />
-          </div>
-          </div>
+        </div>
+      </div>
 
-          <div className={styles.videoLinkContainer}>
-          <div className={styles.videoLinkFields}>
+      <div className={styles.videoLinkContainer}>
+        <div className={styles.videoLinkFields}>
           <label className={styles.label}>동영상 링크 (유튜브 등)</label>
           <input
             type="url"
@@ -203,55 +230,44 @@ return (
       </div>
 
       <div className={styles.stepsContainer}>
-      {steps.map((step, index) => (
-        <div key={step.id} className={styles.stepContainer}> {/* 고유한 id를 key로 사용 */}
-          <div className={styles.stepContent}>
-            <label className={styles.label}>STEP {index + 1}</label>
-            <textarea
-              value={step.content}
-              onChange={(e) =>
-                handleStepChange(index, "content", e.target.value)
-              }
-              required
-              className={styles.textareaField}
-            ></textarea>
-          </div>
-          <div className={styles.stepImageUpload} onClick={() => handleStepImageClick(index)}>
-            {step.imagePreview ? (
-              <img src={step.imagePreview} alt={`STEP ${index + 1} 미리보기`} className={styles.imagePreview} />
-            ) : (
-              <div className={styles.imagePlaceholder}>여기에 STEP 이미지 첨부</div>
-            )}
-            <input
-              type="file"
-              accept="image/*"
-              ref={(el) => (stepImageInputRefs.current[index] = el)}  // useRef 배열로 각 스텝 이미지 입력 참조
-              style={{ display: 'none' }}  // 숨김 처리
-              onChange={(e) => handleStepChange(index, "image", e.target.files[0])}
-            />
-          </div>
-          {/* {steps.length > 1 && (
-            <button type="button" 
-            className={styles.deleteButton}
-            onClick={() => handleRemoveStep(step.id)}
+        {steps.map((step, index) => (
+          <div key={step.id} className={styles.stepContainer}>
+            <div className={styles.stepContent}>
+              <label className={styles.label}>STEP {index + 1}</label>
+              <textarea
+                value={step.content}
+                onChange={(e) => handleStepChange(index, "content", e.target.value)}
+                required
+                className={styles.textareaField}
+              ></textarea>
+            </div>
+            <div className={styles.stepImageUpload} onClick={() => handleStepImageClick(index)}>
+              {step.imagePreview ? (
+                <img src={step.imagePreview} alt={`STEP ${index + 1} 미리보기`} className={styles.imagePreview} />
+              ) : (
+                <div className={styles.imagePlaceholder}>여기에 STEP 이미지 첨부</div>
+              )}
+              <input
+                type="file"
+                accept="image/*"
+                ref={(el) => (stepImageInputRefs.current[index] = el)}  // useRef 배열로 각 스텝 이미지 입력 참조
+                style={{ display: 'none' }}  // 숨김 처리
+                onChange={(e) => handleStepChange(index, "image", e.target.files[0])}
+              />
+            </div>
+            <button
+              type="button"
+              className={styles.deleteButton}
+              style={{ visibility: steps.length > 1 ? 'visible' : 'hidden' }} // X 버튼의 visibility 속성 조절
+              onClick={() => handleRemoveStep(step.id)}
             >
               X
             </button>
-          )} */}
-          <button
-            type="button"
-            className={styles.deleteButton}
-            style={{ visibility: steps.length > 1 ? 'visible' : 'hidden' }} // X 버튼의 visibility 속성 조절
-            onClick={() => handleRemoveStep(step.id)}
-    >
-      X
-    </button>
-        </div>
-      ))}
-      
-      <button type="button" className={styles.addButton} onClick={handleAddStep}>
-        + STEP 추가
-      </button>
+          </div>
+        ))}
+        <button type="button" className={styles.addButton} onClick={handleAddStep}>
+          + STEP 추가
+        </button>
       </div>
 
       <button type="submit" className={styles.submitButton}>올리기</button>

@@ -88,66 +88,78 @@ function Sido() {
     }
   }, [id]);
 
-  return (
-    <div id="sido">
-      <h1>시도 테스트 편</h1>
-      <select name="sido" id="sido" value={selectedSido} onChange={handleSidoChange}>
-        <option value="0">도·특별·광역시</option>
-        <option value="강원도">강원도</option>
-        <option value="경기도">경기도</option>
-        <option value="경상남도">경상남도</option>
-        <option value="경상북도">경상북도</option>
-        <option value="광주광역시">광주광역시</option>
-        <option value="대구광역시">대구광역시</option>
-        <option value="대전광역시">대전광역시</option>
-        <option value="부산광역시">부산광역시</option>
-        <option value="서울특별시">서울특별시</option>
-        <option value="세종특별자치시">세종특별자치시</option>
-        <option value="울산광역시">울산광역시</option>
-        <option value="인천광역시">인천광역시</option>
-        <option value="전라남도">전라남도</option>
-        <option value="전라북도">전라북도</option>
-        <option value="제주특별자치도">제주특별자치도</option>
-        <option value="충청남도">충청남도</option>
-        <option value="충청북도">충청북도</option>
-      </select>
-      <select name="gungoo" id="gungoo" className="type02" value={selectedGungoo} onChange={handleGungooChange}>
-        <option value="">시·군·구</option>
-        {gungooOptions.map((gungoo, index) => (
-          <option key={index} value={gungoo}>
-            {gungoo}
-          </option>
-        ))}
-      </select>
-      <button onClick={handleSubmit}>선택</button>
-      <button onClick={() => { navigate('/'); }}>돌아가자~</button>
-      {region.id && (
-        <div>
-          <h2>선택 항목:</h2>
-          <ul className={s.ulli}>
-            {
-              <li>
-                <strong>시도 : </strong> {region.sido} <br />
-                <strong>시·군·구 : </strong> {region.gungoo} <br />
-               <strong>전화 : </strong>
-               {region.tel && region.tel.trim() !=='null' ? region.tel : <span>없음</span>} <br />
-                <strong>사이트 : </strong>
-                {region.site && region.site.split('|').map((site, index) => (
-                  <span key={index}>
-                    {site && site.trim() && site.trim() !== 'null' ? (
-                      <a href={site.trim()}>{site.trim()}</a>
+  return ( 
+    <div className={s.wrap}>
+      <div id="sido">
+        <h1>폐기물 시/군/구 별 전화번호</h1>
+        <p className={s.portal}><strong>폐가전 공통번호</strong> : 1599-0903 | <a href='https://15990903.or.kr/portal/main/main.do' className={s.site}>사이트로 이동</a></p>
+        <select name="sido" id="sido" className={s.sido} value={selectedSido} onChange={handleSidoChange}>
+          <option value="0">도·특별·광역시</option>
+          <option value="강원도">강원도</option>
+          <option value="경기도">경기도</option>
+          <option value="경상남도">경상남도</option>
+          <option value="경상북도">경상북도</option>
+          <option value="광주광역시">광주광역시</option>
+          <option value="대구광역시">대구광역시</option>
+          <option value="대전광역시">대전광역시</option>
+          <option value="부산광역시">부산광역시</option>
+          <option value="서울특별시">서울특별시</option>
+          <option value="세종특별자치시">세종특별자치시</option>
+          <option value="울산광역시">울산광역시</option>
+          <option value="인천광역시">인천광역시</option>
+          <option value="전라남도">전라남도</option>
+          <option value="전라북도">전라북도</option>
+          <option value="제주특별자치도">제주특별자치도</option>
+          <option value="충청남도">충청남도</option>
+          <option value="충청북도">충청북도</option>
+        </select>
+        <select name="gungoo" id="gungoo" className={s.gungoo} value={selectedGungoo} onChange={handleGungooChange}>
+          <option value="">시·군·구</option>
+          {gungooOptions.map((gungoo, index) => (
+            <option key={index} value={gungoo}>
+              {gungoo}
+            </option>
+          ))}
+        </select>
+        <button onClick={handleSubmit} className={s.btn1}>선택</button>
+        {region.id && (
+          <div>
+            <ul className={s.ulli}>
+              {
+                <li>
+                  <strong>시도 : </strong> {region.sido} <br />
+                  <strong>시·군·구 : </strong> {region.gungoo} <br />
+                  <div className={s.index}>
+                  <strong>전화 : </strong>
+                    {region.tel && region.tel.trim() !== 'null' ? (
+                      region.tel.split(' | ').map((item, index) => (
+                        <div key={index}>{item}</div>
+                      ))
                     ) : (
                       <span>없음</span>
                     )}
-                    {index < region.site.split('|').length - 1 && ' | '}
-                  </span>
-                ))} <br />
-                <strong>기타사항 : </strong> {region.etc && region.etc.trim() !== 'null' ? region.etc : <span>없음</span>} <br />
-              </li>
-            }
-          </ul>
-        </div>
-      )}
+                  </div>
+                  <br />
+                  <div className={s.sindex}>
+                  <strong>사이트 : </strong>
+                    {region.site && region.site.split('|').map((site, index) => (
+                      <div key={index}>
+                        {site && site.trim() && site.trim() !== 'null' ? (
+                          <a href={site.trim()} className={s.site}>{site.trim()}</a>
+                        ) : (
+                          <span>없음</span>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                  <br />
+                  <strong>기타사항 : </strong> {region.etc && region.etc.trim() !== 'null' ? region.etc : <span>없음</span>} <br />
+                </li>
+              }
+            </ul>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

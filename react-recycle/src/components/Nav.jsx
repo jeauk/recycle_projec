@@ -14,10 +14,10 @@ import MenuItem from '@mui/material/MenuItem';
 import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
-const pages = ['Products', 'Pricing', 'Blog'];
+const pages = [];
 const settings = ['프로필', '글쓰기', '로그아웃'];
 
 const Search = styled('div')(({ theme }) => ({
@@ -52,16 +52,87 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+const ResultList = styled('ul')(({ theme }) => ({
+  position: 'absolute',
+  top: '100%',
+  left: '5%',
+  right: 0,
+  backgroundColor: '#ffffff',
+  boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+  borderRadius: theme.shape.borderRadius,
+  margin: 0,
+  padding: 0,
+  listStyle: 'none',
+  zIndex: 1, // 검색창 위에 나타나도록 설정
+  maxHeight: '200px', // 리스트의 최대 높이 설정
+  overflowY: 'auto', // 리스트가 넘칠 때 스크롤 가능
+}));
+
+const ResultItem = styled('li')(({ theme }) => ({
+  padding: theme.spacing(1),
+  borderBottom: '1px solid lightgray',
+  '&:hover': {
+    backgroundColor: alpha('#000000', 0.05),
+  },
+}));
+
 function Nav() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [profileImageUrl, setProfileImageUrl] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [searchItem, setSearchItem] = useState(''); // 검색할 단어
+  const [searchResult, setSearchResult] = useState([]); // 검색 결과를 저장
+  const [isSearching, setIsSearching] = useState(false);
+  const [filteredResult, setFilteredResult] = useState([]);
   const navigate = useNavigate();
+
+  const onChange = (e) => {
+    setSearchItem(e.target.value);
+
+    if (e.target.value === '') {
+      setSearchResult([]);
+      setFilteredResult([]);
+    }
+  };
+
+
+  const onSearch = async () => {
+    try {
+      const res = await fetch(`http://127.0.0.1:8080/MainRecycle?query=${searchItem}`);
+      const data = await res.json();
+      console.log(data);
+      setSearchResult(data);
+      const searchFilter = data.filter(item =>
+        item.mrTag?.toLowerCase().includes(searchItem.toLowerCase())
+      );
+      setFilteredResult(searchFilter);
+    } catch (error) {
+      console.error("서버에 연결하는데 실패했습니다.", error);
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      setIsSearching(true);
+    }
+  };
+
+  const handleSearchClick = () => {
+    setIsSearching(true);
+  };
+
+  useEffect(() => {
+    if (isSearching) {
+      onSearch();
+      setIsSearching(false);
+    }
+  }, [isSearching]);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
+
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -74,12 +145,10 @@ function Nav() {
     setAnchorElUser(null);
   };
 
-  // 로그인 상태 및 프로필 정보를 로드하는 함수
   const loadProfileData = async () => {
     try {
       const jwt = sessionStorage.getItem('jwt');
 
-      // JWT가 존재할 때 로그인 상태로 변경
       if (jwt) {
         setIsLoggedIn(true);
       }
@@ -88,7 +157,7 @@ function Nav() {
       const response = await fetch(url, {
         method: 'GET',
         headers: {
-          'Authorization': `Bearer ${jwt}`,
+          Authorization: `Bearer ${jwt}`,
         },
       });
 
@@ -106,11 +175,9 @@ function Nav() {
   };
 
   useEffect(() => {
-    // 컴포넌트가 마운트될 때 로그인 상태 및 프로필 데이터 로드
     loadProfileData();
   }, []);
 
-  // 프로필 메뉴 항목 클릭 시 페이지 이동
   const handleMenuClick = (setting) => {
     handleCloseUserMenu();
 
@@ -119,16 +186,26 @@ function Nav() {
     } else if (setting === '글쓰기') {
       navigate('/post');
     } else if (setting === '로그아웃') {
-      sessionStorage.removeItem('jwt');  // JWT 토큰 삭제
-      setIsLoggedIn(false);  // 로그인 상태를 false로 변경
+      sessionStorage.removeItem('jwt');
+      setIsLoggedIn(false);
       navigate('/mypage');
-      alert("로그아웃 되었습니다");
+      alert('로그아웃 되었습니다');
       window.location.reload();
     }
   };
 
   return (
-    <AppBar position="static" sx={{ backgroundColor: '#ffffff', color: '#000000', borderBottom: '1px solid #98c76a', boxShadow: 'none', height: '120px', justifyContent: 'center' }}>
+    <AppBar
+      position="static"
+      sx={{
+        backgroundColor: '#ffffff',
+        color: '#000000',
+        borderBottom: '1px solid #98c76a',
+        boxShadow: 'none',
+        height: '120px',
+        justifyContent: 'center',
+      }}
+    >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Box
@@ -197,21 +274,41 @@ function Nav() {
           </Box>
 
           {/* Search Bar */}
-          <Search style={{ marginRight: '3%' }}>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="예)음료수병, 우산, 가위"
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </Search>
+          <Box sx={{ position: 'relative', marginRight: '3%' }}>
+            <Search>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase
+                placeholder="예)음료수병, 우산, 가위"
+                inputProps={{ 'aria-label': 'search' }}
+                value={searchItem}
+                onChange={onChange}
+                onKeyDown={handleKeyDown}
+              />
+              <Button onClick={handleSearchClick}>검색</Button>
+            </Search>
 
+            {/* 검색 결과 출력 */}
+            {searchResult.length > 0 && (
+              <ResultList>
+
+                {filteredResult && filteredResult.map((item) => (
+                  <ResultItem
+                    key={item.id}>
+                    <Link to={`/RecycleMain/${item.id}`}>
+                      <img src={item.imgurl} alt={item.mrName}/>
+                      <p>{item.mrName}</p>
+                    </Link>
+                  </ResultItem>
+                ))}
+              </ResultList>
+            )}
+          </Box>
           {/* Avatar and Settings Menu */}
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                {/* 프로필 이미지가 있으면 보여주기 */}
                 <Avatar alt="User Profile" src={profileImageUrl || ''} />
               </IconButton>
             </Tooltip>
@@ -232,8 +329,8 @@ function Nav() {
               onClose={handleCloseUserMenu}
             >
               {settings
-                .filter((setting) => (setting === '글쓰기' && isLoggedIn) || setting !== '글쓰기') // 로그인 상태일 때만 '글쓰기' 표시
-                .filter((setting) => setting !== '로그아웃' || isLoggedIn) // 로그인 상태일 때만 '로그아웃' 표시
+                .filter((setting) => (setting === '글쓰기' && isLoggedIn) || setting !== '글쓰기')
+                .filter((setting) => setting !== '로그아웃' || isLoggedIn)
                 .map((setting) => (
                   <MenuItem key={setting} onClick={() => handleMenuClick(setting)}>
                     <Typography textAlign="center">{setting}</Typography>

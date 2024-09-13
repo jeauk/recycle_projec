@@ -1,0 +1,57 @@
+.tableContainer {
+    width: 1200px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    max-width: 1200px; /* 최대 너비를 넓게 설정 */
+    margin: 0 auto; /* 화면 중앙에 배치 */
+  }
+  
+  .header {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .subtitle {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    font-size: 16px;
+    color: #666;
+  }
+  
+  .incentiveTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+  .incentiveTable th,
+  .incentiveTable td {
+    border: 1px solid #ddd;
+    padding: 12px 15px;
+    text-align: center;
+  }
+  
+  .incentiveTable th {
+    background-color: #f1f1f1;
+    color: #333;
+    font-weight: bold;
+  }
+  
+  .incentiveTable tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .incentiveTable tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .note {
+    font-size: 14px;
+    color: #888;
+    margin-top: 10px;
+  }
+  

@@ -78,20 +78,9 @@ const ReMap = () => {
 
 	return (
 		<div>
-			<div>
-				<button onClick={() => setActiveTab("gwill")}>굿윌스토어</button>
-				<button onClick={() => setActiveTab("bmarket")}>아름다운가게</button>
-			</div>
-			<ReMapMenu
-				searchHistory={searchHistory}
-				setSearchHistory={setSearchHistory}
-				locations={filteredLocations}
-				onLocationClick={handleMarkerClick}
-				activeTab={activeTab}
-				setActiveTab={setActiveTab}
-			/>
+			<ReMapMenu searchHistory={searchHistory} setSearchHistory={setSearchHistory} locations={filteredLocations} onLocationClick={handleMarkerClick} activeTab={activeTab} setActiveTab={setActiveTab} />
 			{center && (
-				<Map center={center} style={{ width: '800px', height: '600px' }} level={3}>
+				<Map center={center} style={{ width: '100vw', height: '600px' }} level={3}>
 					{filteredLocations.map((loc, idx) => (
 						<ReMapMarker
 							key={idx}

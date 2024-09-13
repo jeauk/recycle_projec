@@ -9,14 +9,20 @@ import PostDetail from "./reformBoard/PostDetail";
 import PostEdit from "./reformBoard/PostEdit";
 import Footer from "./components/Footer";
 import styles from './App.module.css';
+import MainRecycleDetail from './mainRecycle/MainRecycleDetail';
+import MainRecycleSearch from './mainRecycle/MainRecycleSearch';
 import LoginHandeler from './myPage/LoginHandeler';
 import Mypage from './myPage/MyPage';
-import Sido from './market/Sido';
+import Sido from './sido/Sido';
 import "./App.css";
 import ReMap from "./reMap/ReMap";
 import Contact from "./components/Contact";
 import MyList from "./myPage/MyList";
 import MyRecommend from "./myPage/MyRecommend";
+import VendingDeviceMap from "./vendingDevice/VendingDeviceMap";
+import CompanyList from "./carvon/CompanyList";
+import Drafting from "./carvon/Drafting";
+import Incentive from "./carvon/Incentive";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -44,6 +50,9 @@ function App() {
             <Routes>
               <Route index element={<Home />} />
               <Route path='/map' element={<KakaoMap />} />
+              <Route path='/recycleMain' element={<MainRecycleSearch />} />
+              <Route path='/recycleMain/:id' element={<MainRecycleDetail />} />
+              <Route path='/sumap' element={<VendingDeviceMap />} />
               <Route path="/remap" element={<ReMap />} />
               <Route path="/list" element={<PostList />} />
               <Route path="/post" element={<PostForm />} />
@@ -53,12 +62,15 @@ function App() {
               <Route path="/contact" element={<Contact />} />
               <Route path="/mypage/mylist" element={<MyList />} />
               <Route path="/mypage/myrecommend" element={<MyRecommend />} />
+              <Route path="/carvon/companyList" element={<CompanyList />} />
+              <Route path="/carvon/drafting" element={<Drafting />} />
+              <Route path="/carvon/incentive" element={<Incentive />} />
+              <Route path="/mainRecycleDetail" element={<MainRecycleDetail />} />
               <Route
                 path="/login/oauth2/callback/kakao"
                 element={<LoginHandeler onLogin={handleLogin} />}
               />
               <Route path="/sido" element={<Sido />} />
-              <Route path="/remap" element={<ReMap />} />
             </Routes>
           </div>
           <Footer />
