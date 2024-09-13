@@ -119,6 +119,8 @@
 
 .videoLinkContainer {
   width: 100%;
+  display: flex;
+  align-items: center;
   margin: 20px 0;
   background-color: #f9f9f9;
   border-radius: 10px;
@@ -127,7 +129,23 @@
 }
 
 .videoLinkFields {
-  width: 55%;
+  flex: 1;
+  margin-right: 10px;
+}
+
+.thumbnailBox {
+  width: 250px;
+  height: 200px;
+  border: 1px solid #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center; 
+  overflow: hidden;
+}
+
+.thumbnailImage {
+  max-width: 100%;
+  max-height: 100%;
 }
 
 .stepsContainer {

@@ -8,6 +8,7 @@ const PostForm = () => {
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null); // 메인 이미지 미리보기
   const [videoLink, setVideoLink] = useState("");
+  const [thumbnailUrl, setThumbnailUrl] = useState(''); // 썸네일 URL 상태 추가
   const [steps, setSteps] = useState([{ id: 1, content: "", image: null, imagePreview: null }]); // id와 미리보기 추가
   const [errorMessage, setErrorMessage] = useState('');
   const [nextId, setNextId] = useState(2); 
@@ -102,15 +103,33 @@ const PostForm = () => {
 
   const handleChange = (e) => {
     const value = e.target.value;
-    
-    // '.com'이 포함되어 있는지 확인
-    if (!value.includes('youtube.com') && !value.includes('youtu.be') && !value.includes('naver.com')) {
+  
+    if (!value.includes('youtube.com') && !value.includes('youtu.be') && !value.includes('tv.naver.com') && !value.includes('naver.me')) {
       setErrorMessage('유튜브나 네이버링크로 작성해주세요.'); // 경고 메시지 설정
     } else {
       setErrorMessage(''); // 오류 메시지 초기화
+      setThumbnailUrl(generateThumbnailUrl(value)); // 썸네일 URL 업데이트
     }
-    
+  
     setVideoLink(value);
+  };
+  
+
+  //썸네일
+  const generateThumbnailUrl = (url) => {
+    const youtubeRegex = /(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+    const naverRegex = /tv\.naver\.com\/v\/(\d+)/; // 네이버 TV 링크에서 고유한 비디오 ID 추출
+  
+    const youtubeMatch = url.match(youtubeRegex);
+    const naverMatch = url.match(naverRegex);
+  
+    if (youtubeMatch && youtubeMatch[1]) {
+      return `https://img.youtube.com/vi/${youtubeMatch[1]}/0.jpg`;
+    } else if (naverMatch && naverMatch[1]) {
+      return `https://tv.pstatic.net/thumb/${naverMatch[1]}/480`;
+    }
+  
+    return '';
   };
 
   const handleTitleFocus = () => {
@@ -174,6 +193,12 @@ return (
             className={styles.inputField}
           />
           {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+        </div>
+        {/* 썸네일 미리보기 박스 */}
+        <div className={styles.thumbnailBox}>
+          {thumbnailUrl && (
+            <img src={thumbnailUrl} alt="Video Thumbnail" className={styles.thumbnailImage} />
+          )}
         </div>
       </div>
 
