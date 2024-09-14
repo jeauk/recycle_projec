@@ -122,45 +122,46 @@ function Sido() {
           ))}
         </select>
         <button onClick={handleSubmit} className={s.btn1}>선택</button>
-      </div>
-      <div id="sido" className={s.res}>
-        {region.id && (
-          <div>
-            <ul className={s.ulli}>
-              {
-                <li>
-                  <strong className={s.fmj}>시도 : </strong> {region.sido} <br />
-                  <strong className={s.mj}>시·군·구 : </strong> {region.gungoo} <br />
-                  <div className={s.index}>
-                    <strong className={s.mj}>전화 :&nbsp;</strong>
-                    {region.tel && region.tel.trim() !== 'null' ? (
-                      region.tel.split(' | ').map((item, index) => (
-                        <div key={index}>{item}</div>
-                      ))
-                    ) : (
-                      <span>없음</span>
-                    )}
-                  </div>
-                  <br />
-                  <div className={s.sindex}>
-                    <strong className={s.mj}>사이트 :&nbsp;</strong>
-                    {region.site && region.site.split('|').map((site, index) => (
-                      <div key={index}>
-                        {site && site.trim() && site.trim() !== 'null' ? (
-                          <a href={site.trim()} className={s.site}>{site.trim()}</a>
-                        ) : (
-                          <span>없음</span>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                  <br />
-                  <strong className={s.mj}>기타사항 : </strong> {region.etc && region.etc.trim() !== 'null' ? region.etc : <span>없음</span>} <br />
-                </li>
-              }
-            </ul>
-          </div>
-        )}
+
+        <div id="sido" className={s.res}>
+          {region.id && (
+            <div>
+              <ul className={s.ulli}>
+                {
+                  <li>
+                    <strong className={s.fmj}>시도 : </strong> {region.sido} <br />
+                    <strong className={s.mj}>시·군·구 : </strong> {region.gungoo} <br />
+                    <div className={s.index}>
+                      <strong className={s.mj}>전화 :&nbsp;</strong>
+                      {region.tel && region.tel.trim() !== 'null' ? (
+                        region.tel.split(' | ').map((item, index) => (
+                          <div key={index}>{item}</div>
+                        ))
+                      ) : (
+                        <span>없음</span>
+                      )}
+                    </div>
+                    <br />
+                    <div className={s.sindex}>
+                      <strong className={s.mj}>사이트 :&nbsp;</strong>
+                      {region.site && region.site.split('|').map((site, index) => (
+                        <div key={index}>
+                          {site && site.trim() && site.trim() !== 'null' ? (
+                            <a href={site.trim()} className={s.site}>{site.trim()}</a>
+                          ) : (
+                            <span>없음</span>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                    <br />
+                    <strong className={s.mj}>기타사항 : </strong> {region.etc && region.etc.trim() !== 'null' ? region.etc : <span>없음</span>} <br />
+                  </li>
+                }
+              </ul>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
