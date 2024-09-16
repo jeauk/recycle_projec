@@ -6,9 +6,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Data;
 
-@Entity
+@Entity (name = "OxQuiz")
 @Data
-public class OXQuizEntity {
+public class OxQuizEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,4 +18,5 @@ public class OXQuizEntity {
 
     private Boolean correctAnswer;  // 정답 (True = O, False = X)
     
+    private String explanation;  // 오답 설명 (추가된 필드)
 }
