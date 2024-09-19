@@ -122,8 +122,7 @@ function Sido() {
           ))}
         </select>
         <button onClick={handleSubmit} className={s.btn1}>선택</button>
-
-        <div id="sido" className={s.res}>
+        <div className={s.scroll}>
           {region.id && (
             <div>
               <ul className={s.ulli}>
