@@ -74,6 +74,7 @@ const OX = () => {
     <div>
       {quizData.length > 0 && (
         <>
+          <h3>{quizIndex + 1}번째 / 총 {quizData.length}문항</h3>
           <h1>{quizData[quizIndex].question}</h1>
           <button onClick={() => handleAnswer('O')} disabled={showNext}>O</button>
           <button onClick={() => handleAnswer('X')} disabled={showNext}>X</button>
