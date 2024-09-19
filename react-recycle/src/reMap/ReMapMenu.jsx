@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState, useEffect, useRef } from 'react';
 import m from '../styles/VendingDeviceMenu.module.css';
 import rm from '../styles/ReMap.module.css';
 
@@ -6,6 +6,7 @@ const ReMapMenu = React.memo(({ locations, onLocationClick, searchHistory, setSe
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [activeButton, setActiveButton] = useState(activeTab);
+  const menuRef = useRef(null);
 
   const toggleMenu = useCallback(() => {
     setIsOpen(!isOpen);
@@ -52,8 +53,21 @@ const ReMapMenu = React.memo(({ locations, onLocationClick, searchHistory, setSe
     setActiveButton(tab);
   }, [setActiveTab]);
 
+  const handleClickOutside = useCallback((event) => {
+    if (menuRef.current && !menuRef.current.contains(event.target)) {
+      setIsOpen(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [handleClickOutside]);
+
   return (
-    <div className={rm.rewrap}>
+    <div className={rm.rewrap} ref={menuRef}>
       <div className={`${m.sideMenu} ${isOpen ? m.open : ''}`}>
         <div className={m.search}>
           <input type="text" placeholder="중고 가게 위치 검색" onChange={handleSearchChange} value={searchQuery} onKeyDown={handleKeyPress} />

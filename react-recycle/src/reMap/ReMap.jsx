@@ -80,7 +80,7 @@ const ReMap = () => {
 		<div>
 			<ReMapMenu searchHistory={searchHistory} setSearchHistory={setSearchHistory} locations={filteredLocations} onLocationClick={handleMarkerClick} activeTab={activeTab} setActiveTab={setActiveTab} />
 			{center && (
-				<Map center={center} style={{ width: '100vw', height: '600px' }} level={3}>
+				<Map center={center} style={{ width: '99vw', height: '600px' }} level={3}>
 					{filteredLocations.map((loc, idx) => (
 						<ReMapMarker
 							key={idx}
