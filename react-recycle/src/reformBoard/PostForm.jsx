@@ -1,6 +1,38 @@
 import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from './PostForm.module.css';
+import Cropper from 'react-easy-crop';
+
+const getCroppedImg = (imageSrc, crop) => {
+  const canvas = document.createElement('canvas');
+  const image = new Image();
+  image.src = imageSrc;
+
+  return new Promise((resolve, reject) => {
+    image.onload = () => {
+      const ctx = canvas.getContext('2d');
+      canvas.width = crop.width;
+      canvas.height = crop.height;
+      ctx.drawImage(
+        image,
+        crop.x,
+        crop.y,
+        crop.width,
+        crop.height,
+        0,
+        0,
+        canvas.width,
+        canvas.height
+      );
+
+      canvas.toBlob((blob) => {
+        const fileUrl = URL.createObjectURL(blob);
+        resolve(fileUrl);  // 자른 이미지의 URL 반환
+      }, 'image/jpeg');
+    };
+    image.onerror = reject;
+  });
+};
 
 const PostForm = () => {
   const [title, setTitle] = useState("");
@@ -14,6 +46,10 @@ const PostForm = () => {
   const [nextId, setNextId] = useState(2); 
   const [titleplaceholder, setTitlePlaceholder] = useState('옷걸이로 선반 만들기');
   const [contentPlaceholder, setContentPlaceholder] = useState('쇠 옷걸이, 니퍼(펜치)')
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [zoom, setZoom] = useState(1);
+  const [croppedArea, setCroppedArea] = useState(null);
+  const [isCropping, setIsCropping] = useState(false);
 
   const jwt = sessionStorage.getItem("jwt");
   const navigate = useNavigate();
@@ -21,10 +57,48 @@ const PostForm = () => {
   const mainImageInputRef = useRef(null); // 메인 이미지 입력 Ref
   const stepImageInputRefs = useRef([]);  // Step 이미지 입력 Ref 배열
 
+  const handleCropComplete = async () => {
+    const croppedImage = await getCroppedImg(imagePreview, croppedArea);  // 자른 이미지 생성
+    setImagePreview(croppedImage);  // 미리보기 이미지 업데이트
+    setIsCropping(false);  // 크롭 모드 종료
+  };
+
+  const getCroppedImg = (imageSrc, crop) => {
+  const canvas = document.createElement('canvas');
+  const image = new Image();
+  image.src = imageSrc;
+  
+  return new Promise((resolve, reject) => {
+    image.onload = () => {
+      const ctx = canvas.getContext('2d');
+      canvas.width = crop.width;
+      canvas.height = crop.height;
+      ctx.drawImage(
+        image,
+        crop.x,
+        crop.y,
+        crop.width,
+        crop.height,
+        0,
+        0,
+        canvas.width,
+        canvas.height
+      );
+      
+      canvas.toBlob((blob) => {
+        const fileUrl = URL.createObjectURL(blob);
+        resolve(fileUrl);  // 자른 이미지 URL 반환
+      }, 'image/jpeg');
+    };
+    image.onerror = reject;
+  });
+};
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setImage(file);
     setImagePreview(URL.createObjectURL(file)); // 메인 이미지 미리보기 설정
+    setIsCropping(true);
   };
 
   const handleImageClick = () => {
@@ -184,6 +258,23 @@ const PostForm = () => {
             required
           />
         </div>
+
+        {isCropping && (
+  <div className={styles.cropContainer}>
+    <Cropper
+      image={imagePreview}
+      crop={crop}
+      zoom={zoom}
+      aspect={1}  // 1:1 비율로 자르기
+      onCropChange={setCrop}
+      onZoomChange={setZoom}
+      onCropComplete={(croppedArea, croppedAreaPixels) => setCroppedArea(croppedAreaPixels)}
+    />
+    <button onClick={handleCropComplete}>이미지 자르기 완료</button>
+  </div>
+)}
+
+
         <div className={styles.inputFields}>
           <label className={styles.label}>제목</label>
           <input
