@@ -1,10 +1,12 @@
 import { Pagination } from "@mui/material";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const MyList = () => {
   const [page, setPage] = useState(1); // 기본 페이지를 1로 설정
   const [totalPages, setTotalPages] = useState(10); // 총 페이지 수 기본값 설정
   const [posts, setPosts] = useState([]); // 게시글 목록을 저장할 상태
+  const navigate = useNavigate();
 
   // 서버에서 게시글 목록을 가져오는 함수
   const loadMyList = async () => {
@@ -38,6 +40,12 @@ const MyList = () => {
     loadMyList();
   }, [page]); // page가 변경될 때마다 호출
 
+
+  const handlePostClick = (postId) => {
+    navigate(`/post/${postId}`); // 클릭한 게시글의 상세 페이지로 이동
+  };
+
+
   return (
     <div>
       <h1>게시판</h1>
@@ -45,8 +53,11 @@ const MyList = () => {
         {posts.length > 0 ? (
           posts.map((post) => (
             <li
-              key={post.postId}
-              style={{
+
+               onClick={() => handlePostClick(post.postId)}
+               key={post.postId}
+               style={{
+                width: "1047px",
                 display: "flex",
                 flexDirection: "row",
                 justifyContent: "space-between",
@@ -92,7 +103,7 @@ const MyList = () => {
           <p>게시글이 없습니다.</p>
         )}
       </ul>
-      <div>
+      <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
         <Pagination
           page={page} // 현재 페이지 번호 설정
           onChange={(e, value) => setPage(value)} // 페이지 변경 시 호출

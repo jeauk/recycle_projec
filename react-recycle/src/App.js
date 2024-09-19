@@ -23,6 +23,7 @@ import VendingDeviceMap from "./vendingDevice/VendingDeviceMap";
 import CompanyList from "./carvon/CompanyList";
 import Drafting from "./carvon/Drafting";
 import Incentive from "./carvon/Incentive";
+import OX from "./oxQuiz/OX";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -66,6 +67,7 @@ function App() {
               <Route path="/carvon/drafting" element={<Drafting />} />
               <Route path="/carvon/incentive" element={<Incentive />} />
               <Route path="/mainRecycleDetail" element={<MainRecycleDetail />} />
+              <Route path="/oxquiz" element={<OX />} />
               <Route
                 path="/login/oauth2/callback/kakao"
                 element={<LoginHandeler onLogin={handleLogin} />}
