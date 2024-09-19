@@ -8,14 +8,16 @@ const ReMap = () => {
 	const [searchHistory, setSearchHistory] = useState([]);
 	const [center, setCenter] = useState(null);
 	const [activeTab, setActiveTab] = useState("gwill");
+	const myBackDomain = "http://localhost:8080"
+	const myFrontDomain = "http://localhost:3000"
 
 	useEffect(() => {
 		const fetchLocations = async () => {
 			try {
-				const gwillRes = await fetch(`http://127.0.0.1:8080/gwill`);
+				const gwillRes = await fetch(myBackDomain + `/gwill`);
 				const gwillData = await gwillRes.json();
 
-				const bmarketRes = await fetch(`http://127.0.0.1:8080/bmarket`);
+				const bmarketRes = await fetch(myBackDomain + `/bmarket`);
 				const bmarketData = await bmarketRes.json();
 
 				const combinedData = [
