@@ -126,6 +126,7 @@ function Nav() {
     if (isSearching) {
       onSearch();
       setIsSearching(false);
+      
     }
   }, [isSearching]);
 
