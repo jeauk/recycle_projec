@@ -93,10 +93,8 @@ function Nav() {
   const onChange = (e) => {
     setSearchItem(e.target.value);
 
-    if (e.target.value === '') {
-      setSearchResult([]);
-      setFilteredResult([]);
-    }
+    setShowResults(false);
+    setFilteredResult([]);
   };
 
 
@@ -315,7 +313,7 @@ function Nav() {
                 {filteredResult.map((item) => (
                   <ResultItem
                     key={item.id}>
-                    <Link to={`/RecycleMain/${item.id}`}>
+                    <Link to={`/RecycleMain/${item.id}`} onClick={()=>setShowResults(false)}>
                       <img src={item.imgurl} alt={item.mrName} />
                       <p>{item.mrName}</p>
                     </Link>

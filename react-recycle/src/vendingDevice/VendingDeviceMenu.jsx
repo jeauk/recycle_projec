@@ -49,7 +49,7 @@ const VendingDeviceMenu = React.memo(({  locations, onLocationClick, searchHisto
           <input type="text" placeholder="자판기 위치 검색" onChange={handleSearchChange} value={searchQuery} onKeyDown={handleKeyPress}/>
           <p>검색된 자판기: {totalVendingMachinces}대</p>
           <button className={m.clearButton} onClick={clearSearch}>
-            X
+            검색 초기화
           </button>
           <div>
             {searchHistory.map((query, index) => (
