@@ -49,6 +49,8 @@ const PostForm = () => {
   const [croppedArea, setCroppedArea] = useState(null);
   const [isCropping, setIsCropping] = useState(false);
   const [croppedImageBlob, setCroppedImageBlob] = useState(null);
+      const myBackDomain = "http://localhost:8080"
+    const myFrontDomain = "http://localhost:3000"
 
   const jwt = sessionStorage.getItem("jwt");
   const navigate = useNavigate();
@@ -97,7 +99,7 @@ const PostForm = () => {
       return `https://img.youtube.com/vi/${youtubeMatch[1]}/0.jpg`;
     } else if (url.includes('naver.com')) {
       try {
-        const response = await fetch('http://localhost:8080/naver', {
+        const response = await fetch(myBackDomain+'/naver', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ url })
@@ -134,7 +136,7 @@ const PostForm = () => {
     });
 
     try {
-      const response = await fetch("http://localhost:8080/api/posts", {
+      const response = await fetch(myBackDomain+"/api/posts", {
         method: "POST",
         headers: { "Authorization": `Bearer ${jwt}` },
         body: formData,

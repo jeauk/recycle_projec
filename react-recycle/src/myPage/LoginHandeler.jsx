@@ -4,12 +4,14 @@ import { useEffect } from "react";
 const LoginHandler = ({onLogin}) => {
   const navigate = useNavigate();
   const code = new URL(window.location.href).searchParams.get("code");
+      const myBackDomain = "http://localhost:8080"
+    const myFrontDomain = "http://localhost:3000"
 
   useEffect(() => {
     const sendCode = async () => {
       if (code) {
         try {
-          const data = await fetch('http://localhost:8080/oauth/kakao/callback', {
+          const data = await fetch(myBackDomain+'/oauth/kakao/callback', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ code })
@@ -24,7 +26,7 @@ const LoginHandler = ({onLogin}) => {
 
           const jwt = sessionStorage.getItem("jwt");
 
-          const res2 = await fetch('http://localhost:8080/parseJwt', {
+          const res2 = await fetch(myBackDomain+'/parseJwt', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

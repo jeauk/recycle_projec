@@ -7,12 +7,14 @@ const MyRecommend = () => {
   const [totalPages, setTotalPages] = useState(10); // 총 페이지 수 기본값 설정
   const [posts, setPosts] = useState([]); // 게시글 목록을 저장할 상태
   const navigate = useNavigate(); // useNavigate 훅 사용
+      const myBackDomain = "http://localhost:8080"
+    const myFrontDomain = "http://localhost:3000"
 
   // 서버에서 게시글 목록을 가져오는 함수
   const loadMyList = async () => {
     try {
       const jwt = sessionStorage.getItem("jwt");
-      const url = `http://localhost:8080/mypage/recommend?page=${page}&size=10`;
+      const url = myBackDomain+`/mypage/recommend?page=${page}&size=10`;
       const response = await fetch(url, {
         method: "GET",
         headers: {

@@ -11,6 +11,8 @@ const Contact = () => {
     const [imagePreviews, setImagePreviews] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const fileInputRef = useRef(null); // 파일 입력필드에 대한 참조
+    const myBackDomain = "http://localhost:8080"
+    const myFrontDomain = "http://localhost:3000"
 
 
     const handleFileChange = async (e) => {
@@ -59,7 +61,7 @@ const Contact = () => {
             formData.append('images', img.file);
         });
 
-        const url = "http://localhost:8080/api/contact/post";
+        const url = myBackDomain+"/api/contact/post";
         try {
             const response = await fetch(url, {
                 method: "POST",
