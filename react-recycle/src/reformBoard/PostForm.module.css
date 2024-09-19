@@ -21,8 +21,8 @@
 }
 
 .imageUpload, .stepImageUpload {
-  width: 40%;
-  height: 250px;
+  width: 500px;
+  height: 300px;
   border: 2px dashed #ccc;
   display: flex;
   align-items: center;
@@ -107,6 +107,38 @@
   background-color: #2980b9;
 }
 
+.cropContainer {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 400px;
+  background-color: #333;
+  position: relative;
+  z-index: 1; 
+}
+
+.cropContainer img {
+  width: 100%;
+  height: auto;
+}
+
+.cropButton {
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  position: relative; 
+  z-index: 10; 
+}
+
+.cropButton:hover {
+  background-color: #45a049;
+}
+
 .contentInput {
   width: 95%;
   padding: 10px;
@@ -155,18 +187,6 @@
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   padding: 20px;
-}
-
-.cropContainer {
-  position: relative;
-  width: 100%;
-  height: 400px;
-  background-color: #333;
-}
-
-.cropContainer img {
-  width: 100%;
-  height: auto;
 }
 
 button {

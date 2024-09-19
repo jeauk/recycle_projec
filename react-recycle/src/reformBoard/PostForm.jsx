@@ -265,12 +265,18 @@ const PostForm = () => {
       image={imagePreview}
       crop={crop}
       zoom={zoom}
-      aspect={1}  // 1:1 비율로 자르기
+      aspect={5 / 3}  // 5:3
       onCropChange={setCrop}
       onZoomChange={setZoom}
       onCropComplete={(croppedArea, croppedAreaPixels) => setCroppedArea(croppedAreaPixels)}
     />
-    <button onClick={handleCropComplete}>이미지 자르기 완료</button>
+    <button 
+      className={styles.cropButton} 
+      type="button"  // 폼 제출 방지
+      onClick={handleCropComplete}
+    >
+      완료
+    </button>
   </div>
 )}
 
