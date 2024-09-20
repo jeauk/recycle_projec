@@ -21,6 +21,7 @@ const MainRecycleDetail = () => {
     if(!item) return <p>Loading...</p>;
     return (
         <div>
+            <img src={item.imgUrl}></img>
             <h1>{item.mrName}</h1>
             <p>Tag: {item.mrTag}</p>
             <p>Category: {item.mrCategory}</p>
