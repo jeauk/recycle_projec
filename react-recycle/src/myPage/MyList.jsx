@@ -1,16 +1,20 @@
 import { Pagination } from "@mui/material";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const MyList = () => {
   const [page, setPage] = useState(1); // 기본 페이지를 1로 설정
   const [totalPages, setTotalPages] = useState(10); // 총 페이지 수 기본값 설정
   const [posts, setPosts] = useState([]); // 게시글 목록을 저장할 상태
+  const navigate = useNavigate();
+    const myBackDomain = "http://localhost:8080"
+    const myFrontDomain = "http://localhost:3000"
 
   // 서버에서 게시글 목록을 가져오는 함수
   const loadMyList = async () => {
     try {
       const jwt = sessionStorage.getItem("jwt");
-      const url = `http://localhost:8080/mypage/mylist?page=${page}&size=10`;
+      const url = myBackDomain+`/mypage/mylist?page=${page}&size=10`;
       const response = await fetch(url, {
         method: "GET",
         headers: {
@@ -38,25 +42,70 @@ const MyList = () => {
     loadMyList();
   }, [page]); // page가 변경될 때마다 호출
 
+
+  const handlePostClick = (postId) => {
+    navigate(`/post/${postId}`); // 클릭한 게시글의 상세 페이지로 이동
+  };
+
+
   return (
     <div>
       <h1>게시판</h1>
-      <ul>
+      <ul style={{ padding: 0, listStyleType: "none" }}>
         {posts.length > 0 ? (
           posts.map((post) => (
-            <li key={post.postId}>
-              <h3>{post.title}</h3>
-              <p>작성자 : {post.nickname}</p>
-              <p>작성일: {post.createAt}</p>
-              <p>조회수: {post.viewCount}</p>
-              <p>추천수: {post.recommendCount}</p>
+            <li
+
+               onClick={() => handlePostClick(post.postId)}
+               key={post.postId}
+               style={{
+                width: "1047px",
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                padding: "10px 20px",
+                borderBottom: "1px solid #ccc",
+                alignItems: "center",
+              }}
+            >
+              <div style={{ flex: 2, fontSize: "1.2rem" }}>
+                <h3 style={{ margin: 0, fontSize: "1.2rem" }}>{post.title}</h3>
+              </div>
+              <div
+                style={{
+                  flex: 1,
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  fontSize: "0.9rem",
+                }}
+              >
+                <p style={{ margin: 0 }}>작성자: {post.nickname}</p>
+              </div>
+              <div
+                style={{
+                  flex: 1,
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  fontSize: "0.9rem",
+                }}
+              >
+                <p style={{ margin: 0 }}>작성일: {post.createAt}</p>
+              </div>
+              <div style={{ flex: 1, fontSize: "0.9rem" }}>
+                <p style={{ margin: 0 }}>조회수: {post.viewCount}</p>
+              </div>
+              <div style={{ flex: 1, fontSize: "0.9rem" }}>
+                <p style={{ margin: 0 }}>추천수: {post.recommendCount}</p>
+              </div>
             </li>
           ))
         ) : (
           <p>게시글이 없습니다.</p>
         )}
       </ul>
-      <div>
+      <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
         <Pagination
           page={page} // 현재 페이지 번호 설정
           onChange={(e, value) => setPage(value)} // 페이지 변경 시 호출

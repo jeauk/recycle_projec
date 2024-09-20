@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from 'react-router-dom';
+
 const MainRecycleDetail = () => {
     const { id } = useParams();
     const [item, setItem] = useState(null);
@@ -16,9 +17,11 @@ const MainRecycleDetail = () => {
         };
         fetchItem();
     }, [id]);
+    
     if(!item) return <p>Loading...</p>;
     return (
         <div>
+            <img src={item.imgUrl}></img>
             <h1>{item.mrName}</h1>
             <p>Tag: {item.mrTag}</p>
             <p>Category: {item.mrCategory}</p>

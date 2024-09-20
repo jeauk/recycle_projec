@@ -19,6 +19,7 @@ public class MainRecycleEntity {
     private String mrTag;
     private String mrUm;
     private String mrCategory;
+    private String imgUrl;
     @Column(length = 2000)
     private String mrContent;
 

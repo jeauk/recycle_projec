@@ -4,6 +4,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,6 +15,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+@CrossOrigin
 @RestController
 public class ImageController {
 
@@ -59,6 +61,32 @@ public ResponseEntity<Resource> showProfileImage(
     Resource resource = new UrlResource("file:" + file.getAbsolutePath());
 
     // 파일 확장자에서 MIME 타입 간단하게 설정
+    String contentType = "image/" + filename.substring(filename.lastIndexOf(".") + 1);
+
+    return ResponseEntity.ok()
+            .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + filename + "\"")
+            .header(HttpHeaders.CONTENT_TYPE, contentType)
+            .body(resource);
+}
+
+@GetMapping("/image/recycleMain/{filename}")
+public ResponseEntity<Resource> showRecycleMainImage(@PathVariable String filename) throws MalformedURLException {
+
+    // 리사이클 메인 이미지가 저장된 디렉토리 경로
+    String recycleMainDir = "src/main/resources/static/images/recycleMain/";
+
+    // 파일 경로를 생성
+    File file = new File(recycleMainDir + filename);
+
+    // 파일이 존재하는지 확인
+    if (!file.exists()) {
+        return ResponseEntity.notFound().build();
+    }
+
+    // 파일 리소스를 URL 형식으로 로드
+    Resource resource = new UrlResource("file:" + file.getAbsolutePath());
+
+    // 파일 확장자에서 MIME 타입을 설정
     String contentType = "image/" + filename.substring(filename.lastIndexOf(".") + 1);
 
     return ResponseEntity.ok()
