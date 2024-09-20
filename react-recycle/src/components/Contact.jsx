@@ -51,6 +51,12 @@ const Contact = () => {
         const newFiles = Array.from(e.target.files);
         const newImages = [...images];
         const newPreviews = [];
+
+        if (newFiles.length + images.length > 5) {
+            setMessage({ text: "최대 5개의 파일만 첨부할 수 있습니다.", type: 'error', visible: true });
+            return;
+        }
+
         for (const file of newFiles) {
             const fileHash = await getFileHash(file);
             // 중복 파일 체크
@@ -100,9 +106,11 @@ const Contact = () => {
                 method: "POST",
                 body: formData,
             });
+            
+            const responseMessage = await response.text(); // 서버에서 보낸 메시지를 사용
 
             if (response.ok) {
-                setMessage({ text: "문의가 접수되었습니다.", type: 'success', visible: true });
+                setMessage({ text: responseMessage, type: 'success', visible: true });
                 // 폼 초기화
                 setName('');
                 setReplyTo('');
@@ -116,7 +124,7 @@ const Contact = () => {
                     fileInputRef.current.value = '';
                 }
             } else {
-                throw new Error("문의를 보내는 중 오류가 발생했습니다.");
+                setMessage({ text: responseMessage, type: 'error', visible: true }); // 실패 시 메시지 사용
             }
         } catch (error) {
             console.error('Error:', error);
