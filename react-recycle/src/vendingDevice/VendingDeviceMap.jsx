@@ -30,7 +30,7 @@ const VendingDeviceMap = () => {
 				setCenter({
 					lat: position.coords.latitude,
 					lng: position.coords.longitude,
-				})
+				});
 				setLevel(5);
 			}, (error) => {
 				console.error("사용자의 위치를 가져오는데 실패했습니다.",error);
@@ -40,18 +40,20 @@ const VendingDeviceMap = () => {
 
 	const filteredLocations = useMemo(() => {
 		if (searchHistory.length === 0) {
-			return locations;
+			return locations.map((loc) => ({ ...loc, isMatch:true }));
 		}
-		return locations.filter(loc =>
-			searchHistory.every(query =>
+		return locations.map((loc) =>{
+			const isMatch = searchHistory.every(query =>
 				loc.name.toLowerCase().includes(query.toLowerCase()) ||
 				loc.address.toLowerCase().includes(query.toLowerCase()) ||
 				loc.region1.toLowerCase().includes(query.toLowerCase()) ||
 				loc.region2.toLowerCase().includes(query.toLowerCase()) ||
 				loc.region3.toLowerCase().includes(query.toLowerCase()) ||
 				loc.inputWastes.some(waste => waste.inputWaste.toLowerCase().includes(query.toLowerCase()))
-			)
-		); 
+			);
+			console.log(`Location: ${loc.name}, isMatch: ${isMatch}`);
+			return {...loc, isMatch};
+		}); 
 	}, [locations, searchHistory]);
 
 	const handleMarkerClick = useCallback((loc) => {
@@ -65,21 +67,47 @@ const VendingDeviceMap = () => {
 		});
 	}, []);
 
-	const getMarkerImage = useCallback((inputWastes) => {
+	const getMarkerImage = useCallback((inputWastes, isMatch) => {
 		const wasteTypes = inputWastes.map(waste => waste.inputWaste);
-		if (wasteTypes.includes("캔") && wasteTypes.includes("투명 페트")) {
-			return '/img/RecycleMarker.png';
+	
+		// 검색어가 없을 때 기본 마커 이미지
+		if (searchHistory.length === 0) {
+			if (wasteTypes.includes("캔") && wasteTypes.includes("투명 페트")) {
+				return '/img/RecycleMarker.png'; // 기본 RecycleMarker
+			} else if (wasteTypes.includes("캔")) {
+				return '/img/CanMarker.png'; // 기본 CanMarker
+			} else if (wasteTypes.includes("투명 페트")) {
+				return '/img/PetBottleMarker.png'; // 기본 PetBottleMarker
+			} else {
+				return 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png'; // 기본 스타 마커
+			}
 		}
-		else if (wasteTypes.includes("캔")) {
-			return '/img/CanMarker.png';
+	
+		// 검색어가 있을 때의 로직
+		if (isMatch) {
+			// 검색어와 조건이 맞는 경우
+			if (wasteTypes.includes("캔") && wasteTypes.includes("투명 페트")) {
+				return '/img/RedRecycleMarker.png'; // Red가 붙은 이미지
+			} else if (wasteTypes.includes("캔")) {
+				return '/img/RedCanMarker.png'; // Red가 붙은 이미지
+			} else if (wasteTypes.includes("투명 페트")) {
+				return '/img/RedPetBottleMarker.png'; // Red가 붙은 이미지
+			} else {
+				return '/img/RedDefaultMarker.png'; // 검색어에 맞지 않을 때
+			}
+		} else {
+			// 검색어와 조건이 맞지 않는 경우
+			if (wasteTypes.includes("캔") && wasteTypes.includes("투명 페트")) {
+				return '/img/IvRecycleMarker.png'; // Iv가 붙은 이미지
+			} else if (wasteTypes.includes("캔")) {
+				return '/img/IvCanMarker.png'; // Iv가 붙은 이미지
+			} else if (wasteTypes.includes("투명 페트")) {
+				return '/img/IvPetBottleMarker.png'; // Iv가 붙은 이미지
+			} else {
+				return '/img/IvDefaultMarker.png'; // 기본 Iv 이미지
+			}
 		}
-		else if (wasteTypes.includes("투명 페트")) {
-			return '/img/PetBottleMarker.png';
-		}
-		else {
-			return 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png';
-		}
-	}, []);
+	}, [searchHistory]);
 
 
 
@@ -93,7 +121,7 @@ const VendingDeviceMap = () => {
 						position={{ lat: loc.latitude, lng: loc.longitude }}
 						content={loc}
 						handleMarkerClick={handleMarkerClick}
-						getMarkerImage={getMarkerImage}
+						getMarkerImage={(wastes) => getMarkerImage(wastes, loc.isMatch)} // isMatch를 전달
 						/>
 				))}
 			</Map>
