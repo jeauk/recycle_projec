@@ -13,6 +13,7 @@ import com.trashformer.springboot_recycle.entity.ReformBoardEntity;
 public interface ReformBoardRepository extends JpaRepository<ReformBoardEntity, Long> {
     List<ReformBoardEntity> findAllByKakaoUserEntityEmail(String email);
     List<ReformBoardEntity> findByKakaoUserEntity(KakaoUserEntity user);
+    List<ReformBoardEntity> findTop5ByOrderByRecommendCountDesc();
     Optional<ReformBoardEntity> findByKakaoUserEntityEmailAndId(String email, Long id);
     
     // 페이징 메소드들
@@ -21,4 +22,5 @@ public interface ReformBoardRepository extends JpaRepository<ReformBoardEntity, 
     Page<ReformBoardEntity> findByKakaoUserEntity(KakaoUserEntity user, Pageable pageable);
     Page<ReformBoardEntity> findByKakaoUserEntityNicknameContaining(String nickname, Pageable pageable);
     Page<ReformBoardEntity> findByTitleContainingOrContentContaining(String title, String content, Pageable pageable);
+    
 }

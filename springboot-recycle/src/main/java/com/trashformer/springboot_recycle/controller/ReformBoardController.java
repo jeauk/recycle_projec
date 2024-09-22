@@ -69,6 +69,11 @@ public class ReformBoardController {
 
     private final Set<String> viewedIps = Collections.synchronizedSet(new HashSet<>());
 
+    // Repository를 주입받음
+    public ReformBoardController(ReformBoardRepository reformBoardRepository) {
+        this.reformBoardRepository = reformBoardRepository;
+    }
+
     @PostMapping("/api/posts")
     public ResponseEntity<Map<String, Object>> post(
         @ModelAttribute PostRequest request,
@@ -473,7 +478,11 @@ private void deleteFile(String filePath) {
         return "";
     }
 
-
+    @GetMapping("/top5")
+    public List<ReformBoardEntity> getTop5RecommendedBoards() {
+        // 추천수가 높은 상위 5개의 게시판을 가져옴
+        return reformBoardRepository.findTop5ByOrderByRecommendCountDesc();
+    }
 
 }
 

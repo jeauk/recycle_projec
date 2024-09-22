@@ -14,8 +14,15 @@ const Incentive = () => {
     { target: '미래세대 실천상품', unit: '100원 / 건', yearly: '상품 및 상금' },
   ];
 
+  const handleButtonClick = () => {
+    window.location.href = 'https://www.cpoint.or.kr/netzero/main.do';
+  };
+
   return (
     <div className={styles.tableContainer}>
+      <button onClick={handleButtonClick} className={styles.topButton}>
+        탄소중립포인트 하러가기
+      </button>
       <h2 className={styles.header}>녹색생활 실천활동에 따른 인센티브</h2>
       <div className={styles.subtitle}>
         <p>지급주체: 한국환경공단</p>
