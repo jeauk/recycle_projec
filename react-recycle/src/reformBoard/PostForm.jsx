@@ -50,7 +50,6 @@ const PostForm = () => {
   const [isCropping, setIsCropping] = useState(false);
   const [croppedImageBlob, setCroppedImageBlob] = useState(null);
       const myBackDomain = "http://localhost:8080"
-    const myFrontDomain = "http://localhost:3000"
 
   const jwt = sessionStorage.getItem("jwt");
   const navigate = useNavigate();
@@ -221,15 +220,15 @@ const PostForm = () => {
             required
             className={styles.inputField}
           />
-          <label className={styles.label}>재료</label>
-          <input
-            type="text"
+              <label className={styles.label}>재료</label>
+          <textarea
             value={content}
             placeholder="재료를 입력하세요"
             onChange={(e) => setContent(e.target.value)}
             required
+            rel
             className={styles.contentInput}
-          />
+            ></textarea>
         </div>
       </div>
 
