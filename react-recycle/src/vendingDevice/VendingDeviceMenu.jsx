@@ -51,17 +51,19 @@ const VendingDeviceMenu = React.memo(({  locations, onLocationClick, searchHisto
       <div className={`${m.sideMenu} ${isOpen ? m.open : ''}`}>
         <div className={m.search}>
           <input type="text" placeholder="자판기 위치 검색" onChange={handleSearchChange} value={searchQuery} onKeyDown={handleKeyPress}/>
+          <div className={m.searchBar}>
           <p>검색된 자판기: {totalVendingMachinces}대</p>
           <button className={m.clearButton} onClick={clearSearch}>
             검색 초기화
           </button>
-          <div>
+          </div>
+          <div className={m.searchHistoryContainer}>
             {searchHistory.map((query, index) => (
-              <p key={index} className={m.searchHistoryItem} onClick={() => handleSearchClick(index)}>검색어{index + 1}: {query}</p>
+              <p key={index} className={m.searchHistoryItem} onClick={() => handleSearchClick(index)}>{query}</p>
             ))}
           </div>
         </div>
-        <div ref={listRef} className={`${m.KakaoMapList} ${isOpen ? m.open : ''} ${loading ? m.loading : ''}`}>
+        <div ref={listRef} className={`${m.KakaoMapList} ${isOpen ? m.open : ''} ${searchHistory.length > 0 ? m.withSearchHistory : ''} ${loading ? m.loading : ''} `}>
           {loading ? (
             <div className={m.VendingDeviceLoading}>
               <img src="/img/VendingLoading.gif" alt="Loading..." />
