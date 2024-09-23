@@ -57,11 +57,13 @@ const VendingDeviceMenu = React.memo(({  locations, onLocationClick, searchHisto
             검색 초기화
           </button>
           </div>
-          <div className={m.searchHistoryContainer}>
+          {searchHistory.length > 0 && (
+            <div className={m.searchHistoryContainer}>
             {searchHistory.map((query, index) => (
               <p key={index} className={m.searchHistoryItem} onClick={() => handleSearchClick(index)}>{query}</p>
             ))}
           </div>
+          )}
         </div>
         <div ref={listRef} className={`${m.KakaoMapList} ${isOpen ? m.open : ''} ${searchHistory.length > 0 ? m.withSearchHistory : ''} ${loading ? m.loading : ''} `}>
           {loading ? (

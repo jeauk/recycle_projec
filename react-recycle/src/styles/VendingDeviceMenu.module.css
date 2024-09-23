@@ -93,6 +93,7 @@
 
   .KakaoMapList:not(.loading) > div {
     border-top: 1px solid #98c76a;
+    padding-top: 10px;
   }
 
   .KakaoMapList:not(.loading) > div:last-of-type {
@@ -117,6 +118,7 @@
     height: 100px;
   }
   .searchHistoryContainer {
+    height: 43px;
     display: flex;
     flex-direction: row; /* 검색어를 가로로 나열 */
     overflow-x: auto; /* 가로 스크롤 허용 */
@@ -132,6 +134,7 @@
     border-radius: 4px;
   }
   .searchHistoryItem {
+    height: 20px;
     padding: 5px 10px;
     margin-right: 10px;
     background-color: #f1f1f1;
