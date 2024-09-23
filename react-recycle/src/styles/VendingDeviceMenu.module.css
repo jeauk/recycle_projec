@@ -1,4 +1,4 @@
-/* src/styles/VendingDevice.module.css */
+/* src/styles/VendingDeviceMenu.module.css */
 
 .toggleButton {
     position: fixed;
@@ -40,6 +40,20 @@
     left: 26%;
   }
   
+  .logoPane {
+    position: fixed;
+    bottom: 20px;
+    right: 320px; /* 메뉴의 오른쪽 공간을 고려해서 위치 조정 */
+    transition: opacity 0.3s ease, right 0.3s ease;
+    opacity: 0;
+    z-index: 100;
+  }
+  
+  .logoPane.open {
+    right: 10px; /* 로고가 메뉴 옆에 위치하도록 */
+    opacity: 1; /* isOpen이 true일 때 표시 */
+  }
+
   .search {
     position: relative;
     width: 80%;

@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { Map,  } from "react-kakao-maps-sdk";
 import VendingDeviceMenu from "./VendingDeviceMenu";
 import VendingDeviceMarker from "./VendingDeviceMarker";
+import m from '../styles/VendingDevice.module.css';
 const VendingDeviceMap = () => {
 	const [locations, setLocations] = useState([]);
 	const [searchHistory, setSearchHistory] = useState([]);
@@ -91,7 +92,7 @@ const VendingDeviceMap = () => {
 	return (
 		<div>
 			<VendingDeviceMenu loading={loading} searchHistory={searchHistory} setSearchHistory={setSearchHistory} locations={filteredLocations} onLocationClick={handleMarkerClick} />
-			<Map center={center} style={{ width: '800px', height: '600px' }} level={level}>
+			<Map center={center} className={m.mapMapMap} level={level}>
 				{filteredLocations.map((loc, idx) => (
 					loc.isMatch && (
 						<VendingDeviceMarker
