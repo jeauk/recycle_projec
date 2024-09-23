@@ -2,7 +2,7 @@
 import TopContents from "./TopContents";
 import Card from "./Card";
 import Quiz from "./Quiz";
-import TopFIveList from "./TopFiveList";
+import TopFiveList from "./TopFiveList";
 import Carvon from "./Carvon";
 
 
@@ -14,9 +14,10 @@ const Home = () => {
                 <TopContents />
                 <Card />
             </div>
+
             <div>
                 <Quiz />
-                <TopFIveList />
+                <TopFiveList />
                 <Carvon />
             </div>
         </div>
