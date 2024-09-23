@@ -15,6 +15,7 @@ const Contact = () => {
     const myFrontDomain = "http://localhost:3000"
 
 
+    
     const handleFileChange = async (e) => {
         const newFiles = Array.from(e.target.files);
         const newImages = [...images];

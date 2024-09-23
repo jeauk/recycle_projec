@@ -24,6 +24,8 @@ import CompanyList from "./carvon/CompanyList";
 import Drafting from "./carvon/Drafting";
 import Incentive from "./carvon/Incentive";
 import OX from "./oxQuiz/OX";
+import Participate from "./carvon/Participate";
+import CarvonMethod from "./carvon/CarvonMethod";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -51,7 +53,6 @@ function App() {
             <Routes>
               <Route index element={<Home />} />
               <Route path='/map' element={<KakaoMap />} />
-              <Route path='/recycleMain' element={<MainRecycleSearch />} />
               <Route path='/recycleMain/:id' element={<MainRecycleDetail />} />
               <Route path='/sumap' element={<VendingDeviceMap />} />
               <Route path="/remap" element={<ReMap />} />
@@ -66,6 +67,7 @@ function App() {
               <Route path="/carvon/companyList" element={<CompanyList />} />
               <Route path="/carvon/drafting" element={<Drafting />} />
               <Route path="/carvon/incentive" element={<Incentive />} />
+              <Route path="/carvon/carvonMethod" element={<CarvonMethod />} />
               <Route path="/mainRecycleDetail" element={<MainRecycleDetail />} />
               <Route path="/oxquiz" element={<OX />} />
               <Route
