@@ -234,21 +234,24 @@ const PostForm = () => {
       </div>
 
       <div className={styles.videoLinkContainer}>
-        <label className={styles.label}>동영상 링크 (유튜브 등)</label>
-        <input
-          type="url"
-          value={videoLink}
-          onChange={handleChange}
-          placeholder="링크가 없을 경우 칸을 비워주세요."
-          style={{ borderColor: errorMessage ? 'red' : '' }}
-          className={styles.inputField}
-        />
-        {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-        {thumbnailUrl && (
-          <div className={styles.thumbnailBox}>
+        <div className={styles.videoLinkFields}>
+          <label className={styles.label}>동영상 링크 (유튜브 등)</label>
+          <input
+            type="url"
+            value={videoLink}
+            onChange={handleChange}  // 동영상 링크 입력 시 handleChange 실행
+            placeholder="링크가 없을 경우 칸을 비워주세요."
+            style={{ borderColor: errorMessage ? 'red' : '' }}
+            className={styles.inputField}
+          />
+          {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+        </div>
+        {/* 썸네일 미리보기 박스 */}
+        <div className={styles.thumbnailBox}>
+          {thumbnailUrl && (
             <img src={thumbnailUrl} alt="Video Thumbnail" className={styles.thumbnailImage} />
-          </div>
-        )}
+          )}
+        </div>
       </div>
 
       <div className={styles.stepsContainer}>
@@ -263,7 +266,7 @@ const PostForm = () => {
                 className={styles.textareaField}
               ></textarea>
             </div>
-            <div className={styles.stepImageUpload} onClick={() => stepImageInputRefs.current[index].click()}>
+            <div className={styles.stepImageUpload} onClick={() => handleStepImageClick(index)}>
               {step.imagePreview ? (
                 <img src={step.imagePreview} alt={`STEP ${index + 1} 미리보기`} className={styles.imagePreview} />
               ) : (
@@ -272,15 +275,24 @@ const PostForm = () => {
               <input
                 type="file"
                 accept="image/*"
-                ref={(el) => (stepImageInputRefs.current[index] = el)}
-                style={{ display: 'none' }}
+                ref={(el) => (stepImageInputRefs.current[index] = el)}  // useRef 배열로 각 스텝 이미지 입력 참조
+                style={{ display: 'none' }}  // 숨김 처리
                 onChange={(e) => handleStepChange(index, "image", e.target.files[0])}
               />
             </div>
-            <button type="button" className={styles.deleteButton} onClick={() => handleRemoveStep(step.id)}>X</button>
+            <button
+              type="button"
+              className={styles.deleteButton}
+              style={{ visibility: steps.length > 1 ? 'visible' : 'hidden' }} // X 버튼의 visibility 속성 조절
+              onClick={() => handleRemoveStep(step.id)}
+            >
+              X
+            </button>
           </div>
         ))}
-        <button type="button" className={styles.addButton} onClick={handleAddStep}>+ STEP 추가</button>
+        <button type="button" className={styles.addButton} onClick={handleAddStep}>
+          + STEP 추가
+        </button>
       </div>
 
       <button type="submit" className={styles.submitButton}>올리기</button>
