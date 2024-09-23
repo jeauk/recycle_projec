@@ -49,6 +49,9 @@ function App() {
       <div className={styles.appContainer}>
         <BrowserRouter>
           <Nav />
+          <Routes>
+            <Route path="/sido" element={<Sido />} />
+          </Routes>
           <div className={styles.mainContent}>
             <Routes>
               <Route index element={<Home />} />
@@ -74,7 +77,6 @@ function App() {
                 path="/login/oauth2/callback/kakao"
                 element={<LoginHandeler onLogin={handleLogin} />}
               />
-              <Route path="/sido" element={<Sido />} />
             </Routes>
           </div>
           <Footer />
