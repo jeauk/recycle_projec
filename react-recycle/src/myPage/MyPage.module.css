@@ -38,9 +38,10 @@
 
 /* 프로필 이미지 스타일 */
 .profileImage {
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
+    width: 100%;
+    max-width: 200px;  /* 최대 크기 설정 */
+    aspect-ratio: 1 / 1;  /* 정사각형 비율 유지 */
+    border-radius: 50%;  /* 원형 유지 */
     object-fit: cover;
     margin-bottom: 20px;
 }
