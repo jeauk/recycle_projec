@@ -9,7 +9,7 @@ const VendingDeviceMarker = ({ position, content, handleMarkerClick, getMarkerIm
             onMouseOver={() => setIsVisible(true)}
             onMouseOut={() => setIsVisible(false)}
             image={{
-                src: getMarkerImage(content.inputWastes),
+                src: getMarkerImage(content.inputWastes, content.isMatch),
                 size: { width: 44, height: 55 },
             }}
             title={content.name}

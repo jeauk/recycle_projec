@@ -6,15 +6,15 @@
     padding: 20px 0; /* 상하 패딩만 적용, 좌우는 0 */
     background-color: #98c76a; /* 배경색: 검정 */
     color: black; /* 기본 텍스트 색상: 흰색 */
-    width: 100vw; /* 뷰포트 너비 100% 채우기 */
-    margin-left: calc(-50vw + 50%); /* 부모 요소로부터 좌우 끝까지 확장 */
+    width: 100%; /* 뷰포트 너비 100% 채우기 */
+    /* margin-left: calc(-50vw + 50%); 부모 요소로부터 좌우 끝까지 확장 */
     position: relative; /* 부모 요소에 대한 상대적 위치 */
 }
 
 /* 텍스트 컨테이너 */
 .textContainer {
-    max-width: 65%;
-    padding-left: 40px; /* 텍스트가 화면 끝에 붙지 않도록 좌측 여백 */
+    max-width: 60%;
+    padding-left: 10%; /* 텍스트가 화면 끝에 붙지 않도록 좌측 여백 */
 }
 
 /* 텍스트 스타일 */

@@ -88,10 +88,10 @@ function Sido() {
     }
   }, [id]);
 
-  return ( 
+  return (
     <div className={s.wrap}>
-      <div id="sido">
-        <h1>폐기물 시/군/구 별 전화번호</h1>
+      <div className={s.select}>
+        <h1 className={s.title}>폐기물 시/군/구 별 전화번호</h1>
         <p className={s.portal}><strong>폐가전 공통번호</strong> : 1599-0903 | <a href='https://15990903.or.kr/portal/main/main.do' className={s.site}>사이트로 이동</a></p>
         <select name="sido" id="sido" className={s.sido} value={selectedSido} onChange={handleSidoChange}>
           <option value="0">도·특별·광역시</option>
@@ -122,43 +122,45 @@ function Sido() {
           ))}
         </select>
         <button onClick={handleSubmit} className={s.btn1}>선택</button>
-        {region.id && (
-          <div>
-            <ul className={s.ulli}>
-              {
-                <li>
-                  <strong>시도 : </strong> {region.sido} <br />
-                  <strong>시·군·구 : </strong> {region.gungoo} <br />
-                  <div className={s.index}>
-                  <strong>전화 : </strong>
-                    {region.tel && region.tel.trim() !== 'null' ? (
-                      region.tel.split(' | ').map((item, index) => (
-                        <div key={index}>{item}</div>
-                      ))
-                    ) : (
-                      <span>없음</span>
-                    )}
-                  </div>
-                  <br />
-                  <div className={s.sindex}>
-                  <strong>사이트 : </strong>
-                    {region.site && region.site.split('|').map((site, index) => (
-                      <div key={index}>
-                        {site && site.trim() && site.trim() !== 'null' ? (
-                          <a href={site.trim()} className={s.site}>{site.trim()}</a>
-                        ) : (
-                          <span>없음</span>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                  <br />
-                  <strong>기타사항 : </strong> {region.etc && region.etc.trim() !== 'null' ? region.etc : <span>없음</span>} <br />
-                </li>
-              }
-            </ul>
-          </div>
-        )}
+        <div className={s.scroll}>
+          {region.id && (
+            <div>
+              <ul className={s.ulli}>
+                {
+                  <li>
+                    <strong className={s.fmj}>시도 : </strong> {region.sido} <br />
+                    <strong className={s.mj}>시·군·구 : </strong> {region.gungoo} <br />
+                    <div className={s.index}>
+                      <strong className={s.mj}>전화 :&nbsp;</strong>
+                      {region.tel && region.tel.trim() !== 'null' ? (
+                        region.tel.split(' | ').map((item, index) => (
+                          <div key={index}>{item}</div>
+                        ))
+                      ) : (
+                        <span>없음</span>
+                      )}
+                    </div>
+                    <br />
+                    <div className={s.sindex}>
+                      <strong className={s.mj}>사이트 :&nbsp;</strong>
+                      {region.site && region.site.split('|').map((site, index) => (
+                        <div key={index}>
+                          {site && site.trim() && site.trim() !== 'null' ? (
+                            <a href={site.trim()} className={s.site}>{site.trim()}</a>
+                          ) : (
+                            <span>없음</span>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                    <br />
+                    <strong className={s.mj}>기타사항 : </strong> {region.etc && region.etc.trim() !== 'null' ? region.etc : <span>없음</span>} <br />
+                  </li>
+                }
+              </ul>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
