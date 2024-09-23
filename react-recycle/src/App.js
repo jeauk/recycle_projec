@@ -26,6 +26,9 @@ import Incentive from "./carvon/Incentive";
 import OX from "./oxQuiz/OX";
 import Participate from "./carvon/Participate";
 import CarvonMethod from "./carvon/CarvonMethod";
+import FreeBoardPost from "./freeBoard/FreeBulletinBoardPost";
+import FreeBulletinBoardPost from "./freeBoard/FreeBulletinBoardPost";
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -48,6 +51,7 @@ function App() {
     <div className="App">
       <div className={styles.appContainer}>
         <BrowserRouter>
+          <ScrollToTop />
           <Nav />
           <div className={styles.mainContent}>
             <Routes>
@@ -69,6 +73,7 @@ function App() {
               <Route path="/carvon/incentive" element={<Incentive />} />
               <Route path="/carvon/carvonMethod" element={<CarvonMethod />} />
               <Route path="/mainRecycleDetail" element={<MainRecycleDetail />} />
+              <Route path="/freeBulletinBoard/post" element={<FreeBulletinBoardPost /> } />
               <Route path="/oxquiz" element={<OX />} />
               <Route
                 path="/login/oauth2/callback/kakao"

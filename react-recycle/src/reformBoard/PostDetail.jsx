@@ -8,7 +8,6 @@ function PostDetail() {
   const [isAuthor, setIsAuthor] = useState(false);
   const [recommendCount, setRecommendCount] = useState(0); // 추천수 상태 추가
   const myBackDomain = "http://localhost:8080"
-  const myFrontDomain = "http://localhost:3000"
 
   useEffect(() => {
     // 서버에서 게시물 데이터를 가져옴
