@@ -56,7 +56,6 @@ const slides = [
         <div
           className={styles.slidesWrapper}
           style={{
-    
             transform: `translateX(-${currentIndex * 100}%)`,
             transition: isTransitioning ? 'transform 0.5s ease-in-out' : 'none'
           }}
