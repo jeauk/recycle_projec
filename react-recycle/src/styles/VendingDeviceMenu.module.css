@@ -54,15 +54,26 @@
     padding: 10px 12px;
     font-size: 17px;
   }
-  
+  .searchBar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+    height: 40px;
+  }
+  .searchBar p {
+    margin: 0;
+    font-size: 16px;
+  }
+
   .clearButton {
     background-color: #e74c3c;
     color: white;
     border: none;
     padding: 5px 10px;
-    margin-left: 10px;
     cursor: pointer;
     border-radius: 3px;
+    margin-top: 0;
   }
   
   .clearButton:hover {
@@ -70,10 +81,14 @@
   }
   
   .KakaoMapList {
-    max-height: 500px;
+    max-height: calc(100vh - 150px); /* 100vh는 윈도우창의 세로 높이 */
     overflow-y: auto;
     padding: 0% 10%;
     scrollbar-width: none;
+  }
+
+  .KakaoMapList.withSearchHistory { /* 검색어가 있을때의 세로 높이*/
+    max-height: calc(100vh - 250px);
   }
 
   .KakaoMapList:not(.loading) > div {
@@ -101,14 +116,32 @@
     width: 100px;
     height: 100px;
   }
+  .searchHistoryContainer {
+    display: flex;
+    flex-direction: row; /* 검색어를 가로로 나열 */
+    overflow-x: auto; /* 가로 스크롤 허용 */
+    white-space: nowrap; /* 검색어가 줄바꿈되지 않도록 설정 */
+  }
   
+  .searchHistoryContainer::-webkit-scrollbar {
+    height: 8px; /* 스크롤바의 높이 설정 */
+  }
+  
+  .searchHistoryContainer::-webkit-scrollbar-thumb {
+    background-color: #98c76a; /* 스크롤바 색상 */
+    border-radius: 4px;
+  }
   .searchHistoryItem {
-    padding: 5px;
+    padding: 5px 10px;
+    margin-right: 10px;
+    background-color: #f1f1f1;
+    border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
   }
   .searchHistoryItem:hover{
-    background-color: hotpink;
+    background-color: #c0392b;
+    color:white
   }
   .locationItem {
     cursor: pointer;

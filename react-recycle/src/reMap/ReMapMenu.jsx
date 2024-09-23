@@ -92,7 +92,7 @@ const ReMapMenu = React.memo(({ locations, onLocationClick, searchHistory, setSe
             ))}
           </div>
         </div>
-        <div className={`${m.KakaoMapList} ${isOpen ? m.open : ''}`} ref={mapRef}>
+        <div className={`${rm.reMapList} ${isOpen ? m.open : ''}`} ref={mapRef}>
           {filteredLocations.map((loc, locIdx) => (
             <div key={locIdx} className={rm.res} onClick={() => handleLocationClick(loc)}>
               <h4>{loc.name}</h4>
