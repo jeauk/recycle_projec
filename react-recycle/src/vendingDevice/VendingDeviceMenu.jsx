@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import m from '../styles/VendingDeviceMenu.module.css';
 
 const VendingDeviceMenu = React.memo(({  locations, onLocationClick, searchHistory, setSearchHistory, loading }) => {
@@ -7,7 +7,7 @@ const VendingDeviceMenu = React.memo(({  locations, onLocationClick, searchHisto
   const toggleMenu = useCallback(()=>{
     setIsOpen(!isOpen);
   }, [isOpen]);
-  
+  const listRef = useRef(null);
 
 
 
@@ -40,8 +40,12 @@ const VendingDeviceMenu = React.memo(({  locations, onLocationClick, searchHisto
   
   const handleLocationClick = useCallback((loc) => {
     onLocationClick(loc);
-  }, [onLocationClick, setSearchHistory])
+  }, [onLocationClick])
 
+  useEffect(() => { // 표시되는 리스트가 바뀌면 스크롤을 초기화 하는 함수 (09-23-09:27)
+    if(listRef.current) {
+      listRef.current.scrollTop = 0;
+    }}, [locations]); 
   return (
     <div>
       <div className={`${m.sideMenu} ${isOpen ? m.open : ''}`}>
@@ -57,14 +61,15 @@ const VendingDeviceMenu = React.memo(({  locations, onLocationClick, searchHisto
             ))}
           </div>
         </div>
-        <div className={`${m.KakaoMapList} ${isOpen ? m.open : ''} ${loading ? m.loading : ''}`}>
+        <div ref={listRef} className={`${m.KakaoMapList} ${isOpen ? m.open : ''} ${loading ? m.loading : ''}`}>
           {loading ? (
             <div className={m.VendingDeviceLoading}>
               <img src="/img/VendingLoading.gif" alt="Loading..." />
               <h4>Loading...</h4>
             </div>
           ) : (
-            locations.map((loc, locIdx) => (
+            locations.filter(loc =>loc.isMatch) // 조건에 맞는 항목만 필터링 (09-23-09:15)
+            .map((loc, locIdx) => (
               loc.vendingDevices.map((device, deviceIdx) => (
                 <div key={`${locIdx}-${deviceIdx}`} className={m.locationItem} onClick={() => handleLocationClick(loc)}>
                 <h4>{loc.vendingDevices.length === 1 ? loc.name : `${loc.name} ${deviceIdx + 1}`}</h4>
