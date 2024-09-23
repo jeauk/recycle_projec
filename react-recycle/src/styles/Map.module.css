@@ -50,14 +50,36 @@
   margin-left: 5%;
 }
 
-.bg {
-  background-image: url("../../public/img/1.jpg");
-  background-size: cover;
-  position: absolute;
-  top: 130px;
-  left: 50%;
+.bgc2 {
+  background-color:  #367B75;
   width: 50%;
   height: 600px;
+  position: absolute;
+  top: 130px;
+  right: 0;
   z-index: -1;
-  opacity: 0.65;
+  display: flex;
+  align-items: center;
+}
+
+.gw {
+  background-image: url("../../public/img/gwill.png");
+  background-size: cover;
+  position: absolute;
+  top: 70px;
+  left: 30%;
+  width: 40%;
+  height: 100px;
+  z-index: -1;
+}
+
+.bm {
+  background-image: url("../../public/img/bmarket.png");
+  background-size: cover;
+  position: absolute;
+  bottom: 60px;
+  left: 25%;
+  width: 50%;
+  height: 90px;
+  z-index: -1;
 }
