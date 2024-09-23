@@ -1,0 +1,85 @@
+.grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 한 줄에 4개 */
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  .topButton {
+    position: absolute; /* 페이지 맨 위에 고정 */
+    top: 115px; /* 상단으로부터 20px 떨어진 위치 */
+    right: 10px; /* 오른쪽으로부터 20px 떨어진 위치 */
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    z-index: 1000; /* 다른 요소 위에 위치하도록 설정 */
+  }
+  
+  .topButton:hover {
+    background-color: #555; /* Hover 시 배경색 변경 */
+  }
+  .card {
+    margin-top: 30px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  .logoContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 150px; /* 고정 높이 설정 */
+  }
+  
+  .logo {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain; /* 이미지를 컨테이너 안에 맞추되 비율 유지 */
+  }
+  
+  .title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-top: 15px;
+  }
+  
+  .text {
+    font-size: 14px;
+    color: #666;
+    margin-top: 10px;
+  }
+  
+  /* 반응형 디자인 */
+  @media (max-width: 1200px) {
+    .grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  

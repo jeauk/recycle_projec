@@ -22,8 +22,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -33,6 +35,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @RestController
 @Transactional
@@ -64,6 +68,11 @@ public class ReformBoardController {
     private final String UPLOAD_DIR = "src/main/resources/static/uploads/reformBoard/";
 
     private final Set<String> viewedIps = Collections.synchronizedSet(new HashSet<>());
+
+    // Repository를 주입받음
+    public ReformBoardController(ReformBoardRepository reformBoardRepository) {
+        this.reformBoardRepository = reformBoardRepository;
+    }
 
     @PostMapping("/api/posts")
     public ResponseEntity<Map<String, Object>> post(
@@ -411,5 +420,69 @@ private void deleteFile(String filePath) {
     }
 }
 
+    @PostMapping("/naver")
+    public ResponseEntity<Map<String, String>> naverImgUrl(@RequestBody Map<String, String> request) {
+
+        System.out.println(request);
+        // 요청으로부터 네이버 동영상 URL을 받음
+        String videoUrl = request.get("url");
+
+        // RestTemplate 객체 생성
+        RestTemplate rt = new RestTemplate();
+
+        try {
+            // 네이버 동영상 페이지의 HTML 코드를 가져오기 위한 GET 요청
+            ResponseEntity<String> response = rt.exchange(
+                videoUrl,             // 네이버 동영상 URL
+                HttpMethod.GET,       // HTTP 메소드 (GET 요청)
+                null,                 // 요청에 포함할 데이터 없음
+                String.class          // 응답을 문자열(String)로 받음
+            );
+
+            // HTML 응답에서 <meta property="og:image"> 태그에서 이미지 URL 추출
+            String thumbnailUrl = extractThumbnailFromHtml(response.getBody());
+
+            // 추출한 썸네일 URL을 JSON 형태로 반환
+            Map<String, String> responseBody = new HashMap<>();
+            responseBody.put("thumbnailUrl", thumbnailUrl);
+            return ResponseEntity.ok(responseBody);
+
+        } catch (Exception e) {
+            // 오류가 발생한 경우 BAD_REQUEST 상태 반환
+            return ResponseEntity.status(400).body(null);
+        }
+    }
+
+    // HTML 응답에서 <meta property="og:image"> 태그를 찾아 썸네일 URL 추출하는 메소드
+    private String extractThumbnailFromHtml(String html) {
+        // <meta property="og:image" content="이미지 URL"> 패턴을 찾기 위한 정규식
+        String patternString = "<meta property=\"og:image\" content=\"(.*?)\"";
+        Pattern pattern = Pattern.compile(patternString);
+        Matcher matcher = pattern.matcher(html);
+    
+        if (matcher.find()) {
+            // 첫 번째 매칭된 그룹(썸네일 URL)을 가져옴
+            String thumbnailUrl = matcher.group(1);
+    
+            // 썸네일 URL에 '?'가 있을 경우, 그 앞부분까지만 반환 (뒤에 파라미터 제거)
+            int queryIndex = thumbnailUrl.indexOf("?");
+            if (queryIndex != -1) {
+                // '?' 앞부분만 추출
+                thumbnailUrl = thumbnailUrl.substring(0, queryIndex);
+            }
+    
+            return thumbnailUrl;
+        }
+    
+        // <meta property="og:image"> 태그를 찾지 못한 경우 빈 문자열 반환
+        return "";
+    }
+
+    @GetMapping("/top5")
+    public List<ReformBoardEntity> getTop5RecommendedBoards() {
+        // 추천수가 높은 상위 5개의 게시판을 가져옴
+        return reformBoardRepository.findTop5ByOrderByRecommendCountDesc();
+    }
 
 }
+

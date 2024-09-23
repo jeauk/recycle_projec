@@ -7,10 +7,10 @@ const VendingDeviceMap = () => {
 	const [searchHistory, setSearchHistory] = useState([]);
 	const [center, setCenter] = useState({ lat: 36.483509090944544, lng: 127.71692262315658});
 	const [level, setLevel] = useState(12);
-	
+	const [loading, setLoading] = useState(false);
 	useEffect(() => {
 		const fetchLocations = async () => {
-
+			setLoading(true); // 로딩 시작
 			try {
 				const res = await fetch(`http://127.0.0.1:8080/dataload`);
 				const data = await res.json();
@@ -19,6 +19,8 @@ const VendingDeviceMap = () => {
 				setLocations(data);
 			} catch (error) {
 				console.error("위치 데이터를 가져오는데 실패했습니다", error);
+			} finally{
+				setLoading(false); //로딩 끝
 			}
 		};
 		fetchLocations();
@@ -83,7 +85,7 @@ const VendingDeviceMap = () => {
 
 	return (
 		<div>
-			<VendingDeviceMenu searchHistory={searchHistory} setSearchHistory={setSearchHistory} locations={filteredLocations} onLocationClick={handleMarkerClick} />
+			<VendingDeviceMenu loading={loading} searchHistory={searchHistory} setSearchHistory={setSearchHistory} locations={filteredLocations} onLocationClick={handleMarkerClick} />
 			<Map center={center} style={{ width: '800px', height: '600px' }} level={level}>
 				{filteredLocations.map((loc, idx) => (
 					<VendingDeviceMarker

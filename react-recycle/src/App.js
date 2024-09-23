@@ -19,8 +19,13 @@ import ReMap from "./reMap/ReMap";
 import Contact from "./components/Contact";
 import MyList from "./myPage/MyList";
 import MyRecommend from "./myPage/MyRecommend";
-import VendingDeviceMarker from "./vendingDevice/VendingDeviceMarker";
 import VendingDeviceMap from "./vendingDevice/VendingDeviceMap";
+import CompanyList from "./carvon/CompanyList";
+import Drafting from "./carvon/Drafting";
+import Incentive from "./carvon/Incentive";
+import OX from "./oxQuiz/OX";
+import Participate from "./carvon/Participate";
+import CarvonMethod from "./carvon/CarvonMethod";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -51,8 +56,7 @@ function App() {
             <Routes>
               <Route index element={<Home />} />
               <Route path='/map' element={<KakaoMap />} />
-              <Route path='/recyclemain' element={<MainRecycleSearch />} />
-              <Route path='/recyclemain/:id' element={<MainRecycleDetail />} />
+              <Route path='/recycleMain/:id' element={<MainRecycleDetail />} />
               <Route path='/sumap' element={<VendingDeviceMap />} />
               <Route path="/remap" element={<ReMap />} />
               <Route path="/list" element={<PostList />} />
@@ -63,6 +67,12 @@ function App() {
               <Route path="/contact" element={<Contact />} />
               <Route path="/mypage/mylist" element={<MyList />} />
               <Route path="/mypage/myrecommend" element={<MyRecommend />} />
+              <Route path="/carvon/companyList" element={<CompanyList />} />
+              <Route path="/carvon/drafting" element={<Drafting />} />
+              <Route path="/carvon/incentive" element={<Incentive />} />
+              <Route path="/carvon/carvonMethod" element={<CarvonMethod />} />
+              <Route path="/mainRecycleDetail" element={<MainRecycleDetail />} />
+              <Route path="/oxquiz" element={<OX />} />
               <Route
                 path="/login/oauth2/callback/kakao"
                 element={<LoginHandeler onLogin={handleLogin} />}

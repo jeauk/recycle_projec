@@ -15,6 +15,9 @@ function ProfileUpdateForm() {
 
   const fileInputRef = useRef(null);
 
+      const myBackDomain = "http://localhost:8080"
+    const myFrontDomain = "http://localhost:3000"
+
   useEffect(() => {
     // 컴포넌트 마운트 시 로그인 상태를 확인
     const jwt = sessionStorage.getItem('jwt');
@@ -28,7 +31,7 @@ function ProfileUpdateForm() {
     // 기존 프로필 정보를 가져오는 로직
     const fetchProfile = async () => {
       if (jwt) { // JWT가 있는 경우에만 프로필 정보를 가져옴
-        const response = await fetch('http://localhost:8080/user/profile', {
+        const response = await fetch(myBackDomain+'/user/profile', {
           headers: {
             Authorization: `Bearer ${jwt}`,
           },
@@ -85,7 +88,7 @@ function ProfileUpdateForm() {
     }
 
     const jwt = sessionStorage.getItem('jwt'); // 세션에서 JWT 토큰을 가져옴
-    await fetch('http://localhost:8080/user/updateProfile', {
+    await fetch(myBackDomain+'/user/updateProfile', {
       method: 'POST', // POST 메서드로 서버에 요청
       headers: {
         Authorization: `Bearer ${jwt}`, // JWT 토큰을 Authorization 헤더에 추가
@@ -107,7 +110,7 @@ function ProfileUpdateForm() {
         <div className={styles.profileContainer}>
           <img 
             src={profileImageUrl} 
-            alt="Profile" 
+ 
             className={styles.profileImage} 
             onClick={handleProfileClick}
             style={{ cursor: isLoggedIn ? 'pointer' : 'default' }}
