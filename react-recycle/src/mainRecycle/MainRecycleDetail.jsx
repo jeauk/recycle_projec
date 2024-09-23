@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from 'react-router-dom';
+import styles from '../styles/MainRecycleDetail.module.css';
 
 const MainRecycleDetail = () => {
     const { id } = useParams();
@@ -20,13 +21,18 @@ const MainRecycleDetail = () => {
     
     if(!item) return <p>Loading...</p>;
     return (
-        <div>
-            <h1>{item.mrName}</h1>
-            <p>Tag: {item.mrTag}</p>
-            <p>Category: {item.mrCategory}</p>
-            <p>{item.mrContent}</p>
+        <div className={styles.container}>
+            <img src={item.imgUrl} alt="item image" className={styles.image} />
+            <div className={styles.content}>
+                <h1 className={styles.title}>{item.mrName}</h1>
+                <hr></hr>
+                <p className={styles.tag}>태그: {item.mrTag}</p>
+                <p className={styles.category}>버리는법: {item.mrCategory}</p>
+                <hr></hr>
+                <p>{item.mrContent}</p>
+            </div>
         </div>
-    )
+    );
 }
 
 export default MainRecycleDetail;

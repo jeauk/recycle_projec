@@ -7,6 +7,22 @@
     margin: 0 auto; /* 화면 중앙에 배치 */
   }
   
+  .topButton {
+    float: right;
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    z-index: 1000; /* 다른 요소 위에 위치하도록 설정 */
+  }
+  
+  .topButton:hover {
+    background-color: #555; /* Hover 시 배경색 변경 */
+  }
   .header {
     font-size: 24px;
     font-weight: bold;

@@ -13,6 +13,8 @@ const OX = () => {
   const [quizData, setQuizData] = useState([]); // 퀴즈 데이터
   const [explanation, setExplanation] = useState(''); // 오답 설명
   const [showNext, setShowNext] = useState(false); // '다음' 버튼 표시 여부
+      const myBackDomain = "http://localhost:8080"
+    const myFrontDomain = "http://localhost:3000"
 
   // 로컬 스토리지 초기화 (처음 페이지 로드될 때)
   useEffect(() => {
@@ -23,7 +25,7 @@ const OX = () => {
   useEffect(() => {
     const fetchQuizData = async () => {
       try {
-        const response = await fetch('http://localhost:8080/api/quiz'); // API 호출
+        const response = await fetch(myBackDomain+'/api/quiz'); // API 호출
         const data = await response.json(); // 응답 데이터를 JSON으로 변환
         setQuizData(data); // 퀴즈 데이터를 상태에 저장
       } catch (error) {
@@ -60,7 +62,7 @@ const OX = () => {
     setShowNext(false); // 다음 버튼 숨김
   };
 
-  // 퀴즈가 모두 끝났을 때
+  // 퀴즈가 모두 끝났을 때 화면=====================================
   if (quizIndex >= quizData.length) {
     return (
       <div>
@@ -69,11 +71,15 @@ const OX = () => {
       </div>
     );
   }
+  //================================================================
 
+
+  //===============================================================
   return (
     <div>
       {quizData.length > 0 && (
         <>
+          <h3>{quizIndex + 1}번째 / 총 {quizData.length}문항</h3>
           <h1>{quizData[quizIndex].question}</h1>
           <button onClick={() => handleAnswer('O')} disabled={showNext}>O</button>
           <button onClick={() => handleAnswer('X')} disabled={showNext}>X</button>
@@ -86,5 +92,6 @@ const OX = () => {
     </div>
   );
 };
+  //===============================================================
 
 export default OX;

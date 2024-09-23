@@ -15,10 +15,11 @@ function PostEdit() {
   const [imagePreview, setImagePreview] = useState(''); // 메인 이미지 미리보기 URL
   const [stepImages, setStepImages] = useState([]); // 스텝 이미지 파일들을 저장할 상태
   const [stepImagePreviews, setStepImagePreviews] = useState([]); // 스텝 이미지 미리보기 URL
+  const myBackDomain = "http://localhost:8080"
 
   const dataget = async () => {
     const jwt = sessionStorage.getItem('jwt');
-    const url = `http://localhost:8080/edit/posts/${id}`;
+    const url = myBackDomain +`/edit/posts/${id}`;
     try {
       const response = await fetch(url, {
         method: 'GET',
@@ -81,7 +82,7 @@ function PostEdit() {
     e.preventDefault();
 
     const jwt = sessionStorage.getItem('jwt');
-    const url = `http://localhost:8080/edit/posts/${id}`;
+    const url = myBackDomain+`/edit/posts/${id}`;
 
     // FormData 객체 생성
     const formDataToSend = new FormData();

@@ -1,0 +1,8 @@
+/* 슬라이더 화살표 스타일 */
+
+
+/* 화살표의 아이콘 색상 설정 */
+.slick-prev:before, .slick-next:before {
+    color: black !important;  /* 화살표 아이콘 색상을 흰색으로 설정 */
+    font-size: 20px;  /* 화살표 아이콘 크기 설정 */
+}

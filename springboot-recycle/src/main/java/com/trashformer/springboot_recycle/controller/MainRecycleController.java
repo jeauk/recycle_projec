@@ -26,5 +26,5 @@ public class MainRecycleController {
     @GetMapping("/MainRecycle/{id}")
     public MainRecycleEntity getItemByTag(@PathVariable Long id){
         return mainRecycleRepository.findById(id).orElse(null);
-    }    
+    }
 }

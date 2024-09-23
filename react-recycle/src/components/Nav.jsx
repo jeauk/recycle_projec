@@ -126,6 +126,7 @@ function Nav() {
     if (isSearching) {
       onSearch();
       setIsSearching(false);
+      
     }
   }, [isSearching]);
 
@@ -297,8 +298,15 @@ function Nav() {
                   <ResultItem
                     key={item.id}>
                     <Link to={`/RecycleMain/${item.id}`}>
-                      <img src={item.imgurl} alt={item.mrName}/>
-                      <p>{item.mrName}</p>
+                    <div style={{ display: "flex", alignItems: "center" }}> {/* Flexbox 적용 */}
+                      <img 
+                        style={{ width: "60px", height: "60px", marginRight: "10px" }}
+                        src={item.imgUrl} 
+                        alt={item.mrName} 
+                      />
+                      <p style={{ margin: 0 }}>{item.mrName}</p> {/* 텍스트의 기본 마진 제거 */}
+                    </div>
+                                  
                     </Link>
                   </ResultItem>
                 ))}
