@@ -78,6 +78,7 @@ const ResultItem = styled('li')(({ theme }) => ({
 }));
 
 function Nav() {
+  const myBackDomain = "http://localhost:8080";
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [profileImageUrl, setProfileImageUrl] = useState('');
@@ -318,7 +319,7 @@ function Nav() {
                     <div style={{ display: "flex", alignItems: "center" }}> {/* Flexbox 적용 */}
                       <img 
                         style={{ width: "60px", height: "60px", marginRight: "10px" }}
-                        src={item.imgUrl} 
+                        src={myBackDomain+item.imgUrl} 
                         alt={item.mrName} 
                       />
                       <p style={{ margin: 0 }}>{item.mrName}</p> {/* 텍스트의 기본 마진 제거 */}
