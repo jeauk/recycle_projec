@@ -14,6 +14,16 @@ const Contact = () => {
     const [message, setMessage] = useState({ text: '', type: '', visible: false }); // type: 'success' or 'error'
     const myBackDomain = "http://localhost:8080";
     const jwt = sessionStorage.getItem('jwt');
+    const [dots, setDots] = useState(1);
+
+    useEffect(() => {
+        if (isLoading) {
+        const interval = setInterval(() => {
+            setDots(prevDots => (prevDots === 6 ? 1 : prevDots + 1));
+        }, 250);
+        return () => clearInterval(interval); // 컴포넌트 unmount 시 interval 해제
+        }
+    },[isLoading]);
     
     useEffect(() => {
         const fetchProfile = async () => {
@@ -54,6 +64,12 @@ const Contact = () => {
 
         if (newFiles.length + images.length > 5) {
             setMessage({ text: "최대 5개의 파일만 첨부할 수 있습니다.", type: 'error', visible: true });
+            
+            // 여기서 파일 입력 필드를 리셋하여 동일 파일을 다시 첨부할 수 있게 함
+            if (fileInputRef.current) {
+                fileInputRef.current.value = '';
+            }
+
             return;
         }
 
@@ -69,6 +85,11 @@ const Contact = () => {
 
         setImages(newImages);
         setImagePreviews(prevPreviews => [...prevPreviews, ...newPreviews]);
+
+        // 파일 입력 필드를 리셋하여 동일 파일을 다시 첨부할 수 있게 함
+        if (fileInputRef.current) {
+            fileInputRef.current.value = '';
+        }
     };
 
     const handleImageDelete = (index) => {
@@ -143,6 +164,11 @@ const Contact = () => {
                 <form onSubmit={handleSubmit}>
                     {isLoading && (
                         <>
+                            <div className={style.loadingMessageContainer}>
+                                <div className={style.loadingMessage}>
+                                    메일을 보내는 중입니다<span className={style.dots}>{".".repeat(dots)}</span>                                    
+                                </div>
+                            </div>
                             <div className={style.spinner} />
                             <div className={style.spinnerOverlay} />
                         </>
@@ -251,7 +277,6 @@ const Contact = () => {
                             보내기
                         </button>
                     </div>
-                    {isLoading && <div>메일을 보내는 중입니다...</div>}
                 </form>
             </div>
         </>
