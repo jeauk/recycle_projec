@@ -86,16 +86,20 @@
   border-radius: 5px;
 }
 
-/* .videoLink iframe {
+.videoLink iframe {
+  width: 100%;
+  height: 600px;
   border-radius: 10px;
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+  display: block;
 }
 
 iframe {
   border: none;
   margin-top: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-} */
+}
 
 .stepsContainer {
   display: grid;
