@@ -133,7 +133,7 @@ function PostDetail() {
             <span onClick={handleRecommend}>👍{post.recommendCount}</span>
           </div>
           <div>
-            <span>{post.createdAt}</span>
+            <span>{post.updateChange ? `${post.createdAt}(수정됨)` : post.createdAt}</span>
           </div>
           <div className={styles.mainTitle}>
             <h2>{post.title}</h2>
@@ -153,7 +153,6 @@ function PostDetail() {
             <p className={styles.videoLink}>
               <iframe width="420" height="315" src={createEmbedUrl(post.videoLink)} />
             </p>
-            <hr />
           </div>
         )}
       </div>
