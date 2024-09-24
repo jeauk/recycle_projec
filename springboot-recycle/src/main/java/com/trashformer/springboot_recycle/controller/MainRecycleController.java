@@ -15,6 +15,7 @@ import com.trashformer.springboot_recycle.repository.MainRecycleRepository;
 @RestController
 public class MainRecycleController {
     @Autowired MainRecycleRepository mainRecycleRepository;
+
     @GetMapping("/mainrecycle")
     public List<MainRecycleEntity> mapdata(@RequestParam(value = "query", required = false) String query) {
         if(query == null || query.isEmpty()){
@@ -23,6 +24,7 @@ public class MainRecycleController {
             return mainRecycleRepository.findByMrTagContainingIgnoreCase(query);
         }
     }
+
     @GetMapping("/mainrecycle/{id}")
     public MainRecycleEntity getItemByTag(@PathVariable Long id){
         return mainRecycleRepository.findById(id).orElse(null);
