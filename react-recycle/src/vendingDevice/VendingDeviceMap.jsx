@@ -9,11 +9,12 @@ const VendingDeviceMap = () => {
 	const [center, setCenter] = useState({ lat: 36.483509090944544, lng: 127.71692262315658});
 	const [level, setLevel] = useState(12);
 	const [loading, setLoading] = useState(false);
+	const myBackDomain = "http://127.0.0.1:8080"
 	useEffect(() => {
-		const myBackDomain = async () => {
+		const backDomainFetch = async () => {
 			setLoading(true); // 로딩 시작
 			try {
-				const res = await fetch(`http://127.0.0.1:8080/dataload`);
+				const res = await fetch(myBackDomain + "/dataload");
 				const data = await res.json();
 
 				console.log(data);  // 데이터 확인을 위한 로그
@@ -24,7 +25,7 @@ const VendingDeviceMap = () => {
 				setLoading(false); //로딩 끝
 			}
 		};
-		myBackDomain();
+		backDomainFetch();
 
 		navigator.geolocation.getCurrentPosition(
 			(position) => {

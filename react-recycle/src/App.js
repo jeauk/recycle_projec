@@ -103,6 +103,7 @@ function App() {
               <Route path="/mainRecycleDetail" element={<MainRecycleDetail />} />
               <Route path="/freeBulletinBoard/post" element={<FreeBulletinBoardPost /> } />
               <Route path="/oxquiz" element={<OX />} />
+              <Route path="QuillFreeBorad" element={<FreeBoardPost />} />
               <Route
                 path="/login/oauth2/callback/kakao"
                 element={<LoginHandeler onLogin={handleLogin} />}

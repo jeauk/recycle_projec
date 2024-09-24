@@ -90,11 +90,12 @@ const VendingDeviceMenu = React.memo(({ locations, onLocationClick, searchHistor
       <button className={`${m.toggleButton} ${isOpen ? m.open : ''}`} onClick={toggleMenu}>
         {isOpen ? '<' : '>'}
       </button>
-      {isOpen && (
+      {/* {isOpen && (
         <div className={`${m.logoPane} ${isOpen ? m.open : ''}`}>
           <img src="/img/logo.png" alt="Logo" style={{ width: '225px', height: 'auto' }} />
         </div>
-      )}
+      )} */} 
+      {/* 오른쪽 아래 로고 */}
     </div>
   );
 });
