@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import styles from '../styles/MainRecycleDetail.module.css';
 
 const MainRecycleDetail = () => {
+    const myBackDomain = "http://localhost:8080";
     const { id } = useParams();
     const [item, setItem] = useState(null);
     useEffect(() => {
@@ -22,7 +23,7 @@ const MainRecycleDetail = () => {
     if(!item) return <p>Loading...</p>;
     return (
         <div className={styles.container}>
-            <img src={item.imgUrl} alt="item image" className={styles.image} />
+            <img src={myBackDomain+item.imgUrl} alt="item image" className={styles.image} />
             <div className={styles.content}>
                 <h1 className={styles.title}>{item.mrName}</h1>
                 <hr></hr>

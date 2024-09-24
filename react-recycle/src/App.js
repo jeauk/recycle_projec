@@ -75,7 +75,7 @@ function App() {
     <div className="App">
       <div className={styles.appContainer}>
         <BrowserRouter>
-          <ScrollToTop />
+          <ScrollToTop />{/* 이동하면 스크롤 맨 위로 올라가게 해주는거 */}
           <Nav />
           <Routes>
             <Route path="/sido" element={<Sido />} />
@@ -83,9 +83,7 @@ function App() {
           <div className={styles.mainContent}>
             <Routes>
               <Route index element={<Home />} />
-              
               <Route path='/a' element={<A />} />
-
               <Route path='/map' element={<KakaoMap />} />
               <Route path='/recycleMain/:id' element={<MainRecycleDetail />} />
               <Route path='/sumap' element={<VendingDeviceMap />} />
