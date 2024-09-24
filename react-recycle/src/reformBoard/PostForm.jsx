@@ -183,11 +183,13 @@ const PostForm = () => {
   };
 
   const handleStepCropComplete = async (index) => {
-    const croppedImage = await getCroppedImg(steps[index].imagePreview, croppedArea);  // 자른 이미지 Blob 생성
+    const croppedImage = await getCroppedImg(steps[index].imagePreview, croppedArea);
     const updatedStepImages = [...croppedStepImages];
-    updatedStepImages[index] = croppedImage;  // Blob 형태로 이미지 저장
+    updatedStepImages[index] = croppedImage;
     setCroppedStepImages(updatedStepImages);
-    setIsStepCropping(prev => prev.map((val, i) => i === index ? false : val));  // 크롭 모드 종료
+  
+    // 크롭 모드 비활성화
+    setIsStepCropping(prev => prev.map((val, i) => i === index ? false : val));
   };
 
   const handleStepImageChange = (index, e) => {
@@ -196,8 +198,10 @@ const PostForm = () => {
     newSteps[index].image = file;
     newSteps[index].imagePreview = URL.createObjectURL(file);
     setSteps(newSteps);
+  
+    // 크롭 모드 활성화
     const updatedCropState = [...isStepCropping];
-    updatedCropState[index] = true;  // 크롭 모드 활성화
+    updatedCropState[index] = true;
     setIsStepCropping(updatedCropState);
   };
 
@@ -206,8 +210,8 @@ const PostForm = () => {
       {isCropping && (
         <div style={{'position': 'absolute',
           'z-index': 1000,
-          'height': '100vh',
-          'width': '100vw',
+          'height': '80vh',
+          'width': '80vw',
           'background-color': '#00000077',
           'top': 0,
           'zIndex': 10000}}>
@@ -330,21 +334,40 @@ const PostForm = () => {
   </div>
 
   {isStepCropping[index] && (
-    <div className={styles.cropContainer}>
-      <Cropper
-        image={steps[index].imagePreview}
-        crop={crop}
-        zoom={zoom}
-        aspect={5 / 3}  // 원하는 비율 설정
-        onCropChange={setCrop}
-        onZoomChange={setZoom}
-        onCropComplete={(croppedArea, croppedAreaPixels) => setCroppedArea(croppedAreaPixels)}
-      />
-      <button className={styles.cropButton} type="button" onClick={() => handleStepCropComplete(index)}>
-        완료
-      </button>
+  <div style={{'position': 'absolute',
+    'z-index': 1000,
+    'height': '80vh',
+    'width': '80vw',
+    'background-color': '#00000077',
+    'top': '80vh',
+    'zIndex': 10000}}>
+    <div style={{
+      'display': 'flex',
+      flexDirection: 'column',
+      height: '100%',
+      paddingTop: '15%'
+    }}>
+      <div style={{'position': 'relative',
+        'height': '100%',
+        'width': '100%'}}>
+        <Cropper
+          image={steps[index].imagePreview}
+          crop={crop}
+          zoom={zoom}
+          aspect={5 / 3}
+          onCropChange={setCrop}
+          onZoomChange={setZoom}
+          onCropComplete={(croppedArea, croppedAreaPixels) => setCroppedArea(croppedAreaPixels)}
+        />
+      </div>
+      <div style={{'position': 'relative',
+        'height': '100%',
+        'width': '100%'}}>
+        <button className={styles.cropButton} type="button" onClick={() => handleStepCropComplete(index)}>완료</button>
+      </div>
     </div>
-  )}
+  </div>
+)}
 
               <button
                 type="button"
