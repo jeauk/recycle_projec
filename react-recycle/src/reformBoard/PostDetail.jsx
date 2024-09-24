@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import styles from './PostDetail.module.css';
 
 function PostDetail() {
   const { id } = useParams(); // URL에서 게시물 ID를 가져옴
