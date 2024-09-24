@@ -25,6 +25,8 @@ public class ImageController {
     // 프로필 이미지가 저장된 디렉토리 경로
     private final String PROFILE_DIR = "src/main/resources/static/uploads/profiles/";
 
+    
+
     @GetMapping("/image/{date}/{filename}")
     public ResponseEntity<Resource> showImage(@PathVariable String date, @PathVariable String filename) throws MalformedURLException {
         // 요청된 이미지 파일 경로를 생성

@@ -6,7 +6,7 @@ import "../styles/TopFiveList.css";  // CSS 모듈을 import
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useNavigate } from "react-router-dom";
-import { colors } from "@mui/material";
+import { Margin } from "@mui/icons-material";
 
 const TopFiveList = () => {
     const myBackDomain = "http://localhost:8080";
@@ -55,14 +55,15 @@ const TopFiveList = () => {
     };
 
     return (
-        <div className={styles.home} style={{ width: '82%' }}>
+        <div style={{display: 'block'}}>
             {/* 제목과 더보기를 한 줄에 맞추고, 아랫부분을 기준으로 정렬 */}
             <div className={styles.titleContainer}>
                 <h2 className={styles.title}>인기 리폼게시글</h2>
                 <p className={styles.more} onClick={clickHandler}>더보기</p>
             </div>
-            <Slider {...settings}>
+            <Slider {...settings} style={{display: 'grid', width: '82%', margin:'30px auto'}}>
                     {recommendedBoards.map((board) => (
+
                     <div key={board.id} className={styles.slide}>
                         <img 
                             src={board.imagePath} 
@@ -72,7 +73,6 @@ const TopFiveList = () => {
                         />
                     </div>
                 ))}
-
             </Slider>
         </div>
     );
