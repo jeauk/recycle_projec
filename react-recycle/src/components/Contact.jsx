@@ -57,6 +57,7 @@ const Contact = () => {
 
 
 
+    
     const handleFileChange = async (e) => {
         const newFiles = Array.from(e.target.files);
         const newImages = [...images];

@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState, useEffect, useRef } from 'react';
 import m from '../styles/VendingDeviceMenu.module.css';
 import rm from '../styles/ReMap.module.css';
 
@@ -6,6 +6,10 @@ const ReMapMenu = React.memo(({ locations, onLocationClick, searchHistory, setSe
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [activeButton, setActiveButton] = useState(activeTab);
+  const menuRef = useRef(null);
+  const mapRef = useRef(null);
+  const mouseDownTimeRef = useRef(0); // 마우스를 누른 시간을 기록
+  const drag = 100; // 클릭과 드래그를 구분하는 기준 시간 (밀리초)
 
   const toggleMenu = useCallback(() => {
     setIsOpen(!isOpen);
@@ -52,8 +56,31 @@ const ReMapMenu = React.memo(({ locations, onLocationClick, searchHistory, setSe
     setActiveButton(tab);
   }, [setActiveTab]);
 
+  const handleClickOutside = useCallback((event) => {
+    const timeDiff = Date.now() - mouseDownTimeRef.current; // 마우스가 눌린 시간과 현재 시간의 차이 계산
+    if (timeDiff < drag) {
+      // 클릭과 드래그 구분: 클릭 시간이 짧을 때만 창을 닫음
+      if (menuRef.current && !menuRef.current.contains(event.target) && !mapRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    }
+  }, []);
+
+  const handleMouseDown = useCallback(() => {
+    mouseDownTimeRef.current = Date.now(); // 마우스가 눌린 시간을 기록
+  }, []);
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleMouseDown);
+    document.addEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleMouseDown);
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [handleClickOutside, handleMouseDown]);
+
   return (
-    <div className={rm.rewrap}>
+    <div className={rm.rewrap} ref={menuRef}>
       <div className={`${m.sideMenu} ${isOpen ? m.open : ''}`}>
         <div className={m.search}>
           <input type="text" placeholder="중고 가게 위치 검색" onChange={handleSearchChange} value={searchQuery} onKeyDown={handleKeyPress} />
@@ -65,7 +92,7 @@ const ReMapMenu = React.memo(({ locations, onLocationClick, searchHistory, setSe
             ))}
           </div>
         </div>
-        <div className={`${m.KakaoMapList} ${isOpen ? m.open : ''}`}>
+        <div className={`${rm.reMapList} ${isOpen ? m.open : ''}`} ref={mapRef}>
           {filteredLocations.map((loc, locIdx) => (
             <div key={locIdx} className={rm.res} onClick={() => handleLocationClick(loc)}>
               <h4>{loc.name}</h4>

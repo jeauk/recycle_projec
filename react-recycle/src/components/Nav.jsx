@@ -16,6 +16,7 @@ import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import { useNavigate, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { useRef } from 'react';
 
 const pages = [];
 const settings = ['프로필', '글쓰기', '로그아웃'];
@@ -77,6 +78,7 @@ const ResultItem = styled('li')(({ theme }) => ({
 }));
 
 function Nav() {
+  const myBackDomain = "http://localhost:8080";
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [profileImageUrl, setProfileImageUrl] = useState('');
@@ -85,28 +87,29 @@ function Nav() {
   const [searchResult, setSearchResult] = useState([]); // 검색 결과를 저장
   const [isSearching, setIsSearching] = useState(false);
   const [filteredResult, setFilteredResult] = useState([]);
+  const [showResults, setShowResults] = useState(false); //검색 결과 보이기, 보이지 않기
   const navigate = useNavigate();
+  const searchRef = useRef(null); //클릭 감지
 
   const onChange = (e) => {
     setSearchItem(e.target.value);
 
-    if (e.target.value === '') {
-      setSearchResult([]);
-      setFilteredResult([]);
-    }
+    setShowResults(false);
+    setFilteredResult([]);
   };
 
 
   const onSearch = async () => {
     try {
-      const res = await fetch(`http://127.0.0.1:8080/MainRecycle?query=${searchItem}`);
+      const res = await fetch(`http://127.0.0.1:8080/mainrecycle?query=${searchItem}`);
       const data = await res.json();
       console.log(data);
       setSearchResult(data);
-      const searchFilter = data.filter(item =>
+      const searchFilter = data.filter((item) =>
         item.mrTag?.toLowerCase().includes(searchItem.toLowerCase())
       );
       setFilteredResult(searchFilter);
+      setShowResults(true); //검색 결과 보이기
     } catch (error) {
       console.error("서버에 연결하는데 실패했습니다.", error);
     }
@@ -194,6 +197,19 @@ function Nav() {
       window.location.reload();
     }
   };
+  //밖을 클릭시 검색결과를 비활성화 하는 코드
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (searchRef.current && 
+        !searchRef.current.contains(event.target)) {
+          setShowResults(false); //
+        }      
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [searchRef]);
 
   return (
     <AppBar
@@ -205,6 +221,7 @@ function Nav() {
         boxShadow: 'none',
         height: '120px',
         justifyContent: 'center',
+        zIndex: 1000,
       }}
     >
       <Container maxWidth="xl">
@@ -275,7 +292,7 @@ function Nav() {
           </Box>
 
           {/* Search Bar */}
-          <Box sx={{ position: 'relative', marginRight: '3%' }}>
+          <Box sx={{ position: 'relative', marginRight: '3%' }} ref={searchRef}>
             <Search>
               <SearchIconWrapper>
                 <SearchIcon />
@@ -286,22 +303,23 @@ function Nav() {
                 value={searchItem}
                 onChange={onChange}
                 onKeyDown={handleKeyDown}
+                onFocus={() => setShowResults(true)} //검색창 클릭시 검색결과 보이기
               />
               <Button onClick={handleSearchClick}>검색</Button>
             </Search>
 
             {/* 검색 결과 출력 */}
-            {searchResult.length > 0 && (
+            {/* 검색창을 클릭한 상태이고 글자가 1개 이상일때 */}
+            {showResults && filteredResult.length > 0 && (
               <ResultList>
-
-                {filteredResult && filteredResult.map((item) => (
+                {filteredResult.map((item) => (
                   <ResultItem
                     key={item.id}>
                     <Link to={`/RecycleMain/${item.id}`}>
                     <div style={{ display: "flex", alignItems: "center" }}> {/* Flexbox 적용 */}
                       <img 
                         style={{ width: "60px", height: "60px", marginRight: "10px" }}
-                        src={item.imgUrl} 
+                        src={myBackDomain+item.imgUrl} 
                         alt={item.mrName} 
                       />
                       <p style={{ margin: 0 }}>{item.mrName}</p> {/* 텍스트의 기본 마진 제거 */}

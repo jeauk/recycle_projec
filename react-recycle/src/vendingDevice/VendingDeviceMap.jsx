@@ -9,7 +9,7 @@ const VendingDeviceMap = () => {
 	const [level, setLevel] = useState(12);
 	const [loading, setLoading] = useState(false);
 	useEffect(() => {
-		const fetchLocations = async () => {
+		const myBackDomain = async () => {
 			setLoading(true); // 로딩 시작
 			try {
 				const res = await fetch(`http://127.0.0.1:8080/dataload`);
@@ -23,7 +23,7 @@ const VendingDeviceMap = () => {
 				setLoading(false); //로딩 끝
 			}
 		};
-		fetchLocations();
+		myBackDomain();
 
 		navigator.geolocation.getCurrentPosition(
 			(position) => {
@@ -39,19 +39,22 @@ const VendingDeviceMap = () => {
 	}, []);
 
 	const filteredLocations = useMemo(() => {
-		if (searchHistory.length === 0) {
-			return locations;
+		//검색어가 없을시 모든 마커를 반환
+		if(searchHistory.length === 0){
+			return locations.map(loc => ({ ...loc, isMatch: true }));
 		}
-		return locations.filter(loc =>
-			searchHistory.every(query =>
+		//검색후 조건에 맞는 마커와 isMatch 반환
+		return locations.map(loc => {
+		const isMatch = searchHistory.every(query =>
 				loc.name.toLowerCase().includes(query.toLowerCase()) ||
 				loc.address.toLowerCase().includes(query.toLowerCase()) ||
 				loc.region1.toLowerCase().includes(query.toLowerCase()) ||
 				loc.region2.toLowerCase().includes(query.toLowerCase()) ||
 				loc.region3.toLowerCase().includes(query.toLowerCase()) ||
 				loc.inputWastes.some(waste => waste.inputWaste.toLowerCase().includes(query.toLowerCase()))
-			)
-		); 
+			);
+			return { ...loc, isMatch };
+		}); 
 	}, [locations, searchHistory]);
 
 	const handleMarkerClick = useCallback((loc) => {
@@ -65,21 +68,23 @@ const VendingDeviceMap = () => {
 		});
 	}, []);
 
-	const getMarkerImage = useCallback((inputWastes) => {
+	const getMarkerImage = useCallback((inputWastes, isMatch) => {
 		const wasteTypes = inputWastes.map(waste => waste.inputWaste);
+		const prefix = isMatch && searchHistory.length > 0 ? 'Red' : '';
+
 		if (wasteTypes.includes("캔") && wasteTypes.includes("투명 페트")) {
-			return '/img/RecycleMarker.png';
+			return `/img/${prefix}RecycleMarker.png`;
 		}
 		else if (wasteTypes.includes("캔")) {
-			return '/img/CanMarker.png';
+			return `/img/${prefix}CanMarker.png`;
 		}
 		else if (wasteTypes.includes("투명 페트")) {
-			return '/img/PetBottleMarker.png';
+			return `/img/${prefix}PetBottleMarker.png`;
 		}
 		else {
 			return 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png';
 		}
-	}, []);
+	}, [searchHistory]);
 
 
 
@@ -88,14 +93,16 @@ const VendingDeviceMap = () => {
 			<VendingDeviceMenu loading={loading} searchHistory={searchHistory} setSearchHistory={setSearchHistory} locations={filteredLocations} onLocationClick={handleMarkerClick} />
 			<Map center={center} style={{ width: '800px', height: '600px' }} level={level}>
 				{filteredLocations.map((loc, idx) => (
-					<VendingDeviceMarker
+					loc.isMatch && (
+						<VendingDeviceMarker
 						key={idx}
 						position={{ lat: loc.latitude, lng: loc.longitude }}
 						content={loc}
 						handleMarkerClick={handleMarkerClick}
-						getMarkerImage={getMarkerImage}
+						getMarkerImage={(wastes) => getMarkerImage(wastes, loc.isMatch)}
 						/>
-				))}
+					)
+					))}
 			</Map>
 		</div>
 	);

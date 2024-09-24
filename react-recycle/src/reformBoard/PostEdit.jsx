@@ -16,7 +16,6 @@ function PostEdit() {
   const [stepImages, setStepImages] = useState([]); // 스텝 이미지 파일들을 저장할 상태
   const [stepImagePreviews, setStepImagePreviews] = useState([]); // 스텝 이미지 미리보기 URL
   const myBackDomain = "http://localhost:8080"
-  const myFrontDomain = "http://localhost:3000"
 
   const dataget = async () => {
     const jwt = sessionStorage.getItem('jwt');

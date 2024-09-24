@@ -19,21 +19,30 @@ const CompanyList = () => {
     fetchCompanyData(); // 컴포넌트가 처음 렌더링될 때 데이터 요청
   }, []);
 
+  const handleButtonClick = () => {
+    window.location.href = 'https://www.cpoint.or.kr/netzero/main.do'; // 클릭 시 해당 URL로 이동
+  };
+
   return (
-    <div className={styles.grid}>
-      {companyData.length > 0 ? (
-        companyData.map((company, index) => (
-          <div key={index} className={styles.card}>
-            <div className={styles.logoContainer}>
-              <img src={company.imgSrc} alt={company.title} className={styles.logo} />
+    <div>
+      <button onClick={handleButtonClick} className={styles.topButton}>
+        탄소중립포인트 하러가기
+      </button>
+      <div className={styles.grid}>
+        {companyData.length > 0 ? (
+          companyData.map((company, index) => (
+            <div key={index} className={styles.card}>
+              <div className={styles.logoContainer}>
+                <img src={company.imgSrc} alt={company.title} className={styles.logo} />
+              </div>
+              <h2 className={styles.title}>{company.title}</h2>
+              <p className={styles.text}>{company.text}</p>
             </div>
-            <h2 className={styles.title}>{company.title}</h2>
-            <p className={styles.text}>{company.text}</p>
-          </div>
-        ))
-      ) : (
-        <p>Loading...</p>
-      )}
+          ))
+        ) : (
+          <p>Loading...</p>
+        )}
+      </div>
     </div>
   );
 };
