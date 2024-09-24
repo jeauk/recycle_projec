@@ -76,11 +76,11 @@
     scrollbar-width: none;
   }
 
-  .KakaoMapList > div {
+  .KakaoMapList:not(.loading) > div {
     border-top: 1px solid #98c76a;
   }
 
-  .KakaoMapList > div:last-of-type {
+  .KakaoMapList:not(.loading) > div:last-of-type {
     border-bottom: 1px solid #98c76a;
   }
 
@@ -91,4 +91,25 @@
   .KakaoMapList::-webkit-scrollbar {
     display: none;
   }
+  .VendingDeviceLoding {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+  .VendingDeviceLoding img {
+    width: 100px;
+    height: 100px;
+  }
   
+  .searchHistoryItem {
+    padding: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  .searchHistoryItem:hover{
+    background-color: hotpink;
+  }
+  .locationItem {
+    cursor: pointer;
+  }

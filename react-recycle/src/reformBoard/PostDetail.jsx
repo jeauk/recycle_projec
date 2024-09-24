@@ -7,6 +7,8 @@ function PostDetail() {
   const [post, setPost] = useState(null);
   const [isAuthor, setIsAuthor] = useState(false);
   const [recommendCount, setRecommendCount] = useState(0); // 추천수 상태 추가
+  const myBackDomain = "http://localhost:8080"
+  const myFrontDomain = "http://localhost:3000"
 
   useEffect(() => {
     // 서버에서 게시물 데이터를 가져옴
@@ -14,7 +16,7 @@ function PostDetail() {
       try {
         const jwt = sessionStorage.getItem('jwt'); // 세션에서 JWT 토큰을 가져옴
 
-        const response = await fetch(`http://localhost:8080/api/posts/${id}`, {
+        const response = await fetch(myBackDomain+`/api/posts/${id}`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${jwt}`, // JWT 토큰을 Authorization 헤더에 추가
@@ -43,7 +45,7 @@ function PostDetail() {
 
   const handleDelete = async () => {
     const jwt = sessionStorage.getItem('jwt');
-    const url = `http://localhost:8080/delete/posts/${id}`
+    const url = myBackDomain +`/delete/posts/${id}`
     const response = await fetch(url, {
       method: 'DELETE',
       headers: {'Authorization': `Bearer ${jwt}`}
@@ -60,7 +62,7 @@ function PostDetail() {
       return;
     }
   
-    const url = `http://localhost:8080/api/posts/recommend/${id}`;
+    const url = myBackDomain+`/api/posts/recommend/${id}`;
     const response = await fetch(url, {
       method: "POST",
       headers: {
@@ -74,7 +76,7 @@ function PostDetail() {
       // 추천 상태가 변경되었음을 알림
   
       // 서버에서 최신 게시물 데이터를 다시 가져옴
-      const postResponse = await fetch(`http://localhost:8080/api/posts/${id}`, {
+      const postResponse = await fetch(myBackDomain+`/api/posts/${id}`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${jwt}`, // JWT 토큰을 Authorization 헤더에 추가
@@ -122,14 +124,20 @@ function PostDetail() {
   };
 
   return (
-    <div>
-      <img src={post.imagePath ? post.imagePath.replace(/\\/g, "/") : ''} alt="완성 사진" style={{ width: '100%', height: 'auto' }} />
-      <h1>{post.title}</h1>
-      <p>
-        작성자: {post.kakaoUserEntity.nickname} &nbsp;&nbsp;&nbsp; 
-        작성날짜: {post.modifiedAt ? `${post.modifiedAt} (수정됨)` : post.createdAt} &nbsp;&nbsp;&nbsp; 
-        조회수: {post.viewCount}
-      </p>
+    <div className='big_container'>
+      <div className='main_one_container'>
+        <div className='main_img'>
+          <img src={post.imagePath ? post.imagePath.replace(/\\/g, "/") : ''} alt="완성 사진" style={{ width: '100%', height: 'auto' }} />
+        </div>
+
+        <h1>{post.title}</h1>
+        <p>
+          작성자: {post.kakaoUserEntity.nickname} &nbsp;&nbsp;&nbsp; 
+          작성날짜: {post.modifiedAt ? `${post.modifiedAt} (수정됨)` : post.createdAt} &nbsp;&nbsp;&nbsp; 
+          조회수: {post.viewCount}
+        </p>
+      </div>
+      
       <hr />
       <h2>내용 (재료)</h2>
       <p>{post.content}</p>

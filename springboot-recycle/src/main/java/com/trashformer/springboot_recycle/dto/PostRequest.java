@@ -1,6 +1,6 @@
 package com.trashformer.springboot_recycle.dto;
 
-import java.util.List; // 이 부분이 중요합니다.
+import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 import lombok.Data;
 

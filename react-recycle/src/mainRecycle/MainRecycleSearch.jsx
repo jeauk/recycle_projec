@@ -5,6 +5,7 @@ const MainRecycleSearch = () => {
   const [searchItem, setSearchItem] = useState(""); // 검색할 단어
   const [searchResult, setSearchResult] = useState([]); //검색 결과를 저장
   const [isSearching, setIsSearching] = useState(false);
+
   const onChange = (e) => { // 입력한 단어를 검색할 단어로 바꿔주는 함수
     setSearchItem(e.target.value);
   };
@@ -16,7 +17,7 @@ const MainRecycleSearch = () => {
 
   const onSearch = async () => {
       try {
-        const res = await fetch(`http://127.0.0.1:8080/MainRecycle?query=${searchItem}`);
+        const res = await fetch(`http://127.0.0.1:8080/MainRecycle?query=${searchItem}`,{});
         const data = await res.json();
         console.log(data);
         setSearchResult(data);

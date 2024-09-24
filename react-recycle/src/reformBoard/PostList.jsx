@@ -16,13 +16,15 @@ const PostList = () => {
   const [searchQuery, setSearchQuery] = useState(""); // 실제 검색에 사용할 검색어 상태
   const [searchType, setSearchType] = useState("title_content"); // 검색 타입 상태 추가
   const navigate = useNavigate();
+      const myBackDomain = "http://localhost:8080"
+    const myFrontDomain = "http://localhost:3000"
 
   // API 호출 함수 분리
   const fetchPosts = async (page, searchQuery, searchType) => {
     try {
       const query = searchQuery ? `&search=${encodeURIComponent(searchQuery)}&type=${searchType}` : "";
       const response = await fetch(
-        `http://localhost:8080/api/postlist?page=${page}&size=12${query}`,
+        myBackDomain+`/api/postlist?page=${page}&size=12${query}`,
         {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },
