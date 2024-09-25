@@ -17,7 +17,7 @@ const Carvon = () => {
             </div>
             <div className={styles.container}>
                 <div className={styles.box}>
-                    <h2>탄소중립포인트, 무엇인가요?</h2>
+                    <h2>탄소중립포인트,<br/>무엇인가요?</h2>
                     <button 
                         className={styles.button}
                         onClick={() => handleNavigate('/carvon/drafting')} // 내부 경로 설정
@@ -26,7 +26,7 @@ const Carvon = () => {
                     </button>
                 </div>
                 <div className={styles.box}>
-                    <h2>탄소중립포인트로 받을 수 있는 혜택</h2>
+                    <h2>탄소중립포인트로<br/> 받을 수 있는 혜택</h2>
                     <button 
                         className={styles.button}
                         onClick={() => handleNavigate('/carvon/incentive')} // 내부 경로 설정
@@ -35,7 +35,7 @@ const Carvon = () => {
                     </button>
                 </div>
                 <div className={styles.box}>
-                    <h2>탄소중립포인트 참여는 어떻게 하나요?</h2>
+                    <h2>탄소중립포인트<br/>참여는 어떻게 하나요?</h2>
                     <button 
                         className={styles.button}
                         onClick={() => handleNavigate('/carvon/carvonMethod')} // 내부 경로 설정
@@ -44,7 +44,7 @@ const Carvon = () => {
                     </button>
                 </div>
                 <div className={styles.box}>
-                    <h2>탄소중립포인트에 참여하는 기업들</h2>
+                    <h2>탄소중립포인트에<br/>참여하는 기업들</h2>
                     <button 
                         className={styles.button}
                         onClick={() => handleNavigate('/carvon/companyList')} // 내부 경로 설정
