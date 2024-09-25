@@ -1,0 +1,103 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.select {
+  width: 800px;
+  background-color: #f0f0f0;
+  padding: 10px;
+  margin: 30px 0;
+  border-radius: 10px;
+  box-shadow: 5px 4px 8px 0px rgba(0, 0, 0, 0.1);
+}
+
+.ulli {
+  list-style: none;
+  width: 800px;
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+.fmj {
+  margin: 0;
+}
+
+.mj {
+  display: inline-block;
+  margin-top: 10px;
+}
+
+.site {
+  text-decoration: none;
+  font-weight: bold;
+  color: blue;
+}
+
+.sido,
+.gungoo {
+  padding: 5px 0px 5px 20px;
+  margin-right: 20px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: gray;
+  height: 45px;
+  border-radius: 20px;
+  border: 2px solid rgba(153, 199, 107, 0.7);
+}
+
+.sido {
+  width: 300px;
+}
+
+.title {
+  margin-top: 10px;
+}
+
+.index {
+  display: inline-block;
+}
+
+.index>div:nth-of-type(1) {
+  display: inline-block;
+}
+
+.sindex {
+  display: inline-block;
+}
+
+.sindex>div:nth-of-type(1) {
+  display: inline-block;
+}
+
+.gungoo {
+  width: 200px;
+}
+
+.btn1 {
+  padding: 5px;
+  width: 75px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  height: 45px;
+  background-color: rgba(152, 199, 106, 0.7);
+  color: white;
+  border: none;
+  border-radius: 20px;
+}
+
+.btn1:hover {
+  background-color: #98c76a;
+}
+
+.portal {
+  font-size: 1.1rem;
+  margin: 15px 0px;
+}
