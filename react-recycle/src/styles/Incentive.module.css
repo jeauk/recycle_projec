@@ -1,10 +1,10 @@
 .tableContainer {
-    width: 1200px;
+    width: 82%;
     padding: 20px;
     background-color: #f9f9f9;
     border-radius: 8px;
     max-width: 1200px; /* 최대 너비를 넓게 설정 */
-    margin: 0 auto; /* 화면 중앙에 배치 */
+    margin: 50px auto; /* 화면 중앙에 배치 */
   }
   
   .topButton {

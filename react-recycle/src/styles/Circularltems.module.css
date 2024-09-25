@@ -5,6 +5,7 @@
     background-color: #f0f7f5;
     padding: 40px;
     border-radius: 20px;
+    justify-items: center;
   }
   
   .item {
@@ -14,10 +15,11 @@
     text-align: center;
     background-color: #ffffff;
     padding: 20px;
+    margin: 20px 0;
     border-radius: 50%;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
-    width: 275px; /* 그리드 안에서 전체 너비를 차지 */
+    width: 240px; /* 그리드 안에서 전체 너비를 차지 */
     height: 240px; /* 고정된 높이 */
   }
   
@@ -28,7 +30,7 @@
   .icon img {
     width: 80px;
     height: auto;
-    margin-bottom: 20px;
+    margin: 20px 0px;
   }
   
   .text h3 {
