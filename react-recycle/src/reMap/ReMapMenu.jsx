@@ -36,10 +36,10 @@ const ReMapMenu = React.memo(({ locations, onLocationClick, searchHistory, setSe
   }, [searchHistory, setSearchHistory]);
 
   const filteredLocations = useMemo(() => {
-    return locations?.filter(loc => 
-      loc.type === activeTab && 
+    return locations?.filter(loc =>
+      loc.type === activeTab &&
       (loc.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      loc.address.toLowerCase().includes(searchQuery.toLowerCase()))
+        loc.address.toLowerCase().includes(searchQuery.toLowerCase()))
     );
   }, [locations, searchQuery, activeTab]);
 
@@ -84,8 +84,10 @@ const ReMapMenu = React.memo(({ locations, onLocationClick, searchHistory, setSe
       <div className={`${m.sideMenu} ${isOpen ? m.open : ''}`}>
         <div className={m.search}>
           <input type="text" placeholder="중고 가게 위치 검색" onChange={handleSearchChange} value={searchQuery} onKeyDown={handleKeyPress} />
-          <p className={rm.searchres}><span className={rm.gsearch}>검색된 가게:</span> {filteredLocations.length}개</p>
-          <button className={m.clearButton} onClick={clearSearch}>⟳</button>
+          <div className={rm.searchres}>
+            <p><span className={rm.gsearch}>검색된 가게:</span> {filteredLocations.length}개</p>
+            <button className={m.clearButton} onClick={clearSearch}>검색 초기화</button>
+          </div>
           <div>
             {searchHistory.map((query, index) => (
               <p key={index} onClick={() => handleSearchClick(index)} className={rm.select}>검색어{index + 1}: {query}</p>
