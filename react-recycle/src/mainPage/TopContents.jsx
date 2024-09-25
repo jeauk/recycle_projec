@@ -4,7 +4,7 @@ import styles from '../styles/TopContents.module.css'; // CSS 모듈 임포트
 const slides = [
     {
       id: 1,
-      image: 'https://via.placeholder.com/600x300?text=Slide+1',
+      image: './img/benner1.png',
     },
     {
       id: 2,
