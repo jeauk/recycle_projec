@@ -8,11 +8,11 @@ const slides = [
     },
     {
       id: 2,
-      image: 'https://via.placeholder.com/600x300?text=Slide+2',
+      image: './img/benner2.png',
     },
     {
       id: 3,
-      image: 'https://via.placeholder.com/600x300?text=Slide+3',
+      image: './img/benner3.png',
     }
   ];
   
