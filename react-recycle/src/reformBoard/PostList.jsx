@@ -81,7 +81,7 @@ const PostList = () => {
           placeholder="검색 할 내용"
           value={search} // 상태 값을 input 필드에 연결
         />
-        <button onClick={handleSearch}>검색</button> {/* 검색 버튼 클릭 시 handleSearch 호출 */}
+        <button className={styles.searchButton} onClick={handleSearch}>검색</button> {/* 검색 버튼 클릭 시 handleSearch 호출 */}
       </div>
       
       <div className={styles.container}>

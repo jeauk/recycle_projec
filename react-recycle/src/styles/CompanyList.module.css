@@ -3,12 +3,13 @@
     grid-template-columns: repeat(4, 1fr); /* 한 줄에 4개 */
     gap: 20px;
     padding: 20px;
+    margin: 30px;
   }
   
   .topButton {
     position: absolute; /* 페이지 맨 위에 고정 */
-    top: 115px; /* 상단으로부터 20px 떨어진 위치 */
-    right: 10px; /* 오른쪽으로부터 20px 떨어진 위치 */
+    top: 130px; /* 상단으로부터 20px 떨어진 위치 */
+    right: 60px; /* 오른쪽으로부터 20px 떨어진 위치 */
     background-color: #333;
     color: white;
     padding: 10px 20px;
@@ -17,7 +18,7 @@
     font-weight: bold;
     border: none;
     cursor: pointer;
-    z-index: 1000; /* 다른 요소 위에 위치하도록 설정 */
+    z-index: 10; /* 다른 요소 위에 위치하도록 설정 */
   }
   
   .topButton:hover {
