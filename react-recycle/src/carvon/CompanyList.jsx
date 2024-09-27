@@ -3,11 +3,12 @@ import styles from '../styles/CompanyList.module.css';
 
 const CompanyList = () => {
   const [companyData, setCompanyData] = useState([]);
+  const myBackDomain = "http://trashformer.site:8080";
 
   // 데이터를 비동기로 가져오는 함수
   const fetchCompanyData = async () => {
     try {
-      const response = await fetch('http://localhost:8080/carvon/companyList');
+      const response = await fetch(myBackDomain+'/carvon/companyList');
       const data = await response.json();
       setCompanyData(data); // 응답 데이터를 상태로 저장
     } catch (error) {
