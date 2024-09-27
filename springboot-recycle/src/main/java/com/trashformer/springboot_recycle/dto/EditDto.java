@@ -10,6 +10,7 @@ import lombok.Data;
 public class EditDto {
     private String title;
     private String content;
+    private String videoLink;
     private List<StepDto> steps;
     private MultipartFile imageFile;
     private List<MultipartFile> stepImages;
