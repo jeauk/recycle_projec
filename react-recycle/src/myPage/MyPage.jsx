@@ -131,14 +131,14 @@ function ProfileUpdateForm() {
             onChange={(e) => setNickname(e.target.value)}
             readOnly={!isLoggedIn}  // 로그인이 안되었을 때는 입력할 수 없도록 설정
           />
-          <button onClick={handleContactClick} className={styles.contactButton}>
-            문의하기
-          </button>
           {isLoggedIn && (
             <button onClick={handleSubmit} className={styles.submitButton}>
               프로필 업데이트
             </button>
           )}
+          <button onClick={handleContactClick} className={styles.contactButton}>
+            문의하기
+          </button>
         </div>
 
         {isLoggedIn ? (

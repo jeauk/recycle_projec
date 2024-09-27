@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import Quill from 'quill';
 import styles from '../styles/FreeBulletinBoardPost.module.css'; // 모듈 CSS import
-import 'quill/dist/quill.snow.css'
+import { useNavigate } from 'react-router-dom';
 
-const FreeBulletinBoardPost = () => {
+const QuillFreeBoardImage = () => {
   // 상태 관리
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -13,7 +12,9 @@ const FreeBulletinBoardPost = () => {
   const [imagePreview, setImagePreview] = useState(null);
   const [passwordError, setPasswordError] = useState(false);
   const [nicknameError, setNicknameError] = useState(false);
-  const myBackDomain = "http://localhost:8080/quillImageBD";
+  const myBackDomain = "http://localhost:8080";
+
+  const navigate = useNavigate();
 
   // 입력 핸들러 함수
   const handleTitleChange = (e) => setTitle(e.target.value);
@@ -49,13 +50,12 @@ const FreeBulletinBoardPost = () => {
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    setImage(file);
-
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setImagePreview(reader.result);
-    };
     if (file) {
+      setImage(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
       reader.readAsDataURL(file);
     }
   };
@@ -89,6 +89,7 @@ const FreeBulletinBoardPost = () => {
 
         if (response.ok) {
           console.log('게시물 등록 성공');
+          navigate('/QuillFreeBoard'); // navigate 함수로 페이지 이동
         } else {
           console.error('게시물 등록 실패');
         }
@@ -181,4 +182,4 @@ const FreeBulletinBoardPost = () => {
   );
 };
 
-export default FreeBulletinBoardPost;
+export default QuillFreeBoardImage;

@@ -30,6 +30,9 @@ import FreeBoardPost from "./freeBoard/FreeBulletinBoardPost";
 import FreeBulletinBoardPost from "./freeBoard/FreeBulletinBoardPost";
 import ScrollToTop from "./components/ScrollToTop";
 import Slider from "react-slick";
+import QuillFreeBoard from "./freeBoard/QuillFreeBoard";
+import QuillFreeBoardPost from "./freeBoard/QuillFreeBoardPost";
+import QuillFreeBoardImage from "./freeBoard/QuillFreeBoardImage";
 
 function A() {
   const settings = {
@@ -41,15 +44,15 @@ function A() {
     autoplay: true,  // 자동 재생
     autoplaySpeed: 6000,  // 6초마다 자동 슬라이드
     arrows: true,  // 좌우 화살표를 통한 슬라이드 제어
-};
+  };
 
   return (
     <Slider {...settings}>
       <div>
-          <h1>Test1</h1>
+        <h1>Test1</h1>
       </div>
       <div>
-          <h1>Test2</h1>
+        <h1>Test2</h1>
       </div>
     </Slider>
   )
@@ -101,9 +104,11 @@ function App() {
               <Route path="/carvon/incentive" element={<Incentive />} />
               <Route path="/carvon/carvonMethod" element={<CarvonMethod />} />
               <Route path="/mainRecycleDetail" element={<MainRecycleDetail />} />
-              <Route path="/freeBulletinBoard/post" element={<FreeBulletinBoardPost /> } />
+              <Route path="/freeBulletinBoard/post" element={<FreeBulletinBoardPost />} />
               <Route path="/oxquiz" element={<OX />} />
-              <Route path="QuillFreeBorad" element={<FreeBoardPost />} />
+              <Route path="/QuillFreeBoard" element={<QuillFreeBoard />} />
+              <Route path="/QuillFreeBoard/Post/:id" element={<QuillFreeBoardPost />} />
+              <Route path="/QuillFreeBoard/Create" element={<QuillFreeBoardImage />} />
               <Route
                 path="/login/oauth2/callback/kakao"
                 element={<LoginHandeler onLogin={handleLogin} />}
