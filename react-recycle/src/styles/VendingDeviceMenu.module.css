@@ -151,7 +151,6 @@
 }
 
 .searchHistoryContainer {
-  height: 43px;
   display: flex;
   flex-direction: row;
   /* 검색어를 가로로 나열 */
