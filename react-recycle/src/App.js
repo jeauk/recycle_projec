@@ -26,13 +26,13 @@ import Incentive from "./carvon/Incentive";
 import OX from "./oxQuiz/OX";
 import Participate from "./carvon/Participate";
 import CarvonMethod from "./carvon/CarvonMethod";
-import FreeBoardPost from "./freeBoard/FreeBulletinBoardPost";
-import FreeBulletinBoardPost from "./freeBoard/FreeBulletinBoardPost";
 import ScrollToTop from "./components/ScrollToTop";
 import Slider from "react-slick";
-import QuillFreeBoard from "./freeBoard/QuillFreeBoard";
-import QuillFreeBoardPost from "./freeBoard/QuillFreeBoardPost";
-import QuillFreeBoardImage from "./freeBoard/QuillFreeBoardImage";
+// import FreeBoardPost from "./freeBoard/FreeBulletinBoardPost";
+// import FreeBulletinBoardPost from "./freeBoard/FreeBulletinBoardPost";
+// import QuillFreeBoard from "./freeBoard/QuillFreeBoard";
+// import QuillFreeBoardPost from "./freeBoard/QuillFreeBoardPost";
+// import QuillFreeBoardImage from "./freeBoard/QuillFreeBoardImage";
 
 function A() {
   const settings = {
@@ -104,11 +104,11 @@ function App() {
               <Route path="/carvon/incentive" element={<Incentive />} />
               <Route path="/carvon/carvonMethod" element={<CarvonMethod />} />
               <Route path="/mainRecycleDetail" element={<MainRecycleDetail />} />
-              <Route path="/freeBulletinBoard/post" element={<FreeBulletinBoardPost />} />
               <Route path="/oxquiz" element={<OX />} />
-              <Route path="/QuillFreeBoard" element={<QuillFreeBoard />} />
+              {/* <Route path="/QuillFreeBoard" element={<QuillFreeBoard />} />
+              <Route path="/freeBulletinBoard/post" element={<FreeBulletinBoardPost />} />
               <Route path="/QuillFreeBoard/Post/:id" element={<QuillFreeBoardPost />} />
-              <Route path="/QuillFreeBoard/Create" element={<QuillFreeBoardImage />} />
+              <Route path="/QuillFreeBoard/Create" element={<QuillFreeBoardImage />} /> */}
               <Route
                 path="/login/oauth2/callback/kakao"
                 element={<LoginHandeler onLogin={handleLogin} />}
