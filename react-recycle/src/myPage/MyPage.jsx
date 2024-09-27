@@ -15,8 +15,7 @@ function ProfileUpdateForm() {
 
   const fileInputRef = useRef(null);
 
-      const myBackDomain = "http://localhost:8080"
-    const myFrontDomain = "http://localhost:3000"
+  const myBackDomain = process.env.REACT_APP_DOMAIN;
 
   useEffect(() => {
     // 컴포넌트 마운트 시 로그인 상태를 확인

@@ -11,6 +11,9 @@ function Sido() {
   const navigate = useNavigate();
   const [region, setRegion] = useState({});
   const [id, setId] = useState(null); // State to store the ID
+
+  const myBackDomain = process.env.REACT_APP_DOMAIN;
+
   const gungoo = {
     강원도: ['강릉시', '고성군', '동해시', '삼척시', '속초시', '양구군', '양양군', '영월군', '원주시', '인제군', '정선군', '철원군', '춘천시', '태백시', '평창군', '홍천군', '화천군', '횡성군'],
     경기도: ['가평군', '고양시', '과천시', '광명시', '광주시', '구리시', '군포시', '김포시', '남양주시', '동두천시', '부천시', '수원시', '시흥시', '안산시', '안성시', '안양시', '양주시', '양평군', '여주시', '연천군', '오산시', '용인시', '의왕시', '의정부시', '이천시', '파주시', '평택시', '포천시', '하남시', '화성시'],
@@ -53,7 +56,7 @@ function Sido() {
       gungoo: selectedGungoo
     };
 
-    const response = await fetch(`http://localhost:8080/sido/submit`, {
+    const response = await fetch(myBackDomain+`/sido/submit`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -72,7 +75,7 @@ function Sido() {
   useEffect(() => {
     const fetchRegion = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/sido/submit/${id}`);
+        const response = await fetch(myBackDomain+`/sido/submit/${id}`);
         if (!response.ok) {
           throw new Error("데이터를 받는데 실패했습니다.");
         }

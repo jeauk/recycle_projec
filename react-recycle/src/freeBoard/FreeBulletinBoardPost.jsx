@@ -11,7 +11,7 @@ const FreeBulletinBoardPost = () => {
   const [imagePreview, setImagePreview] = useState(null);
   const [passwordError, setPasswordError] = useState(false);
   const [nicknameError, setNicknameError] = useState(false);
-  const myBackDomain = "http://localhost:8080";
+  const myBackDomain = process.env.REACT_APP_DOMAIN;
 
   // 입력 핸들러 함수
   const handleTitleChange = (e) => setTitle(e.target.value);

@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { Margin } from "@mui/icons-material";
 
 const TopFiveList = () => {
-    const myBackDomain = "http://localhost:8080";
+    const myBackDomain = process.env.REACT_APP_DOMAIN;
 
     // 추천 게시판 데이터를 저장할 상태 정의
     const [recommendedBoards, setRecommendedBoards] = useState([]);
