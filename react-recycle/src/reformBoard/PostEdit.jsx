@@ -28,7 +28,7 @@ const PostEdit = () => {
   const [videoLink, setVideoLink] = useState("");
   const [steps, setSteps] = useState([]); // 스텝 데이터 저장
 
-  const myBackDomain = process.env.REACT_APP_DOMAIN;
+  const myBackDomain = "http://trashformer.site:8080";
   const jwt = sessionStorage.getItem("jwt");
   const navigate = useNavigate();
 

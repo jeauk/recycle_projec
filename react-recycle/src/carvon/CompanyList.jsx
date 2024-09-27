@@ -3,7 +3,7 @@ import styles from '../styles/CompanyList.module.css';
 
 const CompanyList = () => {
   const [companyData, setCompanyData] = useState([]);
-  const myBackDomain = process.env.REACT_APP_DOMAIN;
+  const myBackDomain = "http://trashformer.site:8080";
 
   // 데이터를 비동기로 가져오는 함수
   const fetchCompanyData = async () => {

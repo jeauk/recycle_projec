@@ -9,7 +9,7 @@ const VendingDeviceMap = () => {
 	const [level, setLevel] = useState(12);
 	const [loading, setLoading] = useState(false);
 
-	const MBD = process.env.REACT_APP_DOMAIN;
+	const MBD = "http://trashformer.site:8080";
 
 	useEffect(() => {
 		const myBackDomain = async () => {

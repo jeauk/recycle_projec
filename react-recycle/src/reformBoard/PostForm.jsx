@@ -49,7 +49,7 @@ const PostForm = () => {
   const [croppedArea, setCroppedArea] = useState(null);
   const [isCropping, setIsCropping] = useState(false);
   const [croppedImageBlob, setCroppedImageBlob] = useState(null);
-      const myBackDomain = process.env.REACT_APP_DOMAIN;
+      const myBackDomain = "http://trashformer.site:8080";
 
   const jwt = sessionStorage.getItem("jwt");
   const navigate = useNavigate();
