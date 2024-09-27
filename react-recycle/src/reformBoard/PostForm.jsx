@@ -202,6 +202,7 @@ const PostForm = () => {
     const updatedCropState = [...isStepCropping];
     updatedCropState[index] = true;
     setIsStepCropping(updatedCropState);
+    window.scrollTo(0, 500);
   };
 
   return (
