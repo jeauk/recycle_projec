@@ -10,7 +10,7 @@ const LoginHandler = ({onLogin}) => {
     const sendCode = async () => {
       if (code) {
         try {
-          const data = await fetch('http://trashformer.site:8080/oauth/kakao/callback', {
+          const data = await fetch(myBackDomain+'/oauth/kakao/callback', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ code })
