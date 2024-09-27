@@ -169,7 +169,7 @@ function PostDetail() {
             </div>
           </div>
         ))}
-        <hr />
+
       </div>
 
       {/* 추천 및 수정, 삭제 버튼 */}
