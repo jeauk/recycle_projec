@@ -11,7 +11,7 @@ const FreeBulletinBoardPost = () => {
   const [imagePreview, setImagePreview] = useState(null);
   const [passwordError, setPasswordError] = useState(false);
   const [nicknameError, setNicknameError] = useState(false);
-  const myBackDomain = "http://trashformer.site:8080";
+  const myBackDomain = "http://localhost:8080";
 
   // 입력 핸들러 함수
   const handleTitleChange = (e) => setTitle(e.target.value);
