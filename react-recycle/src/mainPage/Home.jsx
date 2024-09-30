@@ -4,6 +4,7 @@ import Card from "./Card";
 import Quiz from "./Quiz";
 import TopFiveList from "./TopFiveList";
 import Carvon from "./Carvon";
+import Sliders from "./Sliders";
 
 
 const Home = () => {
@@ -11,7 +12,7 @@ const Home = () => {
     return (
         <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%'}}>
             <div className="home" style={{ width: '82%' }}>
-                <TopContents />
+                <Sliders />
                 <Card />
             </div>
 

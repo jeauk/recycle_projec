@@ -30,6 +30,7 @@ import FreeBoardPost from "./freeBoard/FreeBulletinBoardPost";
 import FreeBulletinBoardPost from "./freeBoard/FreeBulletinBoardPost";
 import ScrollToTop from "./components/ScrollToTop";
 import Slider from "react-slick";
+import Sliders from "./mainPage/Sliders";
 
 function A() {
   const settings = {
@@ -84,6 +85,7 @@ function App() {
             <Routes>
               <Route index element={<Home />} />
               <Route path='/a' element={<A />} />
+              <Route path='/sliders' element={<Sliders />} />
               <Route path='/map' element={<KakaoMap />} />
               <Route path='/recycleMain/:id' element={<MainRecycleDetail />} />
               <Route path='/sumap' element={<VendingDeviceMap />} />
