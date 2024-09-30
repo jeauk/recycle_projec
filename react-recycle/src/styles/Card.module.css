@@ -7,7 +7,8 @@
 }
 
 .card {
-    width: calc(20% + 9.37px);
+    width: calc(20% - 3.6875rem);
+    height: 20.1446rem;
     text-align: center;
     padding: 20px;
     margin: 10px;
@@ -21,13 +22,19 @@
 
 @media (max-width: 1400px) {
     .card {
-        width: calc(50%);
+        width: calc(30%);
+    }
+    .cardContainer {
+        justify-content: space-evenly;
     }
 }
 
 @media (max-width: 768px) {
     .card {
         width: calc(50%);
+    }
+    .cardContainer {
+        justify-content: center;
     }
 }
 
