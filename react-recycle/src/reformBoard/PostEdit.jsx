@@ -19,23 +19,23 @@ const isValidVideoUrl = (url) => {
 };
 
 const PostEdit = () => {
-  const { id } = useParams(); // URL에서 ID 가져오기 (수정 시 사용)
-  const [post, setPost] = useState(null); // 서버에서 받아온 게시물 데이터
+  const { id } = useParams();
+  const [post, setPost] = useState(null);
   const [title, setTitle] = useState("");
-  const [thumbnailUrl, setThumbnailUrl] = useState(''); // 썸네일 URL 상태 추가
+  const [thumbnailUrl, setThumbnailUrl] = useState('');
   const [content, setContent] = useState("");
-  const [imageFile, setImageFile] = useState(null); // 대표 이미지 파일 상태
-  const [imagePreview, setImagePreview] = useState(null); // 이미지 미리보기 URL
+  const [imageFile, setImageFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
   const [videoLink, setVideoLink] = useState("");
-  const [steps, setSteps] = useState([]); // 스텝 데이터 저장
+  const [steps, setSteps] = useState([]);
 
   const myBackDomain = "http://localhost:8080";
   const jwt = sessionStorage.getItem("jwt");
   const navigate = useNavigate();
 
-  // 서버에서 데이터를 불러오는 함수 (게시물 수정 시 사용)
+  // 서버에서 데이터를 불러오는 함수
   const dataget = async () => {
-    if (!id) return; // ID가 없으면 새 게시물 작성이므로 데이터 불러오지 않음
+    if (!id) return;
     try {
       const response = await fetch(`${myBackDomain}/edit/posts/${id}`, {
         method: 'GET',
@@ -52,26 +52,11 @@ const PostEdit = () => {
       setContent(data.post.content);
       setImagePreview(data.post.imagePath);
       setVideoLink(data.post.videoLink);
-      setSteps(data.post.steps || []); // 스텝 데이터가 없을 경우 기본값으로 빈 배열 설정
+      setSteps(data.post.steps || []);
     } catch (error) {
       console.error('Error fetching post data:', error);
     }
   };
-
-  // 컴포넌트가 마운트될 때 데이터를 불러옴
-  useEffect(() => {
-    dataget();
-  }, [id]);
-
-  // videoLink가 변경될 때마다 썸네일 자동 생성
-  useEffect(() => {
-    if (isValidVideoUrl(videoLink)) {
-      const thumbnail = generateThumbnailUrl(videoLink);
-      setThumbnailUrl(thumbnail);
-    } else {
-      setThumbnailUrl(''); // 유효하지 않은 링크일 경우 썸네일 비우기
-    }
-  }, [videoLink]);
 
   // 폼 제출 처리 함수
   const handleSubmit = async (e) => {
@@ -81,25 +66,26 @@ const PostEdit = () => {
     formData.append("title", title);
     formData.append("content", content);
     formData.append("videoLink", videoLink);
-    
-    // 대표 이미지 파일 추가
+
+    // 메인 이미지가 있으면 추가
     if (imageFile) {
       formData.append("imageFile", imageFile);
     }
 
+    // 스텝 정보 추가
     steps.forEach((step, index) => {
       formData.append(`steps[${index}].stepContent`, step.stepContent);
-      
-      // 각 스텝의 이미지 파일 추가
-      if (step.imageFile) {
-        formData.append(`steps[${index}].stepImage`, step.imageFile);
+      if (step.imgFile) {
+        formData.append(`steps[${index}].stepImage`, step.imgFile);
       }
     });
 
     try {
       const response = await fetch(`${myBackDomain}/edit/posts/${id}`, {
         method: 'POST',
-        headers: { 'Authorization': `Bearer ${jwt}` },
+        headers: {
+          'Authorization': `Bearer ${jwt}`
+        },
         body: formData
       });
 
@@ -108,7 +94,7 @@ const PostEdit = () => {
       }
 
       alert(`게시물이 성공적으로 ${id ? '수정' : '작성'}되었습니다.`);
-      navigate(id ? `/post/${id}` : '/list'); // 수정 후 해당 게시물로 이동, 작성 후 목록으로 이동
+      navigate(id ? `/post/${id}` : '/list');
     } catch (error) {
       console.error('게시물 저장 중 오류 발생:', error);
     }
@@ -121,6 +107,33 @@ const PostEdit = () => {
     setSteps(updatedSteps);
   };
 
+  // 스텝 이미지 변경 핸들러
+  const handleStepImageChange = (index, file) => {
+    const updatedSteps = [...steps];
+    updatedSteps[index].imgFile = file; // 이미지 파일을 스텝에 추가
+    updatedSteps[index].imgUrl = URL.createObjectURL(file); // 미리보기 URL 생성
+    setSteps(updatedSteps);
+  };
+
+  // 메인 이미지 변경 핸들러
+  const handleImageChange = (file) => {
+    setImageFile(file);
+    setImagePreview(URL.createObjectURL(file));
+  };
+
+  useEffect(() => {
+    dataget();
+  }, [id]);
+
+  useEffect(() => {
+    if (isValidVideoUrl(videoLink)) {
+      const thumbnail = generateThumbnailUrl(videoLink);
+      setThumbnailUrl(thumbnail);
+    } else {
+      setThumbnailUrl('');
+    }
+  }, [videoLink]);
+
   // 폼 렌더링
   return (
     <form onSubmit={handleSubmit} className={styles.formContainer}>
@@ -130,7 +143,7 @@ const PostEdit = () => {
           <div
             className={styles.imagePlaceholder}
             style={{ width: '500px', height: '300px' }}
-            onClick={() => document.getElementById('imageUploadInput').click()} // 클릭 시 input 필드 클릭 트리거
+            onClick={() => document.getElementById('imageUploadInput').click()}
           >
             {imagePreview ? (
               <img src={imagePreview} alt="미리보기" className={styles.imagePreview} />
@@ -138,27 +151,92 @@ const PostEdit = () => {
               <div>대표 이미지가 없습니다.</div>
             )}
           </div>
-
           <input
             type="file"
             accept="image/*"
             id="imageUploadInput"
-            onChange={(e) => {
-              const file = e.target.files[0];
-              setImageFile(file);
-              setImagePreview(URL.createObjectURL(file));
-            }}
+            onChange={(e) => handleImageChange(e.target.files[0])}
             className={styles.inputField}
             style={{ display: 'none' }}
           />
         </div>
 
-        {/* 나머지 폼 필드와 스텝 이미지 업로드 등 기존 코드와 동일 */}
-        {/* ... */}
+        <div className={styles.inputFields}>
+          <label className={styles.label}>제목</label>
+          <input
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className={styles.inputField}
+          />
 
-        <button type="submit" className={styles.submitButton}>{id ? '수정하기' : '작성하기'}</button>
-        <button type="button" className={styles.cancelButton} onClick={() => navigate('/list')}>취소</button>
+          <label className={styles.label}>내용</label>
+          <textarea
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            className={styles.contentInput}
+          ></textarea>
+        </div>
       </div>
+
+      <div className={styles.videoLinkContainer}>
+        <div className={styles.videoLinkFields}>
+          <label className={styles.label}>동영상 링크 (유튜브 등)</label>
+          <input
+            type="url"
+            value={videoLink}
+            onChange={(e) => setVideoLink(e.target.value)}
+            placeholder="링크가 없을 경우 칸을 비워주세요."
+            className={styles.inputField}
+          />
+        </div>
+        <div className={styles.thumbnailBox}>
+          {thumbnailUrl && (
+            <img src={thumbnailUrl} alt="Video Thumbnail" className={styles.thumbnailImage} />
+          )}
+        </div>
+      </div>
+
+      <div className={styles.stepsContainer}>
+        <h2>Steps</h2>
+        {steps.length > 0 ? (
+          steps.map((step, index) => (
+            <div key={index} className={styles.stepContainer}>
+              <div className={styles.stepContent}>
+                <label className={styles.label}>STEP {index + 1}</label>
+                <textarea
+                  value={step.stepContent}
+                  onChange={(e) => handleStepChange(index, e.target.value)}
+                  className={styles.textareaField}
+                ></textarea>
+              </div>
+              <div
+                className={styles.stepImageUpload}
+                onClick={() => document.getElementById(`stepImageUploadInput${index}`).click()}
+              >
+                {step.imgUrl ? (
+                  <img src={step.imgUrl} alt={`STEP ${index + 1} 미리보기`} className={styles.imagePreview} />
+                ) : (
+                  <div className={styles.imagePlaceholder}>STEP 이미지가 없습니다.</div>
+                )}
+              </div>
+              <input
+                type="file"
+                accept="image/*"
+                id={`stepImageUploadInput${index}`}
+                onChange={(e) => handleStepImageChange(index, e.target.files[0])}
+                className={styles.inputField}
+                style={{ display: 'none' }}
+              />
+            </div>
+          ))
+        ) : (
+          <p>스텝 정보가 없습니다.</p>
+        )}
+      </div>
+
+      <button type="submit" className={styles.submitButton}>{id ? '수정하기' : '작성하기'}</button>
+      <button type="button" className={styles.cancelButton} onClick={() => navigate('/list')}>취소</button>
     </form>
   );
 };
