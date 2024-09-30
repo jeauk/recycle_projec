@@ -1,13 +1,14 @@
 /* src/styles/Card.module.css */
 .cardContainer {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     padding: 100px 50px;
-    flex-wrap: nowrap; /* 카드가 한 줄에 다 들어가도록 강제 */
 }
 
 .card {
-    width: 22%; /* 카드가 한 줄에 4개 들어가도록 크기를 22%로 설정 */
+    width: calc(20% - 3.6875rem);
+    height: 20.1446rem;
     text-align: center;
     padding: 20px;
     margin: 10px;
@@ -17,6 +18,24 @@
     border: 1px solid #ccc;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 1400px) {
+    .card {
+        width: calc(30%);
+    }
+    .cardContainer {
+        justify-content: space-evenly;
+    }
+}
+
+@media (max-width: 768px) {
+    .card {
+        width: calc(50%);
+    }
+    .cardContainer {
+        justify-content: center;
+    }
 }
 
 .card:hover {
@@ -41,7 +60,7 @@
 }
 
 .title {
-    font-size: 1.5em;
+    font-size: 1.443em;
     color: #333;
     margin-bottom: 10px;
     transition: color 0.3s ease; /* 색상이 바뀌는 효과 */

@@ -17,6 +17,7 @@
 /* 전체 컨테이너를 가로로 배치하고 중앙에 모이게 설정 */
 .container {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center; /* 박스들이 중앙으로 모이게 설정 */
     align-items: center;
     gap: 15px; /* 박스 간격을 좁힘 */
@@ -34,10 +35,23 @@
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
-    width: 220px; /* 박스 너비를 더 줄임 */
+    width: calc((100% / 5) - 84px); /* 박스 너비를 더 줄임 */
+    min-width: 220px;
     height: 140px; /* 박스 높이를 줄임 */
     margin: 0 5px; /* 박스 사이의 마진을 더 줄임 */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+@media (max-width: 1400px) {
+    .box {
+        width: calc(33% - 3rem);
+    }
+}
+
+@media (max-width: 768px) {
+    .box {
+        width: calc(50% - 3rem);
+    }
 }
 
 /* 박스에 호버 시 효과 */

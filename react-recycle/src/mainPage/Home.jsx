@@ -4,18 +4,20 @@ import Card from "./Card";
 import Quiz from "./Quiz";
 import TopFiveList from "./TopFiveList";
 import Carvon from "./Carvon";
-
+import style from "../styles/Home.module.css";
 
 const Home = () => {
 
     return (
-        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%'}}>
-            <div className="home" style={{ width: '82%' }}>
+        <div className={style.home1}>
+            <div className={style.t}>
                 <TopContents />
+            </div>
+            <div className={style.c}>
                 <Card />
             </div>
 
-            <div>
+            <div className={style.qtc}>
                 <Quiz />
                 <TopFiveList />
                 <Carvon />
