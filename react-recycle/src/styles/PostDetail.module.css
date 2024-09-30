@@ -132,3 +132,24 @@ iframe {
   color: #666;
   line-height: 1.5;
 }
+
+.button {
+  font-size: 1rem;
+  border: 1px solid #98c76a;
+  border-radius: 10px;
+  padding: 10px 20px;
+  background-color: white;
+}
+
+.button:hover {
+  background-color: #98c76a;
+  color: white;
+}
+
+.button:nth-child(1) {
+  margin-right: 20px;
+}
+
+.editele {
+  margin-top: 20px;
+}
