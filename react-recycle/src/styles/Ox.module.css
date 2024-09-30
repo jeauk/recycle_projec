@@ -89,6 +89,10 @@
   font-size: 2rem;
 }
 
+.obtn:hover, .xbtn:hover {
+  background-color: rgba(153, 199, 106, 0.6);
+}
+
 .nbtn {
   width: 75px;
   height: 50px;
@@ -97,6 +101,11 @@
   border-radius: 10px;
   font-size: 1.1rem;
   font-weight: bold;
+}
+
+.nbtn:hover {
+  color: white;
+  background-color: #98c76a;
 }
 
 .question {
