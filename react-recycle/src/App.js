@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import Nav from "./components/Nav";
 import Home from "./mainPage/Home";
 import KakaoMap from "./vendingDevice/KakaoMap";
@@ -27,19 +27,18 @@ import CarvonMethod from "./carvon/CarvonMethod";
 import FreeBulletinBoardPost from "./freeBoard/FreeBulletinBoardPost";
 import ScrollToTop from "./components/ScrollToTop";
 import Slider from "react-slick";
-import Sliders from "./mainPage/Sliders";
 
 function A() {
   const settings = {
-    dots: true,  // 하단에 점(dot) 네비게이션 표시
-    infinite: true,  // 슬라이더가 무한 반복되도록 설정
-    speed: 500,  // 슬라이더 전환 속도
-    slidesToShow: 2.5,  // 한 번에 2.5개의 슬라이드를 보여줌
-    slidesToScroll: 1,  // 한 번에 넘어가는 슬라이드 수
-    autoplay: true,  // 자동 재생
-    autoplaySpeed: 6000,  // 6초마다 자동 슬라이드
-    arrows: true,  // 좌우 화살표를 통한 슬라이드 제어
-};
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 2.5,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 6000,
+    arrows: true,
+  };
 
   return (
     <Slider {...settings}>
@@ -52,6 +51,7 @@ function A() {
     </Slider>
   )
 }
+
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -69,12 +69,17 @@ function App() {
     setIsLoggedIn(true); // 로그인 상태를 true로 변경
   };
 
+  const handleLogout = () => {
+    sessionStorage.removeItem("jwt");
+    setIsLoggedIn(false); // 로그인 상태를 false로 변경
+  };
+
   return (
     <div className="App">
       <div className={styles.appContainer}>
         <BrowserRouter>
-          <ScrollToTop />{/* 이동하면 스크롤 맨 위로 올라가게 해주는거 */}
-          <Nav />
+          <ScrollToTop />
+          <Nav isLoggedIn={isLoggedIn} onLogout={handleLogout} /> {/* 로그인 상태를 Nav에 전달 */}
           <Routes>
             <Route path="/sido" element={<Sido />} />
           </Routes>
@@ -82,7 +87,6 @@ function App() {
             <Routes>
               <Route index element={<Home />} />
               <Route path='/a' element={<A />} />
-              <Route path='/sliders' element={<Sliders />} />
               <Route path='/map' element={<KakaoMap />} />
               <Route path='/recycleMain/:id' element={<MainRecycleDetail />} />
               <Route path='/sumap' element={<VendingDeviceMap />} />
@@ -91,10 +95,11 @@ function App() {
               <Route path="/post" element={<PostForm />} />
               <Route path="/post/:id" element={<PostDetail />} />
               <Route path="/edit/:id" element={<PostEdit />} />
-              <Route path="/mypage" element={<Mypage />} />
               <Route path="/contact" element={<Contact />} />
-              <Route path="/mypage/mylist" element={<MyList />} />
-              <Route path="/mypage/myrecommend" element={<MyRecommend />} />
+              <Route path="/mypage" element={<Mypage />} />
+              <Route path="/mypage/mylist" element={isLoggedIn ? <MyList /> : <Navigate to="/" />} />
+              <Route path="/mypage/myrecommend" element={isLoggedIn ? <MyRecommend /> : <Navigate to="/" />} />
+
               <Route path="/carvon/companyList" element={<CompanyList />} />
               <Route path="/carvon/drafting" element={<Drafting />} />
               <Route path="/carvon/incentive" element={<Incentive />} />
