@@ -101,7 +101,7 @@ function Nav() {
 
   const onSearch = async () => {
     try {
-      const res = await fetch(myBackDomain+`/mainrecycle?query=${searchItem}`);
+      const res = await fetch(`http://127.0.0.1:8080/mainrecycle?query=${searchItem}`);
       const data = await res.json();
       console.log(data);
       setSearchResult(data);
@@ -157,7 +157,7 @@ function Nav() {
         setIsLoggedIn(true);
       }
 
-      const url = myBackDomain+'/user/profile';
+      const url = 'http://localhost:8080/user/profile';
       const response = await fetch(url, {
         method: 'GET',
         headers: {

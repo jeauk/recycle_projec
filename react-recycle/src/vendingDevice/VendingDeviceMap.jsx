@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { Map,  } from "react-kakao-maps-sdk";
 import VendingDeviceMenu from "./VendingDeviceMenu";
 import VendingDeviceMarker from "./VendingDeviceMarker";
+import m from '../styles/VendingDevice.module.css';
 const VendingDeviceMap = () => {
 	const [locations, setLocations] = useState([]);
 	const [searchHistory, setSearchHistory] = useState([]);
@@ -9,13 +10,13 @@ const VendingDeviceMap = () => {
 	const [level, setLevel] = useState(12);
 	const [loading, setLoading] = useState(false);
 
-	const MBD = "http://trashformer.site:8080";
+	const myBackDomain = "http://trashformer.site:8080";
 
 	useEffect(() => {
-		const myBackDomain = async () => {
+		const backDomainFetch = async () => {
 			setLoading(true); // 로딩 시작
 			try {
-				const res = await fetch(MBD+`/dataload`);
+				const res = await fetch(myBackDomain + "/dataload");
 				const data = await res.json();
 
 				console.log(data);  // 데이터 확인을 위한 로그
@@ -26,7 +27,7 @@ const VendingDeviceMap = () => {
 				setLoading(false); //로딩 끝
 			}
 		};
-		myBackDomain();
+		backDomainFetch();
 
 		navigator.geolocation.getCurrentPosition(
 			(position) => {

@@ -19,7 +19,7 @@ const MainRecycleSearch = () => {
 
   const onSearch = async () => {
       try {
-        const res = await fetch(myBackDomain+`/mainrecycle?query=${searchItem}`,{});
+        const res = await fetch(myBackDomain + `/mainrecycle?query=${searchItem}`,{});
         const data = await res.json();
         console.log(data);
         setSearchResult(data);

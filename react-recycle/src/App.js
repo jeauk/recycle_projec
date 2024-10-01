@@ -24,33 +24,8 @@ import Drafting from "./carvon/Drafting";
 import Incentive from "./carvon/Incentive";
 import OX from "./oxQuiz/OX";
 import CarvonMethod from "./carvon/CarvonMethod";
-import FreeBulletinBoardPost from "./freeBoard/FreeBulletinBoardPost";
 import ScrollToTop from "./components/ScrollToTop";
-import Slider from "react-slick";
-
-function A() {
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 2.5,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 6000,
-    arrows: true,
-  };
-
-  return (
-    <Slider {...settings}>
-      <div>
-          <h1>Test1</h1>
-      </div>
-      <div>
-          <h1>Test2</h1>
-      </div>
-    </Slider>
-  )
-}
+import Sliders from "./mainPage/Sliders";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -86,7 +61,7 @@ function App() {
           <div className={styles.mainContent}>
             <Routes>
               <Route index element={<Home />} />
-              <Route path='/a' element={<A />} />
+              <Route path='/sliders' element={<Sliders />} />
               <Route path='/map' element={<KakaoMap />} />
               <Route path='/recycleMain/:id' element={<MainRecycleDetail />} />
               <Route path='/sumap' element={<VendingDeviceMap />} />
@@ -105,8 +80,11 @@ function App() {
               <Route path="/carvon/incentive" element={<Incentive />} />
               <Route path="/carvon/carvonMethod" element={<CarvonMethod />} />
               <Route path="/mainRecycleDetail" element={<MainRecycleDetail />} />
-              <Route path="/freeBulletinBoard/post" element={<FreeBulletinBoardPost /> } />
               <Route path="/oxquiz" element={<OX />} />
+              {/* <Route path="/QuillFreeBoard" element={<QuillFreeBoard />} />
+              <Route path="/freeBulletinBoard/post" element={<FreeBulletinBoardPost />} />
+              <Route path="/QuillFreeBoard/Post/:id" element={<QuillFreeBoardPost />} />
+              <Route path="/QuillFreeBoard/Create" element={<QuillFreeBoardImage />} /> */}
               <Route
                 path="/login/oauth2/callback/kakao"
                 element={<LoginHandeler onLogin={handleLogin} />}

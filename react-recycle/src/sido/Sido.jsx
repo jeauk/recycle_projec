@@ -77,7 +77,7 @@ function Sido() {
   useEffect(() => {
     const fetchRegion = async () => {
       try {
-        const response = await fetch(myBackDomain+`/sido/submit/${id}`);
+        const response = await fetch(myBackDomain + `/sido/submit/${id}`);
         if (!response.ok) {
           throw new Error("데이터를 받는데 실패했습니다.");
         }

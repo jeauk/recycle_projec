@@ -25,9 +25,6 @@ const LoginHandler = ({onLogin}) => {
 
           const jwt = sessionStorage.getItem("jwt");
 
-          console.log(myBackDomain);
-          
-
           const res2 = await fetch(myBackDomain+'/parseJwt', {
             method: 'POST',
             headers: {
