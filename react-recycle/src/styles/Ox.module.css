@@ -90,7 +90,7 @@
 }
 
 .obtn:hover, .xbtn:hover {
-  background-color: rgba(153, 199, 106, 0.6);
+  background-color: rgba(153, 199, 106, 0.3);
 }
 
 .nbtn {
