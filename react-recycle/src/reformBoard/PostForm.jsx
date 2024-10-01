@@ -209,10 +209,10 @@ const PostForm = () => {
     <>
       {isCropping && (
         <div style={{'position': 'absolute',
-          'z-index': 1000,
+          'zIndex': 1000,
           'height': '80vh',
           'width': '80vw',
-          'background-color': '#00000077',
+          'backgroundColor': '#00000077',
           'top': 0,
           'zIndex': 10000}}>
           <div style={{
@@ -335,10 +335,10 @@ const PostForm = () => {
 
   {isStepCropping[index] && (
   <div style={{'position': 'absolute',
-    'z-index': 1000,
+    'zIndex': 1000,
     'height': '80vh',
     'width': '80vw',
-    'background-color': '#00000077',
+    'backgroundColor': '#00000077',
     'top': '80vh',
     'zIndex': 10000}}>
     <div style={{
