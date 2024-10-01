@@ -1,5 +1,6 @@
 
 import TopContents from "./TopContents";
+import Sliders from "./Sliders";
 import Card from "./Card";
 import Quiz from "./Quiz";
 import TopFiveList from "./TopFiveList";
@@ -11,7 +12,8 @@ const Home = () => {
     return (
         <div className={style.home1}>
             <div className={style.t}>
-                <TopContents />
+                {/* <TopContents /> */}
+                <Sliders />
             </div>
             <div className={style.c}>
                 <Card />
