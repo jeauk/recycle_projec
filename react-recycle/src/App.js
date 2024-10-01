@@ -81,10 +81,6 @@ function App() {
               <Route path="/carvon/carvonMethod" element={<CarvonMethod />} />
               <Route path="/mainRecycleDetail" element={<MainRecycleDetail />} />
               <Route path="/oxquiz" element={<OX />} />
-              {/* <Route path="/QuillFreeBoard" element={<QuillFreeBoard />} />
-              <Route path="/freeBulletinBoard/post" element={<FreeBulletinBoardPost />} />
-              <Route path="/QuillFreeBoard/Post/:id" element={<QuillFreeBoardPost />} />
-              <Route path="/QuillFreeBoard/Create" element={<QuillFreeBoardImage />} /> */}
               <Route
                 path="/login/oauth2/callback/kakao"
                 element={<LoginHandeler onLogin={handleLogin} />}
