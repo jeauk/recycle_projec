@@ -26,35 +26,9 @@ import Incentive from "./carvon/Incentive";
 import OX from "./oxQuiz/OX";
 import Participate from "./carvon/Participate";
 import CarvonMethod from "./carvon/CarvonMethod";
-import FreeBoardPost from "./freeBoard/FreeBulletinBoardPost";
-import FreeBulletinBoardPost from "./freeBoard/FreeBulletinBoardPost";
 import ScrollToTop from "./components/ScrollToTop";
-import Slider from "react-slick";
 import Sliders from "./mainPage/Sliders";
 
-function A() {
-  const settings = {
-    dots: true,  // 하단에 점(dot) 네비게이션 표시
-    infinite: true,  // 슬라이더가 무한 반복되도록 설정
-    speed: 500,  // 슬라이더 전환 속도
-    slidesToShow: 2.5,  // 한 번에 2.5개의 슬라이드를 보여줌
-    slidesToScroll: 1,  // 한 번에 넘어가는 슬라이드 수
-    autoplay: true,  // 자동 재생
-    autoplaySpeed: 6000,  // 6초마다 자동 슬라이드
-    arrows: true,  // 좌우 화살표를 통한 슬라이드 제어
-};
-
-  return (
-    <Slider {...settings}>
-      <div>
-          <h1>Test1</h1>
-      </div>
-      <div>
-          <h1>Test2</h1>
-      </div>
-    </Slider>
-  )
-}
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -84,7 +58,6 @@ function App() {
           <div className={styles.mainContent}>
             <Routes>
               <Route index element={<Home />} />
-              <Route path='/a' element={<A />} />
               <Route path='/sliders' element={<Sliders />} />
               <Route path='/map' element={<KakaoMap />} />
               <Route path='/recycleMain/:id' element={<MainRecycleDetail />} />
@@ -103,7 +76,6 @@ function App() {
               <Route path="/carvon/incentive" element={<Incentive />} />
               <Route path="/carvon/carvonMethod" element={<CarvonMethod />} />
               <Route path="/mainRecycleDetail" element={<MainRecycleDetail />} />
-              <Route path="/freeBulletinBoard/post" element={<FreeBulletinBoardPost /> } />
               <Route path="/oxquiz" element={<OX />} />
               <Route
                 path="/login/oauth2/callback/kakao"
