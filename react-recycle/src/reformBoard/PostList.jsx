@@ -103,7 +103,7 @@ const PostList = () => {
                     {post.title}
                   </div>
                 </Typography>
-                <Typography variant="body2" className={styles.typographyBody}>
+                <Typography variant="body2" className={styles.typographyBody} component="div">
                   <div className={styles.imgContainer}>
                     <Avatar alt="Remy Sharp" src={post.authorImg} sx={{ width: 24, height: 24 }} />
                     <div className={styles.postListAuthorName}>
