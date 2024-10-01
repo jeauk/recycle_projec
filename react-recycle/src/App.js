@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import Nav from "./components/Nav";
 import Home from "./mainPage/Home";
 import KakaoMap from "./vendingDevice/KakaoMap";
@@ -10,7 +10,6 @@ import PostEdit from "./reformBoard/PostEdit";
 import Footer from "./components/Footer";
 import styles from './App.module.css';
 import MainRecycleDetail from './mainRecycle/MainRecycleDetail';
-import MainRecycleSearch from './mainRecycle/MainRecycleSearch';
 import LoginHandeler from './myPage/LoginHandeler';
 import Mypage from './myPage/MyPage';
 import Sido from './sido/Sido';
@@ -24,7 +23,6 @@ import CompanyList from "./carvon/CompanyList";
 import Drafting from "./carvon/Drafting";
 import Incentive from "./carvon/Incentive";
 import OX from "./oxQuiz/OX";
-import Participate from "./carvon/Participate";
 import CarvonMethod from "./carvon/CarvonMethod";
 import ScrollToTop from "./components/ScrollToTop";
 import Sliders from "./mainPage/Sliders";
@@ -46,12 +44,17 @@ function App() {
     setIsLoggedIn(true); // 로그인 상태를 true로 변경
   };
 
+  const handleLogout = () => {
+    sessionStorage.removeItem("jwt");
+    setIsLoggedIn(false); // 로그인 상태를 false로 변경
+  };
+
   return (
     <div className="App">
       <div className={styles.appContainer}>
         <BrowserRouter>
-          <ScrollToTop />{/* 이동하면 스크롤 맨 위로 올라가게 해주는거 */}
-          <Nav />
+          <ScrollToTop />
+          <Nav isLoggedIn={isLoggedIn} onLogout={handleLogout} /> {/* 로그인 상태를 Nav에 전달 */}
           <Routes>
             <Route path="/sido" element={<Sido />} />
           </Routes>
@@ -67,10 +70,11 @@ function App() {
               <Route path="/post" element={<PostForm />} />
               <Route path="/post/:id" element={<PostDetail />} />
               <Route path="/edit/:id" element={<PostEdit />} />
-              <Route path="/mypage" element={<Mypage />} />
               <Route path="/contact" element={<Contact />} />
-              <Route path="/mypage/mylist" element={<MyList />} />
-              <Route path="/mypage/myrecommend" element={<MyRecommend />} />
+              <Route path="/mypage" element={<Mypage />} />
+              <Route path="/mypage/mylist" element={isLoggedIn ? <MyList /> : <Navigate to="/" />} />
+              <Route path="/mypage/myrecommend" element={isLoggedIn ? <MyRecommend /> : <Navigate to="/" />} />
+
               <Route path="/carvon/companyList" element={<CompanyList />} />
               <Route path="/carvon/drafting" element={<Drafting />} />
               <Route path="/carvon/incentive" element={<Incentive />} />

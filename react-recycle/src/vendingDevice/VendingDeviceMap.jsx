@@ -9,7 +9,9 @@ const VendingDeviceMap = () => {
 	const [center, setCenter] = useState({ lat: 36.483509090944544, lng: 127.71692262315658});
 	const [level, setLevel] = useState(12);
 	const [loading, setLoading] = useState(false);
-	const myBackDomain = "http://127.0.0.1:8080"
+
+	const myBackDomain = "http://trashformer.site:8080";
+
 	useEffect(() => {
 		const backDomainFetch = async () => {
 			setLoading(true); // 로딩 시작
