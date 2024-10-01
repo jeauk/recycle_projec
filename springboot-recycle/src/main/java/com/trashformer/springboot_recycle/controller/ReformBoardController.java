@@ -62,7 +62,7 @@ public class ReformBoardController {
     private StepFormRepository stepFormRepository;
 
     // Base URL for accessing images
-    private final String BASE_URL = "http://trashformer.site:8080/image/";
+    private final String BASE_URL = "http://localhost:8080/image/";
 
     // 이미지 파일이 저장될 기본 디렉토리 경로
     private final String UPLOAD_DIR = "src/main/resources/static/uploads/reformBoard/";
@@ -355,6 +355,7 @@ public ResponseEntity<String> editPost(
     // 제목과 내용 업데이트
     post.setTitle(editDto.getTitle());
     post.setContent(editDto.getContent());
+    post.setVideoLink(editDto.getVideoLink());
 
     // 메인 이미지 업데이트
     MultipartFile imageFile = editDto.getImageFile();

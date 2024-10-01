@@ -177,7 +177,7 @@ function PostDetail() {
         추천 {recommendCount}
       </button>
       {isAuthor && (
-        <div>
+        <div className={styles.editele}>
           <button className={styles.button} onClick={handleEdit}>수정</button>
           <button className={styles.button} onClick={handleDelete}>삭제</button>
         </div>

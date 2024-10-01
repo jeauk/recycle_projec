@@ -6,7 +6,6 @@
     text-align: center;
     width: 100%;
     height: auto; /* 높이 자동 조정 */
-    align-items: flex-start; /* 왼쪽 정렬 */
     padding: 20px 0;
     margin-top: 1rem;
 }
@@ -16,6 +15,12 @@
     display: flex;
     width: 100%; /* 가로 폭을 100%로 설정 */
     line-height: 1.5; /* 원하는 값으로 조정 */
+}
+
+@media (max-width: 768px) {
+    .footerMenu {
+        display: none;
+    }
 }
 
 .copyrightContainer {
