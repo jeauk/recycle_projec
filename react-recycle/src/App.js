@@ -74,7 +74,6 @@ function App() {
               <Route path="/mypage" element={<Mypage />} />
               <Route path="/mypage/mylist" element={isLoggedIn ? <MyList /> : <Navigate to="/" />} />
               <Route path="/mypage/myrecommend" element={isLoggedIn ? <MyRecommend /> : <Navigate to="/" />} />
-
               <Route path="/carvon/companyList" element={<CompanyList />} />
               <Route path="/carvon/drafting" element={<Drafting />} />
               <Route path="/carvon/incentive" element={<Incentive />} />
