@@ -12,7 +12,7 @@ function Sido() {
   const [region, setRegion] = useState({});
   const [id, setId] = useState(null); // State to store the ID
 
-  const myBackDomain = "http://trashformer.site:8080"
+  const myBackDomain = "http://localhost:8080"
 	const myFrontDomain = "http://localhost:3000"
 
   const gungoo = {

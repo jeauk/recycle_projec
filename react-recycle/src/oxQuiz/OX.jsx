@@ -14,7 +14,7 @@ const OX = () => {
   const [quizData, setQuizData] = useState([]); // 퀴즈 데이터
   const [explanation, setExplanation] = useState(''); // 오답 설명
   const [showNext, setShowNext] = useState(false); // '다음' 버튼 표시 여부
-  const myBackDomain = "http://trashformer.site:8080";
+  const myBackDomain = "http://localhost:8080";
 
   // 로컬 스토리지 초기화 (처음 페이지 로드될 때)
   useEffect(() => {
