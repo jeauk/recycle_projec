@@ -9,7 +9,7 @@ const MainRecycleDetail = () => {
     useEffect(() => {
         const fetchItem = async () => {
             try {
-                const res = await fetch(`http://127.0.0.1:8080/mainrecycle/${id}`);
+                const res = await fetch(`http://trashformer.site:8080/mainrecycle/${id}`);
                 const data = await res.json();
                 console.log(data)
                 setItem(data);
@@ -23,7 +23,7 @@ const MainRecycleDetail = () => {
     if(!item) return <p>Loading...</p>;
     return (
         <div className={styles.container}>
-            <img src={myBackDomain+item.imgUrl} alt="item image" className={styles.image} />
+            <img src={myBackDomain+item.imgUrl} alt="item" className={styles.image} />
             <div className={styles.content}>
                 <h1 className={styles.title}>{item.mrName}</h1>
                 <hr></hr>
