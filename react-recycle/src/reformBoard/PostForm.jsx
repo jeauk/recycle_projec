@@ -268,7 +268,7 @@ const PostForm = () => {
             <input
               type="text"
               value={title}
-              placeholder="제목을 입력하세요"
+              placeh  lder="제목을 입력하세요"
               onChange={(e) => setTitle(e.target.value)}
               required
               className={styles.inputField}
