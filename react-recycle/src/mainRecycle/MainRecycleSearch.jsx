@@ -6,7 +6,7 @@ const MainRecycleSearch = () => {
   const [searchResult, setSearchResult] = useState([]); //검색 결과를 저장
   const [isSearching, setIsSearching] = useState(false);
 
-  const myBackDomain = "http://localhost:8080";
+  const myBackDomain = "http://trashformer.site:8080";
 
   const onChange = (e) => { // 입력한 단어를 검색할 단어로 바꿔주는 함수
     setSearchItem(e.target.value);
