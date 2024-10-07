@@ -8,7 +8,7 @@ const ReMap = () => {
 	const [searchHistory, setSearchHistory] = useState([]);
 	const [center, setCenter] = useState(null);
 	const [activeTab, setActiveTab] = useState("gwill");
-	const myBackDomain = "http://trashformer.site:8080";
+	const myBackDomain = "https://trashformer.site";
 
 	useEffect(() => {
 		const fetchLocations = async () => {
@@ -24,7 +24,6 @@ const ReMap = () => {
 					...bmarketData.map(loc => ({ ...loc, type: "bmarket" }))
 				];
 
-				console.log(combinedData);  // 데이터 확인을 위한 로그
 				setLocations(combinedData);
 			} catch (error) {
 				console.error("Failed to fetch locations", error);

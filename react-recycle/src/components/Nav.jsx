@@ -78,7 +78,7 @@ const ResultItem = styled('li')(({ theme }) => ({
 }));
 
 function Nav() {
-  const myBackDomain = "http://trashformer.site:8080";
+  const myBackDomain = "https://trashformer.site";
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [profileImageUrl, setProfileImageUrl] = useState('');
@@ -101,7 +101,7 @@ function Nav() {
 
   const onSearch = async () => {
     try {
-      const res = await fetch(`http://trashformer.site:8080/mainrecycle?query=${searchItem}`);
+      const res = await fetch(`https://trashformer.site/mainrecycle?query=${searchItem}`);
       const data = await res.json();
       setSearchResult(data);
       const searchFilter = data.filter((item) =>
@@ -156,7 +156,7 @@ function Nav() {
         setIsLoggedIn(true);
       }
 
-      const url = 'http://trashformer.site:8080/user/profile';
+      const url = 'https://trashformer.site/user/profile';
       const response = await fetch(url, {
         method: 'GET',
         headers: {
