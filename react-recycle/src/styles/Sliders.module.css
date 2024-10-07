@@ -1,8 +1,7 @@
-.mainslider{
+.mainslider {
   width: 100%;
   overflow: hidden;
   margin-top: 8%;
-  border: 1px solid black;
 }
 
 .swiperContainer {
@@ -36,8 +35,11 @@
   text-align: center;
 }
 
-.sliderCenter > img {
+.sliderCenter>img {
   width: 1250px;
   height: 500px;
   object-fit: cover; /* 이미지가 비율에 맞게 잘리도록 설정 */
+  max-width: 100%; /* 이미지의 너비를 슬라이드의 너비에 맞춤 */
+  max-height: 100%; /* 이미지의 높이를 슬라이드의 높이에 맞춤 */
+  display: block; /* 이미지가 블록 요소로 설정되어 중간 정렬 */
 }
