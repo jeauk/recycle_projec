@@ -24,7 +24,6 @@ const ReMap = () => {
 					...bmarketData.map(loc => ({ ...loc, type: "bmarket" }))
 				];
 
-				console.log(combinedData);  // 데이터 확인을 위한 로그
 				setLocations(combinedData);
 			} catch (error) {
 				console.error("Failed to fetch locations", error);

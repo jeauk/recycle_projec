@@ -11,7 +11,6 @@ const MainRecycleDetail = () => {
             try {
                 const res = await fetch(`http://127.0.0.1:8080/mainrecycle/${id}`);
                 const data = await res.json();
-                console.log(data)
                 setItem(data);
             } catch(error){
                 console.error("서버에 연결하는데 실패했습니다.", error);

@@ -74,17 +74,12 @@ function App() {
               <Route path="/mypage" element={<Mypage />} />
               <Route path="/mypage/mylist" element={isLoggedIn ? <MyList /> : <Navigate to="/" />} />
               <Route path="/mypage/myrecommend" element={isLoggedIn ? <MyRecommend /> : <Navigate to="/" />} />
-
               <Route path="/carvon/companyList" element={<CompanyList />} />
               <Route path="/carvon/drafting" element={<Drafting />} />
               <Route path="/carvon/incentive" element={<Incentive />} />
               <Route path="/carvon/carvonMethod" element={<CarvonMethod />} />
               <Route path="/mainRecycleDetail" element={<MainRecycleDetail />} />
               <Route path="/oxquiz" element={<OX />} />
-              {/* <Route path="/QuillFreeBoard" element={<QuillFreeBoard />} />
-              <Route path="/freeBulletinBoard/post" element={<FreeBulletinBoardPost />} />
-              <Route path="/QuillFreeBoard/Post/:id" element={<QuillFreeBoardPost />} />
-              <Route path="/QuillFreeBoard/Create" element={<QuillFreeBoardImage />} /> */}
               <Route
                 path="/login/oauth2/callback/kakao"
                 element={<LoginHandeler onLogin={handleLogin} />}
