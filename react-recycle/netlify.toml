@@ -4,6 +4,6 @@ to = "/index.html"
 status = 200
 [[redirects]]
   from = "/*"
-  to = "http://trashformer.site/:splat"
+  to = "https://trashformer.site/:splat"
   status = 200
   force = true
