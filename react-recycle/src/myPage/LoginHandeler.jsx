@@ -35,7 +35,6 @@ const LoginHandler = ({onLogin}) => {
           });
 
           const data2 = await res2.json();
-          console.log('서버 응답:', data2);
 
           // 로그인 성공 시 알림 표시
           navigate('/mypage');

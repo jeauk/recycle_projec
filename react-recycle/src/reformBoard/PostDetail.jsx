@@ -48,7 +48,6 @@ function PostDetail() {
       method: 'DELETE',
       headers: { 'Authorization': `Bearer ${jwt}` }
     });
-    console.log('삭제됨');
     navigate(`/`);
   };
 

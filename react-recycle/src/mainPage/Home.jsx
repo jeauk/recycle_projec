@@ -1,5 +1,3 @@
-
-import TopContents from "./TopContents";
 import Sliders from "./Sliders";
 import Card from "./Card";
 import Quiz from "./Quiz";
@@ -12,7 +10,6 @@ const Home = () => {
     return (
         <div className={style.home1}>
             <div className={style.t}>
-                {/* <TopContents /> */}
                 <Sliders />
             </div>
             <div className={style.c}>

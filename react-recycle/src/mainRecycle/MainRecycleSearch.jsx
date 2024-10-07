@@ -21,7 +21,6 @@ const MainRecycleSearch = () => {
       try {
         const res = await fetch(myBackDomain + `/mainrecycle?query=${searchItem}`,{});
         const data = await res.json();
-        console.log(data);
         setSearchResult(data);
       } catch (error) {
         console.error("서버에 연결하는데 실패했습니다.", error);

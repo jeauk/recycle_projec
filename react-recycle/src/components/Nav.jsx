@@ -103,7 +103,6 @@ function Nav() {
     try {
       const res = await fetch(`https://trashformer.site/mainrecycle?query=${searchItem}`);
       const data = await res.json();
-      console.log(data);
       setSearchResult(data);
       const searchFilter = data.filter((item) =>
         item.mrTag?.toLowerCase().includes(searchItem.toLowerCase())
