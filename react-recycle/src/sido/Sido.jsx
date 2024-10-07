@@ -12,7 +12,7 @@ function Sido() {
   const [region, setRegion] = useState({});
   const [id, setId] = useState(null); // State to store the ID
 
-  const myBackDomain = "http://trashformer.site:8080"
+  const myBackDomain = "http://localhost:8080"
 
   const gungoo = {
     강원도: ['강릉시', '고성군', '동해시', '삼척시', '속초시', '양구군', '양양군', '영월군', '원주시', '인제군', '정선군', '철원군', '춘천시', '태백시', '평창군', '홍천군', '화천군', '횡성군'],
