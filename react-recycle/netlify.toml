@@ -1,4 +1,5 @@
 [[redirects]]
 from = "/*"
-to = "/index.html"
+to = "http://trashformer.site:8080/:splat"
 status = 200
+force = true
