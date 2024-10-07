@@ -75,7 +75,7 @@ public ResponseEntity<Resource> showProfileImage(
 public ResponseEntity<Resource> showRecycleMainImage(@PathVariable String filename) throws MalformedURLException {
 
     // 리사이클 메인 이미지가 저장된 디렉토리 경로
-    String recycleMainDir = "src/main/resources/static/images/recycleMain/";
+    String recycleMainDir = "src/main/resources/static/image/recycleMain/";
 
     // 파일 경로를 생성
     File file = new File(recycleMainDir + filename);
