@@ -98,11 +98,11 @@ function PostDetail() {
     if (videoLink.includes("youtu.be")) {
       const links = videoLink.split("/");
       const videoId = links[links.length - 1].split('?')[0];
-      embedUrl = `http://www.youtube.com/embed/${videoId}`;
+      embedUrl = `https://www.youtube.com/embed/${videoId}`;
     } else if (videoLink.includes("youtube.com/watch")) {
       const params = new URLSearchParams(new URL(videoLink).search);
       const videoId = params.get("v");
-      embedUrl = `http://www.youtube.com/embed/${videoId}`;
+      embedUrl = `https://www.youtube.com/embed/${videoId}`;
     } else if (videoLink.includes("tv.naver.com/v/")) {
       const videoId = videoLink.split("/v/")[1];
       embedUrl = `https://tv.naver.com/embed/${videoId}`;
