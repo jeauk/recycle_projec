@@ -62,7 +62,11 @@ public class ReformBoardController {
     private StepFormRepository stepFormRepository;
 
     // Base URL for accessing images
+<<<<<<< HEAD
     private final String BASE_URL = "http://localhost:8080/image/";
+=======
+    private final String BASE_URL = "http://trashformer.site/image/";
+>>>>>>> main
 
     // 이미지 파일이 저장될 기본 디렉토리 경로
     private final String UPLOAD_DIR = "src/main/resources/static/uploads/reformBoard/";

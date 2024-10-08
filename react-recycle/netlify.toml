@@ -2,4 +2,8 @@
 from = "/*"
 to = "http://localhost:8080/:splat"
 status = 200
-force = true
+[[redirects]]
+  from = "/*"
+  to = "https://trashformer.site/:splat"
+  status = 200
+  force = true
