@@ -61,7 +61,7 @@ const TopFiveList = () => {
                 <h2 className={styles.title}>인기 리폼게시글</h2>
                 <p className={styles.more} onClick={clickHandler}>더보기</p>
             </div>
-            <Slider {...settings} style={{display: 'grid', width: '82%', margin:'30px auto'}}>
+            <Slider {...settings} className={styles.topFiveSliders} style={{display: 'grid',}}>
                     {recommendedBoards.map((board) => (
 
                     <div key={board.id} className={styles.slide}>

@@ -10,7 +10,13 @@
     
     padding: 10px;
 }
-
+.topFiveSliders{
+    width: 82%;
+    margin:30px auto;
+}
+.topFiveSliders>div{
+    margin-left: 10px;
+}
 
 .boardImage {
     width: 95%;
