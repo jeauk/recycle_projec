@@ -18,7 +18,6 @@ const VendingDeviceMap = () => {
 			try {
 				const res = await fetch(myBackDomain + "/dataload");
 				const data = await res.json();
-
 				setLocations(data);
 			} catch (error) {
 				console.error("위치 데이터를 가져오는데 실패했습니다", error);
