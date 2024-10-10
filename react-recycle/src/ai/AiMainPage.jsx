@@ -144,6 +144,7 @@ const AiMainPage = () => {
             </div>
           )}
           <p style={{ marginTop: '20px' }}>{result}</p>
+          <button onClick={handleCameraClick} className={styles.btn}>사진 찍기</button>
         </div>
       )}
 
@@ -157,6 +158,7 @@ const AiMainPage = () => {
           </button>
           <p style={{ marginTop: '20px' }}>{result}</p>
           <canvas ref={canvasRef} width={224} height={224} style={{ display: 'none' }}></canvas>
+          <button onClick={handleUploadClick} className={styles.btn}>업로드</button>
         </div>
       )}
     </div>
