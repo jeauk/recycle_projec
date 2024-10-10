@@ -1,8 +1,8 @@
 /* AI 컴포넌트의 메인 컨테이너 스타일 */
 .wrap {
-  width: 60%; /* 너비를 60%로 조정하여 조금 더 크게 만듭니다 */
-  max-width: 800px; /* 최대 너비를 설정하여 너무 커지지 않도록 제한 */
-  margin: 0 auto; /* 중앙 정렬 */
+  width: 60%;
+  max-width: 800px;
+  margin: 0 auto;
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -13,7 +13,7 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%); /* 중앙 고정 */
+  transform: translate(-50%, -50%);
 }
 
 /* 텍스트 스타일 */
@@ -40,4 +40,22 @@
 .custombtn:hover {
   color: white;
   background-color: #98c76a;
+}
+
+/* 모바일 대응 */
+@media (max-width: 768px) {
+  .wrap {
+    width: 100%; /* 모바일에서는 컨테이너가 화면을 꽉 채우도록 */
+    height: 100vh; /* 높이도 화면 전체를 채우게 설정 */
+    border-radius: 0; /* 둥근 테두리 제거 */
+    box-shadow: none; /* 그림자 제거 */
+    justify-content: center; /* 가운데 정렬 */
+  }
+
+  /* 텍스트와 버튼을 모바일에 맞게 조정 */
+  .custombtn {
+    width: 80%;
+    padding: 15px 20px;
+    font-size: 1.2rem;
+  }
 }

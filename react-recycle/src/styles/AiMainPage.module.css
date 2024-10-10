@@ -6,13 +6,13 @@
     align-items: center;
     min-height: 100vh;
     background-color: #f0f4f8;
-    width: 70%; /* 너비를 70%로 조정 */
-    max-width: 1000px; /* 최대 너비 설정 */
+    width: 70%;
+    max-width: 1000px;
     margin: 0 auto;
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%); /* 중앙 고정 */
+    transform: translate(-50%, -50%);
   }
   
   /* 버튼 스타일 */
@@ -33,8 +33,30 @@
   }
   
   h1 {
-    font-size: 2.5rem; /* 헤딩 크기를 조금 더 크게 조정 */
+    font-size: 2.5rem;
     margin-bottom: 30px;
     color: #333;
+  }
+  
+  /* 모바일 대응 */
+  @media (max-width: 768px) {
+    .container {
+      width: 100%;
+      height: 100vh; /* 높이를 화면 전체로 */
+      border-radius: 0;
+      justify-content: center; /* 중앙에 정렬 */
+    }
+  
+    h1 {
+      font-size: 1.8rem; /* 제목 크기 조정 */
+      margin-bottom: 20px;
+    }
+  
+    /* 버튼 크기를 모바일에 맞게 키우기 */
+    .btn {
+      width: 80%;
+      padding: 20px 30px;
+      font-size: 1.2rem;
+    }
   }
   
