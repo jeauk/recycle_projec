@@ -11,10 +11,12 @@ function Imagelearning() {
   const loadModelAndMetadata = async () => {
     try {
       const modelURL = `/model/model.json`; // public 폴더의 절대 경로
+      console.log('Attempting to load model from:', modelURL);
       const loadedModel = await tf.loadGraphModel(modelURL); // 모델 로드
       setModel(loadedModel);
 
       const metadataURL = `/model/metadata.json`; // public 폴더의 절대 경로
+      console.log('Attempting to load metadata from:', metadataURL);
       const metadataResponse = await fetch(metadataURL);
       if (!metadataResponse.ok) {
         throw new Error('Failed to load metadata.json');
