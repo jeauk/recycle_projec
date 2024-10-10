@@ -173,7 +173,7 @@ const AiMainPage = () => {
           <button onClick={switchCamera} className={styles.btn}>
             카메라 전환
           </button>
-          <button onClick={handleUploadClick} className={styles.ChangeBtn}>업로드</button>
+          <button onClick={handleUploadClick} className={styles.changeBtn}>업로드</button>
         </div>
       )}
     </div>
