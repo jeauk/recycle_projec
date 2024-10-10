@@ -23,6 +23,8 @@
     "react-easy-crop": "^5.0.8",
     "react-kakao-maps-sdk": "^1.1.27",
     "react-modal": "^3.16.1",
+    "react-qr-code": "^2.0.15",
+    "react-qr-scanner": "^1.0.0-alpha.11",
     "react-quill": "^2.0.0",
     "react-recycle": "file:",
     "react-router-dom": "^6.26.1",
