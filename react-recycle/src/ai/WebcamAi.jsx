@@ -104,6 +104,7 @@ const WebcamAi = () => {
 
       {/* 웹캠에서 사진 캡처하고 분류하는 버튼 */}
       <div>
+        <div className={styles.button-container}>
         <button onClick={captureAndClassifyImage} className={styles.custombtn}>
           사진 캡처 및 분류
         </button>
@@ -111,6 +112,7 @@ const WebcamAi = () => {
         <button onClick={switchCamera} className={styles.custombtn} style={{ marginLeft: '10px' }}>
           {useFrontCamera ? '후면 카메라로 전환' : '전면 카메라로 전환'}
         </button>
+        </div>
       </div>
 
       {/* 예측 결과 표시 */}
