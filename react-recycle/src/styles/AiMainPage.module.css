@@ -1,5 +1,4 @@
-
-/* 메인 컨테이너 스타일 */
+/* MainPage의 메인 컨테이너 스타일 */
 .container {
     display: flex;
     flex-direction: column;
@@ -7,6 +6,13 @@
     align-items: center;
     min-height: 100vh;
     background-color: #f0f4f8;
+    width: 70%; /* 너비를 70%로 조정 */
+    max-width: 1000px; /* 최대 너비 설정 */
+    margin: 0 auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* 중앙 고정 */
   }
   
   /* 버튼 스타일 */
@@ -27,7 +33,7 @@
   }
   
   h1 {
-    font-size: 2rem;
+    font-size: 2.5rem; /* 헤딩 크기를 조금 더 크게 조정 */
     margin-bottom: 30px;
     color: #333;
   }

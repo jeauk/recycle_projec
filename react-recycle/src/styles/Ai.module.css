@@ -1,21 +1,32 @@
+/* AI 컴포넌트의 메인 컨테이너 스타일 */
 .wrap {
-  width: 50%;
+  width: 60%; /* 너비를 60%로 조정하여 조금 더 크게 만듭니다 */
+  max-width: 800px; /* 최대 너비를 설정하여 너무 커지지 않도록 제한 */
+  margin: 0 auto; /* 중앙 정렬 */
+  padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
   background-color: #f0f0f0;
   border-radius: 10px;
   box-shadow: 5px 4px 8px 0px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* 중앙 고정 */
 }
 
+/* 텍스트 스타일 */
 .selectpic {
   font-weight: bold;
 }
 
+/* 숨겨진 파일 인풋 */
 .fileInput {
   display: none; /* 기본 input 숨기기 */
 }
 
+/* 맞춤형 버튼 스타일 */
 .custombtn {
   display: inline-block;
   background-color: white;
