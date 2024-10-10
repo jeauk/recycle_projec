@@ -11,6 +11,7 @@
 
 /* 버튼 스타일 */
 .btn {
+  display: none;
   background-color: #007BFF;
   color: white;
   border: none;
