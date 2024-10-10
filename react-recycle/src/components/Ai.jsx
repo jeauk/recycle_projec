@@ -40,10 +40,20 @@ const Ai = () => {
     startWebcam(); // 웹캠 시작
   }, []);
 
-  // 웹캠 시작 함수
+  // 모바일인지 확인하는 함수
+  const isMobileDevice = () => {
+    return /Mobi|Android/i.test(navigator.userAgent);
+  };
+
+  // 웹캠 시작 함수 (모바일이면 전면 카메라를 기본으로 사용)
   const startWebcam = async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      const constraints = {
+        video: {
+          facingMode: isMobileDevice() ? 'user' : 'environment', // 모바일이면 'user'로 전면 카메라 설정
+        },
+      };
+      const stream = await navigator.mediaDevices.getUserMedia(constraints);
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
       }
