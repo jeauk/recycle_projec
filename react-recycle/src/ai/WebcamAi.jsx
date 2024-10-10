@@ -102,7 +102,8 @@ const WebcamAi = () => {
     <video ref={videoRef} autoPlay style={{ width: '300px', marginTop: '20px' }} />
   </div>
 
-  {/* 버튼 컨테이너 (그리드 적용) */}
+  <div className={styles.container}> {/* 혹은 다른 올바른 CSS 클래스 */}
+  {/* 버튼 컨테이너 */}
   <div className={styles.button-container}>
     <button onClick={captureAndClassifyImage} className={styles.custombtn}>
       사진 캡처 및 분류
@@ -111,6 +112,7 @@ const WebcamAi = () => {
       {useFrontCamera ? '후면 카메라로 전환' : '전면 카메라로 전환'}
     </button>
   </div>
+</div>
 
   {/* 예측 결과 표시 */}
   <p style={{ marginTop: '20px' }}>{result}</p>
