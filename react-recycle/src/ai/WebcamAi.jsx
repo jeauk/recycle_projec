@@ -1,13 +1,12 @@
+// WebcamAi.js
 import React, { useState, useEffect, useRef } from 'react';
 import * as tf from '@tensorflow/tfjs';
 import styles from '../styles/Ai.module.css'; // CSS 모듈 import
 
-const Ai = () => {
+const WebcamAi = () => {
   const [model, setModel] = useState(null);
   const [labels, setLabels] = useState([]);
-  const [imagePreview, setImagePreview] = useState(null);
   const [result, setResult] = useState('');
-  const [useFrontCamera, setUseFrontCamera] = useState(true); // 전면/후면 카메라 선택 상태
   const videoRef = useRef(null); // 웹캠 비디오 스트림 참조
   const canvasRef = useRef(null); // 캔버스 참조
 
@@ -17,7 +16,6 @@ const Ai = () => {
       const response = await fetch('/path/to/metadata.json');
       const metadata = await response.json();
       setLabels(metadata.labels);  // 메타데이터에서 라벨 가져오기
-      console.log('Labels loaded:', metadata.labels);
     } catch (error) {
       console.error('Error loading metadata', error);
     }
@@ -39,17 +37,12 @@ const Ai = () => {
     loadMetadata();
     loadModel();
     startWebcam(); // 웹캠 시작
-  }, [useFrontCamera]); // useFrontCamera 값이 변경될 때마다 웹캠 다시 시작
+  }, []);
 
-  // 웹캠 시작 함수 (전면/후면 카메라 선택 가능)
+  // 웹캠 시작 함수
   const startWebcam = async () => {
     try {
-      const constraints = {
-        video: {
-          facingMode: useFrontCamera ? 'user' : 'environment', // 전면 또는 후면 카메라 선택
-        },
-      };
-      const stream = await navigator.mediaDevices.getUserMedia(constraints);
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
       }
@@ -86,11 +79,6 @@ const Ai = () => {
     setResult(`선택한 사진의 종류: ${labels[maxIndex]} (${highestProbability}%)`);
   };
 
-  // 카메라 전환 버튼 클릭 시 호출되는 함수
-  const switchCamera = () => {
-    setUseFrontCamera((prev) => !prev); // 전면/후면 카메라 전환
-  };
-
   return (
     <div className={styles.wrap}>
       <h1>웹캠으로 촬영한 사진을 분류합니다</h1>
@@ -105,10 +93,6 @@ const Ai = () => {
         <button onClick={captureAndClassifyImage} className={styles.custombtn}>
           사진 캡처 및 분류
         </button>
-        {/* 카메라 전환 버튼 */}
-        <button onClick={switchCamera} className={styles.custombtn} style={{ marginLeft: '10px' }}>
-          {useFrontCamera ? '후면 카메라로 전환' : '전면 카메라로 전환'}
-        </button>
       </div>
 
       {/* 예측 결과 표시 */}
@@ -120,4 +104,4 @@ const Ai = () => {
   );
 };
 
-export default Ai;
+export default WebcamAi;
