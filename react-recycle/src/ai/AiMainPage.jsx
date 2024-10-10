@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import WebcamAi from './WebcamAi'; // 사진 찍기 컴포넌트
-import styles from '../styles/MainPage.module.css'; // 스타일
+import styles from '../styles/AiMainPage.module.css'; // 스타일
 import UploadAi from './UploadAi';
 
 const AiMainPage = () => {
