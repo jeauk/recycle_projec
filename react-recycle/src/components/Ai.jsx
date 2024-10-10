@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import * as tf from '@tensorflow/tfjs';
-import QrReader from 'react-qr-scanner'; // QR 코드 스캔을 위한 라이브러리 추가
-import QRCode from 'react-qr-code'; // QR 코드 생성을 위한 라이브러리 추가
 import styles from '../styles/Ai.module.css'; // CSS 모듈 import
 
 const Ai = () => {
@@ -9,6 +7,8 @@ const Ai = () => {
   const [labels, setLabels] = useState([]);
   const [imagePreview, setImagePreview] = useState(null);
   const [result, setResult] = useState('');
+  const videoRef = useRef(null); // 웹캠 비디오 스트림 참조
+  const canvasRef = useRef(null); // 캔버스 참조
 
   // metadata.json에서 라벨 정보 가져오기
   const loadMetadata = async () => {
@@ -33,121 +33,74 @@ const Ai = () => {
     }
   };
 
-  // 컴포넌트가 마운트될 때 모델과 메타데이터 로드
+  // 컴포넌트가 마운트될 때 모델과 메타데이터 로드 및 웹캠 시작
   useEffect(() => {
     loadMetadata();
     loadModel();
+    startWebcam(); // 웹캠 시작
   }, []);
 
-  // 이미지 분류 함수
-  const classifyImage = async (event) => {
-    const file = event.target.files[0];
-    if (!file || !model) {
-      alert('사진을 확인하여 다시 업로드 해주세요.');
+  // 웹캠 시작 함수
+  const startWebcam = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+      }
+    } catch (error) {
+      console.error('Error accessing webcam', error);
+    }
+  };
+
+  // 웹캠에서 이미지 캡처하고 분류하기
+  const captureAndClassifyImage = async () => {
+    if (!model || !videoRef.current) {
+      alert('모델을 로드 중입니다. 잠시만 기다려주세요.');
       return;
     }
 
-    // 이미지 미리보기 설정
-    const imageUrl = URL.createObjectURL(file);
-    setImagePreview(imageUrl);
+    const canvas = canvasRef.current;
+    const context = canvas.getContext('2d');
+    context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
 
-    // 이미지 로드 후 분류 시작
-    const image = document.createElement('img');
-    image.src = imageUrl;
-    image.onload = async () => {
-      // 이미지 전처리 (224x224로 크기 조정)
-      const tensor = tf.browser.fromPixels(image)
-        .resizeNearestNeighbor([224, 224]) // 모델에 맞는 크기
-        .toFloat()
-        .expandDims(); // 배치를 추가하여 모델이 기대하는 형태로 변환
+    // 캡처된 이미지 전처리 및 분류
+    const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+    const tensor = tf.browser.fromPixels(imageData)
+      .resizeNearestNeighbor([224, 224]) // 모델에 맞는 크기
+      .toFloat()
+      .expandDims(); // 배치를 추가하여 모델이 기대하는 형태로 변환
 
-      // 모델을 사용하여 예측 수행
-      const predictions = await model.predict(tensor).data();
+    const predictions = await model.predict(tensor).data();
 
-      // 가장 높은 확률의 라벨을 찾기
-      const maxIndex = predictions.indexOf(Math.max(...predictions));
-      const highestProbability = (predictions[maxIndex] * 100).toFixed(2);
+    // 가장 높은 확률의 라벨을 찾기
+    const maxIndex = predictions.indexOf(Math.max(...predictions));
+    const highestProbability = (predictions[maxIndex] * 100).toFixed(2);
 
-      // 결과 출력
-      setResult(`선택한 사진의 종류: ${labels[maxIndex]} (${highestProbability}%)`);
-    };
-  };
-
-  // QR 코드 스캔 후 이미지 URL 처리
-  const handleScan = (data) => {
-    if (data) {
-      classifyImageFromUrl(data); // URL에서 이미지 분류
-    }
-  };
-
-  const handleError = (err) => {
-    console.error(err);
-  };
-
-  // QR 코드에서 URL을 통해 이미지 분류하는 함수
-  const classifyImageFromUrl = async (imageUrl) => {
-    setImagePreview(imageUrl); // QR 코드에서 가져온 이미지 URL 미리보기
-
-    // 이미지 로드 후 분류 시작
-    const image = document.createElement('img');
-    image.src = imageUrl;
-    image.onload = async () => {
-      // 이미지 전처리 (224x224로 크기 조정)
-      const tensor = tf.browser.fromPixels(image)
-        .resizeNearestNeighbor([224, 224]) // 모델에 맞는 크기
-        .toFloat()
-        .expandDims(); // 배치를 추가하여 모델이 기대하는 형태로 변환
-
-      // 모델을 사용하여 예측 수행
-      const predictions = await model.predict(tensor).data();
-
-      // 가장 높은 확률의 라벨을 찾기
-      const maxIndex = predictions.indexOf(Math.max(...predictions));
-      const highestProbability = (predictions[maxIndex] * 100).toFixed(2);
-
-      // 결과 출력
-      setResult(`선택한 사진의 종류: ${labels[maxIndex]} (${highestProbability}%)`);
-    };
+    // 결과 출력
+    setResult(`선택한 사진의 종류: ${labels[maxIndex]} (${highestProbability}%)`);
   };
 
   return (
     <div className={styles.wrap}>
-      <h1>사진을 올려주세요</h1>
+      <h1>웹캠으로 촬영한 사진을 분류합니다</h1>
 
-      {/* QR 코드 스캐너 */}
-      {/* <QrReader
-        onError={handleError}
-        onScan={handleScan}
-        style={{ width: '100%' }}
-      /> */}
-
-       {/* QR 코드 생성 */}
-      {/* <div>
-        <h2>Generate QR Code for Image URL</h2>
-        <QRCode value={imagePreview || 'No image uploaded yet'} />
-      </div> */}
-
-      {/* 파일 업로드 UI */}
+      {/* 웹캠 비디오 스트림 */}
       <div>
-        <input 
-          type="file" 
-          onChange={classifyImage} 
-          accept="image/*" 
-          className={styles.fileInput} 
-          id="file-upload" // id 추가
-        />
-        <label htmlFor="file-upload" className={styles.custombtn}>파일 선택</label>
+        <video ref={videoRef} autoPlay style={{ width: '300px', marginTop: '20px' }} />
       </div>
 
-      {/* 이미지 미리보기 */}
-      {imagePreview && (
-        <div>
-          <img src={imagePreview} alt="Uploaded" style={{ width: '300px', marginTop: '20px' }} />
-        </div>
-      )}
+      {/* 웹캠에서 사진 캡처하고 분류하는 버튼 */}
+      <div>
+        <button onClick={captureAndClassifyImage} className={styles.custombtn}>
+          사진 캡처 및 분류
+        </button>
+      </div>
 
       {/* 예측 결과 표시 */}
       <p style={{ marginTop: '20px' }}>{result}</p>
+
+      {/* 캡처된 이미지를 그리기 위한 캔버스 (화면에 보이지 않음) */}
+      <canvas ref={canvasRef} width={224} height={224} style={{ display: 'none' }}></canvas>
     </div>
   );
 };
