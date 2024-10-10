@@ -108,7 +108,9 @@ const AiMainPage = () => {
   // 모드를 설정하여 업로드 또는 웹캠 기능으로 전환
   const handleUploadClick = () => {
     setMode('upload');
-    fileInputRef.current.click(); // 파일 선택 창을 즉시 열기
+    if (fileInputRef.current) {
+      fileInputRef.current.click(); // 업로드 버튼 클릭 시 파일 선택 창 열기
+    }
   };
 
   const handleCameraClick = () => {
