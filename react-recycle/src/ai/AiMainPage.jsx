@@ -8,6 +8,7 @@ const AiMainPage = () => {
   const [labels, setLabels] = useState([]);
   const [imagePreview, setImagePreview] = useState(null);
   const [result, setResult] = useState('');
+  const [isFrontCamera, setIsFrontCamera] = useState(true); // 전면/후면 카메라 선택 상태
   const videoRef = useRef(null); // 웹캠 비디오 스트림 참조
   const canvasRef = useRef(null); // 캔버스 참조
 
@@ -72,7 +73,12 @@ const AiMainPage = () => {
   // 웹캠 시작 함수
   const startWebcam = async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      const constraints = {
+        video: {
+          facingMode: isFrontCamera ? 'user' : 'environment', // 전면 카메라: 'user', 후면 카메라: 'environment'
+        },
+      };
+      const stream = await navigator.mediaDevices.getUserMedia(constraints);
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
       }
@@ -115,6 +121,12 @@ const AiMainPage = () => {
     startWebcam(); // 카메라 모드일 때 웹캠 시작
   };
 
+  // 카메라 전환 함수
+  const switchCamera = () => {
+    setIsFrontCamera((prev) => !prev); // 전면과 후면 카메라 전환
+    startWebcam(); // 카메라 재시작
+  };
+
   return (
     <div className={styles.container}>
       <h1>이미지를 분류하세요</h1>
@@ -123,7 +135,7 @@ const AiMainPage = () => {
       {!mode && (
         <div className={styles.buttonContainer}>
           <button onClick={handleUploadClick} className={styles.btn}>업로드</button>
-          <button onClick={handleCameraClick} className={styles.btn}>사진 찍기</button>
+          <button onClick={handleCameraClick} className={styles.btn}>카메라</button>
         </div>
       )}
 
@@ -144,7 +156,7 @@ const AiMainPage = () => {
             </div>
           )}
           <p style={{ marginTop: '20px' }}>{result}</p>
-          <button onClick={handleCameraClick} className={styles.btn}>사진 찍기</button>
+          <button onClick={handleCameraClick} className={styles.btn}>카메라</button>
         </div>
       )}
 
@@ -154,10 +166,13 @@ const AiMainPage = () => {
           <h2>웹캠으로 촬영한 사진을 분류합니다</h2>
           <video ref={videoRef} autoPlay style={{ width: '300px', marginTop: '20px' }} />
           <button onClick={captureAndClassifyImage} className={styles.custombtn}>
-            사진 캡처 및 분류
+            캡처
           </button>
           <p style={{ marginTop: '20px' }}>{result}</p>
           <canvas ref={canvasRef} width={224} height={224} style={{ display: 'none' }}></canvas>
+          <button onClick={switchCamera} className={styles.btn}>
+            카메라 전환
+          </button>
           <button onClick={handleUploadClick} className={styles.btn}>업로드</button>
         </div>
       )}

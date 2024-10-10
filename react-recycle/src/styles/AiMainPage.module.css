@@ -4,13 +4,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
   background-color: #f0f4f8;
   width: 70%;
-  max-width: 1000px;
-  margin: 0 auto;
-  position: relative; /* position relative로 변경 */
-  padding: 20px;
 }
 
 /* 버튼 스타일 */
