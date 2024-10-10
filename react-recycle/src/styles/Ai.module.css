@@ -16,7 +16,7 @@
   display: none; /* 기본 input 숨기기 */
 }
 
-.customFileLabel {
+.custombtn {
   display: inline-block;
   background-color: white;
   border: 1px solid #98c76a;

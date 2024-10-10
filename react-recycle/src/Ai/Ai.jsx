@@ -136,7 +136,7 @@ const TrashClassifier = () => {
           className={styles.fileInput} 
           id="file-upload" // id 추가
         />
-        <label htmlFor="file-upload" className={styles.customFileLabel}>파일 선택</label>
+        <label htmlFor="file-upload" className={styles.custombtn}>파일 선택</label>
       </div>
 
       {/* 이미지 미리보기 */}
