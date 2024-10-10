@@ -28,18 +28,28 @@
 
 /* 맞춤형 버튼 스타일 */
 .custombtn {
-  display: inline-block;
   background-color: white;
   border: 1px solid #98c76a;
   padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
   text-align: center;
+  transition: background-color 0.3s ease;
 }
 
 .custombtn:hover {
   color: white;
   background-color: #98c76a;
+}
+
+/* 버튼 컨테이너 (그리드 사용) */
+.button-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* 두 개의 버튼을 나란히 배치 */
+  gap: 20px; /* 버튼 사이의 간격 */
+  justify-content: center;
+  width: 100%;
+  margin-top: 20px;
 }
 
 /* 모바일 대응 */
@@ -52,9 +62,14 @@
     justify-content: center;
   }
 
+  .button-container {
+    grid-template-columns: 1fr; /* 모바일에서는 버튼이 세로로 쌓이도록 변경 */
+    width: 80%; /* 버튼 영역의 너비 조정 */
+  }
+
   /* 버튼 크기를 모바일에 맞게 조정 */
   .custombtn {
-    width: 80%;
+    width: 100%;
     padding: 15px 20px;
     font-size: 1.2rem;
   }
