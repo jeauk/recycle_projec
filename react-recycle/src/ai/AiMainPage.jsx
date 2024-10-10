@@ -10,6 +10,7 @@ const AiMainPage = () => {
   const [result, setResult] = useState('');
   const videoRef = useRef(null); // 웹캠 비디오 스트림 참조
   const canvasRef = useRef(null); // 캔버스 참조
+  const fileInputRef = useRef(null); // 파일 인풋 요소 참조
 
   // metadata.json에서 라벨 정보 가져오기
   const loadMetadata = async () => {
@@ -107,6 +108,7 @@ const AiMainPage = () => {
   // 모드를 설정하여 업로드 또는 웹캠 기능으로 전환
   const handleUploadClick = () => {
     setMode('upload');
+    fileInputRef.current.click(); // 파일 선택 창을 즉시 열기
   };
 
   const handleCameraClick = () => {
@@ -132,13 +134,14 @@ const AiMainPage = () => {
           <h1>사진을 올려주세요</h1>
           <div>
             <input
+              ref={fileInputRef} // 파일 인풋에 ref를 연결
               type="file"
               onChange={classifyImage}
               accept="image/*"
               className={styles.fileInput}
               id="file-upload"
+              style={{ display: 'none' }} // 파일 인풋 숨기기
             />
-            <label htmlFor="file-upload" className={styles.custombtn}>파일 선택</label>
           </div>
 
           {imagePreview && (
