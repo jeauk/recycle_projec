@@ -147,7 +147,7 @@ const AiMainPage = () => {
             type="file"
             onChange={classifyImage}
             accept="image/*"
-            className={styles.fileInput}
+            className={styles.btn}
             id="file-upload"
           />
           {imagePreview && (
@@ -156,7 +156,7 @@ const AiMainPage = () => {
             </div>
           )}
           <p style={{ marginTop: '20px' }}>{result}</p>
-          <button onClick={handleCameraClick} className={styles.btn}>카메라</button>
+          <button onClick={handleCameraClick} className={styles.changeBtn}>카메라</button>
         </div>
       )}
 
@@ -165,7 +165,7 @@ const AiMainPage = () => {
         <div className={styles.wrap}>
           <h2>웹캠으로 촬영한 사진을 분류합니다</h2>
           <video ref={videoRef} autoPlay style={{ width: '300px', marginTop: '20px' }} />
-          <button onClick={captureAndClassifyImage} className={styles.custombtn}>
+          <button onClick={captureAndClassifyImage} className={styles.btn}>
             캡처
           </button>
           <p style={{ marginTop: '20px' }}>{result}</p>
@@ -173,7 +173,7 @@ const AiMainPage = () => {
           <button onClick={switchCamera} className={styles.btn}>
             카메라 전환
           </button>
-          <button onClick={handleUploadClick} className={styles.btn}>업로드</button>
+          <button onClick={handleUploadClick} className={styles.ChangeBtn}>업로드</button>
         </div>
       )}
     </div>
