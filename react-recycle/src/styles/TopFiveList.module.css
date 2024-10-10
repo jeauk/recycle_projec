@@ -10,10 +10,16 @@
     
     padding: 10px;
 }
-
+.topFiveSliders{
+    width: 82%;
+    margin:30px auto;
+}
+.topFiveSliders>div{
+    margin-left: 10px;
+}
 
 .boardImage {
-    width: 100%;
+    width: 95%;
     height: auto;
     max-height: 300px;
     object-fit: cover;
