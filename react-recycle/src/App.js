@@ -26,6 +26,7 @@ import OX from "./oxQuiz/OX";
 import CarvonMethod from "./carvon/CarvonMethod";
 import ScrollToTop from "./components/ScrollToTop";
 import Sliders from "./mainPage/Sliders";
+import Ai from "./Ai/Ai";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -84,6 +85,7 @@ function App() {
                 path="/login/oauth2/callback/kakao"
                 element={<LoginHandeler onLogin={handleLogin} />}
               />
+              <Route path="/ai" element={<Ai/>} />
             </Routes>
           </div>
           <Footer />
