@@ -1,4 +1,3 @@
-// WebcamAi.js
 import React, { useState, useEffect, useRef } from 'react';
 import * as tf from '@tensorflow/tfjs';
 import styles from '../styles/Ai.module.css'; // CSS 모듈 import
@@ -7,6 +6,7 @@ const WebcamAi = () => {
   const [model, setModel] = useState(null);
   const [labels, setLabels] = useState([]);
   const [result, setResult] = useState('');
+  const [useFrontCamera, setUseFrontCamera] = useState(true); // 전면/후면 카메라 선택 상태
   const videoRef = useRef(null); // 웹캠 비디오 스트림 참조
   const canvasRef = useRef(null); // 캔버스 참조
 
@@ -37,12 +37,21 @@ const WebcamAi = () => {
     loadMetadata();
     loadModel();
     startWebcam(); // 웹캠 시작
-  }, []);
+    document.body.style.overflow = 'hidden'; // 모바일에서 스크롤 비활성화
+    return () => {
+      document.body.style.overflow = 'auto'; // 컴포넌트가 사라질 때 스크롤 원상복구
+    };
+  }, [useFrontCamera]);
 
-  // 웹캠 시작 함수
+  // 웹캠 시작 함수 (전면/후면 카메라 선택 가능)
   const startWebcam = async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      const constraints = {
+        video: {
+          facingMode: useFrontCamera ? 'user' : 'environment', // 전면 또는 후면 카메라 선택
+        },
+      };
+      const stream = await navigator.mediaDevices.getUserMedia(constraints);
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
       }
@@ -79,6 +88,11 @@ const WebcamAi = () => {
     setResult(`선택한 사진의 종류: ${labels[maxIndex]} (${highestProbability}%)`);
   };
 
+  // 카메라 전환 버튼 클릭 시 호출되는 함수
+  const switchCamera = () => {
+    setUseFrontCamera((prev) => !prev); // 전면/후면 카메라 전환
+  };
+
   return (
     <div className={styles.wrap}>
       <h1>웹캠으로 촬영한 사진을 분류합니다</h1>
@@ -92,6 +106,10 @@ const WebcamAi = () => {
       <div>
         <button onClick={captureAndClassifyImage} className={styles.custombtn}>
           사진 캡처 및 분류
+        </button>
+        {/* 카메라 전환 버튼 */}
+        <button onClick={switchCamera} className={styles.custombtn} style={{ marginLeft: '10px' }}>
+          {useFrontCamera ? '후면 카메라로 전환' : '전면 카메라로 전환'}
         </button>
       </div>
 

@@ -1,10 +1,9 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import Ai from './Ai'; // 업로드 컴포넌트
 import WebcamAi from './WebcamAi'; // 사진 찍기 컴포넌트
-import styles from '../styles/AiMainPage.module.css'; // 스타일
-import UploadAi from './UploadAi';
+import styles from '../styles/MainPage.module.css'; // 스타일
 
-const AiMainPage = () => {
+const MainPage = () => {
   const [mode, setMode] = useState(null); // 'upload' 또는 'camera'로 모드 설정
 
   // 모드를 설정하여 다른 컴포넌트 보여주기
@@ -15,6 +14,16 @@ const AiMainPage = () => {
   const handleCameraClick = () => {
     setMode('camera');
   };
+
+  useEffect(() => {
+    // 모바일에서 스크롤 비활성화
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      // 컴포넌트가 사라질 때 스크롤 원상복구
+      document.body.style.overflow = 'auto';
+    };
+  }, []);
 
   return (
     <div className={styles.container}>
@@ -29,7 +38,7 @@ const AiMainPage = () => {
       )}
 
       {/* 업로드 모드일 때 Ai 컴포넌트 보여주기 */}
-      {mode === 'upload' && <UploadAi />}
+      {mode === 'upload' && <Ai />}
 
       {/* 사진 찍기 모드일 때 WebcamAi 컴포넌트 보여주기 */}
       {mode === 'camera' && <WebcamAi />}
@@ -37,4 +46,4 @@ const AiMainPage = () => {
   );
 };
 
-export default AiMainPage;
+export default MainPage;
