@@ -10,7 +10,6 @@ const AiMainPage = () => {
   const [result, setResult] = useState('');
   const videoRef = useRef(null); // 웹캠 비디오 스트림 참조
   const canvasRef = useRef(null); // 캔버스 참조
-  const fileInputRef = useRef(null); // 파일 인풋 요소 참조
 
   // metadata.json에서 라벨 정보 가져오기
   const loadMetadata = async () => {
@@ -35,6 +34,7 @@ const AiMainPage = () => {
     }
   };
 
+  // useEffect를 이용하여 모델과 메타데이터를 로드
   useEffect(() => {
     loadMetadata();
     loadModel();
@@ -44,7 +44,7 @@ const AiMainPage = () => {
   const classifyImage = async (event) => {
     const file = event.target.files[0];
     if (!file || !model) {
-      alert('사진을 확인하여 다시 업로드 해주세요.');
+      alert('모델을 로드 중입니다. 잠시만 기다려주세요.');
       return;
     }
 
@@ -53,7 +53,7 @@ const AiMainPage = () => {
     setImagePreview(imageUrl);
 
     // 이미지 로드 후 분류 시작
-    const image = document.createElement('img');
+    const image = new Image();
     image.src = imageUrl;
     image.onload = async () => {
       const tensor = tf.browser.fromPixels(image)
@@ -77,7 +77,7 @@ const AiMainPage = () => {
         videoRef.current.srcObject = stream;
       }
     } catch (error) {
-      console.error('Error accessing webcam', error);
+      console.error('웹캠 접근 중 오류 발생:', error);
     }
   };
 
@@ -108,9 +108,6 @@ const AiMainPage = () => {
   // 모드를 설정하여 업로드 또는 웹캠 기능으로 전환
   const handleUploadClick = () => {
     setMode('upload');
-    if (fileInputRef.current) {
-      fileInputRef.current.click(); // 업로드 버튼 클릭 시 파일 선택 창 열기
-    }
   };
 
   const handleCameraClick = () => {
@@ -133,25 +130,19 @@ const AiMainPage = () => {
       {/* 업로드 모드일 때 */}
       {mode === 'upload' && (
         <div className={styles.wrap}>
-          <h1>사진을 올려주세요</h1>
-          <div>
-            <input
-              ref={fileInputRef} // 파일 인풋에 ref를 연결
-              type="file"
-              onChange={classifyImage}
-              accept="image/*"
-              className={styles.fileInput}
-              id="file-upload"
-              style={{ display: 'none' }} // 파일 인풋 숨기기
-            />
-          </div>
-
+          <h2>사진을 올려주세요</h2>
+          <input
+            type="file"
+            onChange={classifyImage}
+            accept="image/*"
+            className={styles.fileInput}
+            id="file-upload"
+          />
           {imagePreview && (
             <div>
               <img src={imagePreview} alt="Uploaded" style={{ width: '300px', marginTop: '20px' }} />
             </div>
           )}
-
           <p style={{ marginTop: '20px' }}>{result}</p>
         </div>
       )}
@@ -159,20 +150,12 @@ const AiMainPage = () => {
       {/* 사진 찍기 모드일 때 */}
       {mode === 'camera' && (
         <div className={styles.wrap}>
-          <h1>웹캠으로 촬영한 사진을 분류합니다</h1>
-
-          <div>
-            <video ref={videoRef} autoPlay style={{ width: '300px', marginTop: '20px' }} />
-          </div>
-
-          <div>
-            <button onClick={captureAndClassifyImage} className={styles.custombtn}>
-              사진 캡처 및 분류
-            </button>
-          </div>
-
+          <h2>웹캠으로 촬영한 사진을 분류합니다</h2>
+          <video ref={videoRef} autoPlay style={{ width: '300px', marginTop: '20px' }} />
+          <button onClick={captureAndClassifyImage} className={styles.custombtn}>
+            사진 캡처 및 분류
+          </button>
           <p style={{ marginTop: '20px' }}>{result}</p>
-
           <canvas ref={canvasRef} width={224} height={224} style={{ display: 'none' }}></canvas>
         </div>
       )}
