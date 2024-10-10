@@ -10,19 +10,23 @@ function Imagelearning() {
   // 모델과 클래스 이름을 로드하는 함수
   const loadModelAndMetadata = async () => {
     try {
-      const modelURL = `/model/model.json`; // public 폴더의 절대 경로
+      // 모델 URL (외부 URL)
+      const modelURL = 'https://storage.googleapis.com/tm-model/ACcgyD3Fn/model.json'; 
+      const metadataURL = 'https://storage.googleapis.com/tm-model/ACcgyD3Fn/metadata.json';
+
+      // 모델 로드
       console.log('Attempting to load model from:', modelURL);
-      const loadedModel = await tf.loadGraphModel(modelURL); // 모델 로드
+      const loadedModel = await tf.loadGraphModel(modelURL); 
       setModel(loadedModel);
 
-      const metadataURL = `/model/metadata.json`; // public 폴더의 절대 경로
+      // 메타데이터 로드
       console.log('Attempting to load metadata from:', metadataURL);
       const metadataResponse = await fetch(metadataURL);
       if (!metadataResponse.ok) {
         throw new Error('Failed to load metadata.json');
       }
       const metadata = await metadataResponse.json();
-      setClassNames(metadata.labels); // labels 배열에서 클래스 이름 가져오기
+      setClassNames(metadata.labels); // metadata에서 클래스 이름 가져오기
 
       console.log('Model and metadata loaded successfully');
     } catch (error) {
