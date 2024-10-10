@@ -73,9 +73,4 @@
     padding: 15px 20px;
     font-size: 1.2rem;
   }
-
-  /* 카메라 전환 버튼을 모바일에서 보기 쉽게 조정 */
-  .custombtn + .custombtn {
-    margin-top: 10px;
-  }
 }
