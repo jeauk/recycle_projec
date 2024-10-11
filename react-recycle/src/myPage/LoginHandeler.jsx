@@ -4,7 +4,7 @@ import { useEffect } from "react";
 const LoginHandler = ({onLogin}) => {
   const navigate = useNavigate();
   const code = new URL(window.location.href).searchParams.get("code");
-  const myBackDomain = 'http://localhost:8080';
+  const myBackDomain = 'http://trashformer.site';
 
   useEffect(() => {
     const sendCode = async () => {
