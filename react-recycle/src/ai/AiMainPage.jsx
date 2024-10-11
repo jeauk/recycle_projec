@@ -75,7 +75,7 @@ const AiMainPage = () => {
     try {
       const constraints = {
         video: {
-          facingMode: isFrontCamera ? 'user' : 'environment', // 전면 카메라: 'user', 후면 카메라: 'environment'
+          facingMode: 'environment', // 전면 카메라: 'user', 후면 카메라: 'environment'
           width: { ideal: 1280 },
           height: { ideal: 720 } 
         },
