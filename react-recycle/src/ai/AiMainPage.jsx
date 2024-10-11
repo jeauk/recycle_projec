@@ -83,6 +83,7 @@ const AiMainPage = () => {
       const stream = await navigator.mediaDevices.getUserMedia(constraints);
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
+        videoRef.current.setAttribute('playsinline', true);
       }
     } catch (error) {
       console.error('웹캠 접근 중 오류 발생:', error);
