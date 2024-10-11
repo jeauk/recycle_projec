@@ -95,29 +95,29 @@ const WebcamAi = () => {
 
   return (
     <div className={styles.wrap}>
-  <h1>웹캠으로 촬영한 사진을 분류합니다</h1>
+      <h1>웹캠으로 촬영한 사진을 분류합니다</h1>
 
-  {/* 웹캠 비디오 스트림 */}
-  <div>
-    <video ref={videoRef} autoPlay style={{ width: '300px', marginTop: '20px' }} />
-  </div>
+      {/* 웹캠 비디오 스트림 */}
+      <div>
+        <video ref={videoRef} autoPlay style={{ width: '300px', marginTop: '20px' }} />
+      </div>
 
-  {/* 버튼 컨테이너 (그리드 적용) */}
-  <div className={styles.button-container}>
-    <button onClick={captureAndClassifyImage} className={styles.custombtn}>
-      사진 캡처 및 분류
-    </button>
-    <button onClick={switchCamera} className={styles.custombtn}>
-      {useFrontCamera ? '후면 카메라로 전환' : '전면 카메라로 전환'}
-    </button>
-  </div>
+      {/* 버튼 컨테이너 */}
+      <div className={styles.button-container}>
+        <button onClick={captureAndClassifyImage} className={styles.custombtn}>
+          사진 캡처 및 분류
+        </button>
+        <button onClick={switchCamera} className={styles.custombtn}>
+          {useFrontCamera ? '후면 카메라로 전환' : '전면 카메라로 전환'}
+        </button>
+      </div>
 
-  {/* 예측 결과 표시 */}
-  <p style={{ marginTop: '20px' }}>{result}</p>
+      {/* 예측 결과 표시 */}
+      <p style={{ marginTop: '20px' }}>{result}</p>
 
-  {/* 캡처된 이미지를 그리기 위한 캔버스 (화면에 보이지 않음) */}
-  <canvas ref={canvasRef} width={224} height={224} style={{ display: 'none' }}></canvas>
-</div>
+      {/* 캡처된 이미지를 그리기 위한 캔버스 (화면에 보이지 않음) */}
+      <canvas ref={canvasRef} width={224} height={224} style={{ display: 'none' }}></canvas>
+    </div>
   );
 };
 
