@@ -26,11 +26,7 @@ import OX from "./oxQuiz/OX";
 import CarvonMethod from "./carvon/CarvonMethod";
 import ScrollToTop from "./components/ScrollToTop";
 import Sliders from "./mainPage/Sliders";
-<<<<<<< HEAD
-import Ai from "./Ai/Ai";
-=======
 import AiMainPage from "./ai/AiMainPage";
->>>>>>> main
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
