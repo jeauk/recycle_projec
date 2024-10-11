@@ -18,6 +18,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useRef } from 'react';
 import useMediaQuery from '@mui/material/useMediaQuery';  // useMediaQuery import
+import { useTheme } from '@mui/material/styles';
 
 const pages = ['Home'];
 const settings = ['프로필', '글쓰기', '로그아웃'];
@@ -84,15 +85,16 @@ function Nav() {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [profileImageUrl, setProfileImageUrl] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [searchItem, setSearchItem] = useState('');
-  const [searchResult, setSearchResult] = useState([]);
+  const [searchItem, setSearchItem] = useState(''); // 검색할 단어
+  const [searchResult, setSearchResult] = useState([]); // 검색 결과를 저장
   const [isSearching, setIsSearching] = useState(false);
   const [filteredResult, setFilteredResult] = useState([]);
-  const [showResults, setShowResults] = useState(false);
+  const [showResults, setShowResults] = useState(false); // 검색 결과 보이기, 보이지 않기
   const navigate = useNavigate();
-  const searchRef = useRef(null);
+  const searchRef = useRef(null); // 클릭 감지
   
-  const isMobile = useMediaQuery('(max-width:600px)'); // 화면 크기 체크
+  const theme = useTheme();  // 테마 사용
+  const isLargeScreen = useMediaQuery(theme.breakpoints.up('lg')); // 화면 너비가 클 때 체크 (1200px 이상)
 
   const onChange = (e) => {
     setSearchItem(e.target.value);
@@ -109,7 +111,7 @@ function Nav() {
         item.mrTag?.toLowerCase().includes(searchItem.toLowerCase())
       );
       setFilteredResult(searchFilter);
-      setShowResults(true);
+      setShowResults(true); // 검색 결과 보이기
     } catch (error) {
       console.error("서버에 연결하는데 실패했습니다.", error);
     }
@@ -154,7 +156,6 @@ function Nav() {
       if (jwt) {
         setIsLoggedIn(true);
       }
-
       const url = 'https://trashformer.site/user/profile';
       const response = await fetch(url, {
         method: 'GET',
@@ -162,11 +163,9 @@ function Nav() {
           Authorization: `Bearer ${jwt}`,
         },
       });
-
       if (!response.ok) {
         throw new Error(`Error: ${response.status}`);
       }
-
       const data = await response.json();
       if (data && data.profileImageUrl) {
         setProfileImageUrl(data.profileImageUrl);
@@ -276,7 +275,7 @@ function Nav() {
 
           {/* Desktop Menu */}
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {!isMobile &&
+            {!isLargeScreen && // 화면이 클 때는 페이지 링크를 숨기기
               pages.map((page) => (
                 <Button
                   key={page}
@@ -300,7 +299,7 @@ function Nav() {
                 value={searchItem}
                 onChange={onChange}
                 onKeyDown={handleKeyDown}
-                onFocus={() => setShowResults(true)}
+                onFocus={() => setShowResults(true)} // 검색창 클릭 시 검색결과 보이기
               />
               <Button onClick={handleSearchClick}>검색</Button>
             </Search>
@@ -350,9 +349,7 @@ function Nav() {
               onClose={handleCloseUserMenu}
             >
               {settings
-                .filter(
-                  (setting) => (setting === '글쓰기' && isLoggedIn) || setting !== '글쓰기'
-                )
+                .filter((setting) => (setting === '글쓰기' && isLoggedIn) || setting !== '글쓰기')
                 .filter((setting) => setting !== '로그아웃' || isLoggedIn)
                 .map((setting) => (
                   <MenuItem key={setting} onClick={() => handleMenuClick(setting)}>
