@@ -80,7 +80,7 @@ const ResultItem = styled('li')(({ theme }) => ({
 }));
 
 function Nav() {
-  const myBackDomain = "https://trashformer.site";
+  const myBackDomain = "http://localhost:8080";
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [profileImageUrl, setProfileImageUrl] = useState('');
@@ -92,7 +92,7 @@ function Nav() {
   const [showResults, setShowResults] = useState(false); // 검색 결과 보이기, 보이지 않기
   const navigate = useNavigate();
   const searchRef = useRef(null); // 클릭 감지
-  
+
   const theme = useTheme();  // 테마 사용
   const isLargeScreen = useMediaQuery(theme.breakpoints.up('lg')); // 화면 너비가 클 때 체크 (1200px 이상)
 
@@ -104,7 +104,7 @@ function Nav() {
 
   const onSearch = async () => {
     try {
-      const res = await fetch(`https://trashformer.site/mainrecycle?query=${searchItem}`);
+      const res = await fetch(`http://localhost:8080/mainrecycle?query=${searchItem}`);
       const data = await res.json();
       setSearchResult(data);
       const searchFilter = data.filter((item) =>
@@ -156,7 +156,8 @@ function Nav() {
       if (jwt) {
         setIsLoggedIn(true);
       }
-      const url = 'https://trashformer.site/user/profile';
+
+      const url = 'http://localhost:8080/user/profile';
       const response = await fetch(url, {
         method: 'GET',
         headers: {
@@ -250,6 +251,8 @@ function Nav() {
               <MenuIcon />
             </IconButton>
             <Menu
+              component="a"
+              href="/"
               id="menu-appbar"
               anchorEl={anchorElNav}
               anchorOrigin={{

@@ -70,7 +70,7 @@ public class ProfileController {
     @Autowired
     private JwtService jwtService;
 
-    private final String BASE_URL = "https://trashformer.site/image/profiles";
+    private final String BASE_URL = "http://localhost:8080/image/profiles";
     private final String PROFILE_DIR = "src/main/resources/static/uploads/profiles/"; // 프로필 이미지가 저장될 디렉토리 경로
 
     @PostMapping("/oauth/kakao/callback")
