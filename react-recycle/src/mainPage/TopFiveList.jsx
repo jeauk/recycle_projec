@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { Margin } from "@mui/icons-material";
 
 const TopFiveList = () => {
-    const myBackDomain = "http://trashformer.site";
+    const myBackDomain = "https://trashformer.site";
 
     // 추천 게시판 데이터를 저장할 상태 정의
     const [recommendedBoards, setRecommendedBoards] = useState([]);

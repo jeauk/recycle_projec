@@ -12,7 +12,7 @@ const Contact = () => {
     const [isLoading, setIsLoading] = useState(false);
     const fileInputRef = useRef(null); // 파일 입력필드에 대한 참조
     const [message, setMessage] = useState({ text: '', type: '', visible: false }); // type: 'success' or 'error'
-    const myBackDomain = "http://trashformer.site";
+    const myBackDomain = "https://trashformer.site";
     const jwt = sessionStorage.getItem('jwt');
     const [dots, setDots] = useState(1);
 

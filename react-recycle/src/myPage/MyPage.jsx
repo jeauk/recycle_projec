@@ -15,7 +15,7 @@ function ProfileUpdateForm() {
 
   const fileInputRef = useRef(null);
 
-  const myBackDomain = 'http://trashformer.site';
+  const myBackDomain = 'https://trashformer.site';
 
   useEffect(() => {
     // 컴포넌트 마운트 시 로그인 상태를 확인

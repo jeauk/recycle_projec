@@ -8,7 +8,7 @@ function PostDetail() {
   const [post, setPost] = useState(null);
   const [isAuthor, setIsAuthor] = useState(false);
   const [recommendCount, setRecommendCount] = useState(0);
-  const myBackDomain = "http://trashformer.site";
+  const myBackDomain = "https://trashformer.site";
 
   useEffect(() => {
     const fetchPost = async () => {
