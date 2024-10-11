@@ -93,11 +93,19 @@ const PostForm = () => {
   };
 
   const generateThumbnailUrl = async (url) => {
+    // 일반 유튜브 비디오 ID 패턴
     const youtubeRegex = /(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+    const youtubeShortsRegex = /youtube\.com\/shorts\/([a-zA-Z0-9_-]{11})/; // 유튜브 Shorts 패턴
+  
     const youtubeMatch = url.match(youtubeRegex);
-
+    const youtubeShortsMatch = url.match(youtubeShortsRegex);
+  
     if (youtubeMatch && youtubeMatch[1]) {
-      return `https://img.youtube.com/vi/${youtubeMatch[1]}/0.jpg`;
+      return `https://img.youtube.com/vi/${youtubeMatch[1]}/0.jpg`; // 일반 유튜브 비디오 썸네일
+    } else if (youtubeShortsMatch && youtubeShortsMatch[1]) {
+      const shortId = youtubeShortsMatch[1];
+      const convertedUrl = `https://youtube.com/embed/${shortId}`; // Shorts 링크를 임베드 링크로 변환
+      return `https://img.youtube.com/vi/${shortId}/0.jpg`; // 변환된 ID로 썸네일 가져오기
     } else if (url.includes('naver.com')) {
       try {
         const response = await fetch(myBackDomain + '/naver', {
@@ -117,6 +125,7 @@ const PostForm = () => {
     }
     return '';
   };
+  
 
   // 폼 제출 처리
   const handleSubmit = async (e) => {
