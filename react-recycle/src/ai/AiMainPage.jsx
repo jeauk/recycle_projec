@@ -124,11 +124,6 @@ const AiMainPage = () => {
     startWebcam(); // 카메라 모드일 때 웹캠 시작
   };
 
-  // 카메라 전환 함수
-  const switchCamera = () => {
-    setIsFrontCamera((prev) => !prev); // 전면과 후면 카메라 전환
-    startWebcam(); // 카메라 재시작
-  };
 
   return (
     <div className={styles.container}>
@@ -170,10 +165,7 @@ const AiMainPage = () => {
           <video ref={videoRef} autoPlay style={{ width: '300px', marginTop: '16px' }} />
           <p>{result}</p>
           <canvas ref={canvasRef} width={224} height={224} style={{ display: 'none' }}></canvas>
-          <button onClick={captureAndClassifyImage} className={styles.btn}>캡처</button>
-          <button onClick={switchCamera} className={styles.btn}>
-            카메라 전환
-          </button>
+          <button onClick={captureAndClassifyImage} className={styles.btn}></button>
           <button onClick={handleUploadClick} className={styles.changeBtn}>업로드</button>
         </div>
       )}
