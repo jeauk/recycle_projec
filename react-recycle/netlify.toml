@@ -1,6 +1,6 @@
 [[redirects]]
 from = "/*"
-to = "https://trashformer.site/:splat"
+to = "/index.html"
 status = 200
 [[redirects]]
   from = "/*"
