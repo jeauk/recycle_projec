@@ -75,12 +75,15 @@ const AiMainPage = () => {
     try {
       const constraints = {
         video: {
-          facingMode: isFrontCamera ? 'user' : 'environment', // 전면 카메라: 'user', 후면 카메라: 'environment'
+          facingMode: 'environment', // 전면 카메라: 'user', 후면 카메라: 'environment'
+          width: { ideal: 1280 },
+          height: { ideal: 720 } 
         },
       };
       const stream = await navigator.mediaDevices.getUserMedia(constraints);
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
+        videoRef.current.setAttribute('playsinline', true);
       }
     } catch (error) {
       console.error('웹캠 접근 중 오류 발생:', error);
@@ -121,11 +124,6 @@ const AiMainPage = () => {
     startWebcam(); // 카메라 모드일 때 웹캠 시작
   };
 
-  // 카메라 전환 함수
-  const switchCamera = () => {
-    setIsFrontCamera((prev) => !prev); // 전면과 후면 카메라 전환
-    startWebcam(); // 카메라 재시작
-  };
 
   return (
     <div className={styles.container}>
@@ -147,7 +145,7 @@ const AiMainPage = () => {
             type="file"
             onChange={classifyImage}
             accept="image/*"
-            className={styles.btn}
+            className={styles.input}
             id="file-upload"
           />
           {imagePreview && (
@@ -155,7 +153,7 @@ const AiMainPage = () => {
               <img src={imagePreview} alt="Uploaded" style={{ width: '300px', marginTop: '20px' }} />
             </div>
           )}
-          <p style={{ marginTop: '20px' }}>{result}</p>
+          <p>{result}</p>
           <button onClick={handleCameraClick} className={styles.changeBtn}>카메라</button>
         </div>
       )}
@@ -164,15 +162,10 @@ const AiMainPage = () => {
       {mode === 'camera' && (
         <div className={styles.wrap}>
           <h2>웹캠으로 촬영한 사진을 분류합니다</h2>
-          <video ref={videoRef} autoPlay style={{ width: '300px', marginTop: '20px' }} />
-          <button onClick={captureAndClassifyImage} className={styles.btn}>
-            캡처
-          </button>
-          <p style={{ marginTop: '20px' }}>{result}</p>
+          <video ref={videoRef} autoPlay style={{ width: '300px', marginTop: '16px' }} />
+          <p>{result}</p>
           <canvas ref={canvasRef} width={224} height={224} style={{ display: 'none' }}></canvas>
-          <button onClick={switchCamera} className={styles.btn}>
-            카메라 전환
-          </button>
+          <button onClick={captureAndClassifyImage} className={styles.btn}>캡처</button>
           <button onClick={handleUploadClick} className={styles.changeBtn}>업로드</button>
         </div>
       )}

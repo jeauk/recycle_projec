@@ -92,7 +92,7 @@ function Nav() {
   const [showResults, setShowResults] = useState(false); // 검색 결과 보이기, 보이지 않기
   const navigate = useNavigate();
   const searchRef = useRef(null); // 클릭 감지
-  
+
   const theme = useTheme();  // 테마 사용
   const isLargeScreen = useMediaQuery(theme.breakpoints.up('lg')); // 화면 너비가 클 때 체크 (1200px 이상)
 
@@ -156,6 +156,7 @@ function Nav() {
       if (jwt) {
         setIsLoggedIn(true);
       }
+
       const url = 'https://trashformer.site/user/profile';
       const response = await fetch(url, {
         method: 'GET',
@@ -250,6 +251,8 @@ function Nav() {
               <MenuIcon />
             </IconButton>
             <Menu
+              component="a"
+              href="/"
               id="menu-appbar"
               anchorEl={anchorElNav}
               anchorOrigin={{
