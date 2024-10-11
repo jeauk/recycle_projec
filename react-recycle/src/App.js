@@ -86,7 +86,6 @@ function App() {
                 path="/login/oauth2/callback/kakao"
                 element={<LoginHandeler onLogin={handleLogin} />}
               />
-              <Route path="/ai" element={<Ai/>} />
             </Routes>
           </div>
           <Footer />
