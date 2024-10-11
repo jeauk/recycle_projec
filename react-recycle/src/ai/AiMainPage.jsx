@@ -165,7 +165,7 @@ const AiMainPage = () => {
           <video ref={videoRef} autoPlay style={{ width: '300px', marginTop: '16px' }} />
           <p>{result}</p>
           <canvas ref={canvasRef} width={224} height={224} style={{ display: 'none' }}></canvas>
-          <button onClick={captureAndClassifyImage} className={styles.btn}></button>
+          <button onClick={captureAndClassifyImage} className={styles.btn}>캡처</button>
           <button onClick={handleUploadClick} className={styles.changeBtn}>업로드</button>
         </div>
       )}
