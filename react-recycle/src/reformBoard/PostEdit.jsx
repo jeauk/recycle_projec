@@ -29,7 +29,7 @@ const PostEdit = () => {
   const [videoLink, setVideoLink] = useState("");
   const [steps, setSteps] = useState([]);
 
-  const myBackDomain = "https://trashformer.site";
+  const myBackDomain = "http://localhost:8080";
   const jwt = sessionStorage.getItem("jwt");
   const navigate = useNavigate();
 

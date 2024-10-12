@@ -8,7 +8,7 @@ const ReMap = () => {
 	const [searchHistory, setSearchHistory] = useState([]);
 	const [center, setCenter] = useState(null);
 	const [activeTab, setActiveTab] = useState("gwill");
-	const myBackDomain = "https://trashformer.site";
+	const myBackDomain = "http://localhost:8080";
 
 	useEffect(() => {
 		const fetchLocations = async () => {

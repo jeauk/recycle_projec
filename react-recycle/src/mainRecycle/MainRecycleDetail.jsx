@@ -3,13 +3,13 @@ import { useParams } from 'react-router-dom';
 import styles from '../styles/MainRecycleDetail.module.css';
 
 const MainRecycleDetail = () => {
-    const myBackDomain = "https://trashformer.site";
+    const myBackDomain = "http://localhost:8080";
     const { id } = useParams();
     const [item, setItem] = useState(null);
     useEffect(() => {
         const fetchItem = async () => {
             try {
-                const res = await fetch(`https://trashformer.site/mainrecycle/${id}`);
+                const res = await fetch(`http://localhost:8080/mainrecycle/${id}`);
                 const data = await res.json();
                 setItem(data);
             } catch(error){

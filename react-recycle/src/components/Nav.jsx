@@ -104,7 +104,7 @@ function Nav() {
 
   const onSearch = async () => {
     try {
-      const res = await fetch(`https://trashformer.site/mainrecycle?query=${searchItem}`);
+      const res = await fetch(`http://localhost:8080/mainrecycle?query=${searchItem}`);
       const data = await res.json();
       setSearchResult(data);
       const searchFilter = data.filter((item) =>
@@ -157,7 +157,7 @@ function Nav() {
         setIsLoggedIn(true);
       }
 
-      const url = 'https://trashformer.site/user/profile';
+      const url = 'http://localhost:8080/user/profile';
       const response = await fetch(url, {
         method: 'GET',
         headers: {
