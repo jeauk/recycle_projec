@@ -6,7 +6,6 @@
 }
 
 .slidersGridItem {
-  background-color: lightcoral;
   width: 1550px;
   height: 600px; /* 특정 그리드 항목의 높이를 600px로 설정 */
 }
@@ -16,13 +15,16 @@
 }
 
 .carvonGridItem {
-  background-color: rgb(219, 240, 128);
   width: 1550px;
   height: 800px; /* 특정 그리드 항목의 높이를 800px로 설정 */
 }
 .topFiveGridItem {
-  background-color: rgb(170, 255, 184);
   width: 1550px;
   height: 800px; /* 특정 그리드 항목의 높이를 800px로 설정 */
 }
-
+.QuizGridItem {
+  width: 100%;
+  display: grid;
+  align-items: center;
+  align-content: center;
+}

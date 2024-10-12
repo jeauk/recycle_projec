@@ -3,6 +3,7 @@ import styles from '../styles/Home.module.css';  // CSS 파일 import
 import Carvon from './Carvon';
 import Card from './Card';
 import TopFiveList from './TopFiveList';
+import Quiz from './Quiz';
 
 const Home = () => {
     return (
@@ -19,6 +20,9 @@ const Home = () => {
                 </div>
                 <div className={styles.topFiveGridItem}>
                     <TopFiveList/>
+                </div>
+                <div className={styles.QuizGridItem}>
+                    <Quiz />
                 </div>
             </div>
         </div>
