@@ -75,12 +75,15 @@ const AiMainPage = () => {
     try {
       const constraints = {
         video: {
-          facingMode: isFrontCamera ? 'user' : 'environment', // 전면 카메라: 'user', 후면 카메라: 'environment'
+          facingMode: 'environment', // 전면 카메라: 'user', 후면 카메라: 'environment'
+          width: { ideal: 1280 },
+          height: { ideal: 720 } 
         },
       };
       const stream = await navigator.mediaDevices.getUserMedia(constraints);
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
+        videoRef.current.setAttribute('playsinline', true);
       }
     } catch (error) {
       console.error('웹캠 접근 중 오류 발생:', error);
@@ -121,11 +124,6 @@ const AiMainPage = () => {
     startWebcam(); // 카메라 모드일 때 웹캠 시작
   };
 
-  // 카메라 전환 함수
-  const switchCamera = () => {
-    setIsFrontCamera((prev) => !prev); // 전면과 후면 카메라 전환
-    startWebcam(); // 카메라 재시작
-  };
 
   return (
     <div className={styles.container}>
@@ -168,9 +166,6 @@ const AiMainPage = () => {
           <p>{result}</p>
           <canvas ref={canvasRef} width={224} height={224} style={{ display: 'none' }}></canvas>
           <button onClick={captureAndClassifyImage} className={styles.btn}>캡처</button>
-          <button onClick={switchCamera} className={styles.btn}>
-            카메라 전환
-          </button>
           <button onClick={handleUploadClick} className={styles.changeBtn}>업로드</button>
         </div>
       )}
