@@ -16,7 +16,7 @@ const PostList = () => {
   const [searchQuery, setSearchQuery] = useState(""); // 실제 검색에 사용할 검색어 상태
   const [searchType, setSearchType] = useState("title_content"); // 검색 타입 상태 추가
   const navigate = useNavigate();
-  const myBackDomain = "http://localhost:8080";
+  const myBackDomain = "https://trashformer.site";
 
   // API 호출 함수 분리
   const fetchPosts = async (page, searchQuery, searchType) => {
@@ -103,7 +103,7 @@ const PostList = () => {
                     {post.title}
                   </div>
                 </Typography>
-                <Typography variant="body2" className={styles.typographyBody}>
+                <Typography variant="body2" className={styles.typographyBody} component="div">
                   <div className={styles.imgContainer}>
                     <Avatar alt="Remy Sharp" src={post.authorImg} sx={{ width: 24, height: 24 }} />
                     <div className={styles.postListAuthorName}>

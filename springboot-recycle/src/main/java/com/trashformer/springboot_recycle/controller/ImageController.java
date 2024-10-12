@@ -25,6 +25,8 @@ public class ImageController {
     // 프로필 이미지가 저장된 디렉토리 경로
     private final String PROFILE_DIR = "src/main/resources/static/uploads/profiles/";
 
+    private final String recycleMainDir = "classes/static/image/recycleMain/";
+
     
 
     @GetMapping("/image/{date}/{filename}")
@@ -73,9 +75,6 @@ public ResponseEntity<Resource> showProfileImage(
 
 @GetMapping("/image/recycleMain/{filename}")
 public ResponseEntity<Resource> showRecycleMainImage(@PathVariable String filename) throws MalformedURLException {
-
-    // 리사이클 메인 이미지가 저장된 디렉토리 경로
-    String recycleMainDir = "src/main/resources/static/images/recycleMain/";
 
     // 파일 경로를 생성
     File file = new File(recycleMainDir + filename);

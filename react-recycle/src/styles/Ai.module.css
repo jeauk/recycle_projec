@@ -1,0 +1,32 @@
+.wrap {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  box-shadow: 5px 4px 8px 0px rgba(0, 0, 0, 0.1);
+}
+
+.selectpic {
+  font-weight: bold;
+}
+
+.fileInput {
+  display: none; /* 기본 input 숨기기 */
+}
+
+.custombtn {
+  display: inline-block;
+  background-color: white;
+  border: 1px solid #98c76a;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.custombtn:hover {
+  color: white;
+  background-color: #98c76a;
+}

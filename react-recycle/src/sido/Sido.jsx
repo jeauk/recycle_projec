@@ -12,7 +12,7 @@ function Sido() {
   const [region, setRegion] = useState({});
   const [id, setId] = useState(null); // State to store the ID
 
-  const myBackDomain = "http://localhost:8080";
+  const myBackDomain = "https://trashformer.site"
 
   const gungoo = {
     강원도: ['강릉시', '고성군', '동해시', '삼척시', '속초시', '양구군', '양양군', '영월군', '원주시', '인제군', '정선군', '철원군', '춘천시', '태백시', '평창군', '홍천군', '화천군', '횡성군'],
@@ -33,6 +33,7 @@ function Sido() {
     충청남도: ['계룡시', '공주시', '금산군', '논산시', '당진시', '보령시', '부여군', '서산시', '서천군', '아산시', '예산군', '천안시', '청양군', '태안군', '홍성군'],
     충청북도: ['괴산군', '단양군', '보은군', '영동군', '옥천군', '음성군', '제천시', '증평군', '진천군', '청주시', '충주시'],
   };
+  
 
   const handleSidoChange = (e) => {
     const sido = e.target.value;
@@ -75,7 +76,7 @@ function Sido() {
   useEffect(() => {
     const fetchRegion = async () => {
       try {
-        const response = await fetch(myBackDomain+`/sido/submit/${id}`);
+        const response = await fetch(myBackDomain + `/sido/submit/${id}`);
         if (!response.ok) {
           throw new Error("데이터를 받는데 실패했습니다.");
         }

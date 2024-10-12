@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { Map,  } from "react-kakao-maps-sdk";
 import VendingDeviceMenu from "./VendingDeviceMenu";
 import VendingDeviceMarker from "./VendingDeviceMarker";
+import m from '../styles/VendingDevice.module.css';
 const VendingDeviceMap = () => {
 	const [locations, setLocations] = useState([]);
 	const [searchHistory, setSearchHistory] = useState([]);
@@ -9,16 +10,14 @@ const VendingDeviceMap = () => {
 	const [level, setLevel] = useState(12);
 	const [loading, setLoading] = useState(false);
 
-	const MBD = "http://localhost:8080";
+	const myBackDomain = "https://trashformer.site";
 
 	useEffect(() => {
-		const myBackDomain = async () => {
+		const backDomainFetch = async () => {
 			setLoading(true); // 로딩 시작
 			try {
-				const res = await fetch(MBD+`/dataload`);
+				const res = await fetch(myBackDomain + "/dataload");
 				const data = await res.json();
-
-				console.log(data);  // 데이터 확인을 위한 로그
 				setLocations(data);
 			} catch (error) {
 				console.error("위치 데이터를 가져오는데 실패했습니다", error);
@@ -26,7 +25,7 @@ const VendingDeviceMap = () => {
 				setLoading(false); //로딩 끝
 			}
 		};
-		myBackDomain();
+		backDomainFetch();
 
 		navigator.geolocation.getCurrentPosition(
 			(position) => {
@@ -94,7 +93,7 @@ const VendingDeviceMap = () => {
 	return (
 		<div>
 			<VendingDeviceMenu loading={loading} searchHistory={searchHistory} setSearchHistory={setSearchHistory} locations={filteredLocations} onLocationClick={handleMarkerClick} />
-			<Map center={center} style={{ width: '800px', height: '600px' }} level={level}>
+			<Map center={center} style={{ width: '80vw', height: '600px', marginTop: '10px' }} level={level}>
 				{filteredLocations.map((loc, idx) => (
 					loc.isMatch && (
 						<VendingDeviceMarker

@@ -17,8 +17,10 @@ import SearchIcon from '@mui/icons-material/Search';
 import { useNavigate, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useRef } from 'react';
+import useMediaQuery from '@mui/material/useMediaQuery';  // useMediaQuery import
+import { useTheme } from '@mui/material/styles';
 
-const pages = [];
+const pages = ['Home'];
 const settings = ['프로필', '글쓰기', '로그아웃'];
 
 const Search = styled('div')(({ theme }) => ({
@@ -64,9 +66,9 @@ const ResultList = styled('ul')(({ theme }) => ({
   margin: 0,
   padding: 0,
   listStyle: 'none',
-  zIndex: 1, // 검색창 위에 나타나도록 설정
-  maxHeight: '200px', // 리스트의 최대 높이 설정
-  overflowY: 'auto', // 리스트가 넘칠 때 스크롤 가능
+  zIndex: 1,
+  maxHeight: '200px',
+  overflowY: 'auto',
 }));
 
 const ResultItem = styled('li')(({ theme }) => ({
@@ -87,29 +89,29 @@ function Nav() {
   const [searchResult, setSearchResult] = useState([]); // 검색 결과를 저장
   const [isSearching, setIsSearching] = useState(false);
   const [filteredResult, setFilteredResult] = useState([]);
-  const [showResults, setShowResults] = useState(false); //검색 결과 보이기, 보이지 않기
+  const [showResults, setShowResults] = useState(false); // 검색 결과 보이기, 보이지 않기
   const navigate = useNavigate();
-  const searchRef = useRef(null); //클릭 감지
+  const searchRef = useRef(null); // 클릭 감지
+
+  const theme = useTheme();  // 테마 사용
+  const isLargeScreen = useMediaQuery(theme.breakpoints.up('lg')); // 화면 너비가 클 때 체크 (1200px 이상)
 
   const onChange = (e) => {
     setSearchItem(e.target.value);
-
     setShowResults(false);
     setFilteredResult([]);
   };
 
-
   const onSearch = async () => {
     try {
-      const res = await fetch(myBackDomain+`/mainrecycle?query=${searchItem}`);
+      const res = await fetch(`https://trashformer.site/mainrecycle?query=${searchItem}`);
       const data = await res.json();
-      console.log(data);
       setSearchResult(data);
       const searchFilter = data.filter((item) =>
         item.mrTag?.toLowerCase().includes(searchItem.toLowerCase())
       );
       setFilteredResult(searchFilter);
-      setShowResults(true); //검색 결과 보이기
+      setShowResults(true); // 검색 결과 보이기
     } catch (error) {
       console.error("서버에 연결하는데 실패했습니다.", error);
     }
@@ -129,7 +131,6 @@ function Nav() {
     if (isSearching) {
       onSearch();
       setIsSearching(false);
-      
     }
   }, [isSearching]);
 
@@ -152,23 +153,20 @@ function Nav() {
   const loadProfileData = async () => {
     try {
       const jwt = sessionStorage.getItem('jwt');
-
       if (jwt) {
         setIsLoggedIn(true);
       }
 
-      const url = myBackDomain+'/user/profile';
+      const url = 'https://trashformer.site/user/profile';
       const response = await fetch(url, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${jwt}`,
         },
       });
-
       if (!response.ok) {
         throw new Error(`Error: ${response.status}`);
       }
-
       const data = await response.json();
       if (data && data.profileImageUrl) {
         setProfileImageUrl(data.profileImageUrl);
@@ -184,7 +182,6 @@ function Nav() {
 
   const handleMenuClick = (setting) => {
     handleCloseUserMenu();
-
     if (setting === '프로필') {
       navigate('/mypage');
     } else if (setting === '글쓰기') {
@@ -197,13 +194,12 @@ function Nav() {
       window.location.reload();
     }
   };
-  //밖을 클릭시 검색결과를 비활성화 하는 코드
+
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (searchRef.current && 
-        !searchRef.current.contains(event.target)) {
-          setShowResults(false); //
-        }      
+      if (searchRef.current && !searchRef.current.contains(event.target)) {
+        setShowResults(false);
+      }
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
@@ -255,6 +251,8 @@ function Nav() {
               <MenuIcon />
             </IconButton>
             <Menu
+              component="a"
+              href="/"
               id="menu-appbar"
               anchorEl={anchorElNav}
               anchorOrigin={{
@@ -280,15 +278,16 @@ function Nav() {
 
           {/* Desktop Menu */}
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'inherit', display: 'block' }}
-              >
-                {page}
-              </Button>
-            ))}
+            {!isLargeScreen && // 화면이 클 때는 페이지 링크를 숨기기
+              pages.map((page) => (
+                <Button
+                  key={page}
+                  onClick={handleCloseNavMenu}
+                  sx={{ my: 2, color: 'inherit', display: 'block' }}
+                >
+                  {page}
+                </Button>
+              ))}
           </Box>
 
           {/* Search Bar */}
@@ -303,34 +302,32 @@ function Nav() {
                 value={searchItem}
                 onChange={onChange}
                 onKeyDown={handleKeyDown}
-                onFocus={() => setShowResults(true)} //검색창 클릭시 검색결과 보이기
+                onFocus={() => setShowResults(true)} // 검색창 클릭 시 검색결과 보이기
               />
               <Button onClick={handleSearchClick}>검색</Button>
             </Search>
 
             {/* 검색 결과 출력 */}
-            {/* 검색창을 클릭한 상태이고 글자가 1개 이상일때 */}
             {showResults && filteredResult.length > 0 && (
               <ResultList>
                 {filteredResult.map((item) => (
-                  <ResultItem
-                    key={item.id}>
+                  <ResultItem key={item.id}>
                     <Link to={`/RecycleMain/${item.id}`}>
-                    <div style={{ display: "flex", alignItems: "center" }}> {/* Flexbox 적용 */}
-                      <img 
-                        style={{ width: "60px", height: "60px", marginRight: "10px" }}
-                        src={myBackDomain+item.imgUrl} 
-                        alt={item.mrName} 
-                      />
-                      <p style={{ margin: 0 }}>{item.mrName}</p> {/* 텍스트의 기본 마진 제거 */}
-                    </div>
-                                  
+                      <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <img
+                          style={{ width: '60px', height: '60px', marginRight: '10px' }}
+                          src={myBackDomain + item.imgUrl}
+                          alt={item.mrName}
+                        />
+                        <p style={{ margin: 0 }}>{item.mrName}</p>
+                      </div>
                     </Link>
                   </ResultItem>
                 ))}
               </ResultList>
             )}
           </Box>
+
           {/* Avatar and Settings Menu */}
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">

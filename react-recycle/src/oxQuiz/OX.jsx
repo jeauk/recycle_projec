@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import styled from '../styles/Ox.module.css';
 
 // 로컬 스토리지에서 맞춘 퀴즈 수 가져오기
 const getLocalStorage = () => {
@@ -13,7 +14,7 @@ const OX = () => {
   const [quizData, setQuizData] = useState([]); // 퀴즈 데이터
   const [explanation, setExplanation] = useState(''); // 오답 설명
   const [showNext, setShowNext] = useState(false); // '다음' 버튼 표시 여부
-  const myBackDomain = "http://localhost:8080";
+  const myBackDomain = "https://trashformer.site";
 
   // 로컬 스토리지 초기화 (처음 페이지 로드될 때)
   useEffect(() => {
@@ -64,7 +65,7 @@ const OX = () => {
   // 퀴즈가 모두 끝났을 때 화면=====================================
   if (quizIndex >= quizData.length) {
     return (
-      <div>
+      <div className={styled.quiz}>
         <h1>퀴즈 완료!</h1>
         <p>맞춘 문제 수: {correctCount}</p>
       </div>
@@ -75,17 +76,17 @@ const OX = () => {
 
   //===============================================================
   return (
-    <div>
+    <div className={styled.wrap}>
       {quizData.length > 0 && (
         <>
           <h3>{quizIndex + 1}번째 / 총 {quizData.length}문항</h3>
           <h1>{quizData[quizIndex].question}</h1>
-          <button onClick={() => handleAnswer('O')} disabled={showNext}>O</button>
-          <button onClick={() => handleAnswer('X')} disabled={showNext}>X</button>
+          <button className={styled.obtn} onClick={() => handleAnswer('O')} disabled={showNext}>O</button>
+          <button className={styled.xbtn} onClick={() => handleAnswer('X')} disabled={showNext}>X</button>
           
-          {isCorrect !== null && <p>{explanation}</p>}
+          {isCorrect !== null && <p className={styled.question}>{explanation}</p>}
 
-          {showNext && <button onClick={handleNext}>다음</button>}
+          {showNext && <button className={styled.nbtn} onClick={handleNext}>다음</button>}
         </>
       )}
     </div>

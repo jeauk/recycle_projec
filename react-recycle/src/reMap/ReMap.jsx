@@ -8,7 +8,7 @@ const ReMap = () => {
 	const [searchHistory, setSearchHistory] = useState([]);
 	const [center, setCenter] = useState(null);
 	const [activeTab, setActiveTab] = useState("gwill");
-	const myBackDomain = "http://localhost:8080";
+	const myBackDomain = "https://trashformer.site";
 
 	useEffect(() => {
 		const fetchLocations = async () => {
@@ -24,7 +24,6 @@ const ReMap = () => {
 					...bmarketData.map(loc => ({ ...loc, type: "bmarket" }))
 				];
 
-				console.log(combinedData);  // 데이터 확인을 위한 로그
 				setLocations(combinedData);
 			} catch (error) {
 				console.error("Failed to fetch locations", error);
@@ -81,7 +80,7 @@ const ReMap = () => {
 		<div>
 			<ReMapMenu searchHistory={searchHistory} setSearchHistory={setSearchHistory} locations={filteredLocations} onLocationClick={handleMarkerClick} activeTab={activeTab} setActiveTab={setActiveTab} />
 			{center && (
-				<Map center={center} style={{ width: '99vw', height: '600px' }} level={3}>
+				<Map center={center} style={{ width: '80vw', height: '600px', marginTop:'10px' }} level={3}>
 					{filteredLocations.map((loc, idx) => (
 						<ReMapMarker
 							key={idx}
