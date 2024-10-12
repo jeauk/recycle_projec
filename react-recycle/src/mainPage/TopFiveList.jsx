@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { Margin } from "@mui/icons-material";
 
 const TopFiveList = () => {
-    const myBackDomain = "http://trashformer.site:8080";
+    const myBackDomain = "https://trashformer.site";
 
     // 추천 게시판 데이터를 저장할 상태 정의
     const [recommendedBoards, setRecommendedBoards] = useState([]);
@@ -61,7 +61,7 @@ const TopFiveList = () => {
                 <h2 className={styles.title}>인기 리폼게시글</h2>
                 <p className={styles.more} onClick={clickHandler}>더보기</p>
             </div>
-            <Slider {...settings} style={{display: 'grid', width: '82%', margin:'30px auto'}}>
+            <Slider {...settings} className={styles.topFiveSliders} style={{display: 'grid',}}>
                     {recommendedBoards.map((board) => (
 
                     <div key={board.id} className={styles.slide}>

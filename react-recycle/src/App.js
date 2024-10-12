@@ -26,6 +26,7 @@ import OX from "./oxQuiz/OX";
 import CarvonMethod from "./carvon/CarvonMethod";
 import ScrollToTop from "./components/ScrollToTop";
 import Sliders from "./mainPage/Sliders";
+import AiMainPage from "./ai/AiMainPage";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -74,13 +75,13 @@ function App() {
               <Route path="/mypage" element={<Mypage />} />
               <Route path="/mypage/mylist" element={isLoggedIn ? <MyList /> : <Navigate to="/" />} />
               <Route path="/mypage/myrecommend" element={isLoggedIn ? <MyRecommend /> : <Navigate to="/" />} />
-
               <Route path="/carvon/companyList" element={<CompanyList />} />
               <Route path="/carvon/drafting" element={<Drafting />} />
               <Route path="/carvon/incentive" element={<Incentive />} />
               <Route path="/carvon/carvonMethod" element={<CarvonMethod />} />
               <Route path="/mainRecycleDetail" element={<MainRecycleDetail />} />
               <Route path="/oxquiz" element={<OX />} />
+              <Route path="/ai" element={<AiMainPage />} />
               <Route
                 path="/login/oauth2/callback/kakao"
                 element={<LoginHandeler onLogin={handleLogin} />}

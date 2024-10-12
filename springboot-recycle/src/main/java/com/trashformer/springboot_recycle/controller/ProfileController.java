@@ -70,7 +70,7 @@ public class ProfileController {
     @Autowired
     private JwtService jwtService;
 
-    private final String BASE_URL = "http://trashformer.site:8080/image/profiles";
+    private final String BASE_URL = "https://trashformer.site/image/profiles";
     private final String PROFILE_DIR = "src/main/resources/static/uploads/profiles/"; // 프로필 이미지가 저장될 디렉토리 경로
 
     @PostMapping("/oauth/kakao/callback")
@@ -79,7 +79,7 @@ public class ProfileController {
 
         // 엑세스 토큰 요청
         String clientId = "dcedd1709d6d717e342a5c8ecea26356"; // 여기에 자신의 앱 REST API 키를 입력하세요.
-        String redirectUri = "http://localhost:3000/login/oauth2/callback/kakao";
+        String redirectUri = "https://trashformer.life/login/oauth2/callback/kakao";
 
         String tokenRequestUrl = "https://kauth.kakao.com/oauth/token"
                 + "?grant_type=authorization_code"

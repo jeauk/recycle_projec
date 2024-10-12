@@ -10,7 +10,7 @@ const Card = () => {
             icon: "./img/camera.png",
             title: 'AI 판독기',
             description: 'AI를 활용하여 폐기물 및 재활용품을 자동으로 판별해주는 서비스입니다. 정확하고 빠른 판독 결과로 효율적인 재활용이 가능합니다.',
-            path: '/#', // 이동할 경로 추가
+            path: '/ai', // 이동할 경로 추가
         },
         {
             icon: './img/map.png',

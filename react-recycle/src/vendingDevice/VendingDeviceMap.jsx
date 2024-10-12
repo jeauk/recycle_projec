@@ -10,7 +10,7 @@ const VendingDeviceMap = () => {
 	const [level, setLevel] = useState(12);
 	const [loading, setLoading] = useState(false);
 
-	const myBackDomain = "http://trashformer.site:8080";
+	const myBackDomain = "https://trashformer.site";
 
 	useEffect(() => {
 		const backDomainFetch = async () => {
@@ -18,8 +18,6 @@ const VendingDeviceMap = () => {
 			try {
 				const res = await fetch(myBackDomain + "/dataload");
 				const data = await res.json();
-
-				console.log(data);  // 데이터 확인을 위한 로그
 				setLocations(data);
 			} catch (error) {
 				console.error("위치 데이터를 가져오는데 실패했습니다", error);

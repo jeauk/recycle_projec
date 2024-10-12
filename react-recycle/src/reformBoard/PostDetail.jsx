@@ -8,7 +8,7 @@ function PostDetail() {
   const [post, setPost] = useState(null);
   const [isAuthor, setIsAuthor] = useState(false);
   const [recommendCount, setRecommendCount] = useState(0);
-  const myBackDomain = "http://trashformer.site:8080";
+  const myBackDomain = "https://trashformer.site";
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -48,7 +48,6 @@ function PostDetail() {
       method: 'DELETE',
       headers: { 'Authorization': `Bearer ${jwt}` }
     });
-    console.log('삭제됨');
     navigate(`/`);
   };
 
@@ -95,22 +94,30 @@ function PostDetail() {
 
   const createEmbedUrl = (videoLink) => {
     let embedUrl = null;
-
+  
     if (videoLink.includes("youtu.be")) {
+      // youtu.be 링크 처리
       const links = videoLink.split("/");
       const videoId = links[links.length - 1].split('?')[0];
-      embedUrl = `http://www.youtube.com/embed/${videoId}`;
+      embedUrl = `https://www.youtube.com/embed/${videoId}`;
     } else if (videoLink.includes("youtube.com/watch")) {
+      // youtube.com/watch 링크 처리
       const params = new URLSearchParams(new URL(videoLink).search);
       const videoId = params.get("v");
-      embedUrl = `http://www.youtube.com/embed/${videoId}`;
+      embedUrl = `https://www.youtube.com/embed/${videoId}`;
+    } else if (videoLink.includes("youtube.com/shorts")) {
+      // 유튜브 Shorts 링크 처리
+      const videoId = videoLink.split("/shorts/")[1].split('?')[0];
+      embedUrl = `https://www.youtube.com/embed/${videoId}`;
     } else if (videoLink.includes("tv.naver.com/v/")) {
+      // 네이버 TV 링크 처리
       const videoId = videoLink.split("/v/")[1];
       embedUrl = `https://tv.naver.com/embed/${videoId}`;
     }
-
+  
     return embedUrl;
   };
+  
 
   return (
     <div className={styles.bigbigcontainer}>

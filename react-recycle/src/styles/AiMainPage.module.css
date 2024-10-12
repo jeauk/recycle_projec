@@ -1,0 +1,94 @@
+/* MainPage의 메인 컨테이너 스타일 */
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f4f8;
+  width: 70%;
+  height: 600px;
+  text-align: center;
+}
+
+.input {
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  font-size: 16px;
+  cursor: pointer;
+  margin: 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+/* 버튼 스타일 */
+.btn {
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  font-size: 16px;
+  cursor: pointer;
+  margin: 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  line-height: 0px;
+  height: 50px;
+}
+
+.btn:hover {
+  background-color: #0054ae;
+}
+
+.changeBtn {
+  background-color: #98c76a;
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  font-size: 16px;
+  cursor: pointer;
+  margin: 10px;
+  margin-bottom: 30px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.changeBtn:hover {
+  background-color: #759b52;
+}
+
+/* 제목 스타일 */
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+/* 모바일 대응 */
+@media (max-width: 768px) {
+  .container {
+    width: 100%;
+    height: 100vh; /* 높이를 화면 전체로 */
+    border-radius: 0;
+    justify-content: center; /* 중앙 정렬 */
+    padding: 10px; /* 패딩 추가 */
+  }
+
+  h1 {
+    font-size: 1.8rem; /* 제목 크기 조정 */
+    margin-bottom: 20px;
+  }
+
+  /* 버튼 크기 및 스타일을 모바일에 맞게 조정 */
+  .btn {
+    width: 80%; /* 버튼 너비를 80%로 설정 */
+    padding: 20px 30px;
+    margin: 10px 0;
+    font-size: 1.2rem;
+  }
+
+  .changeBtn {
+    margin: 10px 0;
+  }
+}
