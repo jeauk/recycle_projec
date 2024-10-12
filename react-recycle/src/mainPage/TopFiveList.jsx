@@ -3,7 +3,7 @@ import styles from "../styles/TopFiveList.module.css";  // CSS 모듈을 import
 import { useNavigate } from "react-router-dom";
 
 const TopFiveList = () => {
-    const myBackDomain = "http://localhost:8080"; // 백엔드 도메인
+    const myBackDomain = "https://trashformer.site"; // 백엔드 도메인
     const [recommendedBoards, setRecommendedBoards] = useState([]); // 추천 게시글 상태 정의
     const [currentImage, setCurrentImage] = useState(""); // 현재 표시할 이미지 경로, 초기값은 빈 문자열
     const navigate = useNavigate(); // 페이지 이동을 위한 useNavigate
