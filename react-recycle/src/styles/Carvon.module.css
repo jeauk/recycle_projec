@@ -1,3 +1,18 @@
-.carvonContainer{
-    
-}
+.tabs {
+    flex-direction: column; /* 기본적으로 세로로 나열하기 위한 설정 */
+    align-items: flex-start; /* 왼쪽 정렬 */
+  }
+  
+  .tabTitle {
+    float: left;
+    font-weight: bold;
+    font-size: 40px;
+  }
+  
+  
+  .menu span {
+    margin: 0 20px; /* 각 탭 간의 간격 */
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
