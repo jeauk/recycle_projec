@@ -79,9 +79,9 @@ public class ProfileController {
 
         // 엑세스 토큰 요청
         String clientId = "dcedd1709d6d717e342a5c8ecea26356"; // 여기에 자신의 앱 REST API 키를 입력하세요.
-        String redirectUri = "http://localhost:3000/login/oauth2/callback/kakao";
+        String redirectUri = "https://localhost:3000/login/oauth2/callback/kakao";
 
-        String tokenRequestUrl = "https://kauth.kakao.com/oauth/token"
+        String tokenRequestUrl = "http://kauth.kakao.com/oauth/token"
                 + "?grant_type=authorization_code"
                 + "&client_id=" + clientId
                 + "&redirect_uri=" + redirectUri

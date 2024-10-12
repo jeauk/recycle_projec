@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.trashformer.springboot_recycle.entity.RecycleEntity;
 import com.trashformer.springboot_recycle.repository.RecycleRepository;

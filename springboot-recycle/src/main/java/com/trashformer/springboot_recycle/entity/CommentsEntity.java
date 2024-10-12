@@ -13,10 +13,6 @@ public class CommentsEntity {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "post_id", nullable = false)  // 게시글과의 외래키 관계 설정
-    private FreeBulletinBoardEntity post;
-
-    @ManyToOne
     @JoinColumn(name = "parent_id")  // 대댓글의 부모 댓글을 참조
     private CommentsEntity parentComment;
 

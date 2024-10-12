@@ -1,27 +1,27 @@
-
-import TopContents from "./TopContents";
-import Card from "./Card";
-import Quiz from "./Quiz";
-import TopFiveList from "./TopFiveList";
-import Carvon from "./Carvon";
-
+import React from 'react';
+import styles from '../styles/Home.module.css';  // CSS 파일 import
+import Carvon from './Carvon';
+import Card from './Card';
 
 const Home = () => {
-
     return (
-        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%'}}>
-            <div className="home" style={{ width: '82%' }}>
-                <TopContents />
-                <Card />
-            </div>
+        <div>
+            <div className={styles.gridContainer}>
 
-            <div>
-                <Quiz />
-                <TopFiveList />
-                <Carvon />
+                <div className={styles.slidersGridItem}>
+                </div>
+                <div className={styles.cardGridItem}>
+                    <Card />
+                </div>
+                <div className={styles.carvonGridItem}>
+                    <Carvon />
+                </div>
+                <div className={styles.gridItem}>
+
+                </div>
             </div>
         </div>
     );
-};
+}
 
 export default Home;

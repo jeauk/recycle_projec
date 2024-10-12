@@ -41,7 +41,7 @@ const Drafting = () => {
   };
 
   return (
-    <div>
+    <div className={styles.wrap}>
       <button onClick={handleButtonClick} className={styles.topButton}>탄소중립포인트 하러가기</button>
       <h2 className={styles.header}>탄소중립포인트 녹색생활 실천이란?</h2>
       <p className={styles.subHeader}>

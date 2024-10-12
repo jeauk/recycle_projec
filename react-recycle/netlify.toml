@@ -1,0 +1,9 @@
+[[redirects]]
+from = "/*"
+to = "/index.html"
+status = 200
+[[redirects]]
+  from = "/*"
+  to = "http://localhost:8080/:splat"
+  status = 200
+  force = true

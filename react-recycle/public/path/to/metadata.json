@@ -1,0 +1,1 @@
+{"tfjsVersion":"1.3.1","tmVersion":"2.4.7","packageVersion":"0.8.4-alpha2","packageName":"@teachablemachine/image","timeStamp":"2024-10-01T05:24:46.343Z","userMetadata":{},"modelName":"종이","labels":["종이","캔","플라스틱","유리","고철","일반쓰레기","대형생활폐기물","불연성쓰레기","비닐","소형가전수거함","스티로폼","의류수거함","폐가전"],"imageSize":224}

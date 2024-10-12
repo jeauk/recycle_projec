@@ -10,10 +10,16 @@
     
     padding: 10px;
 }
-
+.topFiveSliders{
+    width: 82%;
+    margin:30px auto;
+}
+.topFiveSliders>div{
+    margin-left: 10px;
+}
 
 .boardImage {
-    width: 100%;
+    width: 95%;
     height: auto;
     max-height: 300px;
     object-fit: cover;
@@ -39,7 +45,7 @@
     display: flex;
     justify-content: space-between;  /* 좌우로 균등하게 배치 */
     align-items: baseline;  /* 텍스트 아랫부분 기준으로 정렬 */
-    margin-bottom: 10px;  /* 아래쪽에 여백 추가 */
+    margin: 10px 10%;  /* 아래쪽에 여백 추가 */
 }
 
 .title {

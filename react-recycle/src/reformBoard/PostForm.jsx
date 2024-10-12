@@ -43,13 +43,13 @@ const PostForm = () => {
   const [thumbnailUrl, setThumbnailUrl] = useState(''); // 썸네일 URL 상태 추가
   const [steps, setSteps] = useState([{ id: 1, content: "", image: null, imagePreview: null }]); // id와 미리보기 추가
   const [errorMessage, setErrorMessage] = useState('');
-  const [nextId, setNextId] = useState(2); 
+  const [nextId, setNextId] = useState(2);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [croppedArea, setCroppedArea] = useState(null);
   const [isCropping, setIsCropping] = useState(false);
   const [croppedImageBlob, setCroppedImageBlob] = useState(null);
-      const myBackDomain = "http://localhost:8080"
+  const myBackDomain = "http://localhost:8080";
 
   const jwt = sessionStorage.getItem("jwt");
   const navigate = useNavigate();
@@ -93,14 +93,22 @@ const PostForm = () => {
   };
 
   const generateThumbnailUrl = async (url) => {
+    // 일반 유튜브 비디오 ID 패턴
     const youtubeRegex = /(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+    const youtubeShortsRegex = /youtube\.com\/shorts\/([a-zA-Z0-9_-]{11})/; // 유튜브 Shorts 패턴
+  
     const youtubeMatch = url.match(youtubeRegex);
-    
+    const youtubeShortsMatch = url.match(youtubeShortsRegex);
+  
     if (youtubeMatch && youtubeMatch[1]) {
-      return `https://img.youtube.com/vi/${youtubeMatch[1]}/0.jpg`;
+      return `https://img.youtube.com/vi/${youtubeMatch[1]}/0.jpg`; // 일반 유튜브 비디오 썸네일
+    } else if (youtubeShortsMatch && youtubeShortsMatch[1]) {
+      const shortId = youtubeShortsMatch[1];
+      const convertedUrl = `https://youtube.com/embed/${shortId}`; // Shorts 링크를 임베드 링크로 변환
+      return `https://img.youtube.com/vi/${shortId}/0.jpg`; // 변환된 ID로 썸네일 가져오기
     } else if (url.includes('naver.com')) {
       try {
-        const response = await fetch(myBackDomain+'/naver', {
+        const response = await fetch(myBackDomain + '/naver', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ url })
@@ -117,10 +125,15 @@ const PostForm = () => {
     }
     return '';
   };
+  
 
   // 폼 제출 처리
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!croppedImageBlob) {
+      alert("대표 사진을 넣어주세요");
+      return;
+    }
     const formData = new FormData();
     formData.append("title", title);
     formData.append("content", content);
@@ -140,7 +153,7 @@ const PostForm = () => {
     });
 
     try {
-      const response = await fetch(myBackDomain+"/api/posts", {
+      const response = await fetch(myBackDomain + "/api/posts", {
         method: "POST",
         headers: { "Authorization": `Bearer ${jwt}` },
         body: formData,
@@ -186,7 +199,7 @@ const PostForm = () => {
     const updatedStepImages = [...croppedStepImages];
     updatedStepImages[index] = croppedImage;
     setCroppedStepImages(updatedStepImages);
-  
+
     // 크롭 모드 비활성화
     setIsStepCropping(prev => prev.map((val, i) => i === index ? false : val));
   };
@@ -197,32 +210,37 @@ const PostForm = () => {
     newSteps[index].image = file;
     newSteps[index].imagePreview = URL.createObjectURL(file);
     setSteps(newSteps);
-  
+
     // 크롭 모드 활성화
     const updatedCropState = [...isStepCropping];
     updatedCropState[index] = true;
     setIsStepCropping(updatedCropState);
+    window.scrollTo(0, 500);
   };
 
   return (
     <>
       {isCropping && (
-        <div style={{'position': 'absolute',
-          'z-index': 1000,
+        <div style={{
+          'position': 'absolute',
+          'zIndex': 1000,
           'height': '80vh',
           'width': '80vw',
-          'background-color': '#00000077',
+          'backgroundColor': '#00000077',
           'top': 0,
-          'zIndex': 10000}}>
+          'zIndex': 10000
+        }}>
           <div style={{
             'display': 'flex',
             flexDirection: 'column',
             height: '100%',
             paddingTop: '15%'
           }}>
-            <div style={{'position': 'relative',
+            <div style={{
+              'position': 'relative',
               'height': '100%',
-              'width': '100%'}}>
+              'width': '100%'
+            }}>
               <Cropper
                 image={imagePreview}
                 crop={crop}
@@ -233,16 +251,18 @@ const PostForm = () => {
                 onCropComplete={(croppedArea, croppedAreaPixels) => setCroppedArea(croppedAreaPixels)}
               />
             </div>
-            <div style={{'position': 'relative',
+            <div style={{
+              'position': 'relative',
               'height': '100%',
-              'width': '100%'}}>
+              'width': '100%'
+            }}>
               <button className={styles.cropButton} type="button" onClick={handleCropComplete}>완료</button>
             </div>
-            </div>
           </div>
+        </div>
 
       )}
-    
+
       <form onSubmit={handleSubmit} className={styles.formContainer}>
         <div className={styles.mainContent}>
           <div className={styles.imageUpload} onClick={() => mainImageInputRef.current.click()}>
@@ -257,7 +277,6 @@ const PostForm = () => {
               ref={mainImageInputRef}
               style={{ display: 'none' }}
               onChange={handleImageChange}
-              required
             />
           </div>
 
@@ -267,7 +286,7 @@ const PostForm = () => {
             <input
               type="text"
               value={title}
-              placeholder="제목을 입력하세요"
+              placeh  lder="제목을 입력하세요"
               onChange={(e) => setTitle(e.target.value)}
               required
               className={styles.inputField}
@@ -279,7 +298,7 @@ const PostForm = () => {
               onChange={(e) => setContent(e.target.value)}
               required
               className={styles.contentInput}
-              ></textarea>
+            ></textarea>
           </div>
         </div>
 
@@ -318,55 +337,61 @@ const PostForm = () => {
               </div>
 
               <div className={styles.stepImageUpload} onClick={() => handleStepImageClick(index)}>
-    {croppedStepImages[index] ? (
-      <img src={URL.createObjectURL(croppedStepImages[index])} alt={`STEP ${index + 1} 미리보기`} className={styles.imagePreview} />
-    ) : (
-      <div className={styles.imagePlaceholder}>여기에 STEP 이미지 첨부</div>
-    )}
-    <input
-      type="file"
-      accept="image/*"
-      ref={(el) => (stepImageInputRefs.current[index] = el)}  // useRef 배열로 각 스텝 이미지 입력 참조
-      style={{ display: 'none' }}  // 숨김 처리
-      onChange={(e) => handleStepImageChange(index, e)}
-    />
-  </div>
+                {croppedStepImages[index] ? (
+                  <img src={URL.createObjectURL(croppedStepImages[index])} alt={`STEP ${index + 1} 미리보기`} className={styles.imagePreview} />
+                ) : (
+                  <div className={styles.imagePlaceholder}>여기에 STEP 이미지 첨부</div>
+                )}
+                <input
+                  type="file"
+                  accept="image/*"
+                  ref={(el) => (stepImageInputRefs.current[index] = el)}  // useRef 배열로 각 스텝 이미지 입력 참조
+                  style={{ display: 'none' }}  // 숨김 처리
+                  onChange={(e) => handleStepImageChange(index, e)}
+                />
+              </div>
 
-  {isStepCropping[index] && (
-  <div style={{'position': 'absolute',
-    'z-index': 1000,
-    'height': '80vh',
-    'width': '80vw',
-    'background-color': '#00000077',
-    'top': '80vh',
-    'zIndex': 10000}}>
-    <div style={{
-      'display': 'flex',
-      flexDirection: 'column',
-      height: '100%',
-      paddingTop: '15%'
-    }}>
-      <div style={{'position': 'relative',
-        'height': '100%',
-        'width': '100%'}}>
-        <Cropper
-          image={steps[index].imagePreview}
-          crop={crop}
-          zoom={zoom}
-          aspect={5 / 3}
-          onCropChange={setCrop}
-          onZoomChange={setZoom}
-          onCropComplete={(croppedArea, croppedAreaPixels) => setCroppedArea(croppedAreaPixels)}
-        />
-      </div>
-      <div style={{'position': 'relative',
-        'height': '100%',
-        'width': '100%'}}>
-        <button className={styles.cropButton} type="button" onClick={() => handleStepCropComplete(index)}>완료</button>
-      </div>
-    </div>
-  </div>
-)}
+              {isStepCropping[index] && (
+                <div style={{
+                  'position': 'absolute',
+                  'zIndex': 1000,
+                  'height': '80vh',
+                  'width': '80vw',
+                  'backgroundColor': '#00000077',
+                  'top': '80vh',
+                  'zIndex': 10000
+                }}>
+                  <div style={{
+                    'display': 'flex',
+                    flexDirection: 'column',
+                    height: '100%',
+                    paddingTop: '15%'
+                  }}>
+                    <div style={{
+                      'position': 'relative',
+                      'height': '100%',
+                      'width': '100%'
+                    }}>
+                      <Cropper
+                        image={steps[index].imagePreview}
+                        crop={crop}
+                        zoom={zoom}
+                        aspect={5 / 3}
+                        onCropChange={setCrop}
+                        onZoomChange={setZoom}
+                        onCropComplete={(croppedArea, croppedAreaPixels) => setCroppedArea(croppedAreaPixels)}
+                      />
+                    </div>
+                    <div style={{
+                      'position': 'relative',
+                      'height': '100%',
+                      'width': '100%'
+                    }}>
+                      <button className={styles.cropButton} type="button" onClick={() => handleStepCropComplete(index)}>완료</button>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               <button
                 type="button"

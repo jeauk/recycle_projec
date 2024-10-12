@@ -1,0 +1,7 @@
+
+/* src/styles/VendingDevice.module.css */
+
+.mapMapMap {
+    width: calc(100vw - 17px); /* 전체 뷰포트 너비 */
+    height: calc(100vh - 100px); /* 상단 메뉴의 높이를 뺀 전체 뷰포트 높이 */
+}

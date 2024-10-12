@@ -11,47 +11,18 @@ const Carvon = () => {
     };
 
     return (
-        <div>
-            <div className={styles.titleContainer}>
-                <h1 className={styles.title}>포인트로 환경도 지키고 보상도 받아요!</h1>
+        <div className={styles.carvonContainer}>
+            <div className={styles.tabs}>
+                <span className={styles.tabTitle}>탄소중립포인트, 함께</span>
+                <div className={styles.menu}>
+                    <span className={styles.tabOne}>제도소개</span>
+                    <span className={styles.tabTwo}>인셉티브 안내</span>
+                    <span className={styles.tabThree}>참여방법</span>
+                    <span className={styles.tabFour}>참여기업 안내</span>
+                </div>
             </div>
-            <div className={styles.container}>
-                <div className={styles.box}>
-                    <h2>탄소중립포인트, 무엇인가요?</h2>
-                    <button 
-                        className={styles.button}
-                        onClick={() => handleNavigate('/carvon/drafting')} // 내부 경로 설정
-                    >
-                        <span>자세히 알아보기</span>
-                    </button>
-                </div>
-                <div className={styles.box}>
-                    <h2>탄소중립포인트로 받을 수 있는 혜택</h2>
-                    <button 
-                        className={styles.button}
-                        onClick={() => handleNavigate('/carvon/incentive')} // 내부 경로 설정
-                    >
-                        <span>혜택 확인하기</span>
-                    </button>
-                </div>
-                <div className={styles.box}>
-                    <h2>탄소중립포인트 참여는 어떻게 하나요?</h2>
-                    <button 
-                        className={styles.button}
-                        onClick={() => handleNavigate('/carvon/carvonMethod')} // 내부 경로 설정
-                    >
-                        <span>참여 방법 알아보기</span>
-                    </button>
-                </div>
-                <div className={styles.box}>
-                    <h2>탄소중립포인트에 참여하는 기업들</h2>
-                    <button 
-                        className={styles.button}
-                        onClick={() => handleNavigate('/carvon/companyList')} // 내부 경로 설정
-                    >
-                        <span>참여 기업 보기</span>
-                    </button>
-                </div>
+            <div className={styles.content}>
+                <img src='#' alt="설명 이미지" />
             </div>
         </div>
     );

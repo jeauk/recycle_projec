@@ -15,8 +15,7 @@ function ProfileUpdateForm() {
 
   const fileInputRef = useRef(null);
 
-      const myBackDomain = "http://localhost:8080"
-    const myFrontDomain = "http://localhost:3000"
+  const myBackDomain = 'http://localhost:8080';
 
   useEffect(() => {
     // 컴포넌트 마운트 시 로그인 상태를 확인
@@ -131,14 +130,14 @@ function ProfileUpdateForm() {
             onChange={(e) => setNickname(e.target.value)}
             readOnly={!isLoggedIn}  // 로그인이 안되었을 때는 입력할 수 없도록 설정
           />
-          <button onClick={handleContactClick} className={styles.contactButton}>
-            문의하기
-          </button>
           {isLoggedIn && (
             <button onClick={handleSubmit} className={styles.submitButton}>
               프로필 업데이트
             </button>
           )}
+          <button onClick={handleContactClick} className={styles.contactButton}>
+            문의하기
+          </button>
         </div>
 
         {isLoggedIn ? (
