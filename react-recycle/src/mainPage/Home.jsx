@@ -2,6 +2,7 @@ import React from 'react';
 import styles from '../styles/Home.module.css';  // CSS 파일 import
 import Carvon from './Carvon';
 import Card from './Card';
+import TopFiveList from './TopFiveList';
 
 const Home = () => {
     return (
@@ -16,8 +17,8 @@ const Home = () => {
                 <div className={styles.carvonGridItem}>
                     <Carvon />
                 </div>
-                <div className={styles.gridItem}>
-
+                <div className={styles.topFiveGridItem}>
+                    <TopFiveList/>
                 </div>
             </div>
         </div>

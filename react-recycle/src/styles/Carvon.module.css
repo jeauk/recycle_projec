@@ -1,18 +1,46 @@
-.tabs {
-    flex-direction: column; /* 기본적으로 세로로 나열하기 위한 설정 */
-    align-items: flex-start; /* 왼쪽 정렬 */
+.carvonContainer {
+    width: 100%;
+  }
+  
+  .tabs {
+    margin-bottom: 50px;
+    display: flex;
+    align-items: first baseline
+
   }
   
   .tabTitle {
-    float: left;
     font-weight: bold;
     font-size: 40px;
+    margin-right: 50px;
   }
-  
   
   .menu span {
-    margin: 0 20px; /* 각 탭 간의 간격 */
-    font-size: 16px;
+    margin: 0 20px;
+    font-size: 18px;
     cursor: pointer;
   }
+
+  .sliderContainer{
+    width: 100%;
+    height: 600px;
+  }
+  .sliderContainer img{
+    margin: 0 auto;
+    width: 80%;
+    height: 600px;
+    object-fit: cover;
+  }
+
   
+/* 기존 탭 스타일 */
+.tabOne, .tabTwo, .tabThree, .tabFour {
+  padding: 10px 20px;
+  cursor: pointer;
+  position: relative;
+}
+
+/* 활성화된 탭에 밑줄 추가 */
+.activeTab {
+  border-bottom: 3px solid #000; /* 밑줄 스타일 */
+}
