@@ -3,39 +3,15 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    padding: 100px 50px;
+    gap: 50px;
 }
 
 .card {
-    width: calc(20% - 3.6875rem);
-    height: 20.1446rem;
+    width: 350px;
+    height: auto;
     text-align: center;
-    padding: 20px;
-    margin: 10px;
     cursor: pointer;
     transition: transform 0.3s ease;
-    background-color: white;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-@media (max-width: 1400px) {
-    .card {
-        width: calc(30%);
-    }
-    .cardContainer {
-        justify-content: space-evenly;
-    }
-}
-
-@media (max-width: 768px) {
-    .card {
-        width: calc(50%);
-    }
-    .cardContainer {
-        justify-content: center;
-    }
 }
 
 .card:hover {
@@ -60,14 +36,14 @@
 }
 
 .title {
-    font-size: 1.443em;
+    font-size: 20px;
     color: #333;
     margin-bottom: 10px;
     transition: color 0.3s ease; /* 색상이 바뀌는 효과 */
 }
 
 .description {
-    font-size: 1em;
+    font-size: 15px;
     color: #666;
 }
 
@@ -79,3 +55,11 @@
 .card:hover .title {
     color: green; /* 마우스를 올렸을 때 초록색 제목 */
 }
+
+.tS {
+    font-size: 40px;
+    font-weight: bold;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
