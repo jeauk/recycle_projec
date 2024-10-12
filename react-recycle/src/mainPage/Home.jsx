@@ -1,4 +1,3 @@
-import Sliders from "./Sliders";
 import Card from "./Card";
 import Quiz from "./Quiz";
 import TopFiveList from "./TopFiveList";
@@ -10,16 +9,15 @@ const Home = () => {
     return (
         <div className={style.home1}>
             <div className={style.t}>
-                <Sliders />
             </div>
             <div className={style.c}>
                 <Card />
+                <Carvon />
             </div>
 
             <div className={style.qtc}>
-                <Quiz />
                 <TopFiveList />
-                <Carvon />
+                <Quiz />
             </div>
         </div>
     );

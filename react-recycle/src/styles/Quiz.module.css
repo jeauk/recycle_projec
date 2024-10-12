@@ -16,6 +16,10 @@
     /* 부모 요소에 대한 상대적 위치 */
 }
 
+.test {
+    width: 80%;
+}
+
 /* 텍스트 컨테이너 */
 .textContainer {
     max-width: 60%;

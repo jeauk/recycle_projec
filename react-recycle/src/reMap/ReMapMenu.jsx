@@ -6,7 +6,7 @@ import rm from '../styles/ReMap.module.css';
 Modal.setAppElement('#root');
 
 const ReMapMenu = React.memo(({ locations, onLocationClick, searchHistory, setSearchHistory, activeTab, setActiveTab }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [activeButton, setActiveButton] = useState(activeTab);
   const [isModalOpen, setIsModalOpen] = useState(false);

@@ -25,7 +25,6 @@ import Incentive from "./carvon/Incentive";
 import OX from "./oxQuiz/OX";
 import CarvonMethod from "./carvon/CarvonMethod";
 import ScrollToTop from "./components/ScrollToTop";
-import Sliders from "./mainPage/Sliders";
 import AiMainPage from "./ai/AiMainPage";
 
 function App() {
@@ -62,7 +61,6 @@ function App() {
           <div className={styles.mainContent}>
             <Routes>
               <Route index element={<Home />} />
-              <Route path='/sliders' element={<Sliders />} />
               <Route path='/map' element={<KakaoMap />} />
               <Route path='/recycleMain/:id' element={<MainRecycleDetail />} />
               <Route path='/sumap' element={<VendingDeviceMap />} />
