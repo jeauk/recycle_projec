@@ -23,6 +23,7 @@ import CompanyList from "./carvon/CompanyList";
 import Drafting from "./carvon/Drafting";
 import Incentive from "./carvon/Incentive";
 import OX from "./oxQuiz/OX";
+import Quiz from "./oxQuiz/Quiz";
 import CarvonMethod from "./carvon/CarvonMethod";
 import ScrollToTop from "./components/ScrollToTop";
 import AiMainPage from "./ai/AiMainPage";
@@ -79,6 +80,7 @@ function App() {
               <Route path="/carvon/carvonMethod" element={<CarvonMethod />} />
               <Route path="/mainRecycleDetail" element={<MainRecycleDetail />} />
               <Route path="/oxquiz" element={<OX />} />
+              <Route path="/quiz" element={<Quiz />} />
               <Route path="/ai" element={<AiMainPage />} />
               <Route
                 path="/login/oauth2/callback/kakao"

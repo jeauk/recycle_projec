@@ -2,6 +2,8 @@ import React from 'react';
 import styles from '../styles/Home.module.css';  // CSS 파일 import
 import Carvon from './Carvon';
 import Card from './Card';
+import OX from '../oxQuiz/OX';
+import Quiz from '../oxQuiz/Quiz';
 
 const Home = () => {
     return (
@@ -18,6 +20,9 @@ const Home = () => {
                 </div>
                 <div className={styles.gridItem}>
 
+                </div>
+                <div className={styles.QuizGridItem}>
+                    <Quiz />
                 </div>
             </div>
         </div>
