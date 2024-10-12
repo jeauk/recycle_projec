@@ -1,23 +1,23 @@
-.home1 {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
+.gridContainer {
+  display: grid; /* Grid 시스템 사용 */
+  grid-template-rows: repeat(4, 500px); /* 4개의 세로 행을 생성, 각각의 높이는 500px */
+  justify-items: center; /* 아이템을 중앙에 배치 */
+  width: 100%; /* 그리드 컨테이너가 부모의 전체 너비를 차지 */
 }
 
-.t {
-    width: 82%;
-    align-items: center;
-    display: flex;
+.slidersGridItem {
+  background-color: lightcoral;
+  width: 1550px; /* 각 그리드 아이템의 가로 크기를 1550px로 설정 */
 }
-
-.c {
-    width: 100%;
-    display: flex;
-    align-items: center;
+.carvonGridItem {
+  background-color: rgb(219, 240, 128);
+  width: 1550px; /* 각 그리드 아이템의 가로 크기를 1550px로 설정 */
 }
-
-.qtc {
-    width: 100%;
-    min-width: 1024px;
+.gridItem {
+  background-color: rgb(128, 223, 240);
+  width: 1550px; /* 각 그리드 아이템의 가로 크기를 1550px로 설정 */
+}
+.gridItem {
+  background-color: rgb(111, 164, 244);
+  width: 1550px; /* 각 그리드 아이템의 가로 크기를 1550px로 설정 */
 }
