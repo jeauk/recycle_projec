@@ -105,16 +105,16 @@ const Carvon = () => {
             <div className={styles.sliderContainer}>
                 <Slider ref={sliderRef} {...settings}>
                     <div>
-                        <img src="https://picsum.photos/600/400" alt="슬라이드 이미지 1" />
+                        <img src="/img/jedo.png" alt="제도소개 이미지" />
                     </div>
                     <div>
-                        <img src="https://picsum.photos/600/400" alt="슬라이드 이미지 2" />
+                        <img src="/img/insep.png" alt="인셉티브 이미지" />
                     </div>
                     <div>
-                        <img src="https://picsum.photos/600/400" alt="슬라이드 이미지 3" />
+                        <img src="/img/injoy.png" alt="참여방법 이미지" />
                     </div>
                     <div>
-                        <img src="https://picsum.photos/600/400" alt="슬라이드 이미지 4" />
+                        <img src="/img/injoycom.png" alt="참여기업 소개 이미지" />
                     </div>
                 </Slider>
             </div>
