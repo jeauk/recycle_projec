@@ -6,12 +6,26 @@ import TopFiveList from './TopFiveList';
 import Quiz from './Quiz';
 
 const Home = () => {
+    const navigate = useNavigate();  // useNavigate 훅 초기화
+
+    // 이미지 클릭 시 이동하는 함수
+    const handleImageClick = () => {
+        navigate('/destinationPage');  // 원하는 경로로 이동
+    };
+
+
+
     return (
         <div>
             <div className={styles.gridContainer}>
 
                 <div className={styles.slidersGridItem}>
-                    <img src='/img/mainBener.png'></img>
+                    <img 
+                        src='/img/mainBener.png' 
+                        alt='Main Banner' 
+                        onClick={handleImageClick} 
+                        style={{ cursor: 'pointer' }}
+                    />
                 </div>
                 <div className={styles.cardGridItem}>
                     <Card />
