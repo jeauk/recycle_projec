@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { Map } from "react-kakao-maps-sdk";
 import ReMapMenu from "./ReMapMenu";
 import ReMapMarker from "./ReMapMarker";
+import styles from '../styles/ReMap.module.css';
 
 const ReMap = () => {
 	const [locations, setLocations] = useState([]);
@@ -77,7 +78,7 @@ const ReMap = () => {
 	}, []);
 
 	return (
-		<div>
+		<div className={styles.rewrap}>
 			<ReMapMenu searchHistory={searchHistory} setSearchHistory={setSearchHistory} locations={filteredLocations} onLocationClick={handleMarkerClick} activeTab={activeTab} setActiveTab={setActiveTab} />
 			{center && (
 				<Map center={center} style={{ width: '80vw', height: '600px', marginTop:'10px' }} level={3}>

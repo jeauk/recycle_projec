@@ -77,7 +77,7 @@ const AiMainPage = () => {
         video: {
           facingMode: 'environment', // 전면 카메라: 'user', 후면 카메라: 'environment'
           width: { ideal: 1280 },
-          height: { ideal: 720 } 
+          height: { ideal: 720 }
         },
       };
       const stream = await navigator.mediaDevices.getUserMedia(constraints);
@@ -126,49 +126,51 @@ const AiMainPage = () => {
 
 
   return (
-    <div className={styles.container}>
-      <h1>이미지를 분류하세요</h1>
+    <div className={styles.wrap}>
+      <div className={styles.container}>
+        <h1>이미지를 분류하세요</h1>
 
-      {/* 모드가 선택되지 않았을 때 버튼 두 개 보여주기 */}
-      {!mode && (
-        <div className={styles.buttonContainer}>
-          <button onClick={handleUploadClick} className={styles.btn}>업로드</button>
-          <button onClick={handleCameraClick} className={styles.btn}>카메라</button>
-        </div>
-      )}
+        {/* 모드가 선택되지 않았을 때 버튼 두 개 보여주기 */}
+        {!mode && (
+          <div className={styles.buttonContainer}>
+            <button onClick={handleUploadClick} className={styles.btn}>업로드</button>
+            <button onClick={handleCameraClick} className={styles.btn}>카메라</button>
+          </div>
+        )}
 
-      {/* 업로드 모드일 때 */}
-      {mode === 'upload' && (
-        <div className={styles.wrap}>
-          <h2>사진을 올려주세요</h2>
-          <input
-            type="file"
-            onChange={classifyImage}
-            accept="image/*"
-            className={styles.input}
-            id="file-upload"
-          />
-          {imagePreview && (
-            <div>
-              <img src={imagePreview} alt="Uploaded" style={{ width: '300px', marginTop: '20px' }} />
-            </div>
-          )}
-          <p>{result}</p>
-          <button onClick={handleCameraClick} className={styles.changeBtn}>카메라</button>
-        </div>
-      )}
+        {/* 업로드 모드일 때 */}
+        {mode === 'upload' && (
+          <div className={styles.wrap}>
+            <h2>사진을 올려주세요</h2>
+            <input
+              type="file"
+              onChange={classifyImage}
+              accept="image/*"
+              className={styles.input}
+              id="file-upload"
+            />
+            {imagePreview && (
+              <div>
+                <img src={imagePreview} alt="Uploaded" style={{ width: '200px', marginTop: '20px', objectFit:'cover' }} />
+              </div>
+            )}
+            <p>{result}</p>
+            <button onClick={handleCameraClick} className={styles.changeBtn}>카메라</button>
+          </div>
+        )}
 
-      {/* 사진 찍기 모드일 때 */}
-      {mode === 'camera' && (
-        <div className={styles.wrap}>
-          <h2>웹캠으로 촬영한 사진을 분류합니다</h2>
-          <video ref={videoRef} autoPlay style={{ width: '300px', marginTop: '16px' }} />
-          <p>{result}</p>
-          <canvas ref={canvasRef} width={224} height={224} style={{ display: 'none' }}></canvas>
-          <button onClick={captureAndClassifyImage} className={styles.btn}>캡처</button>
-          <button onClick={handleUploadClick} className={styles.changeBtn}>업로드</button>
-        </div>
-      )}
+        {/* 사진 찍기 모드일 때 */}
+        {mode === 'camera' && (
+          <div className={styles.wrap}>
+            <h2>웹캠으로 촬영한 사진을 분류합니다</h2>
+            <video ref={videoRef} autoPlay style={{ width: '300px', marginTop: '16px' }} />
+            <p>{result}</p>
+            <canvas ref={canvasRef} width={224} height={224} style={{ display: 'none' }}></canvas>
+            <button onClick={captureAndClassifyImage} className={styles.btn}>캡처</button>
+            <button onClick={handleUploadClick} className={styles.changeBtn}>업로드</button>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

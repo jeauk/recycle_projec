@@ -152,7 +152,7 @@ const ReMapMenu = React.memo(({ locations, onLocationClick, searchHistory, setSe
   }, [handleClickOutside, handleMouseDown]);
 
   return (
-    <div className={rm.rewrap} ref={menuRef}>
+    <div ref={menuRef}>
       <div className={`${m.sideMenu} ${isOpen ? m.open : ''}`}>
         <div className={m.search}>
           <input type="text" placeholder="중고 가게 위치 검색" onChange={handleSearchChange} value={searchQuery} onKeyDown={handleKeyPress} />
