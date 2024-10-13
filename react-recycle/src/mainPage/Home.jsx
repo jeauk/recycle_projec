@@ -4,6 +4,7 @@ import Carvon from './Carvon';
 import Card from './Card';
 import TopFiveList from './TopFiveList';
 import Quiz from './Quiz';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
     const navigate = useNavigate();  // useNavigate 훅 초기화
