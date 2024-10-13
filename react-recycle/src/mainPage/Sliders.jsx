@@ -30,33 +30,33 @@ const MainSlider = () => {
     <section className={styles.mainslider}>
       <div className={styles.swiperContainer} ref={swiperContainerRef}>
         <div className="swiper-wrapper">
-          <div className="swiper-slide">
-            <div className={styles.container}>
-              <div className={styles.inner}>
-                <div className={styles.sliderCenter}>
-                  <img src={`${process.env.PUBLIC_URL}/img/benner1.png`} alt="Slide 1" />
+              <div className="swiper-slide">
+                <div className={styles.container}>
+                  <div className={styles.inner}>
+                    <div className={styles.sliderCenter}>
+                      <img src={`${process.env.PUBLIC_URL}/img/benner1.png`} alt="Slide 1" />
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
-          <div className="swiper-slide">
-            <div className={styles.container}>
-              <div className={styles.inner}>
-                <div className={styles.sliderCenter}>
-                  <img src={`${process.env.PUBLIC_URL}/img/benner2.png`} alt="Slide 2" />
+              <div className="swiper-slide">
+                <div className={styles.container}>
+                  <div className={styles.inner}>
+                    <div className={styles.sliderCenter}>
+                      <img src={`${process.env.PUBLIC_URL}/img/benner2.png`} alt="Slide 2" />
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
-          <div className="swiper-slide">
-            <div className={styles.container}>
-              <div className={styles.inner}>
-                <div className={styles.sliderCenter}>
-                  <img src={`${process.env.PUBLIC_URL}/img/benner3.png`} alt="Slide 3" />
+              <div className="swiper-slide">
+                <div className={styles.container}>
+                  <div className={styles.inner}>
+                    <div className={styles.sliderCenter}>
+                      <img src={`${process.env.PUBLIC_URL}/img/benner3.png`} alt="Slide 3" />
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
         </div>
         <div className={styles.swiperPagination}></div>
         <div className={styles.swiperButtonPrev}></div>

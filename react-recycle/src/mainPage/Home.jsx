@@ -11,6 +11,7 @@ const Home = () => {
             <div className={styles.gridContainer}>
 
                 <div className={styles.slidersGridItem}>
+                    <img src='/img/mainBener.png'></img>
                 </div>
                 <div className={styles.cardGridItem}>
                     <Card />
