@@ -105,16 +105,36 @@ const Carvon = () => {
             <div className={styles.sliderContainer}>
                 <Slider ref={sliderRef} {...settings}>
                     <div>
-                        <img src="/img/jedo.png" alt="제도소개 이미지" />
+                        <img 
+                            src="/img/jedo.png" 
+                            alt="제도소개 이미지" 
+                            onClick={() => window.location.href = '/carvon/drafting'} // 이미지 클릭 시 페이지 이동
+                            style={{ cursor: 'pointer' }}
+                        />
                     </div>
                     <div>
-                        <img src="/img/insep.png" alt="인셉티브 이미지" />
+                        <img 
+                            src="/img/insep.png" 
+                            alt="인센티브 이미지" 
+                            onClick={() => window.location.href = '/carvon/incentive'} // 이미지 클릭 시 페이지 이동
+                            style={{ cursor: 'pointer' }}
+                        />
                     </div>
                     <div>
-                        <img src="/img/injoy.png" alt="참여방법 이미지" />
+                        <img 
+                            src="/img/injoy.png" 
+                            alt="참여방법 이미지" 
+                            onClick={() => window.location.href = '/carvon/carvonMethod'} // 이미지 클릭 시 페이지 이동
+                            style={{ cursor: 'pointer' }}
+                        />
                     </div>
                     <div>
-                        <img src="/img/injoycom.png" alt="참여기업 소개 이미지" />
+                        <img 
+                            src="/img/injoycom.png" 
+                            alt="참여기업 소개 이미지" 
+                            onClick={() => window.location.href = '/carvon/companyList'} // 이미지 클릭 시 페이지 이동
+                            style={{ cursor: 'pointer' }}
+                        />
                     </div>
                 </Slider>
             </div>
