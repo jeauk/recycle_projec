@@ -11,7 +11,7 @@
 
 .slidersGridItem {
   background-color: lightcoral;
-  width: 1550px;
+  width: 100%;
   /* 각 그리드 아이템의 가로 크기를 1550px로 설정 */
 }
 
@@ -28,7 +28,7 @@
 }
 
 .QuizGridItem {
-  background-color: rgb(229, 111, 244);
+  /* background-color: rgb(229, 111, 244); */
   width: 100%;
   display: grid;
   align-items: center;
