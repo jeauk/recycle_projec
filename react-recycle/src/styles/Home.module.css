@@ -9,6 +9,11 @@
   width: 1550px;
   height: 600px; /* 특정 그리드 항목의 높이를 600px로 설정 */
 }
+.slidersGridItem img{
+  width: 1550px;
+  height: 600px;
+  object-fit: cover;
+}
 .cardGridItem {
   width: 1550px;
   height: 500px; /* 특정 그리드 항목의 높이를 700px로 설정 */
