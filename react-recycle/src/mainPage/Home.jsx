@@ -10,7 +10,7 @@ const Home = () => {
 
     // 이미지 클릭 시 이동하는 함수
     const handleImageClick = () => {
-        navigate('/destinationPage');  // 원하는 경로로 이동
+        navigate('/ai');  // 원하는 경로로 이동
     };
 
 
