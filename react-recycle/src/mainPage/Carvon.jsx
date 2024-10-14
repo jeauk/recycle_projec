@@ -15,46 +15,9 @@ const Carvon = () => {
         slidesToShow: 1,
         slidesToScroll: 1,
         waitForAnimate: false,
-        nextArrow: <SampleNextArrow />,
-        prevArrow: <SamplePrevArrow />,
         afterChange: (current) => setActiveSlide(current), // 슬라이드가 변경될 때 호출
     };
 
-    // 다음 화살표 커스텀 컴포넌트
-    function SampleNextArrow(props) {
-        const { className, style, onClick } = props;
-        return (
-          <div
-            className={className}
-            style={{ ...style, display: "block", background: "none" }}
-            onClick={onClick}
-          >
-            <img 
-              src="/img/nextArrow.png" // 경로는 이미지가 저장된 경로에 맞게 설정하세요.
-              alt="다음"
-              style={{ width: '40px', height: '40px' }}
-            />
-          </div>
-        );
-    }
-
-    // 이전 화살표 커스텀 컴포넌트
-    function SamplePrevArrow(props) {
-        const { className, style, onClick } = props;
-        return (
-          <div
-            className={className}
-            style={{ ...style, display: "block", background: "none" }}
-            onClick={onClick}
-          >
-            <img 
-              src="/img/prevArrow.png" // 경로는 이미지가 저장된 경로에 맞게 설정하세요.
-              alt="이전"
-              style={{ width: '40px', height: '40px' }}
-            />
-          </div>
-        );
-    }
 
     // 탭을 클릭할 때 해당 슬라이드로 이동하는 함수
     const goToSlide = (index) => {

@@ -27,7 +27,7 @@
   }
   .sliderContainer img{
     margin: 0 auto;
-    width: 80%;
+    width: 100%;
     height: 600px;
     object-fit: cover;
   }

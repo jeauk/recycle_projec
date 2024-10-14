@@ -46,11 +46,22 @@ const VendingDeviceMenu = React.memo(({ locations, onLocationClick, searchHistor
   }, [setSearchHistory]);
 
   const handleDontShowTodayChange = useCallback(() => {
-    const expirationTime = new Date().getTime() + 24 * 60 * 60 * 1000;
-    setDontShowToday(!dontShowToday);
+    const newDontShow = !dontShowToday;
+    const expirationTime = newDontShow ? new Date().getTime() + 24 * 60 * 60 * 1000 : '';
+    setDontShowToday(newDontShow);
     localStorage.setItem(POPUP_KEY, expirationTime);
-  }, [dontShowToday, POPUP_KEY]);
 
+    if (newDontShow) {
+      setIsModalOpen(false); // 체크박스 선택 시 모달 닫기
+    }
+  }, [dontShowToday, POPUP_KEY]);
+  const nephron_Summation = (
+    <>
+      네프론은 슈퍼빈의 재활용 자판기 시스템으로, 사용자가 지정된 재활용품을 깨끗하게 처리하여 투입하면 포인트로 보상받을 수 있는 서비스입니다. <br /><br />
+      이 포인트는 1포인트 당 1원의 가치로 환전되며, 수퍼빈 홈페이지나 모바일 앱의 적립 내역 메뉴에서 확인할 수 있습니다. <br /><br />
+      더 자세한 사항은 수퍼빈 질문 게시판에서 확인하실 수 있습니다.
+    </>
+  );
   const handleLocationClick = useCallback((loc) => {
     onLocationClick(loc);
   }, [onLocationClick])
@@ -61,17 +72,39 @@ const VendingDeviceMenu = React.memo(({ locations, onLocationClick, searchHistor
     if (tab === "nephron") {
       setModalContent({
         title: "네프론 설명",
-        content: (
-          <>
-            네프론은 슈퍼빈의 재활용 자판기 시스템으로, 사용자가 지정된 재활용품을 깨끗하게 처리하여 투입하면 포인트로 보상받을 수 있는 서비스입니다. <br/><br/>
-            이 포인트는 1포인트 당 1원의 가치로 환전되며, 수퍼빈 홈페이지나 모바일 앱의 적립 내역 메뉴에서 확인할 수 있습니다. <br/><br/>
-            더 자세한 사항은 수퍼빈 질문 게시판에서 확인하실 수 있습니다.
-          </>
-        ),
+        content: nephron_Summation,
       });
     }
     setIsModalOpen(true);
   }, []);
+  useEffect(() => {
+    if (isModalOpen) {
+      setIsOpen(false); // 모달이 열릴 때 메뉴를 닫음
+    } else {
+      setIsOpen(true); // 모달이 닫힐 때 메뉴를 다시 엶
+    }
+  }, [isModalOpen]);
+  useEffect(() => {
+    const expirationTime = localStorage.getItem(POPUP_KEY);
+    const currentTime = new Date().getTime();
+
+    if (expirationTime && currentTime < expirationTime) {
+      setDontShowToday(true);
+    } else {
+      localStorage.removeItem(POPUP_KEY);
+      // 모달 열기 조건
+      if (!dontShowToday) {
+        setModalContent({
+          title: "네프론 설명",
+          content: nephron_Summation,
+        });
+        setIsModalOpen(true);
+      }
+    }
+  }, [dontShowToday, POPUP_KEY]);
+
+
+
   useEffect(() => { // 표시되는 리스트가 바뀌면 스크롤을 초기화 하는 함수 (09-23-09:27)
     if (listRef.current) {
       listRef.current.scrollTop = 0;
@@ -116,7 +149,9 @@ const VendingDeviceMenu = React.memo(({ locations, onLocationClick, searchHistor
               ))
           )}
         </div>
-        <button className={m.descriptionButton} onClick={() => handleTabClick("nephron")}>네프론 설명</button>
+        <div className={m.btnPositionig}>
+          <button className={m.descriptionButton} onClick={() => handleTabClick("nephron")}>네프론 설명</button>
+        </div>
       </div>
       <button className={`${m.toggleButton} ${isOpen ? m.open : ''}`} onClick={toggleMenu}>
         {isOpen ? '<' : '>'}
@@ -143,7 +178,7 @@ const VendingDeviceMenu = React.memo(({ locations, onLocationClick, searchHistor
         <div className={`${m.logoPane} ${isOpen ? m.open : ''}`}>
           <img src="/img/logo.png" alt="Logo" style={{ width: '225px', height: 'auto' }} />
         </div>
-      )} */} 
+      )} */}
       {/* 오른쪽 아래 로고 */}
     </div>
   );
