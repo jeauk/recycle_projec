@@ -19,24 +19,23 @@
 .viewContainer {
     display: flex;
     width: 100%;
-    justify-content: center;
-    flex-wrap: wrap;  /* 요소들이 한 줄에 맞지 않으면 다음 줄로 넘어가게 설정 */
 }
 
 .imgContainer {
     margin-right: 50px;
-    width: 750px;
+    width: 100%;
+    height: 650px;
 }
 .imgContainer img{
     object-fit: cover;
-    width: 750px;
+    width: 100%;
     height: 650px;  
 
 }
 
 .textContainer {
     border: solid black 2px;
-    width: 746px;
+    width: 100%;
     height: 650px;
 }
 

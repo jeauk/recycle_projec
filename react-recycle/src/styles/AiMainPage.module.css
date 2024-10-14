@@ -74,6 +74,10 @@ h1 {
   color: #333;
 }
 
+.buttonContainer {
+  margin-bottom: 3vh;
+}
+
 /* 모바일 대응 */
 @media (max-width: 768px) {
   .container {
