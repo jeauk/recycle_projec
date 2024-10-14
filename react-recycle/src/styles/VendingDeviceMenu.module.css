@@ -109,7 +109,7 @@
 }
 
 .KakaoMapList {
-  max-height: calc(100vh - 150px);
+  max-height: calc(100vh - 278px);
   /* 100vh는 윈도우창의 세로 높이 */
   overflow-y: auto;
   padding: 0% 10%;
@@ -118,7 +118,7 @@
 
 .KakaoMapList.withSearchHistory {
   /* 검색어가 있을때의 세로 높이*/
-  max-height: calc(100vh - 250px);
+  max-height: calc(100vh - 340px);
 }
 
 .KakaoMapList:not(.loading)>div {
@@ -221,10 +221,12 @@
   margin-right: 10px;
 }
 .btnPositionig{
-
+  display: flex; /* 플렉스 박스를 사용하여 정렬 */
+  justify-content: center; /* 수평 중앙 정렬 */
+  margin-top: 20px; /* 버튼과 다른 요소 간의 여백 조정 (필요 시) */
 }
 .descriptionButton {
-  width: 150px;
+  width: 300px;
   height: 75px;
   border: 1px solid #98c76a;
   background-color: white;

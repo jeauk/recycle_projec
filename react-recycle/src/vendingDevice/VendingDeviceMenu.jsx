@@ -57,10 +57,11 @@ const VendingDeviceMenu = React.memo(({ locations, onLocationClick, searchHistor
   }, [dontShowToday, POPUP_KEY]);
   const nephron_Summation = (
     <>
-      네프론은 슈퍼빈의 재활용 자판기 시스템으로, 사용자가 지정된 재활용품을 깨끗하게 처리하여 투입하면 포인트로 보상받을 수 있는 서비스입니다. <br /><br />
-      이 포인트는 1포인트 당 1원의 가치로 환전되며, 수퍼빈 홈페이지나 모바일 앱의 적립 내역 메뉴에서 확인할 수 있습니다. <br /><br />
-      더 자세한 사항은 수퍼빈 질문 게시판에서 확인하실 수 있습니다.
+      네프론은 슈퍼빈의 순환자원 회수 로봇으로, 재활용 자판기라고도 불립니다. 이 로봇은 기체마다 처리할 수 있는 재활용품의 종류가 다르며, 현재는 페트병과 캔에 대해서만 처리하고 있습니다. <br /><br />
+      사용자가 지정된 재활용품을 깨끗하게 처리하여 투입하면, 로봇에 내장된 AI의 딥러닝 기술을 통해 투입된 쓰레기를 식별합니다. 사용자는 이를 통해 1포인트당 1원으로 환전할 수 있는 포인트를 적립할 수 있으며, 적립된 포인트는 수퍼빈 홈페이지 또는 모바일 앱의 적립 내역 메뉴에서 확인할 수 있습니다. <br /><br />
+      네프론은 재활용 효율을 높이고, 환경 보호에 기여하는 혁신적인 솔루션입니다. 더 자세한 사항이나 궁금한 점이 있다면, 수퍼빈의 공식 사이트를 방문하거나 고객 지원 센터에 문의해 주시기 바랍니다.
     </>
+
   );
   const handleLocationClick = useCallback((loc) => {
     onLocationClick(loc);
@@ -173,6 +174,10 @@ const VendingDeviceMenu = React.memo(({ locations, onLocationClick, searchHistor
           /> 오늘 하루 보지 않기
         </label>
         <button onClick={() => setIsModalOpen(false)}>Close</button>
+        <button
+          onClick={() => window.location.href = 'https://www.superbin.co.kr/'} // 실제 URL로 변경하세요
+          className={m.homepageButton} // 스타일을 추가하고 싶다면 클래스를 추가하세요
+        >수퍼빈 홈페이지</button>
       </Modal>
       {/* {isOpen && (
         <div className={`${m.logoPane} ${isOpen ? m.open : ''}`}>
