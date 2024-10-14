@@ -19,7 +19,8 @@ const Home = () => {
     return (
         <div>
             <div className={styles.gridContainer}>
-                <div className={styles.sliders}>
+
+                <div className={styles.slidersGridItem}>
                     <img 
                         src='/img/mainBener.png' 
                         alt='Main Banner' 
