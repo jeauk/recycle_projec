@@ -101,6 +101,7 @@ function Nav() {
     setShowResults(false);
     setFilteredResult([]);
   };
+  
 
   const onSearch = async () => {
     try {
