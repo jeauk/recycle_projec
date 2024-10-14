@@ -1,46 +1,51 @@
 .titleContainer {
     display: flex;
-    justify-content: space-between;  /* 좌우로 균등하게 배치 */
+    justify-content: space-between;
     align-items: baseline;  /* 텍스트 아랫부분 기준으로 정렬 */
-    margin: 10px 10%;  /* 아래쪽에 여백 추가 */
 }
 
 .title {
-    font-size: 24px;  /* 제목 스타일 */
+    font-size: 40px;  /* 제목 스타일 */
     font-weight: bold;
 }
 
 .more {
-    font-size: 14px;  /* 더보기 스타일 */
+    float: right;
+    font-size: 25px;  /* 더보기 스타일 */
     color: green;  /* 더보기 색상 설정 */
     cursor: pointer;
 }
 
 .viewContainer {
     display: flex;
-    width: 350px;
+    width: 100%;
     justify-content: center;
-    gap: 50px;
+    flex-wrap: wrap;  /* 요소들이 한 줄에 맞지 않으면 다음 줄로 넘어가게 설정 */
 }
 
 .imgContainer {
-    width: 350px;
+    margin-right: 50px;
+    width: 750px;
+}
+.imgContainer img{
+    object-fit: cover;
+    width: 750px;
+    height: 650px;  
+
 }
 
 .textContainer {
-    width: 1150px;
+    border: solid black 2px;
+    width: 746px;
+    height: 650px;
 }
+
 
 .TFTitle {
-    font-size: 20px;
+    margin: 80px;
+    font-size: 25px;
     display: block;
-    width: 100%;
-    height: 50%;
+
 }
 
-.TFContents {
-    font-size: 15px;
-    display: block;
-    width: 100%;
-    height: 50%;
-}
+
