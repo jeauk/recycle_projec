@@ -6,17 +6,23 @@
     max-width: 1550px;
     margin: 0 auto;
   }
+  .sliders img{
+    cursor: pointer; 
+    width: 100%;
+  }
 
   .slidersGridItem {
     height: 600px; /* 특정 그리드 항목의 높이를 600px로 설정 */
   }
 
   .cardGridItem {
+    width: 100%;
     height: 400px; /* 특정 그리드 항목의 높이를 700px로 설정 */
   }
 
   .carvonGridItem {
-    max-width: 90%;
+    width: 100%;
+    max-width: 100%;
     /* width: 1550px; */
     height: 800px;
     overflow: hidden;
