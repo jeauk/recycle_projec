@@ -138,26 +138,26 @@ const AiMainPage = () => {
           </div>
         )}
 
-        {/* 업로드 모드일 때 */}
-        {mode === 'upload' && (
-          <div className={styles.wrap}>
-            <h2>사진을 올려주세요</h2>
-            <input
-              type="file"
-              onChange={classifyImage}
-              accept="image/*"
-              className={styles.input}
-              id="file-upload"
-            />
-            {imagePreview && (
-              <div>
-                <img src={imagePreview} alt="Uploaded" style={{ width: '200px', marginTop: '20px', objectFit:'cover' }} />
-              </div>
-            )}
-            <p>{result}</p>
-            <button onClick={handleCameraClick} className={styles.changeBtn}>카메라</button>
-          </div>
-        )}
+      {/* 업로드 모드일 때 */}
+      {mode === 'upload' && (
+        <div className={styles.wrap}>
+          <h2>사진을 올려주세요</h2>
+          <input
+            type="file"
+            onChange={classifyImage}
+            accept="image/*"
+            className={styles.input}
+            id="file-upload"
+          />
+          {imagePreview && (
+            <div>
+              <img src={imagePreview} alt="Uploaded" style={{ width: '200px', marginTop: '20px'}} />
+            </div>
+          )}
+          <p>{result}</p>
+          <button onClick={handleCameraClick} className={styles.changeBtn}>카메라</button>
+        </div>
+      )}
 
         {/* 사진 찍기 모드일 때 */}
         {mode === 'camera' && (

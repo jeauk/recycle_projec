@@ -1,30 +1,36 @@
 .gridContainer {
   display: grid;
-  /* Grid 시스템 사용 */
-  grid-template-rows: repeat(5, 500px);
-  /* 4개의 세로 행을 생성, 각각의 높이는 500px */
+  grid-template-rows: auto; /* 행 높이를 자동으로 맞추게 설정 */
   justify-items: center;
-  /* 아이템을 중앙에 배치 */
   width: 100%;
-  /* 그리드 컨테이너가 부모의 전체 너비를 차지 */
 }
 
-.slidersGridItem {
-  background-color: lightcoral;
+.sliders{
   width: 100%;
-  /* 각 그리드 아이템의 가로 크기를 1550px로 설정 */
+}
+.sliders img{
+  width: 100%;
+  height: 720px;
+  object-fit: cover;
+}
+.cardGridItem {
+  width: 1550px;
+  height: 500px; /* 특정 그리드 항목의 높이를 700px로 설정 */
 }
 
 .carvonGridItem {
-  background-color: rgb(219, 240, 128);
   width: 1550px;
-  /* 각 그리드 아이템의 가로 크기를 1550px로 설정 */
+  height: 800px; /* 특정 그리드 항목의 높이를 800px로 설정 */
 }
-
-.gridItem {
-  background-color: rgb(128, 223, 240);
+.topFiveGridItem {
   width: 1550px;
-  /* 각 그리드 아이템의 가로 크기를 1550px로 설정 */
+  height: 800px; /* 특정 그리드 항목의 높이를 800px로 설정 */
+}
+.QuizGridItem {
+  width: 100%;
+  display: grid;
+  align-items: center;
+  align-content: center;
 }
 
 .QuizGridItem {

@@ -10,7 +10,7 @@ const CompanyList = () => {
   // 데이터를 비동기로 가져오는 함수
   const fetchCompanyData = async () => {
     try {
-      const response = await fetch('http://localhost:8080/carvon/companyList');
+      const response = await fetch('https://trashformer.site/carvon/companyList');
       const data = await response.json();
       setCompanyData(data); // 응답 데이터를 상태로 저장
       localStorage.setItem('companyData', JSON.stringify(data));
