@@ -6,7 +6,7 @@ import rm from '../styles/ReMap.module.css';
 Modal.setAppElement('#root');
 
 const ReMapMenu = React.memo(({ locations, onLocationClick, searchHistory, setSearchHistory, activeTab, setActiveTab }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [activeButton, setActiveButton] = useState(activeTab);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -152,7 +152,7 @@ const ReMapMenu = React.memo(({ locations, onLocationClick, searchHistory, setSe
   }, [handleClickOutside, handleMouseDown]);
 
   return (
-    <div className={rm.rewrap} ref={menuRef}>
+    <div ref={menuRef}>
       <div className={`${m.sideMenu} ${isOpen ? m.open : ''}`}>
         <div className={m.search}>
           <input type="text" placeholder="중고 가게 위치 검색" onChange={handleSearchChange} value={searchQuery} onKeyDown={handleKeyPress} />

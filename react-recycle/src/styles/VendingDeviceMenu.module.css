@@ -109,7 +109,7 @@
 }
 
 .KakaoMapList {
-  max-height: calc(100vh - 150px);
+  max-height: calc(100vh - 278px);
   /* 100vh는 윈도우창의 세로 높이 */
   overflow-y: auto;
   padding: 0% 10%;
@@ -118,7 +118,7 @@
 
 .KakaoMapList.withSearchHistory {
   /* 검색어가 있을때의 세로 높이*/
-  max-height: calc(100vh - 250px);
+  max-height: calc(100vh - 340px);
 }
 
 .KakaoMapList:not(.loading)>div {
@@ -193,4 +193,54 @@
 
 .locationItem {
   cursor: pointer;
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  width: 800px; /* Set the width to 800px */
+  z-index: 1000; /* Higher z-index to ensure it appears in front */
+  margin-top: 50px;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999; /* Slightly lower than modal but higher than map */
+}
+
+.nottd {
+  margin-right: 10px;
+}
+.btnPositionig{
+  display: flex; /* 플렉스 박스를 사용하여 정렬 */
+  justify-content: center; /* 수평 중앙 정렬 */
+  margin-top: 20px; /* 버튼과 다른 요소 간의 여백 조정 (필요 시) */
+}
+.descriptionButton {
+  width: 300px;
+  height: 75px;
+  border: 1px solid #98c76a;
+  background-color: white;
+  border-radius: 5px;
+  font-size: 1.1rem;
+}
+.descriptionButton:hover,
+.descriptionButton:active,
+.descriptionButton.active {
+  background-color: rgba(152, 199, 106, 0.8);
+  color: #fff;
+}
+.descriptionButton.active {
+  border: 3px solid #98c76a;
+  color: #fff;
+  font-weight: bold;
 }

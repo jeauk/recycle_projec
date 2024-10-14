@@ -1,4 +1,11 @@
 /* MainPage의 메인 컨테이너 스타일 */
+.wrap {
+  display: flex;
+  margin-top: 3rem;
+  flex-direction: column;
+  align-items: center;
+}
+
 .container {
   display: flex;
   flex-direction: column;
@@ -19,6 +26,10 @@
   margin: 10px;
   border-radius: 5px;
   transition: background-color 0.3s ease;
+}
+
+.buttonContainer{
+  margin-bottom: 2rem;
 }
 
 /* 버튼 스타일 */
@@ -68,20 +79,25 @@ h1 {
 @media (max-width: 768px) {
   .container {
     width: 100%;
-    height: 100vh; /* 높이를 화면 전체로 */
+    height: 100vh;
+    /* 높이를 화면 전체로 */
     border-radius: 0;
-    justify-content: center; /* 중앙 정렬 */
-    padding: 10px; /* 패딩 추가 */
+    justify-content: center;
+    /* 중앙 정렬 */
+    padding: 10px;
+    /* 패딩 추가 */
   }
 
   h1 {
-    font-size: 1.8rem; /* 제목 크기 조정 */
+    font-size: 1.8rem;
+    /* 제목 크기 조정 */
     margin-bottom: 20px;
   }
 
   /* 버튼 크기 및 스타일을 모바일에 맞게 조정 */
   .btn {
-    width: 80%; /* 버튼 너비를 80%로 설정 */
+    width: 80%;
+    /* 버튼 너비를 80%로 설정 */
     padding: 20px 30px;
     margin: 10px 0;
     font-size: 1.2rem;

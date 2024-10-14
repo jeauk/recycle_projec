@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // useNavigate 훅 가져오기
 import styles from '../styles/Carvon.module.css'; // CSS 모듈 불러오기
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
@@ -7,6 +8,7 @@ import Slider from "react-slick";
 const Carvon = () => {
     const sliderRef = useRef(null); // Slider 참조를 위한 useRef 추가
     const [activeSlide, setActiveSlide] = useState(0); // 현재 활성화된 슬라이드 인덱스 관리
+    const navigate = useNavigate(); // useNavigate 사용
 
     const settings = {
         fade: true,
@@ -16,8 +18,8 @@ const Carvon = () => {
         slidesToScroll: 1,
         waitForAnimate: false,
         afterChange: (current) => setActiveSlide(current), // 슬라이드가 변경될 때 호출
+        arrows: false,
     };
-
 
     // 탭을 클릭할 때 해당 슬라이드로 이동하는 함수
     const goToSlide = (index) => {
@@ -71,7 +73,7 @@ const Carvon = () => {
                         <img 
                             src="/img/jedo.png" 
                             alt="제도소개 이미지" 
-                            onClick={() => window.location.href = '/carvon/drafting'} // 이미지 클릭 시 페이지 이동
+                            onClick={() => navigate('/carvon/drafting')} // useNavigate를 사용하여 페이지 이동
                             style={{ cursor: 'pointer' }}
                         />
                     </div>
@@ -79,7 +81,7 @@ const Carvon = () => {
                         <img 
                             src="/img/insep.png" 
                             alt="인센티브 이미지" 
-                            onClick={() => window.location.href = '/carvon/incentive'} // 이미지 클릭 시 페이지 이동
+                            onClick={() => navigate('/carvon/incentive')} // useNavigate를 사용하여 페이지 이동
                             style={{ cursor: 'pointer' }}
                         />
                     </div>
@@ -87,7 +89,7 @@ const Carvon = () => {
                         <img 
                             src="/img/injoy.png" 
                             alt="참여방법 이미지" 
-                            onClick={() => window.location.href = '/carvon/carvonMethod'} // 이미지 클릭 시 페이지 이동
+                            onClick={() => navigate('/carvon/carvonMethod')} // useNavigate를 사용하여 페이지 이동
                             style={{ cursor: 'pointer' }}
                         />
                     </div>
@@ -95,7 +97,7 @@ const Carvon = () => {
                         <img 
                             src="/img/injoycom.png" 
                             alt="참여기업 소개 이미지" 
-                            onClick={() => window.location.href = '/carvon/companyList'} // 이미지 클릭 시 페이지 이동
+                            onClick={() => navigate('/carvon/companyList')} // useNavigate를 사용하여 페이지 이동
                             style={{ cursor: 'pointer' }}
                         />
                     </div>
