@@ -16,8 +16,8 @@ const Carvon = () => {
         slidesToScroll: 1,
         waitForAnimate: false,
         afterChange: (current) => setActiveSlide(current), // 슬라이드가 변경될 때 호출
+        arrows: false, // 화살표 제거
     };
-
 
     // 탭을 클릭할 때 해당 슬라이드로 이동하는 함수
     const goToSlide = (index) => {
