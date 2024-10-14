@@ -1,56 +1,9 @@
-
-
-@media (max-width: 800px) {
-  .gridContainer {
-    display: grid;
-    grid-template-rows: auto; /* 행 높이를 자동으로 맞추게 설정 */
-    justify-items: center;
-    margin: 0 auto;
-  }
-
-  .sliders img {
-    display: none;;
-    cursor: pointer; 
-    width: 100%; /* 배너 이미지가 화면 너비에 맞게 */
-    height: 30vw; /* 화면 너비의 30%에 해당하는 높이로 설정 */
-    object-fit: cover; /* 비율을 유지하면서 이미지가 넘치면 자름 */
-  }
-
-  .slidersGridItem {
-    height: auto; /* 슬라이더 항목 높이를 자동으로 설정 */
-  }
-
-  .cardGridItem {
-    height: 200px; /* 카드 항목의 높이를 200px로 설정 */
-  }
-
-  .carvonGridItem {
-    max-width: 90%;
-    height: 400px; /* 특정 그리드 항목의 높이를 400px로 설정 */
-    overflow: hidden;
-  }
-
-  .topFiveGridItem {
-    height: 800px; /* 특정 그리드 항목의 높이를 800px로 설정 */
-  }
-
-  .QuizGridItem {
-    width: 100%;
-    display: grid;
-    align-items: center;
-    align-content: center;
-  }
-}
-
-
-
-
 @media (min-width:1024px) {
   .gridContainer {
     display: grid;
     grid-template-rows: auto; /* 행 높이를 자동으로 맞추게 설정 */
     justify-items: center;
-    max-width: 90%;
+    max-width: 1550px;
     margin: 0 auto;
   }
   .sliders img{
