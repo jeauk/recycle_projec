@@ -134,8 +134,6 @@ const Contact = () => {
             if (response.ok) {
                 setMessage({ text: responseMessage, type: 'success', visible: true });
                 // 폼 초기화
-                setName('');
-                setReplyTo('');
                 setSubject('');
                 setText('');
                 setImages([]);
