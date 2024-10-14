@@ -18,30 +18,26 @@ const Home = () => {
 
     return (
         <div>
-            <div className={styles.sliders}>
-                <img
-                    src='/img/mainBener.png'
-                    alt='Main Banner'
-                    onClick={handleImageClick}
-                    style={{ cursor: 'pointer' }}
-                />
-            </div>
-            <div>
-
-                <div className={styles.gridContainer}>
-
-                    <div className={styles.cardGridItem}>
-                        <Card />
-                    </div>
-                    <div className={styles.carvonGridItem}>
-                        <Carvon />
-                    </div>
-                    <div className={styles.topFiveGridItem}>
-                        <TopFiveList />
-                    </div>
-                    <div className={styles.QuizGridItem}>
-                        <Quiz />
-                    </div>
+            <div className={styles.gridContainer}>
+                <div className={styles.sliders}>
+                    <img 
+                        src='/img/mainBener.png' 
+                        alt='Main Banner' 
+                        onClick={handleImageClick} 
+                        style={{ cursor: 'pointer' }}
+                    />
+                </div>
+                <div className={styles.cardGridItem}>
+                    <Card />
+                </div>
+                <div className={styles.carvonGridItem}>
+                    <Carvon />
+                </div>
+                <div className={styles.topFiveGridItem}>
+                    <TopFiveList/>
+                </div>
+                <div className={styles.QuizGridItem}>
+                    <Quiz />
                 </div>
             </div>
         </div>
