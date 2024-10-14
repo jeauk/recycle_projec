@@ -150,7 +150,7 @@ const AiMainPage = () => {
           />
           {imagePreview && (
             <div>
-              <img src={imagePreview} alt="Uploaded" style={{ width: '200px', marginTop: '20px'}} />
+              <img src={imagePreview} alt="Uploaded" className={styles.upImg} />
             </div>
           )}
           <p>{result}</p>
@@ -162,7 +162,7 @@ const AiMainPage = () => {
       {mode === 'camera' && (
         <div className={styles.wrap}>
           <h2>웹캠으로 촬영한 사진을 분류합니다</h2>
-          <video ref={videoRef} autoPlay style={{ width: '300px', marginTop: '16px' }} />
+          <video ref={videoRef} autoPlay className={styles.upCam} />
           <p>{result}</p>
           <canvas ref={canvasRef} width={224} height={224} style={{ display: 'none' }}></canvas>
           <button onClick={captureAndClassifyImage} className={styles.btn}>캡처</button>
