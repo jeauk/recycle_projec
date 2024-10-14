@@ -17,7 +17,7 @@ const Home = () => {
 
 
     return (
-        <div>
+        <div style={{width:'100%'}}>
             <div className={styles.sliders}>
                 <img
                     src='/img/mainBener.png'
