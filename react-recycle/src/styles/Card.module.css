@@ -1,9 +1,7 @@
 /* src/styles/Card.module.css */
 .cardContainer {
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
-    gap: 50px;
 }
 
 .card {

@@ -15,33 +15,28 @@ const Home = () => {
     };
 
     return (
-        <div className={styles.container}>
-            {/* 메인 배너 */}
-            <div className={styles.bannerContainer}>
+        <div>
+            <div className={styles.sliders}>
                 <img
                     src='/img/mainBener.png'
                     alt='Main Banner'
                     onClick={handleImageClick}
-                    className={styles.bannerImage}
+                    style={{ cursor: 'pointer', width: '100%' }}
                 />
             </div>
-
-            {/* 그리드 레이아웃 (각 아이템이 한 줄에 하나씩 배치됨) */}
-            <div className={styles.gridContainer}>
-                <div className={styles.gridItem}>
-                    <Card />
+            <div>
+                <div className={styles.gridContainer}>
+                    <div className={styles.cardGridItem}>
+                        <Card />
+                    </div>
+                    <div className={styles.carvonGridItem}>
+                        <Carvon />
+                    </div>
+                    <div className={styles.topFiveGridItem}>
+                        <TopFiveList />
+                    </div>
                 </div>
-                <div className={styles.gridItem}>
-                    <Carvon />
-                </div>
-                <div className={styles.gridItem}>
-                    <TopFiveList />
-                </div>
-            </div>
-
-            {/* 퀴즈 영역 */}
-            <div className={styles.quizContainer}>
-                <Quiz />
+                <div className={styles.QuizGridItem}><Quiz /></div>
             </div>
         </div>
     );

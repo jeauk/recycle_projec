@@ -1,51 +1,35 @@
-/* 컨테이너 전체 스타일 */
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  padding: 0;
-  margin: 0;
-}
+@media (min-width:1024px) {
+  .gridContainer {
+    display: grid;
+    grid-template-rows: auto; /* 행 높이를 자동으로 맞추게 설정 */
+    justify-items: center;
+    max-width: 90%;
+    margin: 0 auto;
+  }
 
-/* 배너 이미지가 화면 전체 폭을 차지하게 만듦 */
-.bannerContainer {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
-}
+  .slidersGridItem {
+    height: 600px; /* 특정 그리드 항목의 높이를 600px로 설정 */
+  }
 
-.bannerImage {
-  width: 100%;
-  height: auto;
-  object-fit: cover; /* 이미지가 잘리지 않고, 화면 전체에 맞추어짐 */
-}
+  .cardGridItem {
+    height: 400px; /* 특정 그리드 항목의 높이를 700px로 설정 */
+  }
 
-/* 그리드 컨테이너: 각 아이템이 한 줄씩 배치되도록 설정 */
-.gridContainer {
-  display: flex;
-  flex-direction: column; /* 세로 배치 */
-  align-items: center;
-  width: 100%;
-  gap: 20px; /* 각 항목 사이의 간격 */
-  margin-bottom: 20px;
-}
+  .carvonGridItem {
+    max-width: 90%;
+    /* width: 1550px; */
+    height: 800px;
+    overflow: hidden;
+  }
 
-/* 개별 그리드 항목 */
-.gridItem {
-  max-width: 1550px; /* 최대 너비 설정 */
-  margin: 0 auto; /* 중앙 정렬 */
-}
+  .topFiveGridItem {
+    height: 800px; /* 특정 그리드 항목의 높이를 800px로 설정 */
+  }
 
-/* 퀴즈 영역은 배너와 동일하게 좌우 끝까지 꽉 차게 만듦 */
-.quizContainer {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-}
-
-.quizContainer > div {
-  width: 100%;
+  .QuizGridItem {
+    width: 100%;
+    display: grid;
+    align-items: center;
+    align-content: center;
+  }
 }

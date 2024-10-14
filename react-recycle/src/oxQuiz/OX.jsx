@@ -25,7 +25,7 @@ const OX = () => {
   useEffect(() => {
     const fetchQuizData = async () => {
       try {
-        const response = await fetch(myBackDomain+'/api/quiz'); // API 호출
+        const response = await fetch(myBackDomain + '/api/quiz'); // API 호출
         const data = await response.json(); // 응답 데이터를 JSON으로 변환
         setQuizData(data); // 퀴즈 데이터를 상태에 저장
       } catch (error) {
@@ -65,9 +65,11 @@ const OX = () => {
   // 퀴즈가 모두 끝났을 때 화면=====================================
   if (quizIndex >= quizData.length) {
     return (
-      <div className={styled.quiz}>
-        <h1>퀴즈 완료!</h1>
-        <p>맞춘 문제 수: {correctCount}</p>
+      <div className={styled.rewrap}>
+        <div className={styled.quiz}>
+          <h1>퀴즈 완료!</h1>
+          <p>맞춘 문제 수: {correctCount}</p>
+        </div>
       </div>
     );
   }
@@ -76,22 +78,27 @@ const OX = () => {
 
   //===============================================================
   return (
-    <div className={styled.wrap}>
-      {quizData.length > 0 && (
-        <>
-          <h3>{quizIndex + 1}번째 / 총 {quizData.length}문항</h3>
-          <h1>{quizData[quizIndex].question}</h1>
-          <button className={styled.obtn} onClick={() => handleAnswer('O')} disabled={showNext}>O</button>
-          <button className={styled.xbtn} onClick={() => handleAnswer('X')} disabled={showNext}>X</button>
-          
-          {isCorrect !== null && <p className={styled.question}>{explanation}</p>}
+    <div className={styled.topwrap}>
+      <div className={styled.wrap}>
+      <h1>재활용 OX 퀴즈!</h1>
+        {quizData.length > 0 && (
+          <>
+            <h3>{quizIndex + 1}번째 / 총 {quizData.length}문항</h3>
+            <h1>{quizData[quizIndex].question}</h1>
+            <div>
+              <button className={styled.obtn} onClick={() => handleAnswer('O')} disabled={showNext}>O</button>
+              <button className={styled.xbtn} onClick={() => handleAnswer('X')} disabled={showNext}>X</button>
+            </div>
 
-          {showNext && <button className={styled.nbtn} onClick={handleNext}>다음</button>}
-        </>
-      )}
+            {isCorrect !== null && <p className={styled.question}>{explanation}</p>}
+
+            {showNext && <button className={styled.nbtn} onClick={handleNext}>다음</button>}
+          </>
+        )}
+      </div>
     </div>
   );
 };
-  //===============================================================
+//===============================================================
 
 export default OX;
