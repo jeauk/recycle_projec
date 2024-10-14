@@ -1,28 +1,48 @@
-import Sliders from "./Sliders";
-import Card from "./Card";
-import Quiz from "./Quiz";
-import TopFiveList from "./TopFiveList";
-import Carvon from "./Carvon";
-import style from "../styles/Home.module.css";
+import React from 'react';
+import styles from '../styles/Home.module.css';  // CSS 파일 import
+import Carvon from './Carvon';
+import Card from './Card';
+import TopFiveList from './TopFiveList';
+import Quiz from './Quiz';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
+    const navigate = useNavigate();  // useNavigate 훅 초기화
+
+    // 이미지 클릭 시 이동하는 함수
+    const handleImageClick = () => {
+        navigate('/ai');  // 원하는 경로로 이동
+    };
+
+
 
     return (
-        <div className={style.home1}>
-            <div className={style.t}>
-                <Sliders />
-            </div>
-            <div className={style.c}>
-                <Card />
-            </div>
+        <div>
+            <div className={styles.gridContainer}>
 
-            <div className={style.qtc}>
-                <Quiz />
-                <TopFiveList />
-                <Carvon />
+                <div className={styles.slidersGridItem}>
+                    <img 
+                        src='/img/mainBener.png' 
+                        alt='Main Banner' 
+                        onClick={handleImageClick} 
+                        style={{ cursor: 'pointer' }}
+                    />
+                </div>
+                <div className={styles.cardGridItem}>
+                    <Card />
+                </div>
+                <div className={styles.carvonGridItem}>
+                    <Carvon />
+                </div>
+                <div className={styles.topFiveGridItem}>
+                    <TopFiveList/>
+                </div>
+                <div className={styles.QuizGridItem}>
+                    <Quiz />
+                </div>
             </div>
         </div>
     );
-};
+}
 
 export default Home;
