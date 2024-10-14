@@ -18,8 +18,7 @@ const Home = () => {
 
     return (
         <div>
-            <div className={styles.gridContainer}>
-                <div className={styles.sliders}>
+            <div className={styles.sliders}>
                     <img 
                         src='/img/mainBener.png' 
                         alt='Main Banner' 
@@ -27,6 +26,8 @@ const Home = () => {
                         style={{ cursor: 'pointer' }}
                     />
                 </div>
+            <div className={styles.gridContainer}>
+                
                 <div className={styles.cardGridItem}>
                     <Card />
                 </div>
