@@ -17,7 +17,6 @@ const TopFiveList = () => {
                 });
                 if (response.ok) {
                     const data = await response.json(); // 데이터를 JSON으로 변환
-                    console.log(data); // 데이터를 확인하기 위해 출력
                     setRecommendedBoards(data); // 추천 게시글 상태에 저장
                     if (data.length > 0) {
                         setCurrentImage(data[0].imagePath); // 첫 번째 게시글의 이미지로 기본 이미지 설정
