@@ -32,11 +32,3 @@
   align-items: center;
   align-content: center;
 }
-
-.QuizGridItem {
-  /* background-color: rgb(229, 111, 244); */
-  width: 100%;
-  display: grid;
-  align-items: center;
-  align-content: center;
-}

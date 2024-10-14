@@ -14,8 +14,6 @@ const Home = () => {
         navigate('/ai');  // 원하는 경로로 이동
     };
 
-
-
     return (
         <div style={{width:'100%'}}>
             <div className={styles.sliders}>
@@ -27,7 +25,6 @@ const Home = () => {
                 />
             </div>
             <div>
-
                 <div className={styles.gridContainer}>
 
                     <div className={styles.cardGridItem}>
@@ -42,9 +39,6 @@ const Home = () => {
                     <div className={styles.QuizGridItem}>
                         <Quiz />
                     </div>
-                </div>
-                <div className={styles.QuizGridItem}>
-                    <Quiz />
                 </div>
             </div>
         </div>
