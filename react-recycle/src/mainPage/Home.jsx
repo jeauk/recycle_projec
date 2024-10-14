@@ -27,7 +27,6 @@ const Home = () => {
                 />
             </div>
             <div>
-
                 <div className={styles.gridContainer}>
 
                     <div className={styles.cardGridItem}>

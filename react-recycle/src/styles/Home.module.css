@@ -5,14 +5,9 @@
   width: 100%;
 }
 
-.sliders{
-  width: 100%;
-  height: 720px;
-}
-.sliders img{
-  width: 100%;
-  height: 800px;
-  object-fit: cover;
+.slidersGridItem {
+  width: 1550px;
+  height: 600px; /* 특정 그리드 항목의 높이를 600px로 설정 */
 }
 .cardGridItem {
   width: 1550px;
