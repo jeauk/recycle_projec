@@ -150,7 +150,7 @@ const AiMainPage = () => {
           />
           {imagePreview && (
             <div>
-              <img src={imagePreview} alt="Uploaded" style={{ width: '300px', marginTop: '20px' }} />
+              <img src={imagePreview} alt="Uploaded" style={{ width: '200px', marginTop: '20px'}} />
             </div>
           )}
           <p>{result}</p>
