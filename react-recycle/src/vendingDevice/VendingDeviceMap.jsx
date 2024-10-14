@@ -91,7 +91,7 @@ const VendingDeviceMap = () => {
 
 
 	return (
-		<div>
+		<div className={m.wrap}>
 			<VendingDeviceMenu loading={loading} searchHistory={searchHistory} setSearchHistory={setSearchHistory} locations={filteredLocations} onLocationClick={handleMarkerClick} />
 			<Map center={center} style={{ width: '80vw', height: '600px', marginTop: '10px' }} level={level}>
 				{filteredLocations.map((loc, idx) => (

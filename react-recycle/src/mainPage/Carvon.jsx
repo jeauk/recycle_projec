@@ -16,6 +16,7 @@ const Carvon = () => {
         slidesToScroll: 1,
         waitForAnimate: false,
         afterChange: (current) => setActiveSlide(current), // 슬라이드가 변경될 때 호출
+        arrows: false,
     };
 
 

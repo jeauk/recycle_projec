@@ -14,21 +14,18 @@ const Home = () => {
         navigate('/ai');  // 원하는 경로로 이동
     };
 
-
-
     return (
-        <div style={{width:'100%'}}>
+        <div>
             <div className={styles.sliders}>
                 <img
                     src='/img/mainBener.png'
                     alt='Main Banner'
                     onClick={handleImageClick}
-                    style={{ cursor: 'pointer' }}
+                    style={{ cursor: 'pointer', width: '100%' }}
                 />
             </div>
             <div>
                 <div className={styles.gridContainer}>
-
                     <div className={styles.cardGridItem}>
                         <Card />
                     </div>
@@ -38,10 +35,8 @@ const Home = () => {
                     <div className={styles.topFiveGridItem}>
                         <TopFiveList />
                     </div>
-                    <div className={styles.QuizGridItem}>
-                        <Quiz />
-                    </div>
                 </div>
+                <div className={styles.QuizGridItem}><Quiz /></div>
             </div>
         </div>
     );
