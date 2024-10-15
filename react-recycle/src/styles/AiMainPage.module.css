@@ -120,6 +120,9 @@ h1 {
 }
 
 @media (max-width: 425px) {
+  .container {
+    padding: 0px;
+  }
   .btn {
     padding: 20px 65px;
     margin: 20px 0;
