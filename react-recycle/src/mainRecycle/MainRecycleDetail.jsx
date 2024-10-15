@@ -27,7 +27,7 @@ const MainRecycleDetail = () => {
                 <h1 className={styles.title}>{item.mrName}</h1>
                 <hr></hr>
                 <p className={styles.tag}>태그: {item.mrTag}</p>
-                <p className={styles.category}>버리는법: {item.mrCategory}</p>
+                <p>버리는법:</p> <p className={styles.category}>{item.mrCategory}</p>
                 <hr></hr>
                 <p>{item.mrContent}</p>
             </div>
