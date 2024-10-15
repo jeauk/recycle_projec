@@ -82,7 +82,7 @@ h1 {
 @media (max-width: 768px) {
   .container {
     width: 100%;
-    height: 100vh;
+    /* height: 100vh; */
     /* 높이를 화면 전체로 */
     border-radius: 0;
     justify-content: center;
@@ -99,21 +99,43 @@ h1 {
 
   /* 버튼 크기 및 스타일을 모바일에 맞게 조정 */
   .btn {
-    width: 80%;
     /* 버튼 너비를 80%로 설정 */
-    padding: 20px 30px;
-    margin: 10px 0;
+    padding: 20px 65px;
+    margin: 20px 0;
     font-size: 1.2rem;
   }
 
   .changeBtn {
+    padding: 13px 55.5px;
     margin: 10px 0;
+    font-size: 1.2rem;
+  }
+
+  .wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .buttonContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .cBtnMQ {
+    padding: 13px 191px;
+    z-index: 99;
+  }
+
+  .capture {
+    padding: 13px 200px;
   }
 }
 
 @media (max-width: 450px) {
   .container {
-    height: 205vh;
+    
   }
   .btn {
     padding: 80px 120px;
@@ -149,12 +171,12 @@ h1 {
 
 @media (max-width: 400px) {
   .container {
-    height: 238vh;
+    /* height: 238vh; */
   }
 }
 
 @media (max-width: 350px) {
   .container {
-    height: 285vh;
+    /* height: 285vh; */
   }
 }

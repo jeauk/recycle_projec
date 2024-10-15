@@ -154,7 +154,7 @@ const AiMainPage = () => {
             </div>
           )}
           <p>{result}</p>
-          <button onClick={handleCameraClick} className={styles.changeBtn}>카메라</button>
+          <button onClick={handleCameraClick} className={`${styles.changeBtn} ${styles.cBtnMQ}`}>카메라</button>
         </div>
       )}
 
@@ -165,8 +165,8 @@ const AiMainPage = () => {
           <video ref={videoRef} autoPlay className={styles.upCam} />
           <p>{result}</p>
           <canvas ref={canvasRef} width={224} height={224} style={{ display: 'none' }}></canvas>
-          <button onClick={captureAndClassifyImage} className={styles.btn}>캡처</button>
-          <button onClick={handleUploadClick} className={styles.changeBtn}>업로드</button>
+          <button onClick={captureAndClassifyImage} className={`${styles.btn} ${styles.capture}`}>캡처</button>
+          <button onClick={handleUploadClick} className={`${styles.changeBtn} ${styles.cBtnMQ}`}>업로드</button>
         </div>
       )}
     </div>

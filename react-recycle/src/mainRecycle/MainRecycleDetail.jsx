@@ -22,7 +22,7 @@ const MainRecycleDetail = () => {
     if(!item) return <p>Loading...</p>;
     return (
         <div className={styles.container}>
-            <img src={myBackDomain+item.imgUrl} alt="item image" className={styles.image} />
+            <img src={myBackDomain+item.imgUrl} alt="item" className={styles.image} />
             <div className={styles.content}>
                 <h1 className={styles.title}>{item.mrName}</h1>
                 <hr></hr>
