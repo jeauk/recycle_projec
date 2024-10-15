@@ -2,7 +2,7 @@
     display: grid;
     grid-template-rows: auto; /* 행 높이를 자동으로 맞추게 설정 */
     justify-items: center;
-    max-width: 90%;
+    max-width: 1550px;
     margin: 0 auto;
   }
 

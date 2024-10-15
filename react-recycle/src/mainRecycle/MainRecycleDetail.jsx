@@ -22,12 +22,12 @@ const MainRecycleDetail = () => {
     if(!item) return <p>Loading...</p>;
     return (
         <div className={styles.container}>
-            <img src={myBackDomain+item.imgUrl} alt="item image" className={styles.image} />
+            <img src={myBackDomain+item.imgUrl} alt="item" className={styles.image} />
             <div className={styles.content}>
                 <h1 className={styles.title}>{item.mrName}</h1>
                 <hr></hr>
                 <p className={styles.tag}>태그: {item.mrTag}</p>
-                <p className={styles.category}>버리는법: {item.mrCategory}</p>
+                <p>버리는법:</p> <p className={styles.category}>{item.mrCategory}</p>
                 <hr></hr>
                 <p>{item.mrContent}</p>
             </div>
