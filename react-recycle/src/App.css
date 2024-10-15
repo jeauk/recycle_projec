@@ -18,4 +18,29 @@ body {
     flex-direction: column; /* 열 방향으로 배치 */
     min-width: 1024px;
 }
+@media (max-width: 1080px) {
+    body {
+        min-width: 1080px;
+    }
+}
 
+@media (max-width: 768px) {
+    body {
+        min-width: 768px;
+    }
+}
+@media (max-width: 425px) {
+    body {
+        min-width: 425px;
+    }
+}
+@media (max-width: 375px) {
+    body {
+        min-width: 375px;
+    }
+}
+@media (max-width: 320px) {
+    body {
+        min-width: 320px;
+    }
+}
