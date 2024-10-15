@@ -67,24 +67,18 @@ const VendingDeviceMenu = React.memo(({ locations, onLocationClick, searchHistor
           )}
         </div>
         <div ref={listRef} className={`${m.KakaoMapList} ${isOpen ? m.open : ''} ${searchHistory.length > 0 ? m.withSearchHistory : ''} ${loading ? m.loading : ''} `}>
-          {loading ? (
-            <div className={m.VendingDeviceLoading}>
-              <img src="/img/VendingLoading.gif" alt="Loading..." />
-              <h4>Loading...</h4>
-            </div>
-          ) : (
-            locations.filter(loc => loc.isMatch) // 조건에 맞는 항목만 필터링 (09-23-09:15)
-              .map((loc, locIdx) => (
-                loc.vendingDevices.map((device, deviceIdx) => (
-                  <div key={`${locIdx}-${deviceIdx}`} className={m.locationItem} onClick={() => handleLocationClick(loc)}>
-                    <h4>{loc.vendingDevices.length === 1 ? loc.name : `${loc.name} ${deviceIdx + 1}`}</h4>
-                    <p>{loc.address}</p>
-                    <p>{device.recycleType}</p>
-                    <br />
-                  </div>
-                ))
+          {
+            locations.filter(loc => loc.isMatch).map((loc, locIdx) => (
+              loc.vendingDevices.map((device, deviceIdx) => (
+                <div key={`${locIdx}-${deviceIdx}`} className={m.locationItem} onClick={() => handleLocationClick(loc)}>
+                  <h4>{loc.vendingDevices.length === 1 ? loc.name : `${loc.name} ${deviceIdx + 1}`}</h4>
+                  <p>{loc.address}</p>
+                  <p>{device.recycleType}</p>
+                  <br />
+                </div>
               ))
-          )}
+            ))
+          }
         </div>
       </div>
       <button className={`${m.toggleButton} ${isOpen ? m.open : ''}`} onClick={toggleMenu}>
@@ -94,7 +88,7 @@ const VendingDeviceMenu = React.memo(({ locations, onLocationClick, searchHistor
         <div className={`${m.logoPane} ${isOpen ? m.open : ''}`}>
           <img src="/img/logo.png" alt="Logo" style={{ width: '225px', height: 'auto' }} />
         </div>
-      )} */} 
+      )} */}
       {/* 오른쪽 아래 로고 */}
     </div>
   );

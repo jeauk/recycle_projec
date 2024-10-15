@@ -10,7 +10,7 @@ const ReMapMarker = ({ position, content, handleMarkerClick, getMarkerImage }) =
       onMouseOver={() => setIsVisible(true)}
       onMouseOut={() => setIsVisible(false)}
       image={{
-        src: getMarkerImage(content.type),
+        src: getMarkerImage(content.type, content.isMatch),
         size: { width: 44, height: 55 },
       }}
       title={content.name}

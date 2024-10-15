@@ -14,8 +14,6 @@ const ReMapMenu = React.memo(({ locations, onLocationClick, searchHistory, setSe
   const [dontShowToday, setDontShowToday] = useState(false); // 오늘 보이지 않기 체크박스 상태
   const menuRef = useRef(null);
   const mapRef = useRef(null);
-  const mouseDownTimeRef = useRef(0);
-  const drag = 100;
   const POPUP_KEY = `dontShowPopup_${activeTab}`;
 
   const toggleMenu = useCallback(() => {
@@ -112,19 +110,6 @@ const ReMapMenu = React.memo(({ locations, onLocationClick, searchHistory, setSe
     setIsModalOpen(true);
   }, [setActiveTab]);
 
-  const handleClickOutside = useCallback((event) => {
-    const timeDiff = Date.now() - mouseDownTimeRef.current;
-    if (timeDiff < drag) {
-      if (menuRef.current && !menuRef.current.contains(event.target) && !mapRef.current.contains(event.target)) {
-        setIsOpen(false);
-      }
-    }
-  }, []);
-
-  const handleMouseDown = useCallback(() => {
-    mouseDownTimeRef.current = Date.now();
-  }, []);
-
   // '오늘 하루 보이지 않기' 체크박스를 클릭하면 로컬 스토리지에 저장
   const handleDontShowTodayChange = useCallback(() => {
     const expirationTime = new Date().getTime() + 24 * 60 * 60 * 1000; // 24시간 후
@@ -142,14 +127,11 @@ const ReMapMenu = React.memo(({ locations, onLocationClick, searchHistory, setSe
     }
   }, [activeTab, handleTabClick, POPUP_KEY]);
 
-  useEffect(() => {
-    document.addEventListener('mousedown', handleMouseDown);
-    document.addEventListener('click', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleMouseDown);
-      document.removeEventListener('click', handleClickOutside);
-    };
-  }, [handleClickOutside, handleMouseDown]);
+  useEffect(() => { // 표시되는 리스트가 바뀌면 스크롤을 초기화 하는 함수 (09-23-09:27)
+    if (mapRef.current) {
+      mapRef.current.scrollTop = 0;
+    }
+  }, [locations]);
 
   return (
     <div ref={menuRef}>
@@ -160,21 +142,33 @@ const ReMapMenu = React.memo(({ locations, onLocationClick, searchHistory, setSe
             <p><span className={rm.gsearch}>검색된 가게:</span> {filteredLocations.length}개</p>
             <button className={m.clearButton} onClick={clearSearch}>검색 초기화</button>
           </div>
-          <div>
+          <div className={m.searchHistoryContainer}>
             {searchHistory.map((query, index) => (
-              <p key={index} onClick={() => handleSearchClick(index)} className={rm.select}>검색어{index + 1}: {query}</p>
+              <p key={index} onClick={() => handleSearchClick(index)} className={m.searchHistoryItem}>{query}</p>
             ))}
           </div>
         </div>
-        <div className={`${rm.reMapList} ${isOpen ? m.open : ''}`} ref={mapRef}>
+        <div ref={mapRef} className={`${rm.reMapList} ${isOpen ? m.open : ''}`}>
           {filteredLocations.map((loc, locIdx) => (
-            <div key={locIdx} className={rm.res} onClick={() => handleLocationClick(loc)}>
+            <div key={locIdx} className={rm.res}  onClick={() => handleLocationClick(loc)}>
               <h4>{loc.name}</h4>
               <p>{loc.address}</p>
               <p>{loc.tel}</p>
               <br />
             </div>
           ))}
+           {/* {
+            locations.filter(loc => loc.isMatch).map((loc, locIdx) => (
+              loc.filteredLocations.map((l, lI) => {
+                <div key={`${locIdx}-${lI}`} className={rm.res} onClick={() => handleLocationClick(loc)}>
+                  <h4>{loc.name}</h4>
+                  <p>{loc.address}</p>
+                  <p>{l.tel}</p>
+                  <br />
+                </div>
+              })
+            ))
+          } */}
         </div>
         <div className={rm.btn}>
           <button className={`${rm.btn1} ${activeButton === "gwill" ? rm.active : ''}`} onClick={() => handleTabClick("gwill")}>굿윌스토어</button>

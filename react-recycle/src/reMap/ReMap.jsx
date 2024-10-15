@@ -27,7 +27,7 @@ const ReMap = () => {
 
 				setLocations(combinedData);
 			} catch (error) {
-				console.error("Failed to fetch locations", error);
+				console.error("위치 데이터를 가져오는데 실패했습니다", error);
 			}
 		};
 

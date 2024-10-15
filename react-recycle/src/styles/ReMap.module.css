@@ -19,6 +19,10 @@
   height: 40px;
 }
 
+.res {
+  cursor: pointer;
+}
+
 .res>h4,
 .res>p {
   margin: 0px;
