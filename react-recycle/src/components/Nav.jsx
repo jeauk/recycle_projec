@@ -297,7 +297,7 @@ function Nav() {
                 <SearchIcon />
               </SearchIconWrapper>
               <StyledInputBase
-                placeholder="예)음료수병, 우산, 가위"
+                placeholder="궁금한 분리수거 항목을 검색해보세요!"
                 inputProps={{ 'aria-label': 'search' }}
                 value={searchItem}
                 onChange={onChange}

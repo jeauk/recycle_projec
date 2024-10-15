@@ -1,4 +1,4 @@
-@media (min-width:1024px) {
+
   .gridContainer {
     display: grid;
     grid-template-rows: auto; /* 행 높이를 자동으로 맞추게 설정 */
@@ -32,4 +32,3 @@
     align-items: center;
     align-content: center;
   }
-}
