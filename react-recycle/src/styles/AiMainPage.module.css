@@ -82,8 +82,6 @@ h1 {
 @media (max-width: 768px) {
   .container {
     width: 100%;
-    /* height: 100vh; */
-    /* 높이를 화면 전체로 */
     border-radius: 0;
     justify-content: center;
     /* 중앙 정렬 */
@@ -95,14 +93,6 @@ h1 {
     font-size: 1.8rem;
     /* 제목 크기 조정 */
     margin-bottom: 20px;
-  }
-
-  /* 버튼 크기 및 스타일을 모바일에 맞게 조정 */
-  .btn {
-    /* 버튼 너비를 80%로 설정 */
-    padding: 20px 65px;
-    margin: 20px 0;
-    font-size: 1.2rem;
   }
 
   .changeBtn {
@@ -127,56 +117,46 @@ h1 {
     padding: 13px 191px;
     z-index: 99;
   }
-
-  .capture {
-    padding: 13px 200px;
-  }
 }
 
-@media (max-width: 450px) {
-  .container {
-    
-  }
+@media (max-width: 425px) {
   .btn {
-    padding: 80px 120px;
-    margin: 40px 0;
-    font-size: 2.5rem;
+    padding: 20px 65px;
+    margin: 20px 0;
+    font-size: 1.2rem;
   }
   h1 {
-    font-size: 2.8rem;
+    font-size: 1.5rem;
   }
   h2 {
-    font-size: 2.5rem;
+    font-size: 1.3rem;
   }
   .input {
-    padding: 30px 0px;
-    font-size: 2rem;
-    width: 80%;
+    padding: 30px 20px;
+    font-size: 0.7rem;
   }
   .changeBtn {
-    padding: 25px 120px;
-    font-size: 2.5rem;
-    width: 80%;
+    padding: 15px 50px;
+    font-size: 1.2rem;
   }
   p {
-    font-size: 3rem;
+    font-size: 1.2rem;
   }
   .upImg {
-    width: 600px;
+    width: 300px;
   }
   .upCam {
-    width: 600px;
+    width: 400px;
+  }
+  .capture {
+    padding: 13px 60px;
   }
 }
 
-@media (max-width: 400px) {
-  .container {
-    /* height: 238vh; */
-  }
+@media (max-width: 375px) {
+  
 }
 
-@media (max-width: 350px) {
-  .container {
-    /* height: 285vh; */
-  }
+@media (max-width: 320px) {
+  
 }
