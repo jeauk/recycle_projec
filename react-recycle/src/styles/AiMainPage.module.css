@@ -82,7 +82,7 @@ h1 {
 @media (max-width: 768px) {
   .container {
     width: 100%;
-    height: 100vh;
+    /* height: 100vh; */
     /* 높이를 화면 전체로 */
     border-radius: 0;
     justify-content: center;
@@ -171,12 +171,12 @@ h1 {
 
 @media (max-width: 400px) {
   .container {
-    height: 238vh;
+    /* height: 238vh; */
   }
 }
 
 @media (max-width: 350px) {
   .container {
-    height: 285vh;
+    /* height: 285vh; */
   }
 }
