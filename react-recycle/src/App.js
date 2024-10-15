@@ -57,12 +57,10 @@ function App() {
         <BrowserRouter>
           <ScrollToTop />
           <Nav isLoggedIn={isLoggedIn} onLogout={handleLogout} /> {/* 로그인 상태를 Nav에 전달 */}
-          <Routes>
-            <Route path="/sido" element={<Sido />} />
-          </Routes>
           <div className={styles.mainContent}>
             <Routes>
               <Route index element={<Home />} />
+              <Route path="/sido" element={<Sido />} />
               <Route path='/map' element={<KakaoMap />} />
               <Route path='/recycleMain/:id' element={<MainRecycleDetail />} />
               <Route path='/sumap' element={<VendingDeviceMap />} />
