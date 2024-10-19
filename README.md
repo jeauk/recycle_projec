@@ -49,23 +49,30 @@ API 설계 및 명세는 아래 링크에서 확인할 수 있습니다.
 
 ### Back-end
 <div>
-    <img src="./readme/skills/Java.png" width="80">
-    <img src="./readme/skills/SpringBoot.png" width="80">
-    <img src="./readme/skills/SpringDataJPA.png" width="80">
-    <img src="./readme/skills/Mysql.png" width="80">
-    <img src="./readme/skills/Ajax.png" width="80">
-    <img src="./readme/skills/Thymeleaf.png" width="80">
+    <img src="./readme/Java.png" width="80">
+    <img src="./readme/SpringBoot.png" width="80">
+    <img src="./readme/SpringDataJPA.png" width="80">
+    <img src="./readme/MariaDBsql.png" width="80">
+    <img src="./readme/Ajax.png" width="80">
+    <img src="./readme/Thymeleaf.png" width="80">
+</div>
+
+### Front-end
+<div>
+    <img src="./readme/http.png" width="80">
+    <img src="./readme/Ajax.png" width="80">
+    <img src="./readme/Thymeleaf.png" width="80">
 </div>
 
 ### Infra
 <div>
-    <img src="./readme/skills/AWSEC2.png" width="80">
+    <img src="./readme/AWSEC2.png" width="80">
 </div>
 
 ### Tools
 <div>
-    <img src="./readme/skills/Github.png" width="80">
-    <img src="./readme/skills/Notion.png" width="80">
+    <img src="./readme/Github.png" width="80">
+    <img src="./readme/Notion.png" width="80">
 </div>
 
 <br />
