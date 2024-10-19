@@ -93,9 +93,10 @@ API 설계 및 명세는 아래 링크에서 확인할 수 있습니다.
 <br />
 
 ## 💁‍♂️ 프로젝트 팀원
-| Backend | Backend | Frontend |
+| Backend | Backend | Frontend | Frontend | Frontend |
 |:---:|:---:|:---:|
 | ![](https://github.com/yewon-Noh.png?size=120) | ![](https://github.com/SeongHo-C.png?size=120) | ![](https://github.com/kimhuigon.png?size=120) |
-| [서성우](https://github.com/loteim) | [황재욱](https://github.com/jeauk) | [김희곤](https://github.com/kimhuigon) |
+| [서성우](https://github.com/loteim) | [황재욱](https://github.com/jeauk) |
+ [김희곤](https://github.com/kimhuigon) |
 | [이상경](https://github.com/LSG20240516) | [이금주](https://github.com/l0cyp) |
 
