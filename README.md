@@ -51,7 +51,6 @@ API 설계 및 명세는 아래 링크에서 확인할 수 있습니다.
 <div>
     <img src="./readme/skills/Java.png" width="80">
     <img src="./readme/skills/SpringBoot.png" width="80">
-    <img src="./readme/skills/SpringSecurity.png" width="80">
     <img src="./readme/skills/SpringDataJPA.png" width="80">
     <img src="./readme/skills/Mysql.png" width="80">
     <img src="./readme/skills/Ajax.png" width="80">
