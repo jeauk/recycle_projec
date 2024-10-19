@@ -3,10 +3,9 @@
 <!-- 프로젝트 로고 -->
 <img src="./readme/logo.png" width="400"/>
 
-### Recycle Project Backend Git README Template ✅
+### Recycle Project ✅
 
-[<img src="https://img.shields.io/badge/-readme.md-important?style=flat&logo=google-chrome&logoColor=white" />](https://github.com/jeauk/recycle_project) [<img src="https://img.shields.io/badge/-tech blog-blue?style=flat&logo=google-chrome&logoColor=white" />](#) [<img src="https://img.shields.io/badge/release-v0.0.0-yellow?style=flat&logo=google-chrome&logoColor=white" />]() 
-<br/> [<img src="https://img.shields.io/badge/프로젝트 기간-2022.12.10~2022.12.19-green?style=flat&logo=&logoColor=white" />]()
+<br/> [<img src="https://img.shields.io/badge/프로젝트 기간-2024.08.19~2022.10.16-green?style=flat&logo=&logoColor=white" />]()
 
 </div> 
 
@@ -97,5 +96,5 @@ API 설계 및 명세는 아래 링크에서 확인할 수 있습니다.
 | Backend | Frontend |
 |:---:|:---:|
 | ![](https://github.com/yewon-Noh.png?size=120) | ![](https://github.com/SeongHo-C.png?size=120) |
-| [노예원](https://github.com/yewon-Noh) | [이성호](https://github.com/SeongHo-C) |
+| [서성우](https://github.com/loteim) [황재욱](https://github.com/jeauk)| [김희곤](https://github.com/kimhuigon) [이상경](https://github.com/LSG20240516)[이금주](https://github.com/l0cyp)|
 
