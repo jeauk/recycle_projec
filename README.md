@@ -35,7 +35,7 @@
 | <img src="./readme/aiCamera.gif" width="400"/> | <img src="./readme/#.gif" width="400"/> |
 | 재활용맵 | 탄소 중립 소개 |
 |:---:|:---:|
-| <img src="./readme/recycleMap.gif" width="400"/> | <img src="./readme/carvon.gif" width="400"/> |
+| <img src="./readme/recycleMap.gif" width="400"/> | <img src="./readme/carvon.gif"  width="400"/> |
 
 ### 프로토타입
 <img src="./readme/prototype.png" width="600"/>
