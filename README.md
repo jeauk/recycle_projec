@@ -70,7 +70,7 @@ API 설계 및 명세는 아래 링크에서 확인할 수 있습니다.
 ### Tools
 <div>
     <img src="./readme/Github.png" width="80">
-    <img src="./readme/Notion.png" width="80">
+    <img src="./readme/Figma.png" width="80">
 </div>
 
 <br />
