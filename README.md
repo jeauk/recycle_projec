@@ -29,13 +29,13 @@
 ### 화면 구성
 | 메인 화면 | 재활용 백과사전 |
 |:---:|:---:|
-| <img src="./readme/screen1.gif" width="400"/> | <img src="./readme/screen2.gif" width="400"/> |
+| <img src="./readme/screen1.gif" width="400"/> | <img src="./readme/search.gif" width="400"/> |
 | ai판독기 | 폐기물 연락처 |
 |:---:|:---:|
-| <img src="./readme/screen1.gif" width="400"/> | <img src="./readme/screen2.gif" width="400"/> |
-|  | Screen #2 |
+| <img src="./readme/aiCamera.gif" width="400"/> | <img src="./readme/#.gif" width="400"/> |
+| 재활용맵 | 탄소 중립 소개 |
 |:---:|:---:|
-| <img src="./readme/screen1.gif" width="400"/> | <img src="./readme/screen2.gif" width="400"/> |
+| <img src="./readme/recycleMap.gif" width="400"/> | <img src="./readme/carvon.gif" width="400"/> |
 
 ### 프로토타입
 <img src="./readme/prototype.png" width="600"/>
