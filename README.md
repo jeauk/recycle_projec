@@ -27,7 +27,13 @@
 ## 🌟 프로젝트 화면 구성 및 프로토타입
 
 ### 화면 구성
-| Screen #1 | Screen #2 |
+| 메인 화면 | 재활용 백과사전 |
+|:---:|:---:|
+| <img src="./readme/screen1.gif" width="400"/> | <img src="./readme/screen2.gif" width="400"/> |
+| ai판독기 | 폐기물 연락처 |
+|:---:|:---:|
+| <img src="./readme/screen1.gif" width="400"/> | <img src="./readme/screen2.gif" width="400"/> |
+|  | Screen #2 |
 |:---:|:---:|
 | <img src="./readme/screen1.gif" width="400"/> | <img src="./readme/screen2.gif" width="400"/> |
 
@@ -71,6 +77,7 @@ API 설계 및 명세는 아래 링크에서 확인할 수 있습니다.
 <div>
     <img src="./readme/Github.png" width="80">
     <img src="./readme/Figma.png" width="80">
+    <img src="./readme/teachableMachine.png" width="80">
 </div>
 
 <br />
@@ -81,13 +88,21 @@ API 설계 및 명세는 아래 링크에서 확인할 수 있습니다.
 <br />
 
 ## 🤔 기술적 이슈와 해결 과정
-- Stream API 적용에 대한 고민
+각자 자신이 쓴 글을 올려주세요(링크걸어주세요)
+- 황재욱
     - [Stream API에 대하여](https://velog.io/@yewo2nn16/Java-Stream-API)
-- Gmail STMP를 사용한 이메일 전송
-    - [Gmail 보내기 가이드](https://velog.io/@yewo2nn16/Email-이메일-전송하기with-첨부파일)
-- AWS EC2에 배포
-    - [서버 배포 가이드-1](https://velog.io/@yewo2nn16/SpringBoot-서버-배포)
-    - [서버 배포 가이드-2](https://velog.io/@yewo2nn16/SpringBoot-서버-배포-인텔리제이에서-jar-파일-빌드해서-배포하기)
+
+- 서성우
+    <!-- - [Stream API에 대하여](https://velog.io/@yewo2nn16/Java-Stream-API) -->
+
+- 김희곤
+    <!-- - [Stream API에 대하여](https://velog.io/@yewo2nn16/Java-Stream-API) -->
+
+- 이상경
+    <!-- - [Stream API에 대하여](https://velog.io/@yewo2nn16/Java-Stream-API) -->
+
+- 이금주
+    <!-- - [Stream API에 대하여](https://velog.io/@yewo2nn16/Java-Stream-API) -->
 
 <br />
 
