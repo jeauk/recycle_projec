@@ -51,21 +51,20 @@ API 설계 및 명세는 아래 링크에서 확인할 수 있습니다.
     <img src="./readme/Java.png" width="80">
     <img src="./readme/SpringBoot.png" width="80">
     <img src="./readme/SpringDataJPA.png" width="80">
-    <img src="./readme/MariaDBsql.png" width="80">
-    <img src="./readme/Ajax.png" width="80">
-    <img src="./readme/Thymeleaf.png" width="80">
+    <img src="./readme/JWT.png" width="80">
 </div>
 
 ### Front-end
 <div>
-    <img src="./readme/http.png" width="80">
-    <img src="./readme/Ajax.png" width="80">
-    <img src="./readme/Thymeleaf.png" width="80">
+    <img src="./readme/React.png" width="80">
 </div>
 
 ### Infra
 <div>
     <img src="./readme/AWSEC2.png" width="80">
+    <img src="./readme/ubuntu.png" width="80">
+    <img src="./readme/netilfy.png" width="80">
+    <img src="./readme/Nginx.png" width="80">
 </div>
 
 ### Tools
