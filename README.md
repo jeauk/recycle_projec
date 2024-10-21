@@ -31,10 +31,8 @@
 |:---:|:---:|
 | <img src="./readme/screen1.gif" width="400"/> | <img src="./readme/search.gif" width="400"/> |
 | ai판독기 | 폐기물 연락처 |
-|:---:|:---:|
 | <img src="./readme/aiCamera.gif" width="400"/> | <img src="./readme/##.gif" width="400"/> |
 | 재활용맵 | 탄소 중립 소개 |
-|:---:|:---:|
 | <img src="./readme/recycleMap.gif" width="400"/> | <img src="./readme/carvon.gif"  width="400"/> |
 
 ### 프로토타입
@@ -45,7 +43,7 @@
 ## 🗂️ APIs
 API 설계 및 명세는 아래 링크에서 확인할 수 있습니다.
 
-👉🏻 [API 바로보기](./backend/APIs.md)
+👉🏻 [API 바로보기](./readme/apisReadme.md)
 
 <br />
 
