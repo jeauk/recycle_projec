@@ -61,6 +61,8 @@ API 설계 및 명세는 아래 링크에서 확인할 수 있습니다.
 ### Front-end
 <div>
     <img src="./readme/React.png" width="80">
+    <img src="./readme/HTMLCSS.png" width="80">
+    <img src="./readme/JavaScript.png" width="80">
 </div>
 
 ### Infra
