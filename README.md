@@ -90,7 +90,7 @@ API 설계 및 명세는 아래 링크에서 확인할 수 있습니다.
 ## 🤔 기술적 이슈와 해결 과정
 각자 자신이 쓴 글을 올려주세요(링크걸어주세요)
 - 황재욱
-    - [Stream API에 대하여](https://velog.io/@yewo2nn16/Java-Stream-API)
+    <!-- - [Stream API에 대하여](https://velog.io/@yewo2nn16/Java-Stream-API) -->
 
 - 서성우
     <!-- - [Stream API에 대하여](https://velog.io/@yewo2nn16/Java-Stream-API) -->
